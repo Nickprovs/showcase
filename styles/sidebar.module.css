@@ -1,0 +1,40 @@
+@media screen and (min-width: 951px) {
+  .container {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 0px) and (max-width: 950) {
+  .container {
+    display: block;
+  }
+}
+
+.sidebar {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  background-color: purple;
+  -webkit-transition: width 0.3s; /* Safari prior 6.1 */
+  transition: width 0.3s;
+}
+
+.sidebarCollapsed {
+  width: 0px;
+}
+
+.sidebarExpanded {
+  width: 300px;
+}
+
+.menuButton {
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 60px;
+  height: 30px;
+  background-color: red;
+}
