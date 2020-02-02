@@ -30,8 +30,9 @@ export default function Layout(props) {
     <Theme variables={Theme.Dark}>
       <div style={containerStyle}>
         <div style={layoutStyle}>
-          <Sidebar />
           <Header />
+
+          <Sidebar />
           <div style={contentStyle}>{props.children}</div>
         </div>
       </div>

@@ -1,5 +1,13 @@
-.header {
-  background-color: red;
-  vertical-align: bottom;
-  height: 60px;
+@media screen and (min-width: 950px) {
+  .header {
+    display: block;
+    background-color: grey;
+    height: 60px;
+  }
+}
+
+@media screen and (min-width: 0px) and (max-width: 949px) {
+  .header {
+    display: none !important;
+  }
 }
