@@ -2,7 +2,8 @@ import Link from "next/link";
 import header from "../styles/header.module.css";
 
 const linkStyle = {
-  marginRight: 15
+  margin: 0,
+  padding: 0
 };
 
 export default function Header() {

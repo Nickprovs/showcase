@@ -3,21 +3,25 @@ import Sidebar from "./sidebar";
 import Theme from "./common/theme";
 
 const contentStyle = {
-  margin: "10vw",
-  padding: 40,
-  backgroundColor: "green"
+  backgroundColor: "green",
+  margin: 0,
+  padding: 0
 };
 
 const layoutStyle = {
+  paddingTop: "10vmin",
+  paddingLeft: "10vw",
+  paddingRight: "10vw",
+  paddingBottom: "10vmin",
   backgroundColor: "var(--b1)",
   color: "var(--f1)"
 };
 
 const containerStyle = {
+  overflow: "auto",
+
   width: "100vw",
   height: "100vh",
-  margin: 0,
-  padding: 0,
   backgroundColor: "blue"
 };
 
@@ -26,8 +30,8 @@ export default function Layout(props) {
     <Theme variables={Theme.Dark}>
       <div style={containerStyle}>
         <div style={layoutStyle}>
-          <Header />
           <Sidebar />
+          <Header />
           <div style={contentStyle}>{props.children}</div>
         </div>
       </div>
