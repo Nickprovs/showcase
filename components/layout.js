@@ -19,20 +19,37 @@ const layoutStyle = {
 
 const containerStyle = {
   overflow: "auto",
-
   width: "100vw",
   height: "100vh",
   backgroundColor: "blue"
 };
+
+const menuPages = [
+  {
+    href: "/",
+    label: "Home1"
+  },
+  {
+    href: "/",
+    label: "Home2"
+  },
+  {
+    href: "/",
+    label: "Home3"
+  },
+  {
+    href: "/",
+    label: "Home4"
+  }
+];
 
 export default function Layout(props) {
   return (
     <Theme variables={Theme.Dark}>
       <div style={containerStyle}>
         <div style={layoutStyle}>
-          <Header />
-
-          <Sidebar />
+          <Header pages={menuPages} />
+          <Sidebar pages={menuPages} />
           <div style={contentStyle}>{props.children}</div>
         </div>
       </div>

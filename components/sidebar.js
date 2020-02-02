@@ -1,7 +1,8 @@
 import sidebar from "../styles/sidebar.module.css";
 import { useState } from "react";
+import Link from "next/link";
 
-export default function Sidebar() {
+export default function Sidebar(props) {
   const [expanded, setExpanded] = useState(false);
 
   const sidebarClass = expanded ? sidebar.sidebarExpanded : sidebar.sidebarCollapsed;
@@ -18,7 +19,15 @@ export default function Sidebar() {
         <button className={sidebar.menuButton} onClick={() => setExpanded(!expanded)}>
           menu
         </button>
-        <p>sidebar</p>
+        <ul>
+          {props.pages.map(item => (
+            <li key={item.label}>
+              <Link href={item.href}>
+                <a>{item.label}</a>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
