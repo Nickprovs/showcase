@@ -6,7 +6,6 @@ export default function Sidebar(props) {
   const [expanded, setExpanded] = useState(false);
 
   const sidebarClass = expanded ? sidebar.sidebarExpanded : sidebar.sidebarCollapsed;
-  console.log(sidebarClass);
   return (
     <div className={sidebar.container}>
       {/* Floating Sidebar Toggle Button */}

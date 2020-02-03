@@ -2,7 +2,14 @@ import Link from "next/link";
 import header from "../styles/header.module.css";
 
 const menuItemStyle = {
-  display: "inline"
+  display: "inline",
+  width: "100px",
+  margin: "5px",
+  backgroundColor: "brown"
+};
+
+const linkStyle = {
+  width: "60px"
 };
 
 export default function Header(props) {
@@ -14,7 +21,7 @@ export default function Header(props) {
         {props.pages.map(item => (
           <li style={menuItemStyle} key={item.label}>
             <Link href={item.href}>
-              <a>{item.label}</a>
+              <a style={linkStyle}>{item.label}</a>
             </Link>
           </li>
         ))}

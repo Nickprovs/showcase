@@ -3,12 +3,16 @@ import Sidebar from "./sidebar";
 import Theme from "./common/theme";
 
 const contentStyle = {
+  zIndex: 2,
+
   backgroundColor: "green",
   margin: 0,
   padding: 0
 };
 
 const layoutStyle = {
+  zIndex: 1,
+
   paddingTop: "10vmin",
   paddingLeft: "10vw",
   paddingRight: "10vw",
@@ -18,7 +22,6 @@ const layoutStyle = {
 };
 
 const containerStyle = {
-  overflow: "auto",
   width: "100vw",
   height: "100vh",
   backgroundColor: "blue"
@@ -46,10 +49,11 @@ const menuPages = [
 export default function Layout(props) {
   return (
     <Theme variables={Theme.Dark}>
+      <Sidebar pages={menuPages} />
+
       <div style={containerStyle}>
         <div style={layoutStyle}>
           <Header pages={menuPages} />
-          <Sidebar pages={menuPages} />
           <div style={contentStyle}>{props.children}</div>
         </div>
       </div>
