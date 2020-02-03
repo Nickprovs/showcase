@@ -11,8 +11,6 @@ const contentStyle = {
 };
 
 const layoutStyle = {
-  zIndex: 1,
-
   paddingTop: "10vmin",
   paddingLeft: "10vw",
   paddingRight: "10vw",
@@ -22,7 +20,7 @@ const layoutStyle = {
 };
 
 const containerStyle = {
-  width: "100vw",
+  width: "100%",
   height: "100vh",
   backgroundColor: "blue"
 };
@@ -49,9 +47,9 @@ const menuPages = [
 export default function Layout(props) {
   return (
     <Theme variables={Theme.Dark}>
-      <Sidebar pages={menuPages} />
-
       <div style={containerStyle}>
+        <Sidebar pages={menuPages} />
+
         <div style={layoutStyle}>
           <Header pages={menuPages} />
           <div style={contentStyle}>{props.children}</div>
