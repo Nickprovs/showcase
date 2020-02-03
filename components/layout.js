@@ -27,20 +27,20 @@ const containerStyle = {
 
 const menuPages = [
   {
-    href: "/",
-    label: "Home1"
+    href: "/index",
+    label: "Home"
   },
   {
-    href: "/",
-    label: "Home2"
+    href: "/showcase",
+    label: "Showcase"
   },
   {
-    href: "/",
-    label: "Home3"
+    href: "/blog",
+    label: "Blog"
   },
   {
-    href: "/",
-    label: "Home4"
+    href: "/contact",
+    label: "Contact"
   }
 ];
 

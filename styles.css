@@ -3,3 +3,10 @@ body {
   padding: 0px;
   margin: 0px;
 }
+
+.mainContentTitle {
+  text-align: center;
+  margin-top: 0px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
