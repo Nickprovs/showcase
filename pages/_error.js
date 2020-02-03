@@ -1,5 +1,13 @@
+import Layout from "../components/layout";
+
 function Error({ statusCode }) {
-  return <p>{statusCode ? `An error ${statusCode} occurred on server` : "An error occurred on client"}</p>;
+  return (
+    <Layout>
+      <h1 className="mainContentTitle">{statusCode ? `${statusCode} Error` : "Error"}</h1>
+      <p>{statusCode ? `An error occurred on the server.` : "An error occurred on client."}</p>
+      <img className="centerImage" src="/sad.png"></img>
+    </Layout>
+  );
 }
 
 Error.getInitialProps = ({ res, err }) => {
