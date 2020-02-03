@@ -1,15 +1,20 @@
 import Link from "next/link";
 import header from "../styles/header.module.css";
 
-const menuItemStyle = {
-  display: "inline",
-  width: "100px",
-  margin: "5px",
-  backgroundColor: "brown"
+const menuStyle = {
+  marginLeft: "0px",
+  padding: "0px",
+  height: "100%"
 };
 
-const linkStyle = {
-  width: "60px"
+const menuItemStyle = {
+  display: "inline",
+  height: "100%"
+};
+
+const buttonStyle = {
+  width: "100px",
+  height: "100%"
 };
 
 export default function Header(props) {
@@ -17,11 +22,13 @@ export default function Header(props) {
 
   return (
     <div className={header.header}>
-      <ul>
+      <ul style={menuStyle}>
         {props.pages.map(item => (
           <li style={menuItemStyle} key={item.label}>
             <Link href={item.href}>
-              <a style={linkStyle}>{item.label}</a>
+              <a>
+                <button style={buttonStyle}>{item.label}</button>
+              </a>
             </Link>
           </li>
         ))}

@@ -4,6 +4,10 @@ body {
   margin: 0px;
 }
 
+.headerButton {
+  height: 100%;
+}
+
 .mainContentTitle {
   text-align: center;
   margin-top: 0px;
