@@ -57,11 +57,11 @@ export default class Sidebar extends Component {
     const externalPageListStyle = {
       marginTop: "40px",
       listStyleType: "none",
-      paddingLeft: "10px"
+      paddingLeft: "0px"
     };
 
     const externalPageListItemStyle = {
-      marginLeft: "5px",
+      marginLeft: "15px",
       display: "inline"
     };
 
@@ -101,6 +101,7 @@ export default class Sidebar extends Component {
             ))}
           </ul>
 
+          {/* External Links*/}
           <ul style={externalPageListStyle}>
             {externalPages.map(item => (
               <li style={externalPageListItemStyle} key={item.label}>
