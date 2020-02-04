@@ -21,3 +21,17 @@ body {
   margin-right: auto;
   width: 50%;
 }
+
+.textButton {
+  width: 100%;
+  height: 40px;
+  text-align: left;
+  cursor: pointer;
+  font-size: large;
+  border: none;
+  background: none;
+}
+
+.textButton:hover {
+  color: orangered;
+}
