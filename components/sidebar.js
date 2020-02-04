@@ -38,13 +38,13 @@ export default class Sidebar extends Component {
   }
 
   render() {
-    const listStyle = {
+    const internalPageListStyle = {
       marginTop: "70px",
       listStyleType: "none",
       paddingLeft: "10px"
     };
 
-    const listItemStyle = {};
+    const internalPageListItemStyle = {};
 
     const lineStyle = {
       marginRight: "10px",
@@ -54,8 +54,23 @@ export default class Sidebar extends Component {
       color: "blue"
     };
 
+    const externalPageListStyle = {
+      marginTop: "40px",
+      listStyleType: "none",
+      paddingLeft: "10px"
+    };
+
+    const externalPageListItemStyle = {
+      marginLeft: "5px",
+      display: "inline"
+    };
+
+    const externalPageIconStyle = {
+      fontSize: "30px"
+    };
+
     const { expanded } = this.state;
-    const { pages } = this.props;
+    const { internalPages, externalPages } = this.props;
 
     const sidebarClass = expanded ? sidebar.sidebarExpanded : sidebar.sidebarCollapsed;
     return (
@@ -67,12 +82,15 @@ export default class Sidebar extends Component {
 
         {/* Actual Sidebar*/}
         <div ref={this.setSidebarRef} className={sidebar.sidebar + " " + sidebarClass}>
+          {/* Menu Button for closing*/}
           <button className={sidebar.menuButton} onClick={() => this.handleToggleExpanded(!expanded)}>
             menu
           </button>
-          <ul style={listStyle}>
-            {pages.map(item => (
-              <li style={listItemStyle} key={item.label}>
+
+          {/* Internal Links*/}
+          <ul style={internalPageListStyle}>
+            {internalPages.map(item => (
+              <li style={internalPageListItemStyle} key={item.label}>
                 <Link href={item.href}>
                   <a>
                     <button className="textButton">{item.label}</button>
@@ -82,16 +100,16 @@ export default class Sidebar extends Component {
               </li>
             ))}
           </ul>
-          {/* Exteneral Links: TODO TAKE IN AS PROPS AND USE LIST*/}
-          <span style={{ fontSize: "30px", color: "Tomato" }}>
-            <i className="fab fa-linkedin"></i>
-          </span>
-          <span style={{ fontSize: "30px", color: "Tomato" }}>
-            <i className="fab fa-github"></i>
-          </span>{" "}
-          <span style={{ fontSize: "30px", color: "Tomato" }}>
-            <i className="fab fa-instagram"></i>
-          </span>
+
+          <ul style={externalPageListStyle}>
+            {externalPages.map(item => (
+              <li style={externalPageListItemStyle} key={item.label}>
+                <a href={item.href}>
+                  <i style={externalPageIconStyle} className={item.iconClasses}></i>
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     );

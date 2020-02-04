@@ -25,22 +25,43 @@ const containerStyle = {
   backgroundColor: "blue"
 };
 
-const menuPages = [
+const internalPages = [
   {
     href: "/index",
     label: "Home"
   },
   {
     href: "/showcase",
-    label: "Showcase"
+    label: "Showcase",
+    iconClasses: ""
   },
   {
     href: "/blog",
-    label: "Blog"
+    label: "Blog",
+    iconClasses: ""
   },
   {
     href: "/contact",
-    label: "Contact"
+    label: "Contact",
+    iconClasses: ""
+  }
+];
+
+const externalPages = [
+  {
+    href: "http://www.linkedin.com/in/nickprovs/",
+    iconClasses: "fab fa-linkedin",
+    label: "LinkedIn"
+  },
+  {
+    href: "http://www.github.com/Nickprovs",
+    iconClasses: "fab fa-github",
+    label: "Github"
+  },
+  {
+    href: "http://www.instagram.com/nickprovs/",
+    iconClasses: "fab fa-instagram",
+    label: "Instagram"
   }
 ];
 
@@ -48,10 +69,10 @@ export default function Layout(props) {
   return (
     <Theme variables={Theme.Dark}>
       <div style={containerStyle}>
-        <Sidebar pages={menuPages} />
+        <Sidebar internalPages={internalPages} externalPages={externalPages} />
 
         <div style={layoutStyle}>
-          <Header pages={menuPages} />
+          <Header internalPages={internalPages} externalPages={externalPages} />
           <div style={contentStyle}>{props.children}</div>
         </div>
       </div>

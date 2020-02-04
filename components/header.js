@@ -18,12 +18,11 @@ const buttonStyle = {
 };
 
 export default function Header(props) {
-  console.log("pages", props.pages);
-
+  const { internalPages, externalPages } = props;
   return (
     <div className={header.header}>
       <ul style={menuStyle}>
-        {props.pages.map(item => (
+        {internalPages.map(item => (
           <li style={menuItemStyle} key={item.label}>
             <Link href={item.href}>
               <a>
