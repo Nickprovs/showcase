@@ -46,6 +46,15 @@ export default function Sidebar(props) {
             </li>
           ))}
         </ul>
+        <span style={{ fontSize: "30px", color: "Tomato" }}>
+          <i class="fab fa-linkedin"></i>
+        </span>
+        <span style={{ fontSize: "30px", color: "Tomato" }}>
+          <i class="fab fa-github"></i>
+        </span>{" "}
+        <span style={{ fontSize: "30px", color: "Tomato" }}>
+          <i class="fab fa-instagram"></i>
+        </span>
       </div>
     </div>
   );
