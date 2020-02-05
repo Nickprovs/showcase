@@ -1,8 +1,9 @@
 .standardButton {
   border-width: 4px;
+  padding: 5px;
   border-style: solid;
+  display: inline-block;
   background-color: transparent;
-  font-size: 50%;
   cursor: pointer;
   border-color: white;
   color: white;

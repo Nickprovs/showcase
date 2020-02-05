@@ -11,23 +11,32 @@
 @media screen and (min-width: 0px) and (max-width: 375px) {
   .namePlateButton {
     border-width: 4px;
-    width: 350px;
-    height: 65px;
+    font-size: 40px;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    padding-left: 25px !important;
+    padding-right: 25px !important;
   }
 }
 
 @media screen and (min-width: 375px) and (max-width: 700px) {
   .namePlateButton {
-    border-width: 5px;
-    width: 375px;
-    height: 70px;
+    border-width: 4px;
+    font-size: 40px;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    padding-left: 25px !important;
+    padding-right: 25px !important;
   }
 }
 
 @media screen and (min-width: 700px) {
   .namePlateButton {
-    border-width: 6px;
-    width: 450px;
-    height: 75px;
+    border-width: 5px;
+    font-size: 40px;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    padding-left: 25px !important;
+    padding-right: 25px !important;
   }
 }
