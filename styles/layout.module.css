@@ -1,0 +1,31 @@
+.layoutStyle {
+  background-color: var(--b1);
+  color: var(--f1);
+}
+
+@media screen and (min-width: 0px) and (max-width: 600px) {
+  .layoutStyle {
+    padding-top: 10vmin;
+    padding-bottom: 10vmin;
+    padding-left: 0vw;
+    padding-right: 0vw;
+  }
+}
+
+@media screen and (min-width: 600px) and (max-width: 900px) {
+  .layoutStyle {
+    padding-top: 10vmin;
+    padding-bottom: 10vmin;
+    padding-left: 5vw;
+    padding-right: 5vw;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .layoutStyle {
+    padding-top: 10vmin;
+    padding-bottom: 10vmin;
+    padding-left: 10vw;
+    padding-right: 10vw;
+  }
+}

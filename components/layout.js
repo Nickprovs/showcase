@@ -3,21 +3,13 @@ import Header from "./header";
 import Footer from "./footer";
 import Sidebar from "./sidebar";
 import Theme from "./common/theme";
+import layout from "../styles/layout.module.css";
 
 const contentStyle = {
   zIndex: 2,
   backgroundColor: "green",
   margin: "0px",
   padding: "0px"
-};
-
-const layoutStyle = {
-  paddingTop: "10vmin",
-  paddingLeft: "10vw",
-  paddingRight: "10vw",
-  paddingBottom: "10vmin",
-  backgroundColor: "var(--b1)",
-  color: "var(--f1)"
 };
 
 const containerStyle = {
@@ -71,7 +63,7 @@ export default function Layout(props) {
     <Theme variables={Theme.Dark}>
       <div style={containerStyle}>
         <Sidebar internalPages={internalPages} externalPages={externalPages} />
-        <div style={layoutStyle}>
+        <div className={layout.layoutStyle}>
           <NamePlate />
           <Header internalPages={internalPages} externalPages={externalPages} />
           <div style={contentStyle}>{props.children}</div>
