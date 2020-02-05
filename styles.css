@@ -46,6 +46,10 @@ h1 {
   font-weight: bold;
 }
 
+p {
+  font-weight: normal;
+}
+
 .headerButton {
   height: 100%;
 }

@@ -1,6 +1,7 @@
 import sidebar from "../styles/sidebar.module.css";
 import { Component } from "react";
-import Link from "next/link";
+import AsyncUtilities from "../util/asyncUtilities";
+import Router from "next/router";
 
 export default class Sidebar extends Component {
   state = {
@@ -35,6 +36,18 @@ export default class Sidebar extends Component {
 
   handleToggleExpanded() {
     this.setState({ expanded: !this.state.expanded });
+  }
+
+  async handleInternalLinkableThingClicked(url) {
+    this.setState({ expanded: false });
+    await AsyncUtilities.setTimeoutAsync(300);
+    Router.push(url);
+  }
+
+  async handleExternalLinkableThingClicked(url) {
+    this.setState({ expanded: false });
+    await AsyncUtilities.setTimeoutAsync(300);
+    window.open(url, "_newtab");
   }
 
   render() {
@@ -91,12 +104,12 @@ export default class Sidebar extends Component {
           <ul style={internalPageListStyle}>
             {internalPages.map(item => (
               <li style={internalPageListItemStyle} key={item.label}>
-                <Link href={item.href}>
-                  <a>
-                    <button className="textButton">{item.label}</button>
-                    <hr style={lineStyle}></hr>
-                  </a>
-                </Link>
+                <a>
+                  <button onClick={async () => await this.handleInternalLinkableThingClicked(item.href)} className="textButton">
+                    {item.label}
+                  </button>
+                  <hr style={lineStyle}></hr>
+                </a>
               </li>
             ))}
           </ul>
@@ -105,9 +118,11 @@ export default class Sidebar extends Component {
           <ul style={externalPageListStyle}>
             {externalPages.map(item => (
               <li style={externalPageListItemStyle} key={item.label}>
-                <a href={item.href}>
-                  <i style={externalPageIconStyle} className={item.iconClasses}></i>
-                </a>
+                <i
+                  onClick={async () => await this.handleExternalLinkableThingClicked(item.href)}
+                  style={externalPageIconStyle}
+                  className={item.iconClasses}
+                ></i>
               </li>
             ))}
           </ul>
