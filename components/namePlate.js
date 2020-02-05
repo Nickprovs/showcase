@@ -9,7 +9,7 @@ export default function NamePlate(props) {
     <div className={namePlate.namePlateContainer}>
       <Link href="/index">
         <a>
-          <StandardButton className={namePlate.namePlateButton}>Nicholas Provost</StandardButton>
+          <StandardButton className={namePlate.namePlateButton}>NICHOLAS PROVOST</StandardButton>
         </a>
       </Link>
     </div>

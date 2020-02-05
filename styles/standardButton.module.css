@@ -1,6 +1,8 @@
 .standardButton {
   border-width: 4px;
   padding: 5px;
+  font-weight: bold;
+  letter-spacing: 0.06em;
   border-style: solid;
   display: inline-block;
   background-color: transparent;

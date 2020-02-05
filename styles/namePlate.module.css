@@ -8,34 +8,37 @@
   justify-content: center;
 }
 
-@media screen and (min-width: 0px) and (max-width: 375px) {
+@media screen and (min-width: 0px) and (max-width: 600px) {
   .namePlateButton {
+    font-weight: bolder;
     border-width: 4px;
-    font-size: 40px;
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
+    font-size: 24px;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
     padding-left: 25px !important;
     padding-right: 25px !important;
   }
 }
 
-@media screen and (min-width: 375px) and (max-width: 700px) {
+@media screen and (min-width: 600px) and (max-width: 900px) {
   .namePlateButton {
-    border-width: 4px;
-    font-size: 40px;
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
-    padding-left: 25px !important;
-    padding-right: 25px !important;
-  }
-}
-
-@media screen and (min-width: 700px) {
-  .namePlateButton {
+    font-weight: bolder;
     border-width: 5px;
-    font-size: 40px;
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
+    font-size: 30px;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    padding-left: 25px !important;
+    padding-right: 25px !important;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .namePlateButton {
+    font-weight: bolder;
+    border-width: 6px;
+    font-size: 34px;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
     padding-left: 25px !important;
     padding-right: 25px !important;
   }
