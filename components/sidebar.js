@@ -1,7 +1,6 @@
 import sidebar from "../styles/sidebar.module.css";
 import { Component } from "react";
-import AsyncUtilities from "../util/asyncUtilities";
-import Router from "next/router";
+import RouterUtilities from "../util/routerUtilities";
 
 export default class Sidebar extends Component {
   state = {
@@ -40,14 +39,12 @@ export default class Sidebar extends Component {
 
   async handleInternalLinkableThingClicked(url) {
     this.setState({ expanded: false });
-    await AsyncUtilities.setTimeoutAsync(300);
-    Router.push(url);
+    await RouterUtilities.routeInternalWithDelayAsync(url, 300);
   }
 
   async handleExternalLinkableThingClicked(url) {
     this.setState({ expanded: false });
-    await AsyncUtilities.setTimeoutAsync(300);
-    window.open(url, "_newtab");
+    await RouterUtilities.routeExternalWithDelayAsync(url, "_newtab", 300);
   }
 
   render() {
