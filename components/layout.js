@@ -1,13 +1,13 @@
 import Header from "./header";
+import Footer from "./footer";
 import Sidebar from "./sidebar";
 import Theme from "./common/theme";
 
 const contentStyle = {
   zIndex: 2,
-
   backgroundColor: "green",
-  margin: 0,
-  padding: 0
+  margin: "0px",
+  padding: "0px"
 };
 
 const layoutStyle = {
@@ -74,6 +74,7 @@ export default function Layout(props) {
         <div style={layoutStyle}>
           <Header internalPages={internalPages} externalPages={externalPages} />
           <div style={contentStyle}>{props.children}</div>
+          <Footer externalPages={externalPages} />
         </div>
       </div>
     </Theme>
