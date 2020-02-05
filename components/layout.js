@@ -72,6 +72,9 @@ export default function Layout(props) {
         <Sidebar internalPages={internalPages} externalPages={externalPages} />
 
         <div style={layoutStyle}>
+          <div className="namePlateContainer">
+            <button class="namePlateButton">Nicholas Provost</button>
+          </div>
           <Header internalPages={internalPages} externalPages={externalPages} />
           <div style={contentStyle}>{props.children}</div>
           <Footer externalPages={externalPages} />
