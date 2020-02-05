@@ -1,3 +1,4 @@
+import NamePlate from "./namePlate";
 import Header from "./header";
 import Footer from "./footer";
 import Sidebar from "./sidebar";
@@ -70,11 +71,8 @@ export default function Layout(props) {
     <Theme variables={Theme.Dark}>
       <div style={containerStyle}>
         <Sidebar internalPages={internalPages} externalPages={externalPages} />
-
         <div style={layoutStyle}>
-          <div className="namePlateContainer">
-            <button class="namePlateButton">Nicholas Provost</button>
-          </div>
+          <NamePlate />
           <Header internalPages={internalPages} externalPages={externalPages} />
           <div style={contentStyle}>{props.children}</div>
           <Footer externalPages={externalPages} />
