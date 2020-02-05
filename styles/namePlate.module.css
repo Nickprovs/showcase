@@ -27,9 +27,9 @@
 
 @media screen and (min-width: 0px) and (max-width: 600px) {
   .namePlateButton {
-    font-weight: bolder;
-    border-width: 4px;
-    font-size: 24px;
+    font-weight: bolder !important;
+    border-width: 4px !important;
+    font-size: 24px !important;
     padding-top: 12px !important;
     padding-bottom: 12px !important;
     padding-left: 25px !important;
@@ -39,9 +39,9 @@
 
 @media screen and (min-width: 600px) and (max-width: 900px) {
   .namePlateButton {
-    font-weight: bolder;
-    border-width: 5px;
-    font-size: 30px;
+    font-weight: bolder !important;
+    border-width: 5px !important;
+    font-size: 30px !important;
     padding-top: 12px !important;
     padding-bottom: 12px !important;
     padding-left: 25px !important;
@@ -51,9 +51,9 @@
 
 @media screen and (min-width: 900px) {
   .namePlateButton {
-    font-weight: bolder;
-    border-width: 6px;
-    font-size: 34px;
+    font-weight: bolder !important;
+    border-width: 6px !important;
+    font-size: 34px !important;
     padding-top: 12px !important;
     padding-bottom: 12px !important;
     padding-left: 25px !important;
