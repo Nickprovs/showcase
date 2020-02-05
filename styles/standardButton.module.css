@@ -16,13 +16,24 @@
   transition: border-color 0.2s ease-in-out, color 0.2s;
 }
 
-.standardButton:hover {
-  border-color: lightseagreen;
-  color: lightseagreen;
+@media (hover: hover) {
+  .standardButton:hover {
+    border-color: yellow;
+    color: yellow;
+  }
+}
+
+.standardButton:active {
+  border-color: red;
+  color: red;
 }
 
 .standardButton:disabled {
   border-color: gray;
   color: gray;
   cursor: not-allowed;
+}
+
+.standardButton:focus {
+  outline: 0;
 }
