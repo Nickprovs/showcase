@@ -31,7 +31,7 @@ export default function Footer(props) {
       </div>
 
       <div className={footer.copyrightContainer}>
-        <label className={footer.copyright}>© NICHOLAS PROVOST | BUILT BY NICHOLAS PROVOST | INSPIRED BY ANDRE BENZ</label>
+        <label className={footer.copyright}>© NICHOLAS PROVOST | BUILT BY NICHOLAS PROVOST | INSPIRED BY @AJLKN</label>
       </div>
     </div>
   );
