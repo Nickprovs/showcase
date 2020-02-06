@@ -4,3 +4,17 @@
   height: 60px;
   background-color: lightskyblue;
 }
+
+.copyrightContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  background-color: royalblue;
+}
+
+.copyright {
+  font-size: small;
+  font-style: normal;
+  opacity: 0.5;
+}
