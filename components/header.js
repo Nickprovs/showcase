@@ -51,7 +51,15 @@ export default function Header(props) {
             <li style={menuItemStyle} key={item.label}>
               <Link href={item.href}>
                 <a>
-                  <button style={item.href == router.pathname ? buttonStyleSelected : buttonStyle}>{item.label}</button>
+                  <button
+                    style={
+                      item.href === router.pathname || (router.pathname === "/" && item.href === "/index")
+                        ? buttonStyleSelected
+                        : buttonStyle
+                    }
+                  >
+                    {item.label}
+                  </button>
                 </a>
               </Link>
             </li>
