@@ -1,3 +1,5 @@
+import Icon from "./common/icon";
+import TransparentButton from "./common/transparentButton";
 import footer from "../styles/footer.module.css";
 
 export default function Footer(props) {
@@ -12,10 +14,6 @@ export default function Footer(props) {
     display: "inline"
   };
 
-  const externalPageIconStyle = {
-    fontSize: "25px"
-  };
-
   return (
     <div>
       <div className={footer.footer}>
@@ -23,7 +21,9 @@ export default function Footer(props) {
           {externalPages.map(item => (
             <li style={externalPageListItemStyle} key={item.label}>
               <a href={item.href}>
-                <i style={externalPageIconStyle} className={item.iconClasses}></i>
+                <TransparentButton>
+                  <Icon className={item.iconClasses}></Icon>
+                </TransparentButton>
               </a>
             </li>
           ))}

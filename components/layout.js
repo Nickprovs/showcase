@@ -43,7 +43,7 @@ const internalPages = [
 const externalPages = [
   {
     href: "http://www.linkedin.com/in/nickprovs/",
-    iconClasses: "fab fa-linkedin",
+    iconClasses: "fab fa-linkedin-in",
     label: "LinkedIn"
   },
   {

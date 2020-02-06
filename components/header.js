@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Icon from "./common/icon";
+import TransparentButton from "./common/transparentButton";
 import header from "../styles/header.module.css";
 import { useRouter } from "next/router";
 
@@ -35,10 +37,6 @@ export default function Header(props) {
     display: "inline"
   };
 
-  const externalPageIconStyle = {
-    fontSize: "25px"
-  };
-
   const router = useRouter();
   console.log("router path", router.pathname);
 
@@ -73,7 +71,9 @@ export default function Header(props) {
           {externalPages.map(item => (
             <li style={externalPageListItemStyle} key={item.label}>
               <a href={item.href}>
-                <i style={externalPageIconStyle} className={item.iconClasses}></i>
+                <TransparentButton>
+                  <Icon className={item.iconClasses}></Icon>
+                </TransparentButton>
               </a>
             </li>
           ))}

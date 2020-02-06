@@ -1,0 +1,35 @@
+.transparentButton {
+  padding: 5px;
+  font-weight: bold;
+  letter-spacing: 0.06em;
+  display: inline-block;
+  border-style: none;
+  border-width: 0px;
+  background-color: transparent;
+  cursor: pointer;
+  color: white;
+
+  -moz-transition: border-color 0.2s ease-in-out, color 0.2s;
+  -o-transition: border-color 0.2s ease-in-out, color 0.2s;
+  -webkit-transition: border-color 0.2s ease-in-out, color 0.2s;
+  transition: border-color 0.2s ease-in-out, color 0.2s;
+}
+
+@media (hover: hover) {
+  .transparentButton:hover {
+    color: yellow;
+  }
+}
+
+.transparentButton:active {
+  color: red;
+}
+
+.transparentButton:disabled {
+  color: gray;
+  cursor: not-allowed;
+}
+
+.transparentButton:focus {
+  outline: 0;
+}

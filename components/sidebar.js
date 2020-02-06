@@ -1,6 +1,8 @@
-import sidebar from "../styles/sidebar.module.css";
 import { Component } from "react";
+import Icon from "./common/icon";
+import TransparentButton from "./common/transparentButton";
 import RouterUtilities from "../util/routerUtilities";
+import sidebar from "../styles/sidebar.module.css";
 
 export default class Sidebar extends Component {
   state = {
@@ -71,12 +73,8 @@ export default class Sidebar extends Component {
     };
 
     const externalPageListItemStyle = {
-      marginLeft: "15px",
+      marginLeft: "25px",
       display: "inline"
-    };
-
-    const externalPageIconStyle = {
-      fontSize: "30px"
     };
 
     const { expanded } = this.state;
@@ -115,11 +113,9 @@ export default class Sidebar extends Component {
           <ul style={externalPageListStyle}>
             {externalPages.map(item => (
               <li style={externalPageListItemStyle} key={item.label}>
-                <i
-                  onClick={async () => await this.handleExternalLinkableThingClicked(item.href)}
-                  style={externalPageIconStyle}
-                  className={item.iconClasses}
-                ></i>
+                <TransparentButton onClick={async () => await this.handleExternalLinkableThingClicked(item.href)}>
+                  <Icon className={item.iconClasses}></Icon>
+                </TransparentButton>
               </li>
             ))}
           </ul>
