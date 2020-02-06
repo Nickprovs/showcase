@@ -1,5 +1,6 @@
 import Link from "next/link";
 import header from "../styles/header.module.css";
+import { useRouter } from "next/router";
 
 const menuStyle = {
   margin: "0px",
@@ -14,6 +15,12 @@ const menuItemStyle = {
 const buttonStyle = {
   width: "100px",
   height: "100%"
+};
+
+const buttonStyleSelected = {
+  width: "100px",
+  height: "100%",
+  background: "orange"
 };
 
 export default function Header(props) {
@@ -32,6 +39,9 @@ export default function Header(props) {
     fontSize: "25px"
   };
 
+  const router = useRouter();
+  console.log("router path", router.pathname);
+
   return (
     <div className={header.header}>
       {/* Internal Links*/}
@@ -41,7 +51,7 @@ export default function Header(props) {
             <li style={menuItemStyle} key={item.label}>
               <Link href={item.href}>
                 <a>
-                  <button style={buttonStyle}>{item.label}</button>
+                  <button style={item.href == router.pathname ? buttonStyleSelected : buttonStyle}>{item.label}</button>
                 </a>
               </Link>
             </li>
