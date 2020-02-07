@@ -15,17 +15,6 @@ const menuItemStyle = {
   display: "inline"
 };
 
-const buttonStyle = {
-  width: "100px",
-  height: "100%"
-};
-
-const buttonStyleSelected = {
-  width: "100px",
-  height: "100%",
-  background: "orange"
-};
-
 export default function Header(props) {
   const { internalPages, externalPages } = props;
 

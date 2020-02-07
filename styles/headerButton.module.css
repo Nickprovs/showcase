@@ -9,26 +9,32 @@
   border-width: 0px;
   background-color: transparent;
   cursor: pointer;
-  color: white;
+  color: var(--s1);
 
   -moz-transition: background-color 0.2s ease-in-out, color 0.2s;
   -o-transition: background-color 0.2s ease-in-out, color 0.2s;
   -webkit-transition: background-color 0.2s ease-in-out, color 0.2s;
   transition: background-color 0.2s ease-in-out, color 0.2s;
 }
-
 .headerButtonSelected {
-  background-color: rgba(0, 0, 0, 0.3);
+  color: var(--f1);
+  background-color: var(--b1);
 }
 
 @media (hover: hover) {
   .headerButton:hover {
-    color: yellow;
+    background-color: var(--s4);
+  }
+}
+@media (hover: hover) {
+  .headerButtonSelected:hover {
+    background-color: var(--b1);
+    color: var(--f1);
   }
 }
 
 .headerButton:active {
-  color: red;
+  color: var(--s2);
 }
 
 .headerButton:disabled {

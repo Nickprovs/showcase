@@ -14,7 +14,7 @@
   z-index: 10000;
   position: fixed;
   height: 100%;
-  background-color: teal;
+  background-color: var(--b1);
   overflow: hidden;
   overflow-y: auto;
   right: 0;

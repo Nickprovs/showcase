@@ -7,7 +7,7 @@ import layout from "../styles/layout.module.css";
 
 const contentStyle = {
   zIndex: 3,
-  backgroundColor: "green",
+  backgroundColor: "var(--b1)",
   margin: "0px",
   padding: "0px"
 };
@@ -59,7 +59,7 @@ const externalPages = [
 
 export default function Layout(props) {
   return (
-    <Theme variables={Theme.Dark}>
+    <Theme variables={Theme.Light}>
       <div style={containerStyle}>
         <img className={layout.background} src="bg.jpg" />
         <Sidebar internalPages={internalPages} externalPages={externalPages} />
