@@ -33,6 +33,7 @@
 .background {
   background-position: center;
   background-size: cover;
+  width: 100%;
   z-index: -999999;
   position: fixed;
 }
