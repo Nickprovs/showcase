@@ -6,7 +6,7 @@ import Theme from "./common/theme";
 import layout from "../styles/layout.module.css";
 
 const contentStyle = {
-  zIndex: 2,
+  zIndex: 3,
   backgroundColor: "green",
   margin: "0px",
   padding: "0px"
@@ -14,8 +14,7 @@ const contentStyle = {
 
 const containerStyle = {
   width: "100%",
-  height: "100vh",
-  backgroundColor: "blue"
+  height: "100vh"
 };
 
 const internalPages = [
@@ -62,6 +61,7 @@ export default function Layout(props) {
   return (
     <Theme variables={Theme.Dark}>
       <div style={containerStyle}>
+        <img className={layout.background} src="bg.jpg" />
         <Sidebar internalPages={internalPages} externalPages={externalPages} />
         <div className={layout.layoutStyle}>
           <NamePlate />

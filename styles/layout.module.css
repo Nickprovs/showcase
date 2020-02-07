@@ -1,5 +1,5 @@
 .layoutStyle {
-  background-color: var(--b1);
+  background-color: transparent;
   color: var(--f1);
 }
 
@@ -28,4 +28,11 @@
     padding-left: 10vw;
     padding-right: 10vw;
   }
+}
+
+.background {
+  background-position: center;
+  background-size: cover;
+  z-index: -999999;
+  position: fixed;
 }
