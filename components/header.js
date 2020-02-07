@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Icon from "./common/icon";
 import TransparentButton from "./common/transparentButton";
+import HeaderButton from "./headerButton";
 import header from "../styles/header.module.css";
 import { useRouter } from "next/router";
 
@@ -40,6 +41,10 @@ export default function Header(props) {
   const router = useRouter();
   console.log("router path", router.pathname);
 
+  const getHeaderButtonSelected = (itemPathName, currenPathName) => {
+    return itemPathName === currenPathName || (currenPathName === "/" && itemPathName === "/index");
+  };
+
   return (
     <div className={header.header}>
       {/* Internal Links*/}
@@ -49,15 +54,7 @@ export default function Header(props) {
             <li style={menuItemStyle} key={item.label}>
               <Link href={item.href}>
                 <a>
-                  <button
-                    style={
-                      item.href === router.pathname || (router.pathname === "/" && item.href === "/index")
-                        ? buttonStyleSelected
-                        : buttonStyle
-                    }
-                  >
-                    {item.label}
-                  </button>
+                  <HeaderButton isSelected={getHeaderButtonSelected(item.href, router.pathname)}>{item.label}</HeaderButton>
                 </a>
               </Link>
             </li>

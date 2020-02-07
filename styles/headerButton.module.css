@@ -1,0 +1,43 @@
+.headerButton {
+  height: 100%;
+  width: 100px;
+  padding: 5px;
+  font-weight: bold;
+  letter-spacing: 0.06em;
+  display: inline-block;
+  border-style: none;
+  border-width: 0px;
+  background-color: transparent;
+  cursor: pointer;
+  color: white;
+
+  -moz-transition: background-color 0.2s ease-in-out, color 0.2s;
+  -o-transition: background-color 0.2s ease-in-out, color 0.2s;
+  -webkit-transition: background-color 0.2s ease-in-out, color 0.2s;
+  transition: background-color 0.2s ease-in-out, color 0.2s;
+}
+
+.headerButtonSelected {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+@media (hover: hover) {
+  .headerButton:hover {
+    color: yellow;
+  }
+}
+
+.headerButton:active {
+  color: red;
+}
+
+.headerButton:disabled {
+  color: gray;
+  cursor: not-allowed;
+}
+
+.headerButton.focus,
+.headerButton:focus {
+  outline: 0;
+  box-shadow: none !important;
+}
