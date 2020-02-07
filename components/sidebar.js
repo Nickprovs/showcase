@@ -1,6 +1,7 @@
 import { Component } from "react";
 import Icon from "./common/icon";
 import TransparentButton from "./common/transparentButton";
+import MenuButton from "./menuButton";
 import RouterUtilities from "../util/routerUtilities";
 import sidebar from "../styles/sidebar.module.css";
 
@@ -83,17 +84,10 @@ export default class Sidebar extends Component {
     const sidebarClass = expanded ? sidebar.sidebarExpanded : sidebar.sidebarCollapsed;
     return (
       <div className={sidebar.container}>
-        {/* Floating Sidebar Toggle Button */}
-        <button className={sidebar.menuButton} onClick={() => this.handleToggleExpanded(!expanded)}>
-          menu
-        </button>
-
         {/* Actual Sidebar*/}
         <div ref={this.setSidebarRef} className={sidebar.sidebar + " " + sidebarClass}>
-          {/* Menu Button for closing*/}
-          <button className={sidebar.menuButton} onClick={() => this.handleToggleExpanded(!expanded)}>
-            menu
-          </button>
+          {/* Sidebar Menu Button */}
+          <MenuButton onClick={() => this.handleToggleExpanded(!expanded)} />
 
           {/* Internal Links*/}
           <ul style={internalPageListStyle}>

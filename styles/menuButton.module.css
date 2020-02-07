@@ -1,0 +1,68 @@
+.menuButton {
+  position: fixed;
+  top: 1.5vh;
+  right: 2vw;
+  width: fit-content;
+  font-weight: bolder;
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  display: inline-block;
+  border-style: none;
+  border-width: 0px;
+  background-color: white;
+  cursor: pointer;
+  color: black;
+
+  -moz-transition: border-color 0.2s ease-in-out, color 0.2s;
+  -o-transition: border-color 0.2s ease-in-out, color 0.2s;
+  -webkit-transition: border-color 0.2s ease-in-out, color 0.2s;
+  transition: border-color 0.2s ease-in-out, color 0.2s;
+}
+
+@media screen and (min-width: 0px) and (max-width: 700px) {
+  .menuButton {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
+@media screen and (min-width: 700px) {
+  .menuButton {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+.menuButtonContentContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hamburgerIcon {
+  font-size: 12px;
+  margin-right: 5px;
+}
+
+@media (hover: hover) {
+  .menuButton:hover {
+    color: yellow;
+  }
+}
+
+.menuButton:active {
+  color: red;
+}
+
+.menuButton:disabled {
+  color: gray;
+  cursor: not-allowed;
+}
+
+.menuButton:focus {
+  outline: 0;
+}
