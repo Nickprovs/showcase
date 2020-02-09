@@ -1,15 +1,22 @@
 .dimmer {
   z-index: 4000;
-  background-color: black;
+  position: fixed;
   width: 100%;
   height: 100%;
-  position: fixed;
+  background-color: transparent;
+  opacity: 0.2;
+  pointer-events: none;
+  -moz-transition: background-color 0.2s ease-in-out, color 0.2s;
+  -o-transition: background-color 0.2s ease-in-out, color 0.2s;
+  -webkit-transition: background-color 0.2s ease-in-out, color 0.2s;
+  transition: background-color 0.2s ease-in-out, color 0.2s;
 }
 
 .dimmerOn {
-  opacity: 0.2;
+  background-color: black;
+  display: block;
 }
 
 .dimmerOff {
-  opacity: 0;
+  display: block;
 }

@@ -6,10 +6,6 @@ import RouterUtilities from "../util/routerUtilities";
 import sidebar from "../styles/sidebar.module.css";
 
 export default class Sidebar extends Component {
-  state = {
-    expanded: false
-  };
-
   constructor(props) {
     super(props);
 
@@ -24,29 +20,36 @@ export default class Sidebar extends Component {
 
   componentDidMount() {
     document.addEventListener("mousedown", this.handleGlobalClick);
+    window.addEventListener("resize", this.handleWindowResise.bind(this));
   }
 
   componentWillUnmount() {
     document.removeEventListener("mousedown", this.handleGlobalClick);
+    window.removeEventListener("resize", this.handleWindowResise.bind(this));
+  }
+
+  handleWindowResise(event) {
+    if (window.innerWidth > 950) this.props.onSetSidebarOpen(false);
   }
 
   handleGlobalClick(event) {
     if (this.sidebar && !this.sidebar.contains(event.target)) {
-      this.setState({ expanded: false });
+      this.props.onSetSidebarOpen(false);
     }
   }
 
   handleToggleExpanded() {
-    this.setState({ expanded: !this.state.expanded });
+    const isSidebarOpen = this.props.isSidebarOpen;
+    this.props.onSetSidebarOpen(!isSidebarOpen);
   }
 
   async handleInternalLinkableThingClicked(url) {
-    this.setState({ expanded: false });
+    this.props.onSetSidebarOpen(false);
     await RouterUtilities.routeInternalWithDelayAsync(url, 300);
   }
 
   async handleExternalLinkableThingClicked(url) {
-    this.setState({ expanded: false });
+    this.props.onSetSidebarOpen(false);
     await RouterUtilities.routeExternalWithDelayAsync(url, "_newtab", 300);
   }
 
@@ -78,16 +81,15 @@ export default class Sidebar extends Component {
       display: "inline"
     };
 
-    const { expanded } = this.state;
-    const { internalPages, externalPages } = this.props;
+    const { internalPages, externalPages, isSidebarOpen } = this.props;
 
-    const sidebarClass = expanded ? sidebar.sidebarExpanded : sidebar.sidebarCollapsed;
+    const sidebarClass = isSidebarOpen ? sidebar.sidebarExpanded : sidebar.sidebarCollapsed;
     return (
       <div className={sidebar.container}>
         {/* Actual Sidebar*/}
         <div ref={this.setSidebarRef} className={sidebar.sidebar + " " + sidebarClass}>
           {/* Sidebar Menu Button */}
-          <MenuButton onClick={() => this.handleToggleExpanded(!expanded)} />
+          <MenuButton onClick={() => this.handleToggleExpanded(!isSidebarOpen)} />
 
           {/* Internal Links*/}
           <ul style={internalPageListStyle}>

@@ -1,3 +1,4 @@
+import { Component } from "react";
 import NamePlate from "./namePlate";
 import Header from "./header";
 import Footer from "./footer";
@@ -58,20 +59,37 @@ const externalPages = [
   }
 ];
 
-export default function Layout(props) {
-  return (
-    <Theme variables={Theme.Light}>
-      <div style={containerStyle}>
-        <div className={layout.background} />
-        <Sidebar internalPages={internalPages} externalPages={externalPages} />
-        <Dimmer on={false} />
-        <div className={layout.layoutStyle}>
-          <NamePlate />
-          <Header internalPages={internalPages} externalPages={externalPages} />
-          <div style={contentStyle}>{props.children}</div>
-          <Footer externalPages={externalPages} />
+export default class Layout extends Component {
+  state = {
+    isSidebarOpen: false
+  };
+
+  handleToggleSidebar(openStatus) {
+    this.setState({ isSidebarOpen: openStatus });
+  }
+
+  render() {
+    const { children } = this.props;
+    const { isSidebarOpen } = this.state;
+    return (
+      <Theme variables={Theme.Light}>
+        <div style={containerStyle}>
+          <div className={layout.background} />
+          <Sidebar
+            onSetSidebarOpen={openStatus => this.handleToggleSidebar(openStatus)}
+            isSidebarOpen={isSidebarOpen}
+            internalPages={internalPages}
+            externalPages={externalPages}
+          />
+          <Dimmer on={isSidebarOpen} />
+          <div className={layout.layoutStyle}>
+            <NamePlate />
+            <Header internalPages={internalPages} externalPages={externalPages} />
+            <div style={contentStyle}>{children}</div>
+            <Footer externalPages={externalPages} />
+          </div>
         </div>
-      </div>
-    </Theme>
-  );
+      </Theme>
+    );
+  }
 }
