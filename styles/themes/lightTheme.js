@@ -9,7 +9,8 @@ const LightTheme = {
   "--s3": "rgba(255,255,255,0.4)",
   "--s4": "rgba(255,255,255,0.2)",
   "--s5": "#18bfef",
-  "--s6": "#1f9ec3"
+  "--s6": "#1f9ec3",
+  "--s7": "#000000"
 };
 
 export default LightTheme;

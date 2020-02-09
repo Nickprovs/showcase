@@ -7,8 +7,9 @@
   font-size: 10px;
   letter-spacing: 0.03em;
   display: inline-block;
-  border-style: none;
-  border-width: 0px;
+  border-width: 1px;
+  border-color: var(--s7);
+  box-shadow: none;
   background-color: white;
   cursor: pointer;
   color: black;
@@ -50,12 +51,12 @@
 
 @media (hover: hover) {
   .menuButton:hover {
-    color: yellow;
+    color: var(--s5);
   }
 }
 
 .menuButton:active {
-  color: red;
+  color: var(--s6);
 }
 
 .menuButton:disabled {

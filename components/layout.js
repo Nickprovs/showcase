@@ -3,6 +3,7 @@ import Header from "./header";
 import Footer from "./footer";
 import Sidebar from "./sidebar";
 import Theme from "./common/theme";
+import Dimmer from "./dimmer";
 import layout from "../styles/layout.module.css";
 
 const contentStyle = {
@@ -63,6 +64,7 @@ export default function Layout(props) {
       <div style={containerStyle}>
         <div className={layout.background} />
         <Sidebar internalPages={internalPages} externalPages={externalPages} />
+        <Dimmer on={false} />
         <div className={layout.layoutStyle}>
           <NamePlate />
           <Header internalPages={internalPages} externalPages={externalPages} />

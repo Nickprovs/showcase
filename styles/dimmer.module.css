@@ -1,0 +1,15 @@
+.dimmer {
+  z-index: 4000;
+  background-color: black;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+}
+
+.dimmerOn {
+  opacity: 0.2;
+}
+
+.dimmerOff {
+  opacity: 0;
+}
