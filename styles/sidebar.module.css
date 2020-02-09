@@ -29,3 +29,13 @@
 .sidebarExpanded {
   width: 300px;
 }
+
+.lineStyle {
+  margin-right: 10px;
+  margin-left: 5px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  height: 2px;
+  background-color: var(--b2);
+  border-style: none;
+}

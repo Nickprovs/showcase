@@ -62,14 +62,6 @@ export default class Sidebar extends Component {
 
     const internalPageListItemStyle = {};
 
-    const lineStyle = {
-      marginRight: "10px",
-      marginLeft: "5px",
-      marginTop: "2px",
-      marginBottom: "2px",
-      color: "blue"
-    };
-
     const externalPageListStyle = {
       marginTop: "40px",
       listStyleType: "none",
@@ -99,7 +91,7 @@ export default class Sidebar extends Component {
                   <button onClick={async () => await this.handleInternalLinkableThingClicked(item.href)} className="textButton">
                     {item.label}
                   </button>
-                  <hr style={lineStyle}></hr>
+                  <hr className={sidebar.lineStyle}></hr>
                 </a>
               </li>
             ))}
