@@ -1,53 +1,78 @@
 @font-face {
   font-family: "SourceSansPro";
-  src: url("/fonts/SourceSansPro-Regular.ttf") format("truetype");
+  src: url("/static/fonts/SourceSansPro-Regular.ttf");
   font-weight: normal;
   font-style: normal;
 }
+
 @font-face {
   font-family: "SourceSansPro";
-  src: url("/fonts/SourceSansPro-Italic.ttf") format("truetype");
+  src: url("/static/fonts/SourceSansPro-Italic.ttf");
   font-weight: normal;
   font-style: italic;
 }
+
 @font-face {
   font-family: "SourceSansPro";
-  src: url("/fonts/SourceSansPro-Bold.ttf") format("truetype");
+  src: url("/static/fonts/SourceSansPro-Bold.ttf");
   font-weight: bold;
   font-style: normal;
 }
+
 @font-face {
   font-family: "SourceSansPro";
-  src: url("/fonts/SourceSansPro-BoldItalic.ttf") format("truetype");
+  src: url("/static/fonts/SourceSansPro-BoldItalic.ttf");
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Merriweather";
+  src: url("/static/fonts/Merriweather-Bold.ttf");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Merriweather";
+  src: url("/static/fonts/Merriweather-BoldItalic.ttf");
   font-weight: bold;
   font-style: italic;
 }
 @font-face {
-  font-family: "SourceSansPro";
-  src: url("/fonts/SourceSansPro-Black.ttf") format("truetype");
-  font-weight: bolder;
+  font-family: "Merriweather";
+  src: url("/static/fonts/Merriweather-Regular.ttf");
+  font-weight: normal;
   font-style: normal;
 }
+
 @font-face {
-  font-family: "SourceSansPro";
-  src: url("/fonts/SourceSansPro-BlackItalic.ttf") format("truetype");
-  font-weight: bolder;
+  font-family: "Merriweather";
+  src: url("/static/fonts/Merriweather-Italic.ttf");
+  font-weight: normal;
   font-style: italic;
 }
 
 html,
 body {
-  font-family: "SourceSansPro";
+  font-family: "Merriweather";
   padding: 0px;
   margin: 0px;
+  line-height: 2.375;
+  font-size: 1rem;
 }
 
 h1 {
+  font-family: SourceSansPro !important;
   font-weight: bold;
 }
 
 p {
   font-weight: normal;
+  font-size: 1em;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding: 15px;
 }
 
 .headerButton {
@@ -88,10 +113,4 @@ p {
 
 .textButton:focus {
   outline: 0;
-}
-
-p {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  padding: 15px;
 }
