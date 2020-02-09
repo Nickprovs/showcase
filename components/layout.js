@@ -61,7 +61,7 @@ export default function Layout(props) {
   return (
     <Theme variables={Theme.Light}>
       <div style={containerStyle}>
-        <img className={layout.background} src="bg.jpg" />
+        <div className={layout.background} />
         <Sidebar internalPages={internalPages} externalPages={externalPages} />
         <div className={layout.layoutStyle}>
           <NamePlate />

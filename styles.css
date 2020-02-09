@@ -79,7 +79,15 @@ p {
 }
 
 .textButton:hover {
-  color: orangered;
+  color: var(--s5);
+}
+
+.textButton:active {
+  color: var(--s6);
+}
+
+.textButton:focus {
+  outline: 0;
 }
 
 p {

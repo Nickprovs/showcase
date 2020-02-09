@@ -7,7 +7,7 @@
   border-width: 0px;
   background-color: transparent;
   cursor: pointer;
-  color: white;
+  color: var(--f1);
 
   -moz-transition: border-color 0.2s ease-in-out, color 0.2s;
   -o-transition: border-color 0.2s ease-in-out, color 0.2s;
@@ -15,14 +15,18 @@
   transition: border-color 0.2s ease-in-out, color 0.2s;
 }
 
+.alt {
+  color: var(--s1);
+}
+
 @media (hover: hover) {
   .transparentButton:hover {
-    color: yellow;
+    color: var(--s5) !important;
   }
 }
 
 .transparentButton:active {
-  color: red;
+  color: var(--s6) !important;
 }
 
 .transparentButton:disabled {

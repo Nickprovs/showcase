@@ -18,14 +18,14 @@
 
 @media (hover: hover) {
   .standardButton:hover {
-    border-color: yellow;
-    color: yellow;
+    border-color: var(--s5);
+    color: var(--s5);
   }
 }
 
 .standardButton:active {
-  border-color: red;
-  color: red;
+  border-color: var(--s6);
+  color: var(--s6);
 }
 
 .standardButton:disabled {
