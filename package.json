@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.12.1",
+    "@hapi/joi": "^17.1.0",
     "next": "^9.2.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
