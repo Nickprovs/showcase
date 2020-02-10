@@ -13,7 +13,7 @@
 .sidebar {
   z-index: 10000;
   position: fixed;
-  height: 100%;
+  height: 120%;
   background-color: var(--b1);
   overflow: hidden;
   overflow-y: auto;
