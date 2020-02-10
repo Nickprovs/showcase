@@ -7,7 +7,6 @@
 
 .copyrightContainer {
   color: var(--s2);
-  opacity: 0.7;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,7 +15,25 @@
 }
 
 .copyright {
-  font-size: small;
+  font-family: SourceSansPro;
   font-style: normal;
   opacity: 0.5;
+}
+
+@media screen and (min-width: 0px) and (max-width: 600px) {
+  .copyright {
+    font-size: 7pt;
+  }
+}
+
+@media screen and (min-width: 600px) and (max-width: 900px) {
+  .copyright {
+    font-size: 10pt;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .copyright {
+    font-size: 12pt;
+  }
 }
