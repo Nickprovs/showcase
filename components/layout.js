@@ -27,7 +27,14 @@ const internalPages = [
   {
     href: "/showcase",
     label: "SHOWCASE",
-    iconClasses: ""
+    iconClasses: "",
+    subPages: [
+      {
+        href: "/showcase/photo",
+        label: "PHOTO",
+        iconClasses: ""
+      }
+    ]
   },
   {
     href: "/blog",
