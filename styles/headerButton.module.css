@@ -1,9 +1,9 @@
 .headerButton {
   height: 100%;
-  width: 100px;
+  width: 140px;
   padding: 5px;
-  font-weight: bold;
-  letter-spacing: 0.06em;
+  font-weight: bolder;
+  font-size: 12pt;
   display: inline-block;
   border-style: none;
   border-width: 0px;

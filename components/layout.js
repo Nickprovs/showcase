@@ -22,21 +22,21 @@ const containerStyle = {
 const internalPages = [
   {
     href: "/index",
-    label: "Home"
+    label: "HOME"
   },
   {
     href: "/showcase",
-    label: "Showcase",
+    label: "SHOWCASE",
     iconClasses: ""
   },
   {
     href: "/blog",
-    label: "Blog",
+    label: "BLOG",
     iconClasses: ""
   },
   {
     href: "/contact",
-    label: "Contact",
+    label: "CONTACT",
     iconClasses: ""
   }
 ];
