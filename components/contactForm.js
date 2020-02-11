@@ -39,7 +39,7 @@ class ContactForm extends Form {
           {this.renderInput("email", "EMAIL")}
           {this.renderTextArea("message", "MESSAGE")}
           {this.renderRecaptcha()}
-          {this.renderButton("Send Message")}
+          {this.renderButton("SEND MESSAGE")}
         </form>
       </div>
     );

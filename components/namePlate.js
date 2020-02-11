@@ -1,17 +1,15 @@
-import Link from "next/link";
 import namePlate from "../styles/nameplate.module.css";
-import StandardButton from "./common/standardButton";
 import RouterUtilities from "../util/routerUtilities";
 export default function NamePlate(props) {
   return (
     <div className={namePlate.namePlateContainer}>
       <a>
-        <StandardButton
-          onClick={async () => await RouterUtilities.routeInternalWithDelayAsync("/index", 300)}
+        <button
           className={namePlate.namePlateButton}
+          onClick={async () => await RouterUtilities.routeInternalWithDelayAsync("/index", 300)}
         >
           NICHOLAS PROVOST
-        </StandardButton>
+        </button>
       </a>
     </div>
   );

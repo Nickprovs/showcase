@@ -3,6 +3,7 @@ import Input from "./input";
 import FormTextArea from "./formTextArea";
 import Joi from "@hapi/joi";
 import ReCAPTCHA from "react-google-recaptcha";
+import BasicButton from "./basicButton";
 
 class Form extends Component {
   state = {
@@ -73,9 +74,9 @@ class Form extends Component {
 
   renderButton(label) {
     return (
-      <button disabled={this.validate().isValid ? "" : "disabled"} type="submit" className="btn btn-primary">
+      <BasicButton style={{ marginTop: "15px" }} disabled={this.validate().isValid ? "" : "disabled"} type="submit">
         {label}
-      </button>
+      </BasicButton>
     );
   }
 

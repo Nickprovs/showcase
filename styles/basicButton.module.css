@@ -1,14 +1,17 @@
-.standardButton {
-  border-width: 4px;
-  padding: 5px;
+.basicButton {
+  height: 45px;
+  border-width: 2px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 9pt;
   font-weight: bold;
   letter-spacing: 0.06em;
   border-style: solid;
   display: inline-block;
-  background-color: transparent;
   cursor: pointer;
-  border-color: white;
-  color: white;
+  background-color: var(--b1);
+  border-color: var(--s7);
+  color: var(--f1);
 
   -moz-transition: border-color 0.2s ease-in-out, color 0.2s;
   -o-transition: border-color 0.2s ease-in-out, color 0.2s;
@@ -17,23 +20,22 @@
 }
 
 @media (hover: hover) {
-  .standardButton:hover {
+  .basicButton:hover:enabled {
     border-color: var(--s5);
     color: var(--s5);
   }
 }
 
-.standardButton:active {
+.basicButton:active:enabled {
   border-color: var(--s6);
   color: var(--s6);
 }
 
-.standardButton:disabled {
-  border-color: gray;
-  color: gray;
+.basicButton:disabled {
+  opacity: 0.2;
   cursor: not-allowed;
 }
 
-.standardButton:focus {
+.basicButton:focus {
   outline: 0;
 }

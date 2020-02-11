@@ -25,6 +25,46 @@
   }
 }
 
+.namePlateButton {
+  border-width: 4px;
+  padding: 5px;
+  font-weight: bold;
+  letter-spacing: 0.06em;
+  border-style: solid;
+  display: inline-block;
+  background-color: transparent;
+  cursor: pointer;
+  border-color: white;
+  color: white;
+
+  -moz-transition: border-color 0.2s ease-in-out, color 0.2s;
+  -o-transition: border-color 0.2s ease-in-out, color 0.2s;
+  -webkit-transition: border-color 0.2s ease-in-out, color 0.2s;
+  transition: border-color 0.2s ease-in-out, color 0.2s;
+}
+
+@media (hover: hover) {
+  .namePlateButton:hover {
+    border-color: var(--s5);
+    color: var(--s5);
+  }
+}
+
+.namePlateButton:active {
+  border-color: var(--s6);
+  color: var(--s6);
+}
+
+.namenamePlateButtonplateButton:disabled {
+  border-color: gray;
+  color: gray;
+  cursor: not-allowed;
+}
+
+.namePlateButton:focus {
+  outline: 0;
+}
+
 @media screen and (min-width: 0px) and (max-width: 600px) {
   .namePlateButton {
     font-weight: bolder !important;
