@@ -19,7 +19,7 @@ export default function Contact() {
             alt="wt2zylestrkprrd2l6cxolh7geo12t0o"
           />
         </a>
-        <script async src="//embedr.flickr.com/assets/client-code.js" charset="utf-8"></script>
+        <script async src="//embedr.flickr.com/assets/client-code.js" charSet="utf-8"></script>
       </div>
     </Layout>
   );
