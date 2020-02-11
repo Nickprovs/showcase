@@ -30,7 +30,6 @@ class Form extends Component {
 
   validate() {
     const options = { abortEarly: false };
-    console.log("schema", this.schema);
     const { error } = this.schema.validate(this.state.data, options);
     const { captchaPassed, captchaInUse } = this.state;
 
