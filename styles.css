@@ -55,7 +55,7 @@
 
 html,
 body {
-  font-family: "Merriweather";
+  font-family: Merriweather, Sans-Serif;
   padding: 0px;
   margin: 0px;
   line-height: 2.375;
@@ -83,6 +83,9 @@ body {
 h1 {
   font-family: SourceSansPro !important;
   font-weight: bold;
+}
+a {
+  font-family: SourceSansPro, Sans-Serif;
 }
 
 p {

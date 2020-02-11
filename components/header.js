@@ -2,6 +2,8 @@ import Link from "next/link";
 import Icon from "./common/icon";
 import TransparentButton from "./common/transparentButton";
 import HeaderButton from "./headerButton";
+import Dropdown from "./common/dropdown";
+
 import header from "../styles/header.module.css";
 import { useRouter } from "next/router";
 
@@ -65,6 +67,18 @@ export default function Header(props) {
           ))}
         </ul>
       </div>
+
+      <Dropdown text="SHOWCASE">
+        <Link href={"/showcase/software"}>
+          <a>SOFTWARE</a>
+        </Link>
+        <Link href={"/showcase/photo"}>
+          <a>PHOTO</a>
+        </Link>
+        <Link href={"/showcase/video"}>
+          <a>VIDEO</a>
+        </Link>
+      </Dropdown>
     </div>
   );
 }

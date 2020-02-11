@@ -30,8 +30,18 @@ const internalPages = [
     iconClasses: "",
     subPages: [
       {
+        href: "/showcase/software",
+        label: "SOFTWARE",
+        iconClasses: ""
+      },
+      {
         href: "/showcase/photo",
         label: "PHOTO",
+        iconClasses: ""
+      },
+      {
+        href: "/showcase/video",
+        label: "VIDEO",
         iconClasses: ""
       }
     ]

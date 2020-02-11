@@ -1,0 +1,67 @@
+.dropbtn {
+  background-color: transparent;
+  cursor: pointer;
+  color: var(--s1);
+  padding: 5px;
+  font-weight: bolder;
+  font-size: 12pt;
+  height: 70px;
+  width: 140px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropbtn.focus,
+.dropbtn:focus {
+  outline: 0;
+}
+
+.dropbtn:active {
+  color: var(--s2);
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdownContent {
+  display: none;
+  position: absolute;
+  background-color: var(--b1);
+  min-width: 140px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdownContent a {
+  text-align: center;
+  color: black;
+  padding: 12px 16px;
+  font-weight: bolder;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdownContent a:hover {
+  background-color: var(--b2);
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdownContent {
+  display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+  background-color: var(--s4);
+
+  -moz-transition: background-color 0.2s ease-in-out, color 0.2s;
+  -o-transition: background-color 0.2s ease-in-out, color 0.2s;
+  -webkit-transition: bsackground-color 0.2s ease-in-out, color 0.2s;
+  transition: background-color 0.2s ease-in-out, color 0.2s;
+}
