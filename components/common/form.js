@@ -79,10 +79,11 @@ class Form extends Component {
     );
   }
 
-  renderInput(name, label, type = "text") {
+  renderInput(name, label, stain = "", type = "text") {
     return (
       <Input
         name={name}
+        stain={stain}
         label={label}
         value={this.state.data[name]}
         onChange={this.handleChange}
@@ -92,9 +93,16 @@ class Form extends Component {
     );
   }
 
-  renderTextArea(name, label) {
+  renderTextArea(name, label, stain = "") {
     return (
-      <FormTextArea name={name} label={label} value={this.state.data[name]} onChange={this.handleChange} error={this.state.errors[name]} />
+      <FormTextArea
+        name={name}
+        label={label}
+        stain={stain}
+        value={this.state.data[name]}
+        onChange={this.handleChange}
+        error={this.state.errors[name]}
+      />
     );
   }
   onCaptchaChange(value) {

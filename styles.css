@@ -147,12 +147,14 @@ p {
   -webkit-transition: border-color 0.2s ease-in-out;
   transition: border-color 0.2s ease-in-out;
 
-  height: 40px;
-  padding: 2px;
+  font-size: 14pt;
+  height: 45px;
+  padding: 4px;
+  padding-left: 15px;
   border-width: 2px;
   border-style: solid;
   border-color: var(--s8);
-  width: 100%;
+  width: 95%;
 }
 
 .form-control:focus {
