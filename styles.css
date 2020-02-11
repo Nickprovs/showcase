@@ -133,3 +133,27 @@ p {
 .textButton:focus {
   outline: 0;
 }
+
+.form-control {
+  -moz-transition: border-color 0.2s ease-in-out, color 0.2s;
+  -o-transition: border-color 0.2s ease-in-out, color 0.2s;
+  -webkit-transition: border-color 0.2s ease-in-out, color 0.2s;
+  transition: border-color 0.2s ease-in-out, color 0.2s;
+
+  height: 30px;
+  padding: 2px;
+  border: 2px;
+  border-style: solid;
+  border-color: var(--s8);
+  width: 95%;
+}
+
+.form-control:focus {
+  border-color: var(--s6);
+  outline: 0px;
+}
+
+.form-control:active {
+  border-color: var(--s6);
+  outline: 0px;
+}

@@ -1,12 +1,24 @@
 import { Component } from "react";
 import Input from "./input";
 import Joi from "@hapi/joi";
+import ReCAPTCHA from "react-google-recaptcha";
 
 class Form extends Component {
   state = {
     data: {},
-    errors: {}
+    errors: {},
+    captchaInUse: false,
+    captchaPassed: false
   };
+
+  constructor() {
+    super();
+
+    this.recaptcha = null;
+    this.setRecaptcha = element => {
+      this.recaptcha = element;
+    };
+  }
 
   validateProperty({ name, value }) {
     const propertyToValidateAsObject = { [name]: value };
@@ -18,20 +30,28 @@ class Form extends Component {
   validate() {
     const options = { abortEarly: false };
     const { error } = this.schema.validate(this.state.data, options);
-
-    if (!error) return null;
+    const { captchaPassed, captchaInUse } = this.state;
 
     const errors = {};
-    for (let item of error.details) errors[item.path[0]] = item.message;
-    return errors;
+    if (error) {
+      for (let item of error.details) errors[item.path[0]] = item.message;
+    }
+
+    const captchaValid = !captchaInUse || captchaPassed;
+    const isValid = Object.entries(errors).length === 0 && captchaValid;
+    return { isValid: isValid, errors: errors };
   }
 
   handleSubmit = e => {
     e.preventDefault();
-    const errors = this.validate();
-    console.log("submission errors", errors);
-    this.setState({ errors: errors || {} });
-    if (errors) return;
+    const validationResult = this.validate();
+    this.setState({ errors: validationResult.errors || {} });
+    if (!validationResult.isValid) return;
+
+    if (this.recaptcha) {
+      this.recaptcha.reset();
+      this.setState({ captchaPassed: false });
+    }
     this.doSubmit();
   };
 
@@ -52,7 +72,7 @@ class Form extends Component {
 
   renderButton(label) {
     return (
-      <button disabled={this.validate() ? "disabled" : ""} type="submit" className="btn btn-primary">
+      <button disabled={this.validate().isValid ? "" : "disabled"} type="submit" className="btn btn-primary">
         {label}
       </button>
     );
@@ -67,6 +87,23 @@ class Form extends Component {
         onChange={this.handleChange}
         error={this.state.errors[name]}
         type={type}
+      />
+    );
+  }
+
+  onCaptchaChange(value) {
+    this.setState({ captchaPassed: value !== null });
+  }
+
+  renderRecaptcha() {
+    if (!this.state.captchaInUse) this.setState({ captchaInUse: true });
+    return (
+      <ReCAPTCHA
+        ref={this.setRecaptcha}
+        style={{ marginTop: "10px" }}
+        size="normal"
+        onChange={value => this.onCaptchaChange(value)}
+        sitekey="6LdhjtcUAAAAAOIfWZRUu81PNIRcau2OouRlLQn7"
       />
     );
   }

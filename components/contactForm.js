@@ -2,10 +2,12 @@ import Joi from "@hapi/joi";
 import Form from "./common/form";
 
 class ContactForm extends Form {
-  state = {
-    data: { name: "", email: "", message: "" },
-    errors: {}
-  };
+  constructor() {
+    super();
+
+    this.state.data = { name: "", email: "", message: "" };
+    this.state.errors = {};
+  }
 
   schema = Joi.object({
     name: Joi.string()
@@ -31,12 +33,12 @@ class ContactForm extends Form {
 
   render() {
     return (
-      <div>
-        <h1>Contact</h1>
+      <div style={{ marginLeft: "10px", marginRight: "10px" }}>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("name", "Name")}
           {this.renderInput("email", "Email")}
           {this.renderInput("message", "Message")}
+          {this.renderRecaptcha()}
           {this.renderButton("Send Message")}
         </form>
       </div>
