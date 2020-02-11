@@ -134,6 +134,13 @@ p {
   outline: 0;
 }
 
+.standardPadding {
+  padding-left: 3.5vw;
+  padding-right: 3.5vw;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+}
+
 .form-control {
   -moz-transition: border-color 0.2s ease-in-out;
   -o-transition: border-color 0.2s ease-in-out;
@@ -145,7 +152,7 @@ p {
   border-width: 2px;
   border-style: solid;
   border-color: var(--s8);
-  width: 95%;
+  width: 100%;
 }
 
 .form-control:focus {

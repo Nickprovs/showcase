@@ -33,7 +33,7 @@ class ContactForm extends Form {
 
   render() {
     return (
-      <div style={{ marginLeft: "10px", marginRight: "10px" }}>
+      <div className="standardPadding">
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("name", "NAME")}
           {this.renderInput("email", "EMAIL")}
