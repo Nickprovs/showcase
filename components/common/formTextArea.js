@@ -1,6 +1,6 @@
 const FormTextArea = ({ name, label, stain, error, ...rest }) => {
   return (
-    <div className="form-group">
+    <div>
       <label className="form-label" htmlFor={name}>
         {label}
       </label>

@@ -8,11 +8,6 @@
   background-color: transparent;
   cursor: pointer;
   color: var(--f1);
-
-  -moz-transition: border-color 0.2s ease-in-out, color 0.2s;
-  -o-transition: border-color 0.2s ease-in-out, color 0.2s;
-  -webkit-transition: border-color 0.2s ease-in-out, color 0.2s;
-  transition: border-color 0.2s ease-in-out, color 0.2s;
 }
 
 .alt {
@@ -22,11 +17,21 @@
 @media (hover: hover) {
   .transparentButton:hover {
     color: var(--s5) !important;
+
+    -moz-transition: border-color 0.2s ease-in-out, color 0.2s;
+    -o-transition: border-color 0.2s ease-in-out, color 0.2s;
+    -webkit-transition: border-color 0.2s ease-in-out, color 0.2s;
+    transition: border-color 0.2s ease-in-out, color 0.2s;
   }
 }
 
 .transparentButton:active {
   color: var(--s6) !important;
+
+  -moz-transition: border-color 0.2s ease-in-out, color 0.2s;
+  -o-transition: border-color 0.2s ease-in-out, color 0.2s;
+  -webkit-transition: border-color 0.2s ease-in-out, color 0.2s;
+  transition: border-color 0.2s ease-in-out, color 0.2s;
 }
 
 .transparentButton:disabled {

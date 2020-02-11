@@ -10,11 +10,6 @@
   background-color: transparent;
   cursor: pointer;
   color: var(--s1);
-
-  -moz-transition: background-color 0.2s ease-in-out, color 0.2s;
-  -o-transition: background-color 0.2s ease-in-out, color 0.2s;
-  -webkit-transition: background-color 0.2s ease-in-out, color 0.2s;
-  transition: background-color 0.2s ease-in-out, color 0.2s;
 }
 .headerButtonSelected {
   color: var(--f1);
@@ -24,6 +19,11 @@
 @media (hover: hover) {
   .headerButton:hover {
     background-color: var(--s4);
+
+    -moz-transition: background-color 0.2s ease-in-out, color 0.2s;
+    -o-transition: background-color 0.2s ease-in-out, color 0.2s;
+    -webkit-transition: background-color 0.2s ease-in-out, color 0.2s;
+    transition: background-color 0.2s ease-in-out, color 0.2s;
   }
 }
 @media (hover: hover) {
