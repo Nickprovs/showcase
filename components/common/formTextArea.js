@@ -15,7 +15,7 @@ const FormTextArea = ({ name, label, error, ...rest }) => {
       ></textarea>
       {error && (
         <div>
-          <label className="form-label" htmlFor={name}>
+          <label className="form-label-error" htmlFor={name}>
             {error}
           </label>
         </div>

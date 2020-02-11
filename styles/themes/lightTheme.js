@@ -11,7 +11,8 @@ const LightTheme = {
   "--s5": "#18bfef",
   "--s6": "#1f9ec3",
   "--s7": "#000000",
-  "--s8": "#eeeeee"
+  "--s8": "#eeeeee",
+  "--s9": "#e94646"
 };
 
 export default LightTheme;

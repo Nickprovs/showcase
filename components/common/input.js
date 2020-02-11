@@ -8,7 +8,7 @@ const Input = ({ name, label, error, ...rest }) => {
       <input {...rest} className="form-control" name={name} id={name} aria-describedby={name} placeholder={label} />
       {error && (
         <div>
-          <label className="form-label" htmlFor={name}>
+          <label className="form-label-error" htmlFor={name}>
             {error}
           </label>
         </div>

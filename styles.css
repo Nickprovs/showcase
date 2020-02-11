@@ -135,35 +135,42 @@ p {
 }
 
 .form-control {
-  -moz-transition: border-color 0.2s ease-in-out, color 0.2s;
-  -o-transition: border-color 0.2s ease-in-out, color 0.2s;
-  -webkit-transition: border-color 0.2s ease-in-out, color 0.2s;
-  transition: border-color 0.2s ease-in-out, color 0.2s;
+  -moz-transition: border-color 0.2s ease-in-out;
+  -o-transition: border-color 0.2s ease-in-out;
+  -webkit-transition: border-color 0.2s ease-in-out;
+  transition: border-color 0.2s ease-in-out;
 
-  height: 30px;
+  height: 40px;
   padding: 2px;
-  border: 2px;
+  border-width: 2px;
   border-style: solid;
   border-color: var(--s8);
   width: 95%;
 }
 
 .form-control:focus {
-  border-color: var(--s6);
+  border-color: var(--s5);
   outline: 0px;
 }
 
 .form-control:active {
-  border-color: var(--s6);
+  border-color: var(--s5);
   outline: 0px;
 }
 
 .form-text-area {
-  height: 200px;
+  height: 225px;
 }
 
 .form-label {
-  font-size: 11pt;
+  font-size: 13pt;
+  font-family: "SourceSansPro";
+  font-weight: bold;
+}
+
+.form-label-error {
+  font-size: 10pt;
+  color: var(--s9);
   font-family: "SourceSansPro";
   font-weight: bold;
 }
