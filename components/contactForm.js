@@ -35,9 +35,9 @@ class ContactForm extends Form {
     return (
       <div style={{ marginLeft: "10px", marginRight: "10px" }}>
         <form onSubmit={this.handleSubmit}>
-          {this.renderInput("name", "Name")}
-          {this.renderInput("email", "Email")}
-          {this.renderInput("message", "Message")}
+          {this.renderInput("name", "NAME")}
+          {this.renderInput("email", "EMAIL")}
+          {this.renderTextArea("message", "MESSAGE")}
           {this.renderRecaptcha()}
           {this.renderButton("Send Message")}
         </form>

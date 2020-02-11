@@ -1,5 +1,6 @@
 import { Component } from "react";
 import Input from "./input";
+import FormTextArea from "./formTextArea";
 import Joi from "@hapi/joi";
 import ReCAPTCHA from "react-google-recaptcha";
 
@@ -29,6 +30,7 @@ class Form extends Component {
 
   validate() {
     const options = { abortEarly: false };
+    console.log("schema", this.schema);
     const { error } = this.schema.validate(this.state.data, options);
     const { captchaPassed, captchaInUse } = this.state;
 
@@ -91,6 +93,11 @@ class Form extends Component {
     );
   }
 
+  renderTextArea(name, label) {
+    return (
+      <FormTextArea name={name} label={label} value={this.state.data[name]} onChange={this.handleChange} error={this.state.errors[name]} />
+    );
+  }
   onCaptchaChange(value) {
     this.setState({ captchaPassed: value !== null });
   }
