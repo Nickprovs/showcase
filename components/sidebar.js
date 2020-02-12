@@ -53,9 +53,44 @@ export default class Sidebar extends Component {
     await RouterUtilities.routeExternalWithDelayAsync(url, "_newtab", 300);
   }
 
+  renderInternalItem(item) {
+    if (item.subPages && Object.entries(item.subPages).length > 0) {
+      return (
+        <a>
+          <label style={{ padding: "5px" }} className="prominentLabel">
+            {item.label}
+          </label>
+          {item.subPages.map(item => (
+            <button
+              style={{ fontSize: "10pt", paddingLeft: "20px" }}
+              onClick={async () => await this.handleInternalLinkableThingClicked(item.href)}
+              className="textButton"
+            >
+              {item.label}
+            </button>
+          ))}
+
+          <hr className={sidebar.lineStyle}></hr>
+        </a>
+      );
+    } else {
+      return (
+        <a>
+          <button
+            style={{ padding: "5px" }}
+            onClick={async () => await this.handleInternalLinkableThingClicked(item.href)}
+            className="textButton"
+          >
+            {item.label}
+          </button>
+          <hr className={sidebar.lineStyle}></hr>
+        </a>
+      );
+    }
+  }
+
   render() {
     const internalPageListStyle = {
-      marginTop: "70px",
       listStyleType: "none",
       paddingLeft: "10px"
     };
@@ -63,13 +98,14 @@ export default class Sidebar extends Component {
     const internalPageListItemStyle = {};
 
     const externalPageListStyle = {
-      marginTop: "40px",
+      marginLeft: "14px",
+      marginTop: "14px",
       listStyleType: "none",
       paddingLeft: "0px"
     };
 
     const externalPageListItemStyle = {
-      marginLeft: "25px",
+      marginRight: "25px",
       display: "inline"
     };
 
@@ -87,12 +123,7 @@ export default class Sidebar extends Component {
           <ul style={internalPageListStyle}>
             {internalPages.map(item => (
               <li style={internalPageListItemStyle} key={item.label}>
-                <a>
-                  <button onClick={async () => await this.handleInternalLinkableThingClicked(item.href)} className="textButton">
-                    {item.label}
-                  </button>
-                  <hr className={sidebar.lineStyle}></hr>
-                </a>
+                {this.renderInternalItem(item)}
               </li>
             ))}
           </ul>

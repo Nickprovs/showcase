@@ -116,15 +116,22 @@ p {
   width: 50%;
 }
 
+.prominentLabel {
+  font-size: 12pt;
+  font-weight: bold;
+  text-align: left;
+}
+
 .textButton {
-  width: 100%;
   height: 40px;
   text-align: left;
-  cursor: pointer;
-  font-size: medium;
+  font-size: 11pt;
   font-weight: bold;
+  width: 100%;
+  cursor: pointer;
   border: none;
-  background: none;
+  background: transparent;
+  padding: 0px;
 }
 
 .textButton:hover {
