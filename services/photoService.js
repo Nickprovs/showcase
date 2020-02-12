@@ -40,7 +40,7 @@ export async function getPhotosAsync() {
       {
         orientation: "landscape",
         size: "medium",
-        src: "https://https://cdnb.artstation.com/p/assets/images/images/000/320/963/small/andreas-rocha-dangerousroads.jpg"
+        src: "https://cdnb.artstation.com/p/assets/images/images/000/320/963/small/andreas-rocha-dangerousroads.jpg"
       },
       {
         orientation: "portrait",
@@ -50,7 +50,7 @@ export async function getPhotosAsync() {
       {
         orientation: "portrait",
         size: "medium",
-        src: "https://https://cdnb.artstation.com/p/assets/images/images/000/286/213/small/sparth-firststrike-final.jpg"
+        src: "https://cdnb.artstation.com/p/assets/images/images/000/286/213/small/sparth-firststrike-final.jpg"
       },
       {
         orientation: "landscape",

@@ -1,15 +1,24 @@
 import Layout from "../../components/layout";
 import { getPhotosAsync } from "../../services/photoService";
+import photoStyles from "../../styles/photo.module.css";
 
 export default function Photo(props) {
   const { photos } = props;
   console.log("photos!", photos);
+
+  const getClassesForPhoto = photo => {
+    if (photo.orientation === "portrait") return photoStyles.portrait;
+    else return photoStyles.landscape;
+  };
+
   return (
     <Layout>
       <h1 className="mainContentTitle">Photo</h1>
-      <div>
+      <div className={photoStyles.container}>
         {photos.map(photo => (
-          <label>{photo.src}</label>
+          <div className={getClassesForPhoto(photo)}>
+            <img className={photoStyles.containerFitImage} src={photo.src} />
+          </div>
         ))}
       </div>
     </Layout>
