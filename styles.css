@@ -105,6 +105,8 @@ p {
   margin-top: 0px;
   margin-left: 10px;
   margin-right: 10px;
+  margin-bottom: 0px;
+  padding-bottom: 10px;
 }
 
 .centerImage {
