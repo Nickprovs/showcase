@@ -11,6 +11,32 @@
   cursor: pointer;
 }
 
+.dropbtn:hover {
+  background-color: var(--s4);
+
+  -moz-transition: background-color 0.2s ease-in-out, color 0.2s;
+  -o-transition: background-color 0.2s ease-in-out, color 0.2s;
+  -webkit-transition: bsackground-color 0.2s ease-in-out, color 0.2s;
+  transition: background-color 0.2s ease-in-out, color 0.2s;
+}
+
+.dropbtnSelected {
+  color: var(--f1);
+  background-color: var(--b1);
+
+  -moz-transition: background-color 0.2s ease-in-out, color 0.2s;
+  -o-transition: background-color 0.2s ease-in-out, color 0.2s;
+  -webkit-transition: bsackground-color 0.2s ease-in-out, color 0.2s;
+  transition: background-color 0.2s ease-in-out, color 0.2s;
+}
+
+@media (hover: hover) {
+  .dropbtnSelected:hover {
+    background-color: var(--b1);
+    color: var(--f1);
+  }
+}
+
 .dropbtn.focus,
 .dropbtn:focus {
   outline: 0;
@@ -57,7 +83,7 @@
 }
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {
+.dropdown:hover {
   background-color: var(--s4);
 
   -moz-transition: background-color 0.2s ease-in-out, color 0.2s;

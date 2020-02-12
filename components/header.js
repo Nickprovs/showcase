@@ -32,8 +32,35 @@ export default function Header(props) {
   const router = useRouter();
   console.log("router path", router.pathname);
 
-  const getHeaderButtonSelected = (itemPathName, currenPathName) => {
-    return itemPathName === currenPathName || (currenPathName === "/" && itemPathName === "/index");
+  const getHeaderButtonSelected = (item, currentPathName) => {
+    if (item.subPages && Object.entries(item.subPages).length > 0) {
+      return item.subPages.filter(s => s.href === currentPathName).length > 0;
+    } else {
+      return item.href === currentPathName || (currentPathName === "/" && item.href === "/index");
+    }
+  };
+
+  const renderHeaderItem = item => {
+    if (item.subPages && Object.entries(item.subPages).length > 0) {
+      console.log("dropdown");
+      return (
+        <Dropdown isSelected={getHeaderButtonSelected(item, router.pathname)} text={item.label}>
+          {item.subPages.map(item => (
+            <Link href={item.href} key={item.label}>
+              <a>{item.label}</a>
+            </Link>
+          ))}
+        </Dropdown>
+      );
+    } else {
+      return (
+        <Link href={item.href}>
+          <a>
+            <HeaderButton isSelected={getHeaderButtonSelected(item, router.pathname)}>{item.label}</HeaderButton>
+          </a>
+        </Link>
+      );
+    }
   };
 
   return (
@@ -43,11 +70,7 @@ export default function Header(props) {
         <ul style={menuStyle}>
           {internalPages.map(item => (
             <li style={menuItemStyle} key={item.label}>
-              <Link href={item.href}>
-                <a>
-                  <HeaderButton isSelected={getHeaderButtonSelected(item.href, router.pathname)}>{item.label}</HeaderButton>
-                </a>
-              </Link>
+              {renderHeaderItem(item)}
             </li>
           ))}
         </ul>
@@ -67,18 +90,6 @@ export default function Header(props) {
           ))}
         </ul>
       </div>
-
-      <Dropdown text="SHOWCASE">
-        <Link href={"/showcase/software"}>
-          <a>SOFTWARE</a>
-        </Link>
-        <Link href={"/showcase/photo"}>
-          <a>PHOTO</a>
-        </Link>
-        <Link href={"/showcase/video"}>
-          <a>VIDEO</a>
-        </Link>
-      </Dropdown>
     </div>
   );
 }

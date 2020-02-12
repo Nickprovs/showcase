@@ -25,7 +25,6 @@ const internalPages = [
     label: "HOME"
   },
   {
-    href: "/showcase",
     label: "SHOWCASE",
     iconClasses: "",
     subPages: [

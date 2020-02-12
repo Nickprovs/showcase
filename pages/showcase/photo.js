@@ -1,6 +1,6 @@
 import Layout from "../../components/layout";
 
-export default function Contact() {
+export default function Photo() {
   return (
     <Layout>
       <h1 className="mainContentTitle">Photo</h1>
