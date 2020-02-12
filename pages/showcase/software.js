@@ -5,6 +5,7 @@ import softwareStyles from "../../styles/software.module.css";
 export default function Software(props) {
   const { previews } = props;
   console.log("client previews", previews);
+  console.log(new Date());
   return (
     <Layout>
       <h1 className="mainContentTitle">Software</h1>
