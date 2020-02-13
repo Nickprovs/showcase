@@ -10,7 +10,7 @@ export default function Blog(props) {
         {previews.map(preview => (
           <div className={blogStyles.item}>
             <div className={blogStyles.previewLabel}>
-              <label>{preview.title}</label>
+              <h2>{preview.title}</h2>
             </div>
             <div className={blogStyles.previewImage}>
               <img className={blogStyles.containerFitImage} src={preview.previewImageSrc} />

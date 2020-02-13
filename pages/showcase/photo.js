@@ -13,7 +13,6 @@ export default function Photo(props) {
 
   return (
     <Layout>
-      <h1 className="mainContentTitle">Photo</h1>
       <div className={photoStyles.container}>
         {photos.map(photo => (
           <div className={getClassesForPhoto(photo)}>
