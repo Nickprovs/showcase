@@ -6,12 +6,11 @@ export default function Video(props) {
   const { videos } = props;
   return (
     <Layout>
-      <h1 className="mainContentTitle">Video</h1>
       <div className={videoStyles.container}>
         {videos.map(video => (
           <div className={videoStyles.item}>
             <div className={videoStyles.title}>
-              <label>{video.title}</label>
+              <h2>{video.title.toUpperCase()}</h2>
             </div>
             <div className={videoStyles.video}>
               {/*TODO: Changed to iFrame or Video Tag*/}
