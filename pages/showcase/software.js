@@ -8,12 +8,11 @@ export default function Software(props) {
   console.log(new Date());
   return (
     <Layout>
-      <h1 className="mainContentTitle">Software</h1>
       <div className={softwareStyles.container}>
         {previews.map(preview => (
           <div className={softwareStyles.item}>
             <div className={softwareStyles.previewLabel}>
-              <label>{preview.title}</label>
+              <h2>{preview.title.toUpperCase()}</h2>
             </div>
             <div className={softwareStyles.previewImage}>
               <img className={softwareStyles.containerFitImage} src={preview.previewImageSrc} />
