@@ -8,15 +8,25 @@
 }
 
 .portrait {
+  overflow: hidden;
   grid-row: span 2;
 }
 
 .landscape {
+  overflow: hidden;
   grid-column: span 2;
 }
 
 .containerFitImage {
   object-fit: cover;
-  height: 100%;
   width: 100%;
+  height: 100%;
+  transition: all 0.3s;
+}
+
+.portrait:hover .containerFitImage,
+.portrait:focus .containerFitImage,
+.landscape:hover .containerFitImage,
+.landscape:focus .containerFitImage {
+  transform: scale(1.15);
 }
