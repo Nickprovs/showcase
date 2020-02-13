@@ -4,11 +4,8 @@ import blogStyles from "../styles/blog.module.css";
 
 export default function Blog(props) {
   const { previews } = props;
-  console.log("client previews", previews);
-  console.log(new Date());
   return (
     <Layout>
-      <h1 className="mainContentTitle">Blog</h1>
       <div className={blogStyles.container}>
         {previews.map(preview => (
           <div className={blogStyles.item}>
