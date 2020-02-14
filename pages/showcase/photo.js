@@ -13,17 +13,33 @@ export default function Photo(props) {
     else return photoStyles.landscape;
   };
 
-  const [mainSrc, setMainSrc] = useState("");
+  const [fullscreenPhotoSrc, setFullscreenPhotoSrc] = useState("");
+  const [fullscreenPhotoVisible, setFullscreenPhotoVisible] = useState(false);
+
+  const setFullscreenPhoto = src => {
+    setFullscreenPhotoSrc(src);
+    setFullscreenPhotoVisible(true);
+  };
+
+  const handleFullscreenPhotoCloseRequested = () => {
+    console.log("eee");
+    setFullscreenPhotoVisible(false);
+    setFullscreenPhotoSrc("");
+  };
 
   return (
     <Layout>
       <div style={{ zIndex: "200" }} className={photoStyles.container}>
         {photos.map(photo => (
           <div className={getClassesForPhoto(photo)}>
-            <img onClick={() => setMainSrc(photo.src)} className={photoStyles.containerFitImage} src={photo.src} />
+            <img onClick={() => setFullscreenPhoto(photo.src)} className={photoStyles.containerFitImage} src={photo.src} />
           </div>
         ))}
-        <FullscreenPhoto src={mainSrc} />
+        <FullscreenPhoto
+          onCloseRequested={() => handleFullscreenPhotoCloseRequested()}
+          visible={fullscreenPhotoVisible}
+          src={fullscreenPhotoSrc}
+        />
       </div>
     </Layout>
   );
