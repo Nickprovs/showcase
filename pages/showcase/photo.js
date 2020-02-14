@@ -1,6 +1,8 @@
 import Layout from "../../components/layout";
 import { getPhotosAsync } from "../../services/photoService";
 import photoStyles from "../../styles/photo.module.css";
+import FullscreenPhoto from "../../components/common/fullscreenPhoto";
+import { useState } from "react";
 
 export default function Photo(props) {
   const { photos } = props;
@@ -11,14 +13,17 @@ export default function Photo(props) {
     else return photoStyles.landscape;
   };
 
+  const [mainSrc, setMainSrc] = useState("");
+
   return (
     <Layout>
-      <div className={photoStyles.container}>
+      <div style={{ zIndex: "200" }} className={photoStyles.container}>
         {photos.map(photo => (
           <div className={getClassesForPhoto(photo)}>
-            <img className={photoStyles.containerFitImage} src={photo.src} />
+            <img onClick={() => setMainSrc(photo.src)} className={photoStyles.containerFitImage} src={photo.src} />
           </div>
         ))}
+        <FullscreenPhoto src={mainSrc} />
       </div>
     </Layout>
   );
