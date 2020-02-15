@@ -50,16 +50,3 @@
 .landscape:hover .containerFitImage {
   transform: scale(1.15);
 }
-
-/* .portrait:active .containerFitImage,
-.landscape:active .containerFitImage {
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  justify-self: center;
-  object-fit: scale-down;
-  max-width: 99%;
-  max-height: 99%;
-} */

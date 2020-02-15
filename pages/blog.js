@@ -1,6 +1,7 @@
 import Layout from "../components/layout";
 import { getBlogPreviewsAsync } from "../services/blogService";
 import blogStyles from "../styles/blog.module.css";
+import BasicButton from "../components/common/basicButton";
 
 export default function Blog(props) {
   const { previews } = props;
@@ -9,7 +10,7 @@ export default function Blog(props) {
       <div className={blogStyles.container}>
         {previews.map(preview => (
           <div className={blogStyles.item}>
-            <div className={blogStyles.previewLabel}>
+            <div className={blogStyles.previewTitle}>
               <h2>{preview.title}</h2>
             </div>
             <div className={blogStyles.previewImage}>

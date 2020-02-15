@@ -1,6 +1,7 @@
 import Layout from "../../components/layout";
 import { getSoftwareProjectPreviewsAsync } from "../../services/softwareService";
 import softwareStyles from "../../styles/software.module.css";
+import BasicButton from "../../components/common/basicButton";
 
 export default function Software(props) {
   const { previews } = props;
@@ -19,6 +20,10 @@ export default function Software(props) {
             </div>
             <div className={softwareStyles.previewText}>
               <label>{preview.previewText}</label>
+            </div>
+            <div className={softwareStyles.previewButtons}>
+              <BasicButton className={softwareStyles.postButton}>Read Article</BasicButton>
+              <BasicButton className={softwareStyles.postButton}>Open Project</BasicButton>
             </div>
           </div>
         ))}
