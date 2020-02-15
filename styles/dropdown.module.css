@@ -13,11 +13,14 @@
 
 .dropbtn:hover {
   background-color: var(--s4);
-
   -moz-transition: background-color 0.2s ease-in-out, color 0.2s;
   -o-transition: background-color 0.2s ease-in-out, color 0.2s;
   -webkit-transition: bsackground-color 0.2s ease-in-out, color 0.2s;
   transition: background-color 0.2s ease-in-out, color 0.2s;
+}
+
+.dropbtn:focus + .dropdownContent {
+  display: block;
 }
 
 .dropbtnSelected {
