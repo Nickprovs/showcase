@@ -83,3 +83,9 @@
 .previewImage:focus .containerFitImage {
   transform: scale(1.2);
 }
+
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

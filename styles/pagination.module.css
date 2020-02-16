@@ -1,0 +1,23 @@
+.nav {
+  margin: 0px;
+  padding: 0px;
+}
+
+.pagination {
+  list-style: none;
+  padding-left: 0;
+}
+
+.paginationItem {
+  margin: 4px;
+  padding: 0px;
+  display: inline-block;
+}
+
+.paginationButton {
+  font-size: 14pt;
+}
+
+.activePaginationButton {
+  color: var(--s5);
+}
