@@ -9,5 +9,14 @@ export default function MyApp({ Component, pageProps }) {
     window.scrollTo(0, 0);
   });
 
+  if (RegExp.prototype.flags === undefined) {
+    Object.defineProperty(RegExp.prototype, "flags", {
+      configurable: true,
+      get: function() {
+        return this.toString().match(/[gimsuy]*$/)[0];
+      }
+    });
+  }
+
   return <Component {...pageProps} />;
 }
