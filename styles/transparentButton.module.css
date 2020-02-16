@@ -35,8 +35,8 @@
 }
 
 .transparentButton:disabled {
-  color: gray;
-  cursor: not-allowed;
+  color: var(--s8) !important;
+  cursor: default;
 }
 
 .transparentButton:focus {

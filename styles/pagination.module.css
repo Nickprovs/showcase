@@ -20,4 +20,10 @@
 
 .activePaginationButton {
   color: var(--s5);
+  cursor: default;
+}
+
+.disabledPaginationButton {
+  color: var(--s8);
+  cursor: default;
 }
