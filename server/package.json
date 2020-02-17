@@ -4,7 +4,9 @@
   "description": "The nickprovs api.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "seed": "node seed.js",
+    "test": "jest --watchAll --verbose"
   },
   "author": "",
   "license": "ISC",
@@ -18,5 +20,9 @@
     "moment": "^2.24.0",
     "mongoose": "^5.9.1",
     "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0",
+    "supertest": "^4.0.2"
   }
 }
