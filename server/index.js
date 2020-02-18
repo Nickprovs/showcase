@@ -6,6 +6,7 @@ const app = express();
 
 require("./startup/logging")();
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 require("./startup/routes")(app);
 app.use(error);
 require("./startup/db")();

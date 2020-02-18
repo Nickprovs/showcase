@@ -82,18 +82,18 @@ describe("/blogs", () => {
       return request(server)
         .post("/blogs")
         .set("x-auth-token", token)
-        .send({ blog });
+        .send(blog);
     };
 
     beforeEach(async () => {
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
 
-      blog = new Blog({
+      blog = {
         title: "testtt",
         previewText: "The dogiest of dogs.",
         previewImageSource: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadada"
-      });
+      };
     });
 
     it("should return 401 if client is not logged in", async () => {
@@ -112,7 +112,7 @@ describe("/blogs", () => {
     });
 
     it("should return 400 if title is more than 64 characters", async () => {
-      blog.title = new Array(65).join("a");
+      blog.title = new Array(66).join("a");
       const res = await exec();
       expect(res.status).toBe(400);
     });
@@ -132,7 +132,6 @@ describe("/blogs", () => {
 
     it("should return the blog if it is valid", async () => {
       const res = await exec();
-
       expect(res.body).toHaveProperty("_id");
       expect(res.body).toHaveProperty("title", blog.title);
     });

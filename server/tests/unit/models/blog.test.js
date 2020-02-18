@@ -9,10 +9,7 @@ describe("blog.validate", () => {
       body: "aadada"
     };
 
-    console.log("my blog", blog);
-
     const { error } = validate(blog);
-    console.log(error);
     const isValid = !error;
 
     expect(isValid).toBe(true);

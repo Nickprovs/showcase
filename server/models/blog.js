@@ -1,44 +1,44 @@
 const Joi = require("@hapi/joi");
 const mongoose = require("mongoose");
 
-const Blog = mongoose.model(
-  "Blog",
-  new mongoose.Schema({
-    title: {
-      type: String,
-      required: true,
-      minlength: 2,
-      maxlength: 64
-    },
-    datePosted: {
-      type: Date,
-      required: true,
-      default: Date.now
-    },
-    dateLastModified: {
-      type: Date,
-      required: true,
-      default: Date.now
-    },
-    previewText: {
-      type: String,
-      required: true,
-      minlength: 2,
-      maxlength: 128
-    },
-    previewImageSource: {
-      type: String,
-      required: true,
-      minlength: 2,
-      maxlength: 1000
-    },
-    body: {
-      type: String,
-      minlength: 2,
-      required: true
-    }
-  })
-);
+const blogSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+    minlength: 2,
+    maxlength: 64
+  },
+  datePosted: {
+    type: Date,
+    required: true,
+    default: Date.now
+  },
+  dateLastModified: {
+    type: Date,
+    required: true,
+    default: Date.now
+  },
+  previewText: {
+    type: String,
+    required: true,
+    minlength: 2,
+    maxlength: 128
+  },
+  previewImageSource: {
+    type: String,
+    required: true,
+    minlength: 2,
+    maxlength: 1000
+  },
+  body: {
+    type: String,
+    minlength: 2,
+    required: true
+  }
+});
+
+blogSchema.set("toJSON", { virtuals: false });
+const Blog = mongoose.model("Blog", blogSchema);
 
 function validateBlog(blog) {
   const schema = Joi.object({
