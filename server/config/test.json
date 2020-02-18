@@ -1,4 +1,5 @@
 {
   "jwtPrivateKey": "1234",
-  "db": "mongodb://localhost/nickprovs_tests"
+  "db": "mongodb://localhost/nickprovs_tests",
+  "requiresAuth": true
 }
