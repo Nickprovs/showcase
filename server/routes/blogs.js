@@ -1,6 +1,8 @@
 const express = require("express");
 const moment = require("moment");
 const { Blog, validate } = require("../models/blog");
+const auth = require("../middleware/auth");
+const admin = require("../middleware/admin");
 const router = express.Router();
 const validateObjectId = require("../middleware/validateObjectId");
 
@@ -18,20 +20,26 @@ router.get("/:id", validateObjectId, async (req, res) => {
   res.send(blog);
 });
 
-router.post("/", async (req, res) => {
+router.post("/", [auth, admin], async (req, res) => {
+  const { error } = validate(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
   const blog = new Blog({
-    title: "dogs",
+    title: req.body.title,
     datePosted: moment().toJSON(),
     dateLastModified: moment().toJSON(),
-    previewText: "The dogiest of dogs.",
-    previewImageSource: "https://i.imgur.com/O2NQNvP.jpg",
-    body: "aadada"
+    previewText: req.body.previewText,
+    previewImageSource: req.body.previewImageSource,
+    body: req.body.body
   });
 
-  console.log("about to save blog");
-  await blog.save();
-  console.log("saved blog!");
-  res.sendStatus(200);
+  console.log("saving blog");
+  blog = await blog.save();
+  console.log("blog saved");
+
+  console.log("responding with", blog);
+
+  res.send(blog);
 });
 
 module.exports = router;

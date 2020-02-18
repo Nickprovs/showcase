@@ -41,7 +41,7 @@ const Blog = mongoose.model(
 );
 
 function validateBlog(blog) {
-  const schema = {
+  const schema = Joi.object({
     title: Joi.string()
       .min(2)
       .max(64)
@@ -57,9 +57,9 @@ function validateBlog(blog) {
     body: Joi.string()
       .min(2)
       .required()
-  };
+  });
 
-  return Joi.validate(blog, schema);
+  return schema.validate(blog);
 }
 
 exports.Blog = Blog;

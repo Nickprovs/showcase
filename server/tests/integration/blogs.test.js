@@ -1,5 +1,6 @@
 const request = require("supertest");
 const { Blog } = require("../../models/blog");
+const { User } = require("../../models/user");
 const mongoose = require("mongoose");
 const moment = require("moment");
 
@@ -75,28 +76,65 @@ describe("/blogs", () => {
 
   describe("POST /", () => {
     let blog;
+    let token;
 
     const exec = () => {
       return request(server)
         .post("/blogs")
+        .set("x-auth-token", token)
         .send({ blog });
     };
 
     beforeEach(async () => {
-      blogId = mongoose.Types.ObjectId();
+      token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
+
       blog = new Blog({
         title: "testtt",
-        datePosted: moment().toJSON(),
-        dateLastModified: moment().toJSON(),
         previewText: "The dogiest of dogs.",
         previewImageSource: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadada"
       });
     });
 
+    it("should return 401 if client is not logged in", async () => {
+      token = "";
+
+      const res = await exec();
+
+      expect(res.status).toBe(401);
+    });
+
+    it("should return 400 if title is less than 5 characters", async () => {
+      blog.title = "t";
+      const res = await exec();
+
+      expect(res.status).toBe(400);
+    });
+
+    it("should return 400 if title is more than 64 characters", async () => {
+      blog.title = new Array(65).join("a");
+      const res = await exec();
+      expect(res.status).toBe(400);
+    });
+
     it("should return 200 if successful", async () => {
       const res = await exec();
       expect(res.status).toBe(200);
+    });
+
+    it("should save the blog if it is valid", async () => {
+      await exec();
+
+      const blog = await Blog.find({ title: "testtt" });
+
+      expect(blog).not.toBeNull();
+    });
+
+    it("should return the blog if it is valid", async () => {
+      const res = await exec();
+
+      expect(res.body).toHaveProperty("_id");
+      expect(res.body).toHaveProperty("title", blog.title);
     });
   });
 });
