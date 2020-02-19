@@ -61,9 +61,9 @@ describe("/blogs", () => {
       expect(res.body).toHaveProperty("title", blog.title);
     });
 
-    it("should return 404 if invalid id is passed", async () => {
+    it("should return 400 if invalid id is passed", async () => {
       const res = await request(server).get("/blogs/1");
-      expect(res.status).toBe(404);
+      expect(res.status).toBe(400);
     });
 
     it("should return 404 if no blog with the given id exists", async () => {
@@ -131,6 +131,102 @@ describe("/blogs", () => {
     });
 
     it("should return the blog if it is valid", async () => {
+      const res = await exec();
+      expect(res.body).toHaveProperty("_id");
+      expect(res.body).toHaveProperty("title", blog.title);
+    });
+  });
+
+  describe("PUT /", () => {
+    let blog;
+    let token;
+    let id;
+
+    const exec = () => {
+      return request(server)
+        .put("/blogs/" + id)
+        .set("x-auth-token", token)
+        .send(blog);
+    };
+
+    beforeEach(async () => {
+      const existingBlog = new Blog({
+        title: "dogs",
+        datePosted: moment().toJSON(),
+        dateLastModified: moment().toJSON(),
+        previewText: "The dogiest of dogs.",
+        previewImageSource: "https://i.imgur.com/O2NQNvP.jpg",
+        body: "aadada"
+      });
+
+      await existingBlog.save();
+
+      token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
+      id = existingBlog._id;
+      blog = {
+        title: "testtt1",
+        previewText: "The dogiest of dogs1.",
+        previewImageSource: "https://i.imgur.com/O2NQNvP.jpg",
+        body: "aadada1"
+      };
+    });
+
+    it("should return 401 if client is not logged in", async () => {
+      token = "";
+      const res = await exec();
+
+      expect(res.status).toBe(401);
+    });
+
+    it("should return 400 if the id is invalid", async () => {
+      id = 1;
+      const res = await exec();
+
+      expect(res.status).toBe(400);
+    });
+
+    it("should return 404 if an existing blog with the provided id is not found", async () => {
+      id = mongoose.Types.ObjectId();
+      const res = await exec();
+
+      expect(res.status).toBe(404);
+    });
+
+    it("should return 400 if title is less than 5 characters", async () => {
+      blog.title = "t";
+      const res = await exec();
+
+      expect(res.status).toBe(400);
+    });
+
+    it("should return 400 if title is more than 64 characters", async () => {
+      blog.title = new Array(66).join("a");
+      const res = await exec();
+      expect(res.status).toBe(400);
+    });
+
+    it("should return 200 if successful", async () => {
+      const res = await exec();
+      expect(res.status).toBe(200);
+    });
+
+    it("should save the blog if it is valid", async () => {
+      await exec();
+
+      const blog = await Blog.find({ title: "testtt1" });
+
+      expect(blog).not.toBeNull();
+    });
+
+    it("should update the blog if input is valid", async () => {
+      await exec();
+
+      const updatedBlog = await Blog.findById(existingBlog._id);
+
+      expect(updatedBlog.name).toBe(blog.name);
+    });
+
+    it("should return the updated blog if it is valid", async () => {
       const res = await exec();
       expect(res.body).toHaveProperty("_id");
       expect(res.body).toHaveProperty("title", blog.title);

@@ -6,6 +6,7 @@ const admin = require("../middleware/admin");
 const validator = require("../middleware/validate");
 const router = express.Router();
 const validateObjectId = require("../middleware/validateObjectId");
+const winston = require("winston");
 
 router.get("/", async (req, res) => {
   const blogs = await Blog.find()
@@ -34,6 +35,29 @@ router.post("/", [auth, admin, validator(validateBlog)], async (req, res) => {
   blog = await blog.save();
 
   res.send(blog);
+});
+
+router.put("/:id", [auth, admin, validateObjectId, validator(validateBlog)], async (req, res) => {
+  winston.warn("");
+  winston.warn("Go put with body...");
+  winston.warn(req.body);
+  winston.warn("");
+
+  const updatedBlog = await Blog.findByIdAndUpdate(
+    req.params.id,
+    {
+      title: req.body.title,
+      previewText: req.body.previewText,
+      previewImageSource: req.body.previewImageSource,
+      body: req.body.body,
+      dateLastModified: moment().toJSON()
+    },
+    { new: true }
+  );
+
+  if (!updatedBlog) return res.status(404).send("Blog not found.");
+
+  res.send(updatedBlog);
 });
 
 module.exports = router;
