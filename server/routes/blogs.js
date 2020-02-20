@@ -10,7 +10,7 @@ const winston = require("winston");
 
 router.get("/", async (req, res) => {
   const blogs = await Blog.find()
-    .select("-__v")
+    .select("-__v -body")
     .sort("title");
   res.send(blogs);
 });
