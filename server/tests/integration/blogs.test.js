@@ -43,6 +43,7 @@ describe("/blogs", () => {
       expect(res.body.length).toBe(2);
       expect(res.body.some(g => g.title === "dogs")).toBeTruthy();
       expect(res.body.some(g => g.title === "cats")).toBeTruthy();
+      expect(res.body.some(g => g.body)).toBeFalsy();
     });
   });
 
@@ -51,17 +52,23 @@ describe("/blogs", () => {
       const blog = new Blog({
         uri: "dogsUri",
         title: "dogs",
-        datePosted: moment().toJSON(),
-        dateLastModified: moment().toJSON(),
         previewText: "The dogiest of dogs.",
         previewImageSource: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadada"
       });
       await blog.save();
-
       const res = await request(server).get("/blogs/" + blog._id);
+
       expect(res.status).toBe(200);
+      expect(res.body).toHaveProperty("uri", blog.uri);
       expect(res.body).toHaveProperty("title", blog.title);
+      expect(res.body).toHaveProperty("datePosted");
+      expect(new Date(res.body.datePosted).getTime() === blog.datePosted.getTime()).toBeTruthy();
+      expect(res.body).toHaveProperty("dateLastModified");
+      expect(new Date(res.body.dateLastModified).getTime() === blog.dateLastModified.getTime()).toBeTruthy();
+      expect(res.body).toHaveProperty("previewText", blog.previewText);
+      expect(res.body).toHaveProperty("previewImageSource", blog.previewImageSource);
+      expect(res.body).toHaveProperty("body", blog.body);
     });
 
     it("should return 400 if invalid id is passed", async () => {
@@ -138,6 +145,13 @@ describe("/blogs", () => {
       const res = await exec();
       expect(res.body).toHaveProperty("_id");
       expect(res.body).toHaveProperty("title", blog.title);
+      expect(res.body).toHaveProperty("uri", blog.uri);
+      expect(res.body).toHaveProperty("title", blog.title);
+      expect(res.body).toHaveProperty("datePosted");
+      expect(res.body).toHaveProperty("dateLastModified");
+      expect(res.body).toHaveProperty("previewText", blog.previewText);
+      expect(res.body).toHaveProperty("previewImageSource", blog.previewImageSource);
+      expect(res.body).toHaveProperty("body", blog.body);
     });
   });
 
@@ -158,8 +172,6 @@ describe("/blogs", () => {
       existingBlog = new Blog({
         uri: "dogsUri",
         title: "dogs",
-        datePosted: moment().toJSON(),
-        dateLastModified: moment().toJSON(),
         previewText: "The dogiest of dogs.",
         previewImageSource: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadada"
@@ -237,6 +249,17 @@ describe("/blogs", () => {
       const res = await exec();
       expect(res.body).toHaveProperty("_id");
       expect(res.body).toHaveProperty("title", blog.title);
+
+      expect(res.status).toBe(200);
+      expect(res.body).toHaveProperty("uri", blog.uri);
+      expect(res.body).toHaveProperty("title", blog.title);
+      expect(res.body).toHaveProperty("datePosted");
+      expect(new Date(res.body.datePosted).getTime() === existingBlog.datePosted.getTime()).toBeTruthy();
+      expect(res.body).toHaveProperty("dateLastModified");
+      expect(new Date(res.body.dateLastModified).getTime() === existingBlog.dateLastModified.getTime()).toBeFalsy();
+      expect(res.body).toHaveProperty("previewText", blog.previewText);
+      expect(res.body).toHaveProperty("previewImageSource", blog.previewImageSource);
+      expect(res.body).toHaveProperty("body", blog.body);
     });
   });
 
@@ -312,8 +335,14 @@ describe("/blogs", () => {
     it("should return the removed blog", async () => {
       const res = await exec();
 
-      expect(res.body).toHaveProperty("_id", blog._id.toHexString());
+      expect(res.status).toBe(200);
+      expect(res.body).toHaveProperty("uri", blog.uri);
       expect(res.body).toHaveProperty("title", blog.title);
+      expect(res.body).toHaveProperty("datePosted");
+      expect(res.body).toHaveProperty("dateLastModified");
+      expect(res.body).toHaveProperty("previewText", blog.previewText);
+      expect(res.body).toHaveProperty("previewImageSource", blog.previewImageSource);
+      expect(res.body).toHaveProperty("body", blog.body);
     });
   });
 });

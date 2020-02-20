@@ -7,8 +7,8 @@
     "testEnvironment": "node"
   },
   "scripts": {
-    "start": "node index.js",
     "seed": "node seed.js",
+    "start": "node index.js",
     "test": "jest --watchAll --verbose"
   },
   "author": "",
