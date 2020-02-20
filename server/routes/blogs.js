@@ -24,6 +24,7 @@ router.get("/:id", validateObjectId, async (req, res) => {
 
 router.post("/", [auth, admin, validator(validateBlog)], async (req, res) => {
   let blog = new Blog({
+    uri: req.body.uri,
     title: req.body.title,
     datePosted: moment().toJSON(),
     dateLastModified: moment().toJSON(),
@@ -46,6 +47,7 @@ router.put("/:id", [auth, admin, validateObjectId, validator(validateBlog)], asy
   const updatedBlog = await Blog.findByIdAndUpdate(
     req.params.id,
     {
+      uri: req.body.uri,
       title: req.body.title,
       previewText: req.body.previewText,
       previewImageSource: req.body.previewImageSource,

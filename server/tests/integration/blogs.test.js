@@ -18,6 +18,7 @@ describe("/blogs", () => {
     it("Should return all the blogs", async () => {
       const blogs = [
         {
+          uri: "dogsUri",
           title: "dogs",
           datePosted: moment().toJSON(),
           dateLastModified: moment().toJSON(),
@@ -26,6 +27,7 @@ describe("/blogs", () => {
           body: "aadada"
         },
         {
+          uri: "catsUri",
           title: "cats",
           datePosted: moment().toJSON(),
           dateLastModified: moment().toJSON(),
@@ -47,6 +49,7 @@ describe("/blogs", () => {
   describe("GET /:id", () => {
     it("should return a blog if valid id is passed", async () => {
       const blog = new Blog({
+        uri: "dogsUri",
         title: "dogs",
         datePosted: moment().toJSON(),
         dateLastModified: moment().toJSON(),
@@ -89,6 +92,7 @@ describe("/blogs", () => {
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
 
       blog = {
+        uri: "dogsUri",
         title: "testtt",
         previewText: "The dogiest of dogs.",
         previewImageSource: "https://i.imgur.com/O2NQNvP.jpg",
@@ -152,6 +156,7 @@ describe("/blogs", () => {
 
     beforeEach(async () => {
       existingBlog = new Blog({
+        uri: "dogsUri",
         title: "dogs",
         datePosted: moment().toJSON(),
         dateLastModified: moment().toJSON(),
@@ -165,6 +170,7 @@ describe("/blogs", () => {
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
       id = existingBlog._id;
       blog = {
+        uri: "dogsUri",
         title: "testtt1",
         previewText: "The dogiest of dogs1.",
         previewImageSource: "https://i.imgur.com/O2NQNvP.jpg",
@@ -250,6 +256,7 @@ describe("/blogs", () => {
       // Before each test we need to create a blog and
       // put it in the database.
       blog = new Blog({
+        uri: "dogsUri",
         title: "To Delete Dog",
         datePosted: moment().toJSON(),
         dateLastModified: moment().toJSON(),

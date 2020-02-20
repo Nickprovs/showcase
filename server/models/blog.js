@@ -2,9 +2,17 @@ const Joi = require("@hapi/joi");
 const mongoose = require("mongoose");
 
 const blogSchema = new mongoose.Schema({
+  uri: {
+    type: String,
+    required: true,
+    unique: true,
+    minlength: 2,
+    maxlength: 128
+  },
   title: {
     type: String,
     required: true,
+    unique: true,
     minlength: 2,
     maxlength: 64
   },
@@ -42,6 +50,10 @@ const Blog = mongoose.model("Blog", blogSchema);
 
 function validateBlog(blog) {
   const schema = Joi.object({
+    uri: Joi.string()
+      .min(2)
+      .max(128)
+      .required(),
     title: Joi.string()
       .min(2)
       .max(64)
