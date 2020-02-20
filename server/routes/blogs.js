@@ -61,10 +61,10 @@ router.put("/:id", [auth, admin, validateObjectId, validator(validateBlog)], asy
 });
 
 router.delete("/:id", [auth, admin, validateObjectId], async (req, res) => {
-  const blog = await Blog.findById(req.params.id).select("-__v");
+  const blog = await Blog.findByIdAndRemove(req.params.id);
   if (!blog) return res.status(404).send("The blog with the given ID was not found.");
 
-  // res.send(blog);
+  res.send(blog);
 });
 
 module.exports = router;

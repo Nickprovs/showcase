@@ -236,6 +236,7 @@ describe("/blogs", () => {
 
   describe("DELETE /", () => {
     let token;
+    let blog;
     let id;
 
     const exec = async () => {
@@ -248,7 +249,7 @@ describe("/blogs", () => {
     beforeEach(async () => {
       // Before each test we need to create a blog and
       // put it in the database.
-      const blog = new Blog({
+      blog = new Blog({
         title: "To Delete Dog",
         datePosted: moment().toJSON(),
         dateLastModified: moment().toJSON(),
@@ -291,6 +292,21 @@ describe("/blogs", () => {
       const res = await exec();
 
       expect(res.status).toBe(404);
+    });
+
+    it("should delete the blog if input is valid", async () => {
+      await exec();
+
+      const blogInDb = await Blog.findById(id);
+
+      expect(blogInDb).toBeNull();
+    });
+
+    it("should return the removed blog", async () => {
+      const res = await exec();
+
+      expect(res.body).toHaveProperty("_id", blog._id.toHexString());
+      expect(res.body).toHaveProperty("title", blog.title);
     });
   });
 });
