@@ -138,6 +138,7 @@ describe("/blogs", () => {
   });
 
   describe("PUT /", () => {
+    let existingBlog;
     let blog;
     let token;
     let id;
@@ -150,7 +151,7 @@ describe("/blogs", () => {
     };
 
     beforeEach(async () => {
-      const existingBlog = new Blog({
+      existingBlog = new Blog({
         title: "dogs",
         datePosted: moment().toJSON(),
         dateLastModified: moment().toJSON(),

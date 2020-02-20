@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "The nickprovs api.",
   "main": "index.js",
+  "jest": {
+    "testEnvironment": "node"
+  },
   "scripts": {
     "start": "node index.js",
     "seed": "node seed.js",
