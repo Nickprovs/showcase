@@ -233,4 +233,64 @@ describe("/blogs", () => {
       expect(res.body).toHaveProperty("title", blog.title);
     });
   });
+
+  describe("DELETE /", () => {
+    let token;
+    let id;
+
+    const exec = async () => {
+      return await request(server)
+        .delete("/blogs/" + id)
+        .set("x-auth-token", token)
+        .send();
+    };
+
+    beforeEach(async () => {
+      // Before each test we need to create a blog and
+      // put it in the database.
+      const blog = new Blog({
+        title: "To Delete Dog",
+        datePosted: moment().toJSON(),
+        dateLastModified: moment().toJSON(),
+        previewText: "The dogiest of dogs.",
+        previewImageSource: "https://i.imgur.com/O2NQNvP.jpg",
+        body: "aadada"
+      });
+      await blog.save();
+      id = blog._id;
+      token = new User({ isAdmin: true }).generateAuthToken();
+    });
+
+    it("should return 401 if client is not logged in", async () => {
+      token = "";
+
+      const res = await exec();
+
+      expect(res.status).toBe(401);
+    });
+
+    it("should return 403 if the user is not an admin", async () => {
+      token = new User({ isAdmin: false }).generateAuthToken();
+
+      const res = await exec();
+
+      expect(res.status).toBe(403);
+    });
+
+    it("should return 400 if id is invalid", async () => {
+      id = 1;
+
+      const res = await exec();
+
+      expect(res.status).toBe(400);
+    });
+
+    it("should return 404 if no blog with the given id was found", async () => {
+      id = mongoose.Types.ObjectId();
+
+      const res = await exec();
+
+      expect(res.status).toBe(404);
+    });
+  });
 });
