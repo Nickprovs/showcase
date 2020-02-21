@@ -17,6 +17,12 @@ const mongoSoftwareSchema = new mongoose.Schema({
     minlength: 2,
     maxlength: 64
   },
+  description: {
+    type: String,
+    required: true,
+    minlength: 2,
+    maxlength: 128
+  },
   datePosted: {
     type: Date,
     required: true,
@@ -27,13 +33,7 @@ const mongoSoftwareSchema = new mongoose.Schema({
     required: true,
     default: Date.now
   },
-  previewText: {
-    type: String,
-    required: true,
-    minlength: 2,
-    maxlength: 128
-  },
-  previewImageSource: {
+  image: {
     type: String,
     required: true,
     minlength: 2,
@@ -58,11 +58,11 @@ const schema = Joi.object({
     .min(2)
     .max(64)
     .required(),
-  previewText: Joi.string()
+  description: Joi.string()
     .min(2)
     .max(128)
     .required(),
-  previewImageSource: Joi.string()
+  image: Joi.string()
     .min(2)
     .max(1000)
     .required(),

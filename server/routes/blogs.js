@@ -62,8 +62,8 @@ router.put("/:id", [auth, admin, validateObjectId, validateBody(blogSchema)], as
     {
       uri: req.body.uri,
       title: req.body.title,
-      previewText: req.body.previewText,
-      previewImageSource: req.body.previewImageSource,
+      description: req.body.previewText,
+      image: req.body.previewImageSource,
       body: req.body.body,
       dateLastModified: moment().toJSON()
     },

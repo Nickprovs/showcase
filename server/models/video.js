@@ -2,7 +2,7 @@ const Joi = require("@hapi/joi");
 const mongoose = require("mongoose");
 
 //Mongo Schema
-const mongoPhotoSchema = new mongoose.Schema({
+const mongoVideoSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -43,8 +43,8 @@ const mongoPhotoSchema = new mongoose.Schema({
     maxlength: 1000
   }
 });
-mongoPhotoSchema.set("toJSON", { virtuals: false });
-const Photo = mongoose.model("Photo", mongoPhotoSchema);
+mongoVideochema.set("toJSON", { virtuals: false });
+const Video = mongoose.model("Video", mongoVideochema);
 
 //Public Schema - Joi
 const schema = Joi.object({
@@ -68,5 +68,5 @@ const schema = Joi.object({
     .required()
 });
 
-exports.Photo = Photo;
+exports.Video = Video;
 exports.schema = schema;
