@@ -43,8 +43,8 @@ const mongoVideoSchema = new mongoose.Schema({
     maxlength: 1000
   }
 });
-mongoVideochema.set("toJSON", { virtuals: false });
-const Video = mongoose.model("Video", mongoVideochema);
+mongoVideoSchema.set("toJSON", { virtuals: false });
+const Video = mongoose.model("Video", mongoVideoSchema);
 
 //Public Schema - Joi
 const schema = Joi.object({
