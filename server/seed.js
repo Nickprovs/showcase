@@ -5,7 +5,7 @@ const moment = require("moment");
 
 const blogs = [
   {
-    uri: "dogsUri",
+    slug: "dogsUri",
     title: "dogs",
     datePosted: moment().toJSON(),
     dateLastModified: moment().toJSON(),
@@ -14,7 +14,7 @@ const blogs = [
     body: "aadada"
   },
   {
-    uri: "catsUri",
+    slug: "catsUri",
     title: "cats",
     datePosted: moment().toJSON(),
     dateLastModified: moment().toJSON(),
@@ -23,7 +23,7 @@ const blogs = [
     body: "sfsfsfsfsf"
   },
   {
-    uri: "lizardsUri",
+    slug: "lizardsUri",
     title: "lizards",
     datePosted: moment().toJSON(),
     dateLastModified: moment().toJSON(),

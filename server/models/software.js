@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 //Mongo Schema
 const mongoSoftwareSchema = new mongoose.Schema({
-  uri: {
+  slug: {
     type: String,
     required: true,
     unique: true,
@@ -50,7 +50,7 @@ const Software = mongoose.model("Software", mongoSoftwareSchema);
 
 //Public Schema - Joi
 const schema = Joi.object({
-  uri: Joi.string()
+  slug: Joi.string()
     .min(2)
     .max(128)
     .required(),

@@ -3,7 +3,7 @@ const { schema } = require("../../../models/software");
 describe("software.validate", () => {
   it("should validate a properly formed software", () => {
     const software = {
-      uri: "dogUri",
+      slug: "dogUri",
       title: "testtt",
       description: "The dogiest of dogs.",
       image: "https://i.imgur.com/O2NQNvP.jpg",

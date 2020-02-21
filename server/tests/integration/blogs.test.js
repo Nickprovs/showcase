@@ -18,7 +18,7 @@ describe("/blogs", () => {
     it("Should return all the blogs", async () => {
       const blogs = [
         {
-          uri: "dogsUri",
+          slug: "dogsslug",
           title: "dogs",
           datePosted: moment().toJSON(),
           dateLastModified: moment().toJSON(),
@@ -27,7 +27,7 @@ describe("/blogs", () => {
           body: "aadada"
         },
         {
-          uri: "catsUri",
+          slug: "catsslug",
           title: "cats",
           datePosted: moment().toJSON(),
           dateLastModified: moment().toJSON(),
@@ -50,7 +50,7 @@ describe("/blogs", () => {
   describe("GET /:id", () => {
     it("should return a blog if valid id is passed", async () => {
       const blog = new Blog({
-        uri: "dogsUri",
+        slug: "dogsslug",
         title: "dogs",
         description: "The dogiest of dogs.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
@@ -60,7 +60,7 @@ describe("/blogs", () => {
       const res = await request(server).get("/blogs/" + blog._id);
 
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("uri", blog.uri);
+      expect(res.body).toHaveProperty("slug", blog.slug);
       expect(res.body).toHaveProperty("title", blog.title);
       expect(res.body).toHaveProperty("datePosted");
       expect(new Date(res.body.datePosted).getTime() === blog.datePosted.getTime()).toBeTruthy();
@@ -99,7 +99,7 @@ describe("/blogs", () => {
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
 
       blog = {
-        uri: "dogsUri",
+        slug: "dogsslug",
         title: "testtt",
         description: "The dogiest of dogs.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
@@ -145,7 +145,7 @@ describe("/blogs", () => {
       const res = await exec();
       expect(res.body).toHaveProperty("_id");
       expect(res.body).toHaveProperty("title", blog.title);
-      expect(res.body).toHaveProperty("uri", blog.uri);
+      expect(res.body).toHaveProperty("slug", blog.slug);
       expect(res.body).toHaveProperty("title", blog.title);
       expect(res.body).toHaveProperty("datePosted");
       expect(res.body).toHaveProperty("dateLastModified");
@@ -170,7 +170,7 @@ describe("/blogs", () => {
 
     beforeEach(async () => {
       existingBlog = new Blog({
-        uri: "dogsUri",
+        slug: "dogsslug",
         title: "dogs",
         description: "The dogiest of dogs.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
@@ -182,7 +182,7 @@ describe("/blogs", () => {
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
       id = existingBlog._id;
       blog = {
-        uri: "dogsUri",
+        slug: "dogsslug",
         title: "testtt1",
         description: "The dogiest of dogs1.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
@@ -251,7 +251,7 @@ describe("/blogs", () => {
       expect(res.body).toHaveProperty("title", blog.title);
 
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("uri", blog.uri);
+      expect(res.body).toHaveProperty("slug", blog.slug);
       expect(res.body).toHaveProperty("title", blog.title);
       expect(res.body).toHaveProperty("datePosted");
       expect(new Date(res.body.datePosted).getTime() === existingBlog.datePosted.getTime()).toBeTruthy();
@@ -279,7 +279,7 @@ describe("/blogs", () => {
       // Before each test we need to create a blog and
       // put it in the database.
       blog = new Blog({
-        uri: "dogsUri",
+        slug: "dogsslug",
         title: "To Delete Dog",
         datePosted: moment().toJSON(),
         dateLastModified: moment().toJSON(),
@@ -336,7 +336,7 @@ describe("/blogs", () => {
       const res = await exec();
 
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("uri", blog.uri);
+      expect(res.body).toHaveProperty("slug", blog.slug);
       expect(res.body).toHaveProperty("title", blog.title);
       expect(res.body).toHaveProperty("datePosted");
       expect(res.body).toHaveProperty("dateLastModified");
