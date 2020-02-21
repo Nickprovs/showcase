@@ -11,9 +11,16 @@ const winston = require("winston");
 const router = express.Router();
 
 router.get("/", validateQuery(getAllQuerySchema), async (req, res) => {
+  const dateOrder = req.query.dateOrder ? req.query.dateOrder : "desc";
+  const offset = req.query.offset ? parseInt(req.query.offset) : 0;
+  const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+
   const blogs = await Blog.find()
     .select("-__v -body")
-    .sort("title");
+    .sort({ datePosted: dateOrder })
+    .skip(offset)
+    .limit(limit);
+
   res.send(blogs);
 });
 
