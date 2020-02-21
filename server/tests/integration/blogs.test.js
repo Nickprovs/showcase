@@ -40,10 +40,10 @@ describe("/blogs", () => {
       await Blog.collection.insertMany(blogs);
       const res = await request(server).get("/blogs");
       expect(res.status).toBe(200);
-      expect(res.body.length).toBe(2);
-      expect(res.body.some(g => g.title === "dogs")).toBeTruthy();
-      expect(res.body.some(g => g.title === "cats")).toBeTruthy();
-      expect(res.body.some(g => g.body)).toBeFalsy();
+      expect(res.body.items.length).toBe(2);
+      expect(res.body.items.some(g => g.title === "dogs")).toBeTruthy();
+      expect(res.body.items.some(g => g.title === "cats")).toBeTruthy();
+      expect(res.body.items.some(g => g.body)).toBeFalsy();
     });
   });
 

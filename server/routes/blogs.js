@@ -14,6 +14,7 @@ router.get("/", validateQuery(getAllQuerySchema), async (req, res) => {
   const dateOrder = req.query.dateOrder ? req.query.dateOrder : "desc";
   const offset = req.query.offset ? parseInt(req.query.offset) : 0;
   const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+  const total = await Blog.count({});
 
   const blogs = await Blog.find()
     .select("-__v -body")
@@ -21,7 +22,15 @@ router.get("/", validateQuery(getAllQuerySchema), async (req, res) => {
     .skip(offset)
     .limit(limit);
 
-  res.send(blogs);
+  const data = {
+    offset: offset,
+    limit: limit,
+    dateOrder: dateOrder,
+    total: total,
+    items: blogs
+  };
+
+  res.send(data);
 });
 
 router.get("/:id", validateObjectId, async (req, res) => {
