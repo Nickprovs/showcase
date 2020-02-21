@@ -57,11 +57,6 @@ router.post("/", [auth, admin, validateBody(blogSchema)], async (req, res) => {
 });
 
 router.put("/:id", [auth, admin, validateObjectId, validateBody(blogSchema)], async (req, res) => {
-  winston.warn("");
-  winston.warn("Go put with body...");
-  winston.warn(req.body);
-  winston.warn("");
-
   const updatedBlog = await Blog.findByIdAndUpdate(
     req.params.id,
     {
