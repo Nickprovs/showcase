@@ -1,7 +1,8 @@
 const Joi = require("@hapi/joi");
 const mongoose = require("mongoose");
 
-const blogSchema = new mongoose.Schema({
+//Mongo Schema
+const mongoBlogSchema = new mongoose.Schema({
   uri: {
     type: String,
     required: true,
@@ -44,35 +45,31 @@ const blogSchema = new mongoose.Schema({
     required: true
   }
 });
+mongoBlogSchema.set("toJSON", { virtuals: false });
+const Blog = mongoose.model("Blog", mongoBlogSchema);
 
-blogSchema.set("toJSON", { virtuals: false });
-const Blog = mongoose.model("Blog", blogSchema);
-
-function validateBlog(blog) {
-  const schema = Joi.object({
-    uri: Joi.string()
-      .min(2)
-      .max(128)
-      .required(),
-    title: Joi.string()
-      .min(2)
-      .max(64)
-      .required(),
-    previewText: Joi.string()
-      .min(2)
-      .max(128)
-      .required(),
-    previewImageSource: Joi.string()
-      .min(2)
-      .max(1000)
-      .required(),
-    body: Joi.string()
-      .min(2)
-      .required()
-  });
-
-  return schema.validate(blog);
-}
+//Public Schema - Joi
+const schema = Joi.object({
+  uri: Joi.string()
+    .min(2)
+    .max(128)
+    .required(),
+  title: Joi.string()
+    .min(2)
+    .max(64)
+    .required(),
+  previewText: Joi.string()
+    .min(2)
+    .max(128)
+    .required(),
+  previewImageSource: Joi.string()
+    .min(2)
+    .max(1000)
+    .required(),
+  body: Joi.string()
+    .min(2)
+    .required()
+});
 
 exports.Blog = Blog;
-exports.validate = validateBlog;
+exports.schema = schema;

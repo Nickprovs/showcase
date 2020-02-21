@@ -1,14 +1,16 @@
 const express = require("express");
 const moment = require("moment");
-const { Blog, validate: validateBlog } = require("../models/blog");
+const { Blog, schema: blogSchema } = require("../models/blog");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
-const validator = require("../middleware/validate");
-const router = express.Router();
+const validateBody = require("../middleware/validateBody");
+const validateQuery = require("../middleware/validateQuery");
 const validateObjectId = require("../middleware/validateObjectId");
+const getAllQuerySchema = require("./schemas/queries/blogs/getAllQuery");
 const winston = require("winston");
+const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", validateQuery(getAllQuerySchema), async (req, res) => {
   const blogs = await Blog.find()
     .select("-__v -body")
     .sort("title");
@@ -22,7 +24,7 @@ router.get("/:id", validateObjectId, async (req, res) => {
   res.send(blog);
 });
 
-router.post("/", [auth, admin, validator(validateBlog)], async (req, res) => {
+router.post("/", [auth, admin, validateBody(blogSchema)], async (req, res) => {
   let blog = new Blog({
     uri: req.body.uri,
     title: req.body.title,
@@ -38,7 +40,7 @@ router.post("/", [auth, admin, validator(validateBlog)], async (req, res) => {
   res.send(blog);
 });
 
-router.put("/:id", [auth, admin, validateObjectId, validator(validateBlog)], async (req, res) => {
+router.put("/:id", [auth, admin, validateObjectId, validateBody(blogSchema)], async (req, res) => {
   winston.warn("");
   winston.warn("Go put with body...");
   winston.warn(req.body);

@@ -1,4 +1,4 @@
-const { Blog, validate } = require("../../../models/blog");
+const { schema } = require("../../../models/blog");
 
 describe("blog.validate", () => {
   it("should validate a properly formed blog", () => {
@@ -10,7 +10,7 @@ describe("blog.validate", () => {
       body: "aadada"
     };
 
-    const { error } = validate(blog);
+    const { error } = schema.validate(blog);
     const isValid = !error;
 
     expect(isValid).toBe(true);
