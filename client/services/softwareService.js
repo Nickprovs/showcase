@@ -13,8 +13,8 @@ export async function getSoftwareProjectPreviewsAsync() {
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         projectUrl: "localhost:3000/contact",
-        previewText: "This is some preview text. Ya dig?",
-        previewImageSrc: "https://cdna.artstation.com/p/assets/images/images/023/453/030/large/andreas-rocha-wizardstower01.jpg"
+        description: "This is some preview text. Ya dig?",
+        image: "https://cdna.artstation.com/p/assets/images/images/023/453/030/large/andreas-rocha-wizardstower01.jpg"
       },
       {
         id: "11231o3io1j4",
@@ -22,15 +22,15 @@ export async function getSoftwareProjectPreviewsAsync() {
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         projectUrl: "localhost:3000/contact",
-        previewText: "This is some preview text. Ya dig?",
-        previewImageSrc: "https://cdnb.artstation.com/p/assets/images/images/023/551/031/large/jiwoo-lee-jiwoo-padawan-fanart.jpg"
+        description: "This is some preview text. Ya dig?",
+        image: "https://cdnb.artstation.com/p/assets/images/images/023/551/031/large/jiwoo-lee-jiwoo-padawan-fanart.jpg"
       },
       {
         id: "adkahd82822",
         title: "Them Bois Are Back In Town",
         projectUrl: "localhost:3000/contact",
-        previewText: "This is some preview text. Ya dig?",
-        previewImageSrc: "https://cdnb.artstation.com/p/assets/images/images/023/723/551/small/ishmael-hoover-eaglewarrior3.jpg"
+        description: "This is some preview text. Ya dig?",
+        image: "https://cdnb.artstation.com/p/assets/images/images/023/723/551/small/ishmael-hoover-eaglewarrior3.jpg"
       },
       {
         id: "2492u4jskfs",
@@ -38,8 +38,8 @@ export async function getSoftwareProjectPreviewsAsync() {
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         projectUrl: "localhost:3000/contact",
-        previewText: "This is some preview text. Ya dig?",
-        previewImageSrc: "https://cdna.artstation.com/p/assets/images/images/002/912/664/small/andreas-rocha-thegathering.jpg"
+        description: "This is some preview text. Ya dig?",
+        image: "https://cdna.artstation.com/p/assets/images/images/002/912/664/small/andreas-rocha-thegathering.jpg"
       },
       {
         id: "123193udigjdkg",
@@ -47,8 +47,8 @@ export async function getSoftwareProjectPreviewsAsync() {
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         projectUrl: "localhost:3000/contact",
-        previewText: "This is some preview text. Ya dig?",
-        previewImageSrc: "https://cdnb.artstation.com/p/assets/images/images/000/403/027/small/andreas-rocha-ill-tidings02.jpg"
+        description: "This is some preview text. Ya dig?",
+        image: "https://cdnb.artstation.com/p/assets/images/images/000/403/027/small/andreas-rocha-ill-tidings02.jpg"
       },
       {
         id: "19713901jksjd",
@@ -56,8 +56,8 @@ export async function getSoftwareProjectPreviewsAsync() {
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         projectUrl: "localhost:3000/contact",
-        previewText: "This is some preview text. Ya dig?",
-        previewImageSrc: "https://cdna.artstation.com/p/assets/images/images/000/085/508/small/Alm-Atias-Refuge.jpg"
+        description: "This is some preview text. Ya dig?",
+        image: "https://cdna.artstation.com/p/assets/images/images/000/085/508/small/Alm-Atias-Refuge.jpg"
       },
       {
         id: "90489104jskg",
@@ -65,8 +65,8 @@ export async function getSoftwareProjectPreviewsAsync() {
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         projectUrl: "localhost:3000/contact",
-        previewText: "This is some preview text. Ya dig?",
-        previewImageSrc: "https://cdnb.artstation.com/p/assets/images/images/000/320/963/small/andreas-rocha-dangerousroads.jpg"
+        description: "This is some preview text. Ya dig?",
+        image: "https://cdnb.artstation.com/p/assets/images/images/000/320/963/small/andreas-rocha-dangerousroads.jpg"
       },
       {
         id: "1398173hjsjgkh",
@@ -74,8 +74,8 @@ export async function getSoftwareProjectPreviewsAsync() {
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         projectUrl: "localhost:3000/contact",
-        previewText: "This is some preview text. Ya dig?",
-        previewImageSrc: "https://cdnb.artstation.com/p/assets/images/images/001/058/155/large/mike-hill-002-front-view3-copy.jpg"
+        description: "This is some preview text. Ya dig?",
+        image: "https://cdnb.artstation.com/p/assets/images/images/001/058/155/large/mike-hill-002-front-view3-copy.jpg"
       },
       {
         id: "90149014ujskg",
@@ -83,8 +83,8 @@ export async function getSoftwareProjectPreviewsAsync() {
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         projectUrl: "localhost:3000/contact",
-        previewText: "This is some preview text. Ya dig?",
-        previewImageSrc: "https://cdnb.artstation.com/p/assets/images/images/000/286/213/small/sparth-firststrike-final.jpg"
+        description: "This is some preview text. Ya dig?",
+        image: "https://cdnb.artstation.com/p/assets/images/images/000/286/213/small/sparth-firststrike-final.jpg"
       },
       {
         id: "4u289jdkgjkdg",
@@ -92,8 +92,8 @@ export async function getSoftwareProjectPreviewsAsync() {
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         projectUrl: "localhost:3000/contact",
-        previewText: "This is some preview text. Ya dig?",
-        previewImageSrc: "https://cdnb.artstation.com/p/assets/images/images/000/244/079/large/aaron-limonick-lake-vista-key-2-logo.jpg"
+        description: "This is some preview text. Ya dig?",
+        image: "https://cdnb.artstation.com/p/assets/images/images/000/244/079/large/aaron-limonick-lake-vista-key-2-logo.jpg"
       },
       {
         id: "901904ujskgjs",
@@ -101,8 +101,8 @@ export async function getSoftwareProjectPreviewsAsync() {
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         projectUrl: "localhost:3000/contact",
-        previewText: "This is some preview text. Ya dig?",
-        previewImageSrc: "https://cdnb.artstation.com/p/assets/images/images/000/201/563/small/yuri-shwedoff-ellie-the-last-of-us.jpg"
+        description: "This is some preview text. Ya dig?",
+        image: "https://cdnb.artstation.com/p/assets/images/images/000/201/563/small/yuri-shwedoff-ellie-the-last-of-us.jpg"
       },
       {
         id: "183uskfjskgs",
@@ -110,8 +110,8 @@ export async function getSoftwareProjectPreviewsAsync() {
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         projectUrl: "localhost:3000/contact",
-        previewText: "This is some preview text. Ya dig?",
-        previewImageSrc: "https://cdna.artstation.com/p/assets/images/images/018/461/496/small/moero-knight-0005-magical-girls.jpg"
+        description: "This is some preview text. Ya dig?",
+        image: "https://cdna.artstation.com/p/assets/images/images/018/461/496/small/moero-knight-0005-magical-girls.jpg"
       },
       {
         id: "1984uskhjgkdg",
@@ -119,8 +119,8 @@ export async function getSoftwareProjectPreviewsAsync() {
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         projectUrl: "localhost:3000/contact",
-        previewText: "This is some preview text. Ya dig?",
-        previewImageSrc: "https://cdna.artstation.com/p/assets/images/images/019/964/822/large/kyle-grech-spike.jpg"
+        description: "This is some preview text. Ya dig?",
+        image: "https://cdna.artstation.com/p/assets/images/images/019/964/822/large/kyle-grech-spike.jpg"
       },
       {
         id: "1498udkghjdgkd",
@@ -128,8 +128,8 @@ export async function getSoftwareProjectPreviewsAsync() {
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         projectUrl: "localhost:3000/contact",
-        previewText: "This is some preview text. Ya dig?",
-        previewImageSrc: "https://cdna.artstation.com/p/assets/images/images/017/735/130/large/ege-ozteke-champaloo.jpg"
+        description: "This is some preview text. Ya dig?",
+        image: "https://cdna.artstation.com/p/assets/images/images/017/735/130/large/ege-ozteke-champaloo.jpg"
       }
     ]
   };

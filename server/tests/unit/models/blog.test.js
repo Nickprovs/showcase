@@ -5,8 +5,8 @@ describe("blog.validate", () => {
     const blog = {
       uri: "dogUri",
       title: "testtt",
-      previewText: "The dogiest of dogs.",
-      previewImageSource: "https://i.imgur.com/O2NQNvP.jpg",
+      description: "The dogiest of dogs.",
+      image: "https://i.imgur.com/O2NQNvP.jpg",
       body: "aadada"
     };
 

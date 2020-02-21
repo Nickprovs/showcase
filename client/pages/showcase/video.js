@@ -17,7 +17,7 @@ export default function Video(props) {
               <img className={videoStyles.containerFitImage} src={video.src} />
             </div>
             <div className={videoStyles.text}>
-              <label>{video.previewText}</label>
+              <label>{video.description}</label>
             </div>
           </div>
         ))}

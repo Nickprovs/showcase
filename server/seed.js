@@ -9,8 +9,8 @@ const blogs = [
     title: "dogs",
     datePosted: moment().toJSON(),
     dateLastModified: moment().toJSON(),
-    previewText: "The dogiest of dogs.",
-    previewImageSource: "https://i.imgur.com/O2NQNvP.jpg",
+    description: "The dogiest of dogs.",
+    image: "https://i.imgur.com/O2NQNvP.jpg",
     body: "aadada"
   },
   {
@@ -18,8 +18,8 @@ const blogs = [
     title: "cats",
     datePosted: moment().toJSON(),
     dateLastModified: moment().toJSON(),
-    previewText: "The catiest of cats.",
-    previewImageSource: "https://i.imgur.com/O2NQNvP.jpg",
+    description: "The catiest of cats.",
+    image: "https://i.imgur.com/O2NQNvP.jpg",
     body: "sfsfsfsfsf"
   },
   {
@@ -27,8 +27,8 @@ const blogs = [
     title: "lizards",
     datePosted: moment().toJSON(),
     dateLastModified: moment().toJSON(),
-    previewText: "The lizardiest of cats.",
-    previewImageSource: "https://i.imgur.com/O2NQNvP.jpg",
+    description: "The lizardiest of cats.",
+    image: "https://i.imgur.com/O2NQNvP.jpg",
     body: "sfsfsfsfsf"
   }
 ];

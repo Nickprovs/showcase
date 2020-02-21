@@ -16,10 +16,10 @@ export default function Software(props) {
               <h2>{preview.title.toUpperCase()}</h2>
             </div>
             <div className={softwareStyles.previewImage}>
-              <img className={softwareStyles.containerFitImage} src={preview.previewImageSrc} />
+              <img className={softwareStyles.containerFitImage} src={preview.image} />
             </div>
-            <div className={softwareStyles.previewText}>
-              <label>{preview.previewText}</label>
+            <div className={softwareStyles.description}>
+              <label>{preview.description}</label>
             </div>
             <div className={softwareStyles.previewButtons}>
               <BasicButton className={softwareStyles.postButton}>Read Article</BasicButton>

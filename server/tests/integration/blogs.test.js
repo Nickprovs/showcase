@@ -22,8 +22,8 @@ describe("/blogs", () => {
           title: "dogs",
           datePosted: moment().toJSON(),
           dateLastModified: moment().toJSON(),
-          previewText: "The dogiest of dogs.",
-          previewImageSource: "https://i.imgur.com/O2NQNvP.jpg",
+          description: "The dogiest of dogs.",
+          image: "https://i.imgur.com/O2NQNvP.jpg",
           body: "aadada"
         },
         {
@@ -31,8 +31,8 @@ describe("/blogs", () => {
           title: "cats",
           datePosted: moment().toJSON(),
           dateLastModified: moment().toJSON(),
-          previewText: "The catiest of cats.",
-          previewImageSource: "https://i.imgur.com/O2NQNvP.jpg",
+          description: "The catiest of cats.",
+          image: "https://i.imgur.com/O2NQNvP.jpg",
           body: "sfsfsfsfsf"
         }
       ];
@@ -52,8 +52,8 @@ describe("/blogs", () => {
       const blog = new Blog({
         uri: "dogsUri",
         title: "dogs",
-        previewText: "The dogiest of dogs.",
-        previewImageSource: "https://i.imgur.com/O2NQNvP.jpg",
+        description: "The dogiest of dogs.",
+        image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadada"
       });
       await blog.save();
@@ -66,8 +66,8 @@ describe("/blogs", () => {
       expect(new Date(res.body.datePosted).getTime() === blog.datePosted.getTime()).toBeTruthy();
       expect(res.body).toHaveProperty("dateLastModified");
       expect(new Date(res.body.dateLastModified).getTime() === blog.dateLastModified.getTime()).toBeTruthy();
-      expect(res.body).toHaveProperty("previewText", blog.previewText);
-      expect(res.body).toHaveProperty("previewImageSource", blog.previewImageSource);
+      expect(res.body).toHaveProperty("description", blog.description);
+      expect(res.body).toHaveProperty("image", blog.image);
       expect(res.body).toHaveProperty("body", blog.body);
     });
 
@@ -101,8 +101,8 @@ describe("/blogs", () => {
       blog = {
         uri: "dogsUri",
         title: "testtt",
-        previewText: "The dogiest of dogs.",
-        previewImageSource: "https://i.imgur.com/O2NQNvP.jpg",
+        description: "The dogiest of dogs.",
+        image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadada"
       };
     });
@@ -149,8 +149,8 @@ describe("/blogs", () => {
       expect(res.body).toHaveProperty("title", blog.title);
       expect(res.body).toHaveProperty("datePosted");
       expect(res.body).toHaveProperty("dateLastModified");
-      expect(res.body).toHaveProperty("previewText", blog.previewText);
-      expect(res.body).toHaveProperty("previewImageSource", blog.previewImageSource);
+      expect(res.body).toHaveProperty("description", blog.description);
+      expect(res.body).toHaveProperty("image", blog.image);
       expect(res.body).toHaveProperty("body", blog.body);
     });
   });
@@ -172,8 +172,8 @@ describe("/blogs", () => {
       existingBlog = new Blog({
         uri: "dogsUri",
         title: "dogs",
-        previewText: "The dogiest of dogs.",
-        previewImageSource: "https://i.imgur.com/O2NQNvP.jpg",
+        description: "The dogiest of dogs.",
+        image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadada"
       });
 
@@ -184,8 +184,8 @@ describe("/blogs", () => {
       blog = {
         uri: "dogsUri",
         title: "testtt1",
-        previewText: "The dogiest of dogs1.",
-        previewImageSource: "https://i.imgur.com/O2NQNvP.jpg",
+        description: "The dogiest of dogs1.",
+        image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadada1"
       };
     });
@@ -257,8 +257,8 @@ describe("/blogs", () => {
       expect(new Date(res.body.datePosted).getTime() === existingBlog.datePosted.getTime()).toBeTruthy();
       expect(res.body).toHaveProperty("dateLastModified");
       expect(new Date(res.body.dateLastModified).getTime() === existingBlog.dateLastModified.getTime()).toBeFalsy();
-      expect(res.body).toHaveProperty("previewText", blog.previewText);
-      expect(res.body).toHaveProperty("previewImageSource", blog.previewImageSource);
+      expect(res.body).toHaveProperty("description", blog.description);
+      expect(res.body).toHaveProperty("image", blog.image);
       expect(res.body).toHaveProperty("body", blog.body);
     });
   });
@@ -283,8 +283,8 @@ describe("/blogs", () => {
         title: "To Delete Dog",
         datePosted: moment().toJSON(),
         dateLastModified: moment().toJSON(),
-        previewText: "The dogiest of dogs.",
-        previewImageSource: "https://i.imgur.com/O2NQNvP.jpg",
+        description: "The dogiest of dogs.",
+        image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadada"
       });
       await blog.save();
@@ -340,8 +340,8 @@ describe("/blogs", () => {
       expect(res.body).toHaveProperty("title", blog.title);
       expect(res.body).toHaveProperty("datePosted");
       expect(res.body).toHaveProperty("dateLastModified");
-      expect(res.body).toHaveProperty("previewText", blog.previewText);
-      expect(res.body).toHaveProperty("previewImageSource", blog.previewImageSource);
+      expect(res.body).toHaveProperty("description", blog.description);
+      expect(res.body).toHaveProperty("image", blog.image);
       expect(res.body).toHaveProperty("body", blog.body);
     });
   });

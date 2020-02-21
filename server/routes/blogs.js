@@ -46,8 +46,8 @@ router.post("/", [auth, admin, validateBody(blogSchema)], async (req, res) => {
     title: req.body.title,
     datePosted: moment().toJSON(),
     dateLastModified: moment().toJSON(),
-    previewText: req.body.previewText,
-    previewImageSource: req.body.previewImageSource,
+    description: req.body.description,
+    image: req.body.image,
     body: req.body.body
   });
 
@@ -62,8 +62,8 @@ router.put("/:id", [auth, admin, validateObjectId, validateBody(blogSchema)], as
     {
       uri: req.body.uri,
       title: req.body.title,
-      description: req.body.previewText,
-      image: req.body.previewImageSource,
+      description: req.body.description,
+      image: req.body.image,
       body: req.body.body,
       dateLastModified: moment().toJSON()
     },

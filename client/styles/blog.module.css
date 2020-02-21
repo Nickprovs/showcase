@@ -51,7 +51,7 @@
   width: 80%;
 }
 
-.previewText {
+.description {
   flex: 15;
   order: 3;
   display: flex;

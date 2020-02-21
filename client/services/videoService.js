@@ -9,7 +9,7 @@ export async function getVideosAsync() {
     videos: [
       {
         title: "Epoch 1",
-        previewText: "This is some preview text. Ya dig?",
+        description: "This is some preview text. Ya dig?",
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         orientation: "landscape",
@@ -18,7 +18,7 @@ export async function getVideosAsync() {
       },
       {
         title: "Epoch 2",
-        previewText: "This is some preview text. Ya dig?",
+        description: "This is some preview text. Ya dig?",
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         orientation: "portrait",
@@ -27,7 +27,7 @@ export async function getVideosAsync() {
       },
       {
         title: "Epoch 3",
-        previewText: "This is some preview text. Ya dig?",
+        description: "This is some preview text. Ya dig?",
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         orientation: "portrait",
@@ -36,7 +36,7 @@ export async function getVideosAsync() {
       },
       {
         title: "Epoch 4",
-        previewText: "This is some preview text. Ya dig?",
+        description: "This is some preview text. Ya dig?",
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         orientation: "landscape",
@@ -45,7 +45,7 @@ export async function getVideosAsync() {
       },
       {
         title: "Epoch 5",
-        previewText: "This is some preview text. Ya dig?",
+        description: "This is some preview text. Ya dig?",
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         orientation: "portrait",
@@ -54,7 +54,7 @@ export async function getVideosAsync() {
       },
       {
         title: "Epoch 6",
-        previewText: "This is some preview text. Ya dig?",
+        description: "This is some preview text. Ya dig?",
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         orientation: "landscape",
@@ -63,7 +63,7 @@ export async function getVideosAsync() {
       },
       {
         title: "Epoch 7",
-        previewText: "This is some preview text. Ya dig?",
+        description: "This is some preview text. Ya dig?",
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         orientation: "landscape",
@@ -72,7 +72,7 @@ export async function getVideosAsync() {
       },
       {
         title: "Epoch 8",
-        previewText: "This is some preview text. Ya dig?",
+        description: "This is some preview text. Ya dig?",
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         orientation: "portrait",
@@ -81,7 +81,7 @@ export async function getVideosAsync() {
       },
       {
         title: "Epoch 9",
-        previewText: "This is some preview text. Ya dig?",
+        description: "This is some preview text. Ya dig?",
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         orientation: "portrait",
@@ -90,7 +90,7 @@ export async function getVideosAsync() {
       },
       {
         title: "Epoch 10",
-        previewText: "This is some preview text. Ya dig?",
+        description: "This is some preview text. Ya dig?",
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         orientation: "landscape",
@@ -99,7 +99,7 @@ export async function getVideosAsync() {
       },
       {
         title: "Epoch 11",
-        previewText: "This is some preview text. Ya dig?",
+        description: "This is some preview text. Ya dig?",
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         orientation: "portrait",
@@ -108,7 +108,7 @@ export async function getVideosAsync() {
       },
       {
         title: "Epoch 12",
-        previewText: "This is some preview text. Ya dig?",
+        description: "This is some preview text. Ya dig?",
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         orientation: "portrait",
@@ -117,7 +117,7 @@ export async function getVideosAsync() {
       },
       {
         title: "Epoch 13",
-        previewText: "This is some preview text. Ya dig?",
+        description: "This is some preview text. Ya dig?",
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         orientation: "landscape",
@@ -126,7 +126,7 @@ export async function getVideosAsync() {
       },
       {
         title: "Epoch 14",
-        previewText: "This is some preview text. Ya dig?",
+        description: "This is some preview text. Ya dig?",
         datePosted: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         dateLastModified: "Thu Dec 29 2011 20:14:56 GMT-0600 (CST)",
         orientation: "landscape",

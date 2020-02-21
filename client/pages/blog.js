@@ -20,10 +20,10 @@ export default function Blog(props) {
               <h2>{preview.title}</h2>
             </div>
             <div className={blogStyles.previewImage}>
-              <img className={blogStyles.containerFitImage} src={preview.previewImageSrc} />
+              <img className={blogStyles.containerFitImage} src={preview.image} />
             </div>
-            <div className={blogStyles.previewText}>
-              <label>{preview.previewText}</label>
+            <div className={blogStyles.description}>
+              <label>{preview.description}</label>
             </div>
           </div>
         ))}
