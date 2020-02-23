@@ -1,6 +1,7 @@
 const express = require("express");
 const moment = require("moment");
 const { Article, schema: articleSchema } = require("../models/article");
+const { ArticleCategory } = require("../models/articleCategory");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 const validateBody = require("../middleware/validateBody");
@@ -43,14 +44,19 @@ router.get("/:id", validateObjectId, async (req, res) => {
 });
 
 router.post("/", [auth, admin, validateBody(articleSchema)], async (req, res) => {
+  const articleCategory = await ArticleCategory.findById(req.body.categoryId);
+  if (!articleCategory) return res.status(400).send("Invalid article category.");
+
   let article = new Article({
     slug: req.body.slug,
     title: req.body.title,
+    category: articleCategory,
     datePosted: moment().toJSON(),
     dateLastModified: moment().toJSON(),
     description: req.body.description,
     image: req.body.image,
-    body: req.body.body
+    body: req.body.body,
+    tags: req.body.tags
   });
 
   article = await article.save();
@@ -59,15 +65,20 @@ router.post("/", [auth, admin, validateBody(articleSchema)], async (req, res) =>
 });
 
 router.put("/:id", [auth, admin, validateObjectId, validateBody(articleSchema)], async (req, res) => {
+  const articleCategory = await ArticleCategory.findById(req.body.categoryId);
+  if (!articleCategory) return res.status(400).send("Invalid article category.");
+
   const updatedArticle = await Article.findByIdAndUpdate(
     req.params.id,
     {
       slug: req.body.slug,
       title: req.body.title,
+      category: articleCategory,
+      dateLastModified: moment().toJSON(),
       description: req.body.description,
       image: req.body.image,
       body: req.body.body,
-      dateLastModified: moment().toJSON()
+      tags: req.body.tags
     },
     { new: true }
   );

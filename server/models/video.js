@@ -1,4 +1,5 @@
 const Joi = require("@hapi/joi");
+Joi.objectId = require("joi-objectid")(Joi);
 const mongoose = require("mongoose");
 const { mongoSchema: mongoVideoCategorySchema } = require("./videoCategory");
 
@@ -53,6 +54,12 @@ const mongoVideoSchema = new mongoose.Schema({
     validate: validateTags
   }
 });
+
+function validateTags(val) {
+  if (val.length >= 3 && val.length <= 10) return true;
+  else throw new Error("Tags must contain between 3 and 10 entries.");
+}
+
 mongoVideoSchema.set("toJSON", { virtuals: false });
 const Video = mongoose.model("Video", mongoVideoSchema);
 

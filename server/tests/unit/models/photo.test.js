@@ -1,9 +1,11 @@
 const { schema } = require("../../../models/photo");
+const mongoose = require("mongoose");
 
 describe("photo.validate", () => {
   it("should validate a properly formed photo", () => {
     const photo = {
       title: "testtt",
+      categoryId: mongoose.Types.ObjectId().toHexString(),
       description: "The dogiest of dogs.",
       orientation: "portrait",
       displaySize: "medium",

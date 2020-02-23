@@ -75,6 +75,7 @@ function validateAttachments(val) {
 }
 
 function validateTags(val) {
+  if (!val) throw new Error("Tags must contain between 3 and 10 entries.");
   if (val.length >= 3 && val.length <= 10) return true;
   else throw new Error("Tags must contain between 3 and 10 entries.");
 }
@@ -111,10 +112,6 @@ const schema = Joi.object({
   description: Joi.string()
     .min(2)
     .max(128)
-    .required(),
-  category: Joi.string()
-    .min(2)
-    .max(64)
     .required(),
   image: Joi.string()
     .min(2)
