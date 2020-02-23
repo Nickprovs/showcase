@@ -14,6 +14,8 @@ router.get("/", validateQuery(getAllQuerySchema), async (req, res) => {
   const dateOrder = req.query.dateOrder ? req.query.dateOrder : "desc";
   const offset = req.query.offset ? parseInt(req.query.offset) : 0;
   const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+
+  //Todo... this total should be affected by the category if user passes category.
   const total = await Blog.count({});
 
   const blogs = await Blog.find()
