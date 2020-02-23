@@ -58,6 +58,7 @@ const mongoBlogSchema = new mongoose.Schema({
   contingency: {
     type: Map,
     of: String,
+    default: {},
     validate: validateContingency
   }
 });
