@@ -1,5 +1,6 @@
 const Joi = require("@hapi/joi");
 const mongoose = require("mongoose");
+const { mongoSchema: mongoPhotoCategorySchema } = require("./photoCategory");
 
 //Mongo Schema
 const mongoPhotoSchema = new mongoose.Schema({
@@ -9,6 +10,10 @@ const mongoPhotoSchema = new mongoose.Schema({
     unique: true,
     minlength: 2,
     maxlength: 64
+  },
+  category: {
+    type: mongoPhotoCategorySchema,
+    required: true
   },
   description: {
     type: String,
@@ -41,8 +46,19 @@ const mongoPhotoSchema = new mongoose.Schema({
     required: true,
     minlength: 2,
     maxlength: 1000
+  },
+  tags: {
+    type: [String],
+    required: true,
+    validate: validateTags
   }
 });
+
+function validateTags(val) {
+  if (val.length >= 3 && val.length <= 10) return true;
+  else throw new Error("Tags must contain between 3 and 10 entries.");
+}
+
 mongoPhotoSchema.set("toJSON", { virtuals: false });
 const Photo = mongoose.model("Photo", mongoPhotoSchema);
 
@@ -52,6 +68,7 @@ const schema = Joi.object({
     .min(2)
     .max(64)
     .required(),
+  categoryId: Joi.objectId().required(),
   description: Joi.string()
     .min(2)
     .max(128)
@@ -65,7 +82,11 @@ const schema = Joi.object({
   source: Joi.string()
     .min(2)
     .max(1000)
-    .required()
+    .required(),
+  tags: Joi.array()
+    .items(Joi.string())
+    .min(3)
+    .max(10)
 });
 
 exports.Photo = Photo;
