@@ -1,5 +1,5 @@
 const { Article } = require("./models/article");
-const { Category } = require("./models/category");
+const { ArticleCategory } = require("./models/articleCategory");
 const mongoose = require("mongoose");
 mongoose.set("useCreateIndex", true);
 const config = require("config");
@@ -92,7 +92,7 @@ async function seed() {
   await connection.connection.db.dropDatabase();
 
   for (let dataItem of data) {
-    const { _id: categoryId } = await new Category({ name: dataItem.categoryName }).save();
+    const { _id: categoryId } = await new ArticleCategory({ name: dataItem.categoryName }).save();
     const articles = dataItem.posts.map(article => ({
       ...article,
       category: { _id: categoryId, name: dataItem.categoryName }

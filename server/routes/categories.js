@@ -1,5 +1,5 @@
 const express = require("express");
-const { Category, schema: categorySchema } = require("../models/category");
+const { ArticleCategory, schema: articleCategorySchema } = require("../models/articleCategory");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 const validateBody = require("../middleware/validateBody");
@@ -8,38 +8,38 @@ const winston = require("winston");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const categories = await Category.find()
+  const articleCategories = await ArticleCategory.find()
     .select("-__v")
     .sort({ name: "asc" });
 
-  const total = await Category.count({});
+  const total = await ArticleCategory.count({});
   const data = {
     total: total,
-    items: categories
+    items: articleCategories
   };
 
   res.send(data);
 });
 
 router.get("/:id", validateObjectId, async (req, res) => {
-  const category = await Category.findById(req.params.id).select("-__v");
-  if (!category) return res.status(404).send("The category with the given ID was not found.");
+  const articleCategory = await ArticleCategory.findById(req.params.id).select("-__v");
+  if (!articleCategory) return res.status(404).send("The article category with the given ID was not found.");
 
-  res.send(category);
+  res.send(articleCategory);
 });
 
-router.post("/", [auth, admin, validateBody(categorySchema)], async (req, res) => {
-  let category = new Category({
+router.post("/", [auth, admin, validateBody(articleCategorySchema)], async (req, res) => {
+  let articleCategory = new ArticleCategory({
     name: req.body.name
   });
 
-  category = await category.save();
+  articleCategory = await articleCategory.save();
 
-  res.send(category);
+  res.send(articleCategory);
 });
 
-router.put("/:id", [auth, admin, validateObjectId, validateBody(categorySchema)], async (req, res) => {
-  const updatedCategory = await Category.findByIdAndUpdate(
+router.put("/:id", [auth, admin, validateObjectId, validateBody(articleCategorySchema)], async (req, res) => {
+  const updatedArticleCategory = await ArticleCategory.findByIdAndUpdate(
     req.params.id,
     {
       name: req.body.name
@@ -47,16 +47,16 @@ router.put("/:id", [auth, admin, validateObjectId, validateBody(categorySchema)]
     { new: true }
   );
 
-  if (!updatedCategory) return res.status(404).send("Category not found.");
+  if (!updatedArticleCategory) return res.status(404).send("Article Category not found.");
 
-  res.send(updatedCategory);
+  res.send(updatedArticleCategory);
 });
 
 router.delete("/:id", [auth, admin, validateObjectId], async (req, res) => {
-  const category = await Category.findByIdAndRemove(req.params.id);
-  if (!category) return res.status(404).send("The category with the given ID was not found.");
+  const articleCategory = await ArticleCategory.findByIdAndRemove(req.params.id);
+  if (!articleCategory) return res.status(404).send("The article category with the given ID was not found.");
 
-  res.send(category);
+  res.send(articleCategory);
 });
 
 module.exports = router;

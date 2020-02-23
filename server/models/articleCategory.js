@@ -2,7 +2,7 @@ const Joi = require("@hapi/joi");
 const mongoose = require("mongoose");
 
 //Mongo Schema
-const mongoCategorySchema = new mongoose.Schema({
+const mongoArticleCategorySchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -11,7 +11,7 @@ const mongoCategorySchema = new mongoose.Schema({
     maxlength: 50
   }
 });
-const Category = mongoose.model("Category", mongoCategorySchema);
+const ArticleCategory = mongoose.model("ArticleCategory", mongoArticleCategorySchema);
 
 //Public Schema - Joi
 const schema = Joi.object({
@@ -21,6 +21,6 @@ const schema = Joi.object({
     .required()
 });
 
-exports.Category = Category;
+exports.ArticleCategory = ArticleCategory;
 exports.schema = schema;
-exports.mongoSchema = mongoCategorySchema;
+exports.mongoSchema = mongoArticleCategorySchema;

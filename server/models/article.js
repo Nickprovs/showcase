@@ -1,7 +1,7 @@
 const Joi = require("@hapi/joi");
 Joi.objectId = require("joi-objectid")(Joi);
 const mongoose = require("mongoose");
-const { mongoSchema: mongoCategorySchema } = require("./category");
+const { mongoSchema: mongoArticleCategorySchema } = require("./articleCategory");
 
 //Mongo Schema
 const mongoArticleSchema = new mongoose.Schema({
@@ -20,7 +20,7 @@ const mongoArticleSchema = new mongoose.Schema({
     maxlength: 64
   },
   category: {
-    type: mongoCategorySchema,
+    type: mongoArticleCategorySchema,
     required: true
   },
   description: {
