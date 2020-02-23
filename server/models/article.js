@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const { mongoSchema: mongoCategorySchema } = require("./category");
 
 //Mongo Schema
-const mongoBlogSchema = new mongoose.Schema({
+const mongoArticleSchema = new mongoose.Schema({
   slug: {
     type: String,
     required: true,
@@ -55,6 +55,12 @@ const mongoBlogSchema = new mongoose.Schema({
     required: true,
     validate: validateTags
   },
+  attachments: {
+    type: [String],
+    required: false,
+    default: [],
+    validate: validateAttachments
+  },
   contingency: {
     type: Map,
     of: String,
@@ -62,6 +68,12 @@ const mongoBlogSchema = new mongoose.Schema({
     validate: validateContingency
   }
 });
+
+function validateAttachments(val) {
+  if (val.length <= 10) return true;
+  else throw new Error("Attatchments must have less than 10 entries.");
+}
+
 function validateTags(val) {
   if (val.length >= 3 && val.length <= 10) return true;
   else throw new Error("Tags must contain between 3 and 10 entries.");
@@ -82,8 +94,8 @@ function validateContingency(map) {
   return true;
 }
 
-mongoBlogSchema.set("toJSON", { virtuals: false });
-const Blog = mongoose.model("Blog", mongoBlogSchema);
+mongoArticleSchema.set("toJSON", { virtuals: false });
+const Article = mongoose.model("Article", mongoArticleSchema);
 
 //Public Schema - Joi
 const schema = Joi.object({
@@ -115,8 +127,12 @@ const schema = Joi.object({
     .items(Joi.string())
     .min(3)
     .max(10),
+  attachments: Joi.array()
+    .items(Joi.string())
+    .min(3)
+    .max(10),
   contingency: Joi.object().pattern(Joi.string(), Joi.string())
 });
 
-exports.Blog = Blog;
+exports.Article = Article;
 exports.schema = schema;

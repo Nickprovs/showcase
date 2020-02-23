@@ -1,4 +1,4 @@
-const { Blog } = require("./models/blog");
+const { Article } = require("./models/article");
 const { Category } = require("./models/category");
 const mongoose = require("mongoose");
 mongoose.set("useCreateIndex", true);
@@ -88,16 +88,16 @@ const data = [
 
 async function seed() {
   const connection = await mongoose.connect(config.get("db"), { useNewUrlParser: true, useUnifiedTopology: true });
-  
+
   await connection.connection.db.dropDatabase();
 
   for (let dataItem of data) {
     const { _id: categoryId } = await new Category({ name: dataItem.categoryName }).save();
-    const blogs = dataItem.posts.map(blog => ({
-      ...blog,
+    const articles = dataItem.posts.map(article => ({
+      ...article,
       category: { _id: categoryId, name: dataItem.categoryName }
     }));
-    await Blog.insertMany(blogs);
+    await Article.insertMany(articles);
   }
 
   mongoose.disconnect();

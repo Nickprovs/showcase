@@ -1,8 +1,8 @@
-const { schema } = require("../../../models/blog");
+const { schema } = require("../../../models/article");
 
-describe("blog.validate", () => {
-  it("should validate a properly formed blog", () => {
-    const blog = {
+describe("article.validate", () => {
+  it("should validate a properly formed article", () => {
+    const article = {
       slug: "dogUri",
       title: "testtt",
       description: "The dogiest of dogs.",
@@ -10,7 +10,7 @@ describe("blog.validate", () => {
       body: "aadada"
     };
 
-    const { error } = schema.validate(blog);
+    const { error } = schema.validate(article);
     const isValid = !error;
 
     expect(isValid).toBe(true);

@@ -1,12 +1,12 @@
 const express = require("express");
 const moment = require("moment");
-const { Blog, schema: blogSchema } = require("../models/blog");
+const { Article, schema: articleSchema } = require("../models/article");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 const validateBody = require("../middleware/validateBody");
 const validateQuery = require("../middleware/validateQuery");
 const validateObjectId = require("../middleware/validateObjectId");
-const getAllQuerySchema = require("./schemas/queries/blogs/getAllQuery");
+const getAllQuerySchema = require("./schemas/queries/articles/getAllQuery");
 const winston = require("winston");
 const router = express.Router();
 
@@ -16,9 +16,9 @@ router.get("/", validateQuery(getAllQuerySchema), async (req, res) => {
   const limit = req.query.limit ? parseInt(req.query.limit) : 10;
 
   //Todo... this total should be affected by the category if user passes category.
-  const total = await Blog.count({});
+  const total = await Article.count({});
 
-  const blogs = await Blog.find()
+  const articles = await Article.find()
     .select("-__v -body")
     .sort({ datePosted: dateOrder })
     .skip(offset)
@@ -29,21 +29,21 @@ router.get("/", validateQuery(getAllQuerySchema), async (req, res) => {
     limit: limit,
     dateOrder: dateOrder,
     total: total,
-    items: blogs
+    items: articles
   };
 
   res.send(data);
 });
 
 router.get("/:id", validateObjectId, async (req, res) => {
-  const blog = await Blog.findById(req.params.id).select("-__v");
-  if (!blog) return res.status(404).send("The blog with the given ID was not found.");
+  const article = await Article.findById(req.params.id).select("-__v");
+  if (!article) return res.status(404).send("The article with the given ID was not found.");
 
-  res.send(blog);
+  res.send(article);
 });
 
-router.post("/", [auth, admin, validateBody(blogSchema)], async (req, res) => {
-  let blog = new Blog({
+router.post("/", [auth, admin, validateBody(articleSchema)], async (req, res) => {
+  let article = new Article({
     slug: req.body.slug,
     title: req.body.title,
     datePosted: moment().toJSON(),
@@ -53,13 +53,13 @@ router.post("/", [auth, admin, validateBody(blogSchema)], async (req, res) => {
     body: req.body.body
   });
 
-  blog = await blog.save();
+  article = await article.save();
 
-  res.send(blog);
+  res.send(article);
 });
 
-router.put("/:id", [auth, admin, validateObjectId, validateBody(blogSchema)], async (req, res) => {
-  const updatedBlog = await Blog.findByIdAndUpdate(
+router.put("/:id", [auth, admin, validateObjectId, validateBody(articleSchema)], async (req, res) => {
+  const updatedArticle = await Article.findByIdAndUpdate(
     req.params.id,
     {
       slug: req.body.slug,
@@ -72,16 +72,16 @@ router.put("/:id", [auth, admin, validateObjectId, validateBody(blogSchema)], as
     { new: true }
   );
 
-  if (!updatedBlog) return res.status(404).send("Blog not found.");
+  if (!updatedArticle) return res.status(404).send("Article not found.");
 
-  res.send(updatedBlog);
+  res.send(updatedArticle);
 });
 
 router.delete("/:id", [auth, admin, validateObjectId], async (req, res) => {
-  const blog = await Blog.findByIdAndRemove(req.params.id);
-  if (!blog) return res.status(404).send("The blog with the given ID was not found.");
+  const article = await Article.findByIdAndRemove(req.params.id);
+  if (!article) return res.status(404).send("The article with the given ID was not found.");
 
-  res.send(blog);
+  res.send(article);
 });
 
 module.exports = router;
