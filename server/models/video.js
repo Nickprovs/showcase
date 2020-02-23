@@ -1,5 +1,6 @@
 const Joi = require("@hapi/joi");
 const mongoose = require("mongoose");
+const { mongoSchema: mongoVideoCategorySchema } = require("./videoCategory");
 
 //Mongo Schema
 const mongoVideoSchema = new mongoose.Schema({
@@ -9,6 +10,10 @@ const mongoVideoSchema = new mongoose.Schema({
     unique: true,
     minlength: 2,
     maxlength: 64
+  },
+  category: {
+    type: mongoVideoCategorySchema,
+    required: true
   },
   description: {
     type: String,
@@ -41,6 +46,11 @@ const mongoVideoSchema = new mongoose.Schema({
     required: true,
     minlength: 2,
     maxlength: 1000
+  },
+  tags: {
+    type: [String],
+    required: true,
+    validate: validateTags
   }
 });
 mongoVideoSchema.set("toJSON", { virtuals: false });
@@ -52,6 +62,7 @@ const schema = Joi.object({
     .min(2)
     .max(64)
     .required(),
+  categoryId: Joi.objectId().required(),
   description: Joi.string()
     .min(2)
     .max(128)
@@ -65,7 +76,11 @@ const schema = Joi.object({
   source: Joi.string()
     .min(2)
     .max(1000)
-    .required()
+    .required(),
+  tags: Joi.array()
+    .items(Joi.string())
+    .min(3)
+    .max(10)
 });
 
 exports.Video = Video;
