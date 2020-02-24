@@ -1,26 +1,8 @@
-const Joi = require("@hapi/joi");
 const mongoose = require("mongoose");
+const { joiSchema, mongoSchema } = require("./common/category");
 
-//Mongo Schema
-const mongoVideoCategorySchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    unique: true,
-    minlength: 5,
-    maxlength: 50
-  }
-});
-const VideoCategory = mongoose.model("VideoCategory", mongoVideoCategorySchema);
-
-//Public Schema - Joi
-const joiVideoCategorySchema = Joi.object({
-  name: Joi.string()
-    .min(2)
-    .max(50)
-    .required()
-});
+const VideoCategory = mongoose.model("VideoCategory", mongoSchema);
 
 exports.VideoCategory = VideoCategory;
-exports.joiSchema = joiVideoCategorySchema;
-exports.mongoSchema = mongoVideoCategorySchema;
+exports.joiSchema = joiSchema;
+exports.mongoSchema = mongoSchema;
