@@ -55,12 +55,6 @@ const mongoArticleSchema = new mongoose.Schema({
     required: true,
     validate: validateTags
   },
-  attachments: {
-    type: [String],
-    required: false,
-    default: [],
-    validate: validateAttachments
-  },
   contingency: {
     type: Map,
     of: String,
@@ -125,10 +119,6 @@ const schema = Joi.object({
     .min(3)
     .max(10)
     .required(),
-  attachments: Joi.array()
-    .items(Joi.string())
-    .min(3)
-    .max(10),
   contingency: Joi.object().pattern(Joi.string(), Joi.string())
 });
 
