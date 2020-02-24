@@ -64,6 +64,10 @@ describe("/articles", () => {
         description: "The dogiest of dogs.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadada",
+        addressableHighlight: {
+          label: "Cool Search Engine",
+          address: "www.google.com"
+        },
         tags: ["the", "great", "cow"]
       });
       await article.save();
@@ -79,6 +83,7 @@ describe("/articles", () => {
       expect(res.body).toHaveProperty("description", article.description);
       expect(res.body).toHaveProperty("image", article.image);
       expect(res.body).toHaveProperty("body", article.body);
+      expect(res.body).toHaveProperty("addressableHighlight");
     });
 
     it("should return 400 if invalid id is passed", async () => {
@@ -118,6 +123,10 @@ describe("/articles", () => {
         description: "The dogiest of dogs.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadada",
+        addressableHighlight: {
+          label: "Cool Search Engine",
+          address: "www.google.com"
+        },
         tags: ["The", "Dogiest", "Dog"],
         contingency: {
           key1: "hey",
@@ -174,6 +183,7 @@ describe("/articles", () => {
       expect(res.body).toHaveProperty("body", article.body);
       expect(res.body).toHaveProperty("tags");
       expect(res.body).toHaveProperty("contingency", article.contingency);
+      expect(res.body).toHaveProperty("addressableHighlight");
     });
   });
 
@@ -203,6 +213,10 @@ describe("/articles", () => {
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aaadeeadada",
         tags: ["The", "Dogiest", "Dog"],
+        addressableHighlight: {
+          label: "Cool Search Engine",
+          address: "www.google.com"
+        },
         contingency: {
           key1: "Hi",
           key2: "What's good?",
@@ -221,6 +235,10 @@ describe("/articles", () => {
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aaaabbbbbccccddddeeeffffadada",
         tags: ["The", "Dogiest", "Dog"],
+        addressableHighlight: {
+          label: "Bad Search Engine",
+          address: "www.bing.com"
+        },
         contingency: {
           key1: "THIS IS EDITED",
           key2: "WOWWWW",
@@ -304,6 +322,8 @@ describe("/articles", () => {
       expect(res.body).toHaveProperty("body", article.body);
       expect(res.body).toHaveProperty("tags", article.tags);
       expect(res.body).toHaveProperty("contingency", article.contingency);
+      expect(res.body).toHaveProperty("addressableHighlight", article.addressableHighlight);
+      console.log(res.body);
     });
   });
 
@@ -330,7 +350,17 @@ describe("/articles", () => {
         description: "The original dogiest of dogs.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aaadeeadada",
-        tags: ["The", "Dogiest", "Dog"]
+        tags: ["The", "Dogiest", "Dog"],
+        addressableHighlight: {
+          label: "Bad Search Engine",
+          address: "www.bing.com"
+        },
+        contingency: {
+          key1: "THIS IS EDITED",
+          key2: "WOWWWW",
+          key3: "CRAZY",
+          key4: "A new key was added too!!!"
+        }
       });
       await article.save();
       id = article._id;
@@ -392,6 +422,8 @@ describe("/articles", () => {
       expect(res.body).toHaveProperty("image", article.image);
       expect(res.body).toHaveProperty("body", article.body);
       expect(res.body).toHaveProperty("tags");
+      expect(res.body).toHaveProperty("contingency");
+      expect(res.body).toHaveProperty("addressableHighlight");
     });
   });
 });

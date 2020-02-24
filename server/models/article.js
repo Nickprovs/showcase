@@ -3,6 +3,24 @@ Joi.objectId = require("joi-objectid")(Joi);
 const mongoose = require("mongoose");
 const { mongoSchema: mongoArticleCategorySchema } = require("./articleCategory");
 
+const addressableHighlightSchema = new mongoose.Schema(
+  {
+    label: {
+      type: String,
+      required: true,
+      minlength: 2,
+      maxlength: 24
+    },
+    address: {
+      type: String,
+      required: true,
+      minlength: 2,
+      maxlength: 1024
+    }
+  },
+  { _id: false }
+);
+
 //Mongo Schema
 const mongoArticleSchema = new mongoose.Schema({
   slug: {
@@ -49,6 +67,10 @@ const mongoArticleSchema = new mongoose.Schema({
     type: String,
     minlength: 2,
     required: true
+  },
+  addressableHighlight: {
+    type: addressableHighlightSchema,
+    required: false
   },
   tags: {
     type: [String],
@@ -114,6 +136,16 @@ const joiArticleSchema = Joi.object({
   body: Joi.string()
     .min(2)
     .required(),
+  addressableHighlight: Joi.object().keys({
+    label: Joi.string()
+      .required()
+      .min(2)
+      .max(24),
+    address: Joi.string()
+      .required()
+      .min(2)
+      .max(1024)
+  }),
   tags: Joi.array()
     .items(Joi.string())
     .min(3)

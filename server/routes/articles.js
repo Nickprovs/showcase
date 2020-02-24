@@ -56,6 +56,7 @@ router.post("/", [auth, admin, validateBody(articleSchema)], async (req, res) =>
     description: req.body.description,
     image: req.body.image,
     body: req.body.body,
+    addressableHighlight: req.body.addressableHighlight,
     tags: req.body.tags,
     contingency: req.body.contingency ? req.body.contingency : {}
   });
@@ -79,6 +80,7 @@ router.put("/:id", [auth, admin, validateObjectId, validateBody(articleSchema)],
       description: req.body.description,
       image: req.body.image,
       body: req.body.body,
+      addressableHighlight: req.body.addressableHighlight,
       tags: req.body.tags,
       contingency: req.body.contingency
     },
