@@ -1,4 +1,4 @@
-const { schema } = require("../../../models/article");
+const { joiSchema: schema } = require("../../../models/article");
 const mongoose = require("mongoose");
 
 describe("article.validate", () => {

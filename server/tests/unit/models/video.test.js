@@ -1,4 +1,4 @@
-const { schema } = require("../../../models/video");
+const { joiSchema: schema } = require("../../../models/video");
 const mongoose = require("mongoose");
 
 describe("video.validate", () => {

@@ -1,4 +1,4 @@
-const { schema } = require("../../../models/videoCategory");
+const { joiSchema: schema } = require("../../../models/videoCategory");
 
 describe("videoCategory.validate", () => {
   it("should validate a properly formed videoCategory", () => {

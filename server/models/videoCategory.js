@@ -14,7 +14,7 @@ const mongoVideoCategorySchema = new mongoose.Schema({
 const VideoCategory = mongoose.model("VideoCategory", mongoVideoCategorySchema);
 
 //Public Schema - Joi
-const schema = Joi.object({
+const joiVideoCategorySchema = Joi.object({
   name: Joi.string()
     .min(2)
     .max(50)
@@ -22,5 +22,5 @@ const schema = Joi.object({
 });
 
 exports.VideoCategory = VideoCategory;
-exports.schema = schema;
+exports.joiSchema = joiVideoCategorySchema;
 exports.mongoSchema = mongoVideoCategorySchema;

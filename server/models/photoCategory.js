@@ -14,7 +14,7 @@ const mongoPhotoCategorySchema = new mongoose.Schema({
 const PhotoCategory = mongoose.model("PhotoCategory", mongoPhotoCategorySchema);
 
 //Public Schema - Joi
-const schema = Joi.object({
+const joiPhotoCategorySchema = Joi.object({
   name: Joi.string()
     .min(2)
     .max(50)
@@ -22,5 +22,5 @@ const schema = Joi.object({
 });
 
 exports.PhotoCategory = PhotoCategory;
-exports.schema = schema;
+exports.joiSchema = joiPhotoCategorySchema;
 exports.mongoSchema = mongoPhotoCategorySchema;

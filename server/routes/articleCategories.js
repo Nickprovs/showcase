@@ -1,5 +1,5 @@
 const express = require("express");
-const { ArticleCategory, schema: articleCategorySchema } = require("../models/articleCategory");
+const { ArticleCategory, joiSchema: articleCategorySchema } = require("../models/articleCategory");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 const validateBody = require("../middleware/validateBody");

@@ -1,6 +1,6 @@
 const express = require("express");
 const moment = require("moment");
-const { Article, schema: articleSchema } = require("../models/article");
+const { Article, joiSchema: articleSchema } = require("../models/article");
 const { ArticleCategory } = require("../models/articleCategory");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");

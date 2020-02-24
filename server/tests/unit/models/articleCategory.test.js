@@ -1,4 +1,4 @@
-const { schema } = require("../../../models/articleCategory");
+const { joiSchema: schema } = require("../../../models/articleCategory");
 
 describe("articleCategory.validate", () => {
   it("should validate a properly formed articleCategory", () => {

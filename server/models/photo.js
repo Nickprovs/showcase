@@ -64,7 +64,7 @@ mongoPhotoSchema.set("toJSON", { virtuals: false });
 const Photo = mongoose.model("Photo", mongoPhotoSchema);
 
 //Public Schema - Joi
-const schema = Joi.object({
+const joiPhotoSchema = Joi.object({
   title: Joi.string()
     .min(2)
     .max(64)
@@ -91,4 +91,4 @@ const schema = Joi.object({
 });
 
 exports.Photo = Photo;
-exports.schema = schema;
+exports.joiSchema = joiPhotoSchema;

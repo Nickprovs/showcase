@@ -1,5 +1,5 @@
 const express = require("express");
-const { VideoCategory, schema: videoCategorySchema } = require("../models/videoCategory");
+const { VideoCategory, joiSchema: videoCategorySchema } = require("../models/videoCategory");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 const validateBody = require("../middleware/validateBody");

@@ -1,6 +1,6 @@
 const express = require("express");
 const moment = require("moment");
-const { Photo, schema: photoSchema } = require("../models/photo");
+const { Photo, joiSchema: photoSchema } = require("../models/photo");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 const validateBody = require("../middleware/validateBody");

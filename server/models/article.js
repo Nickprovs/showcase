@@ -93,7 +93,7 @@ mongoArticleSchema.set("toJSON", { virtuals: false });
 const Article = mongoose.model("Article", mongoArticleSchema);
 
 //Public Schema - Joi
-const schema = Joi.object({
+const joiArticleSchema = Joi.object({
   slug: Joi.string()
     .min(2)
     .max(128)
@@ -123,4 +123,5 @@ const schema = Joi.object({
 });
 
 exports.Article = Article;
-exports.schema = schema;
+exports.joiSchema = joiArticleSchema;
+exports.mongoSchema = mongoArticleSchema;

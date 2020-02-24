@@ -1,4 +1,4 @@
-const { schema } = require("../../../models/photo");
+const { joiSchema: schema } = require("../../../models/photo");
 const mongoose = require("mongoose");
 
 describe("photo.validate", () => {

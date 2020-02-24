@@ -13,7 +13,7 @@ const mongoArticleCategorySchema = new mongoose.Schema({
 const ArticleCategory = mongoose.model("ArticleCategory", mongoArticleCategorySchema);
 
 //Public Schema - Joi
-const schema = Joi.object({
+const joiArticleCategorySchema = Joi.object({
   name: Joi.string()
     .min(2)
     .max(50)
@@ -21,5 +21,5 @@ const schema = Joi.object({
 });
 
 exports.ArticleCategory = ArticleCategory;
-exports.schema = schema;
+exports.joiSchema = joiArticleCategorySchema;
 exports.mongoSchema = mongoArticleCategorySchema;

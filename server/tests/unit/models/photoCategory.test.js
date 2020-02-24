@@ -1,4 +1,4 @@
-const { schema } = require("../../../models/photoCategory");
+const { joiSchema: schema } = require("../../../models/photoCategory");
 
 describe("photoCategory.validate", () => {
   it("should validate a properly formed photoCategory", () => {
