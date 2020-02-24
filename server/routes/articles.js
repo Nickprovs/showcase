@@ -17,7 +17,7 @@ router.get("/", validateQuery(getAllQuerySchema), async (req, res) => {
   const limit = req.query.limit ? parseInt(req.query.limit) : 10;
 
   //Todo... this total should be affected by the category if user passes category.
-  const total = await Article.count({});
+  const total = await Article.countDocuments({});
 
   const articles = await Article.find()
     .select("-__v -body")
@@ -56,7 +56,8 @@ router.post("/", [auth, admin, validateBody(articleSchema)], async (req, res) =>
     description: req.body.description,
     image: req.body.image,
     body: req.body.body,
-    tags: req.body.tags
+    tags: req.body.tags,
+    contingency: req.body.contingency ? req.body.contingency : {}
   });
 
   article = await article.save();
@@ -78,7 +79,8 @@ router.put("/:id", [auth, admin, validateObjectId, validateBody(articleSchema)],
       description: req.body.description,
       image: req.body.image,
       body: req.body.body,
-      tags: req.body.tags
+      tags: req.body.tags,
+      contingency: req.body.contingency
     },
     { new: true }
   );

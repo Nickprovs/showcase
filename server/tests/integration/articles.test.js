@@ -118,7 +118,12 @@ describe("/articles", () => {
         description: "The dogiest of dogs.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadada",
-        tags: ["The", "Dogiest", "Dog"]
+        tags: ["The", "Dogiest", "Dog"],
+        contingency: {
+          key1: "hey",
+          key2: "world",
+          key3: "what's up"
+        }
       };
     });
 
@@ -151,7 +156,7 @@ describe("/articles", () => {
     it("should save the article if it is valid", async () => {
       await exec();
 
-      const article = await Article.find({ title: "testtt" });
+      const article = await Article.find({ title: "The dogiest of dogs" });
 
       expect(article).not.toBeNull();
     });
@@ -168,6 +173,7 @@ describe("/articles", () => {
       expect(res.body).toHaveProperty("image", article.image);
       expect(res.body).toHaveProperty("body", article.body);
       expect(res.body).toHaveProperty("tags");
+      expect(res.body).toHaveProperty("contingency", article.contingency);
     });
   });
 
@@ -196,7 +202,12 @@ describe("/articles", () => {
         description: "The original dogiest of dogs.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aaadeeadada",
-        tags: ["The", "Dogiest", "Dog"]
+        tags: ["The", "Dogiest", "Dog"],
+        contingency: {
+          key1: "Hi",
+          key2: "What's good?",
+          key3: "This is wack!"
+        }
       });
       await existingArticle.save();
 
@@ -209,7 +220,13 @@ describe("/articles", () => {
         description: "The updated dogiest of dogs.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aaaabbbbbccccddddeeeffffadada",
-        tags: ["The", "Dogiest", "Dog"]
+        tags: ["The", "Dogiest", "Dog"],
+        contingency: {
+          key1: "THIS IS EDITED",
+          key2: "WOWWWW",
+          key3: "CRAZY",
+          key4: "A new key was added too!!!"
+        }
       };
     });
 
@@ -266,6 +283,7 @@ describe("/articles", () => {
       const updatedArticle = await Article.findById(existingArticle._id);
 
       expect(updatedArticle.name).toBe(article.name);
+      expect(updatedArticle.contingency.get("key4")).toBeTruthy();
     });
 
     it("should return the updated article if it is valid", async () => {
@@ -285,6 +303,7 @@ describe("/articles", () => {
       expect(res.body).toHaveProperty("image", article.image);
       expect(res.body).toHaveProperty("body", article.body);
       expect(res.body).toHaveProperty("tags", article.tags);
+      expect(res.body).toHaveProperty("contingency", article.contingency);
     });
   });
 
