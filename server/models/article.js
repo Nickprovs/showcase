@@ -123,7 +123,8 @@ const schema = Joi.object({
   tags: Joi.array()
     .items(Joi.string())
     .min(3)
-    .max(10),
+    .max(10)
+    .required(),
   attachments: Joi.array()
     .items(Joi.string())
     .min(3)
