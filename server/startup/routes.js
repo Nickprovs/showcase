@@ -23,6 +23,4 @@ module.exports = function(app) {
 
   app.use("/videos", videos);
   app.use("/videoCategories", categories(VideoCategory, joiVideoCategorySchema));
-
-  //test
 };
