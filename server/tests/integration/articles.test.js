@@ -17,38 +17,140 @@ describe("/articles", () => {
   });
 
   describe("GET /", () => {
-    it("Should return all the articles", async () => {
-      let articleCategory = new ArticleCategory({ name: "Fiction" });
-      articleCategory = await articleCategory.save();
+    let articleCategory1;
+    let articleCategory2;
+    let article1;
+    let article2;
+    let article3;
 
-      const article1 = new Article({
+    beforeEach(async () => {
+      articleCategory1 = new ArticleCategory({ name: "Fiction" });
+      articleCategory1 = await articleCategory1.save();
+
+      articleCategory2 = new ArticleCategory({ name: "Non-Fiction" });
+      articleCategory2 = await articleCategory2.save();
+
+      article1 = new Article({
         slug: "the-great-cow-jumped-over-the-moon",
         title: "The great cow jumped over the moon",
-        category: articleCategory,
+        category: articleCategory1,
         description: "The cowiest of cows.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadada",
-        tags: ["the", "great", "cow"]
+        tags: ["the", "great", "cow", "common1", "common2"]
       });
       await article1.save();
 
-      const article2 = new Article({
+      article2 = new Article({
         slug: "the-dog-jumped-over-the-fence",
         title: "The dog jumped over the fence",
-        category: articleCategory,
+        category: articleCategory2,
         description: "The dogiest of dogs.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadasfsfsfsfsfsfsfsda",
-        tags: ["the", "great", "cow"]
+        tags: ["the", "great", "cow", "common1", "common2"]
       });
       await article2.save();
 
+      article3 = new Article({
+        slug: "the-beaver-jumped-over-the-fence",
+        title: "The beaver jumped over the fence",
+        category: articleCategory2,
+        description: "The beaveriest of beavers.",
+        image: "https://i.imgur.com/O2NQNvP.jpg",
+        body: "aadasfsfsfsfsfsfsfsda",
+        tags: ["the", "beaver", "beav"]
+      });
+      await article3.save();
+    });
+
+    it("Should return all the articles when no query filter is provided", async () => {
       const res = await request(server).get("/articles");
+
       expect(res.status).toBe(200);
-      expect(res.body.items.length).toBe(2);
+      expect(res.body.items.length).toBe(3);
       expect(res.body.items.some(g => g.title === article1.title)).toBeTruthy();
       expect(res.body.items.some(g => g.title === article2.title)).toBeTruthy();
-      expect(res.body.items.some(g => g.body)).toBeFalsy();
+      expect(res.body.items.some(g => g.title === article3.title)).toBeTruthy();
+    });
+
+    it("Should return the correct metadata when no query filter is provided", async () => {
+      const res = await request(server).get("/articles");
+
+      expect(res.body.total === 3);
+      expect(res.body.offset === 0);
+      expect(res.body.limit === 10);
+    });
+
+    it("Should return only the articles that match the category id filter", async () => {
+      const res = await request(server).get(`/articles?categoryId=${articleCategory2._id}`);
+
+      expect(res.status).toBe(200);
+      expect(res.body.items.length).toBe(2);
+      expect(res.body.items.some(g => g.title === article2.title)).toBeTruthy();
+      expect(res.body.items.some(g => g.title === article3.title)).toBeTruthy();
+    });
+
+    it("Should return the correct metadata that matches the category id filter", async () => {
+      const res = await request(server).get(`/articles?categoryId=${articleCategory2._id}`);
+
+      expect(res.body.items.length).toBe(2);
+      expect(res.body.total === 2);
+      expect(res.body.offset === 0);
+      expect(res.body.limit === 10);
+    });
+
+    it("Should return the correct metadata when providing an offset", async () => {
+      const res = await request(server).get(`/articles?offset=1`);
+
+      expect(res.body.items.length).toBe(2);
+      expect(res.body.total === 3);
+      expect(res.body.offset === 1);
+      expect(res.body.limit === 10);
+    });
+
+    it("Should return the correct metadata that matches offset and the category id filter", async () => {
+      const res = await request(server).get(`/articles?categoryId=${articleCategory2._id}&offset=1`);
+
+      expect(res.body.items.length).toBe(1);
+      expect(res.body.total === 2);
+      expect(res.body.offset === 1);
+      expect(res.body.limit === 10);
+    });
+
+    it("Should return the multiple of articles that match the tag search", async () => {
+      const res = await request(server).get(`/articles?search=common1`);
+
+      //The items returned should nor have any results whose tags don't include "common1" or "common2"
+      expect(res.body.items.length).toBe(2);
+      expect(res.body.total === 2);
+    });
+
+    it("Should return the singular article that matches the tag search", async () => {
+      const res = await request(server).get(`/articles?search=beaver`);
+
+      expect(res.body.items.length).toBe(1);
+      expect(res.body.total === 1);
+    });
+
+    it("Should return the singular article that matches the title search", async () => {
+      const res = await request(server).get(`/articles?search=dog jumped over the fence`);
+
+      expect(res.body.items.length).toBe(1);
+      expect(res.body.total === 1);
+    });
+
+    it("Should return the multiple articles that matches the title search", async () => {
+      const res = await request(server).get(`/articles?search=jumped over the fence`);
+
+      expect(res.body.items.length).toBe(2);
+      expect(res.body.total === 2);
+    });
+
+    it("Should return the multiple articles that matches the category search", async () => {
+      const res = await request(server).get(`/articles?search=Non-Fiction`);
+      expect(res.body.items.length).toBe(2);
+      expect(res.body.total === 2);
     });
   });
 
@@ -58,8 +160,8 @@ describe("/articles", () => {
       articleCategory = await articleCategory.save();
 
       const article = new Article({
-        slug: "the-great-cow-jumped-over-the-moon",
-        title: "The great cow jumped over the moon",
+        slug: "the-great-tiger-jumped-over-the-moon",
+        title: "The great tiger jumped over the moon",
         category: articleCategory,
         description: "The dogiest of dogs.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
@@ -68,7 +170,7 @@ describe("/articles", () => {
           label: "Cool Search Engine",
           address: "www.google.com"
         },
-        tags: ["the", "great", "cow"]
+        tags: ["the", "great", "tiger"]
       });
       await article.save();
       const res = await request(server).get("/articles/" + article._id);

@@ -15,10 +15,32 @@ module.exports = function(MediaModel, mediaJoiSchema, MediaCategoryModel) {
     const dateOrder = req.query.dateOrder ? req.query.dateOrder : "desc";
     const offset = req.query.offset ? parseInt(req.query.offset) : 0;
     const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+    const categoryId = req.query.categoryId ? req.query.categoryId : "";
+    const search = req.query.search ? req.query.search : "";
 
-    const total = await MediaModel.countDocuments({});
+    const filterObject = {};
 
-    const medias = await MediaModel.find()
+    //Build filter object if filterable query data was passed
+    if (categoryId) {
+      const mediaCategory = await MediaCategoryModel.findById(categoryId);
+      if (!mediaCategory) return res.status(400).send("Invalid media category in query.");
+
+      filterObject["category"] = mediaCategory;
+    }
+
+    if (search) {
+      //Filters on all collection properties that have a text index
+      //The double quotes aided by our escape character set...
+      //...the predicate to have all words in the search (whitespace delimmited).
+      const fuzzySearch = `\"${search}\"`;
+      filterObject["$text"] = { $search: fuzzySearch };
+    }
+
+    //Get the total count that matches the filter object without pagination skipping / limiting
+    const total = await MediaModel.countDocuments(filterObject);
+
+    //Get the paginated medias
+    const medias = await MediaModel.find(filterObject)
       .select("-__v -body")
       .sort({ datePosted: dateOrder })
       .skip(offset)
@@ -29,6 +51,7 @@ module.exports = function(MediaModel, mediaJoiSchema, MediaCategoryModel) {
       limit: limit,
       dateOrder: dateOrder,
       total: total,
+      search: search,
       items: medias
     };
 

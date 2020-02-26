@@ -8,5 +8,9 @@ module.exports = schema = Joi.object({
   offset: Joi.number()
     .integer()
     .min(0),
+  categoryId: Joi.objectId(),
+  search: Joi.string()
+    .min(0)
+    .max(128),
   dateOrder: Joi.string().valid("asc", "desc")
 });

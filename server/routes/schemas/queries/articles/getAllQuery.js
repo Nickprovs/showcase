@@ -1,4 +1,5 @@
 const Joi = require("@hapi/joi");
+Joi.objectId = require("joi-objectid")(Joi);
 
 module.exports = schema = Joi.object({
   limit: Joi.number()
@@ -8,5 +9,9 @@ module.exports = schema = Joi.object({
   offset: Joi.number()
     .integer()
     .min(0),
+  categoryId: Joi.objectId(),
+  search: Joi.string()
+    .min(0)
+    .max(128),
   dateOrder: Joi.string().valid("asc", "desc")
 });
