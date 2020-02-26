@@ -1,78 +1,78 @@
 const request = require("supertest");
-const { ArticleCategory } = require("../../models/articleCategory");
+const { PhotoCategory } = require("../../models/photoCategory");
 const { User } = require("../../models/user");
 const mongoose = require("mongoose");
 const moment = require("moment");
 
 let server;
-describe("/articleCategories", () => {
+describe("/photoCategories", () => {
   beforeEach(() => {
     server = require("../../index");
   });
   afterEach(async () => {
     await server.close();
-    await ArticleCategory.deleteMany({});
+    await PhotoCategory.deleteMany({});
   });
 
   describe("GET /", () => {
-    let articleCategory1;
-    let articleCategory2;
+    let photoCategory1;
+    let photoCategory2;
 
     beforeEach(async () => {
-      articleCategory1 = new ArticleCategory({ name: "Fiction" });
-      articleCategory1 = await articleCategory1.save();
+      photoCategory1 = new PhotoCategory({ name: "Fiction" });
+      photoCategory1 = await photoCategory1.save();
 
-      articleCategory2 = new ArticleCategory({ name: "Non-Fiction" });
-      articleCategory2 = await articleCategory2.save();
+      photoCategory2 = new PhotoCategory({ name: "Non-Fiction" });
+      photoCategory2 = await photoCategory2.save();
     });
 
-    it("Should return all the article categories", async () => {
-      const res = await request(server).get("/articleCategories");
+    it("Should return all the photo categories", async () => {
+      const res = await request(server).get("/photoCategories");
 
       expect(res.status).toBe(200);
       expect(res.body.items.length).toBe(2);
-      expect(res.body.items.some(g => g.name === articleCategory1.name)).toBeTruthy();
-      expect(res.body.items.some(g => g.name === articleCategory2.name)).toBeTruthy();
+      expect(res.body.items.some(g => g.name === photoCategory1.name)).toBeTruthy();
+      expect(res.body.items.some(g => g.name === photoCategory2.name)).toBeTruthy();
     });
   });
 
   describe("GET /:id", () => {
-    it("should return an article category if valid id is passed", async () => {
-      let articleCategory = new ArticleCategory({ name: "Horror" });
-      articleCategory = await articleCategory.save();
+    it("should return an photo category if valid id is passed", async () => {
+      let photoCategory = new PhotoCategory({ name: "Horror" });
+      photoCategory = await photoCategory.save();
 
-      const res = await request(server).get("/articleCategories/" + articleCategory._id);
+      const res = await request(server).get("/photoCategories/" + photoCategory._id);
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("name", articleCategory.name);
+      expect(res.body).toHaveProperty("name", photoCategory.name);
     });
 
     it("should return 400 if invalid id is passed", async () => {
-      const res = await request(server).get("/articles/1");
+      const res = await request(server).get("/photos/1");
       expect(res.status).toBe(400);
     });
 
-    it("should return 404 if no article with the given id exists", async () => {
+    it("should return 404 if no photo with the given id exists", async () => {
       const id = mongoose.Types.ObjectId();
-      const res = await request(server).get("/articles/" + id);
+      const res = await request(server).get("/photos/" + id);
 
       expect(res.status).toBe(404);
     });
   });
 
   describe("POST /", () => {
-    let articleCategory;
+    let photoCategory;
     let token;
 
     const exec = () => {
       return request(server)
-        .post("/articleCategories")
+        .post("/photoCategories")
         .set("x-auth-token", token)
-        .send(articleCategory);
+        .send(photoCategory);
     };
 
     beforeEach(async () => {
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
-      articleCategory = { name: "Fiction" };
+      photoCategory = { name: "Fiction" };
     });
 
     it("should return 401 if client is not logged in", async () => {
@@ -83,14 +83,14 @@ describe("/articleCategories", () => {
     });
 
     it("should return 400 if category name is less than 2 characters", async () => {
-      articleCategory.name = "t";
+      photoCategory.name = "t";
 
       const res = await exec();
       expect(res.status).toBe(400);
     });
 
     it("should return 400 if title is more than 50 characters", async () => {
-      articleCategory.name = new Array(52).join("a");
+      photoCategory.name = new Array(52).join("a");
       const res = await exec();
       expect(res.status).toBe(400);
     });
@@ -103,37 +103,37 @@ describe("/articleCategories", () => {
     it("should save if it is valid", async () => {
       await exec();
 
-      const savedArticleCategory = await ArticleCategory.find({ name: articleCategory.name });
-      expect(savedArticleCategory).not.toBeNull();
+      const savedPhotoCategory = await PhotoCategory.find({ name: photoCategory.name });
+      expect(savedPhotoCategory).not.toBeNull();
     });
 
     it("should return it if it is valid", async () => {
       const res = await exec();
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("name", articleCategory.name);
+      expect(res.body).toHaveProperty("name", photoCategory.name);
     });
   });
 
   describe("PUT /", () => {
-    let existingArticleCategory;
-    let articleCategory;
+    let existingPhotoCategory;
+    let photoCategory;
     let token;
     let id;
 
     const exec = () => {
       return request(server)
-        .put("/articleCategories/" + id)
+        .put("/photoCategories/" + id)
         .set("x-auth-token", token)
-        .send(articleCategory);
+        .send(photoCategory);
     };
 
     beforeEach(async () => {
-      existingArticleCategory = new ArticleCategory({ name: "Fiction" });
-      existingArticleCategory = await existingArticleCategory.save();
+      existingPhotoCategory = new PhotoCategory({ name: "Fiction" });
+      existingPhotoCategory = await existingPhotoCategory.save();
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
-      id = existingArticleCategory._id;
+      id = existingPhotoCategory._id;
 
-      articleCategory = {
+      photoCategory = {
         name: "Fantasy"
       };
     });
@@ -152,7 +152,7 @@ describe("/articleCategories", () => {
       expect(res.status).toBe(400);
     });
 
-    it("should return 404 if an existing article category with the provided id is not found", async () => {
+    it("should return 404 if an existing photo category with the provided id is not found", async () => {
       id = mongoose.Types.ObjectId();
       const res = await exec();
 
@@ -160,14 +160,14 @@ describe("/articleCategories", () => {
     });
 
     it("should return 400 if title is less than 2 characters", async () => {
-      articleCategory.title = "t";
+      photoCategory.title = "t";
       const res = await exec();
 
       expect(res.status).toBe(400);
     });
 
     it("should return 400 if title is more than 50 characters", async () => {
-      articleCategory.title = new Array(52).join("a");
+      photoCategory.title = new Array(52).join("a");
       const res = await exec();
       expect(res.status).toBe(400);
     });
@@ -180,42 +180,42 @@ describe("/articleCategories", () => {
     it("should save it if it is valid", async () => {
       await exec();
 
-      const savedArticleCategory = await ArticleCategory.find({ name: articleCategory.name });
-      expect(savedArticleCategory).not.toBeNull();
+      const savedPhotoCategory = await PhotoCategory.find({ name: photoCategory.name });
+      expect(savedPhotoCategory).not.toBeNull();
     });
 
     it("should update it if input is valid", async () => {
       await exec();
 
-      const updatedArticleCategory = await ArticleCategory.findById(existingArticleCategory._id);
+      const updatedPhotoCategory = await PhotoCategory.findById(existingPhotoCategory._id);
 
-      expect(updatedArticleCategory.name).toBe(articleCategory.name);
+      expect(updatedPhotoCategory.name).toBe(photoCategory.name);
     });
 
     it("should return it if it is valid", async () => {
       const res = await exec();
 
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("name", articleCategory.name);
+      expect(res.body).toHaveProperty("name", photoCategory.name);
     });
   });
 
   describe("DELETE /", () => {
     let token;
-    let articleCategory;
+    let photoCategory;
     let id;
 
     const exec = async () => {
       return await request(server)
-        .delete("/articleCategories/" + id)
+        .delete("/photoCategories/" + id)
         .set("x-auth-token", token)
         .send();
     };
 
     beforeEach(async () => {
-      articleCategory = new ArticleCategory({ name: "Folk" });
-      articleCategory = await articleCategory.save();
-      id = articleCategory._id;
+      photoCategory = new PhotoCategory({ name: "Folk" });
+      photoCategory = await photoCategory.save();
+      id = photoCategory._id;
       token = new User({ isAdmin: true }).generateAuthToken();
     });
 
@@ -243,7 +243,7 @@ describe("/articleCategories", () => {
       expect(res.status).toBe(400);
     });
 
-    it("should return 404 if no article with the given id was found", async () => {
+    it("should return 404 if no photo with the given id was found", async () => {
       id = mongoose.Types.ObjectId();
 
       const res = await exec();
@@ -251,18 +251,18 @@ describe("/articleCategories", () => {
       expect(res.status).toBe(404);
     });
 
-    it("should delete the article if input is valid", async () => {
+    it("should delete the photo if input is valid", async () => {
       await exec();
 
-      const savedArticleCategory = await ArticleCategory.findById(id);
-      expect(savedArticleCategory).toBeNull();
+      const savedPhotoCategory = await PhotoCategory.findById(id);
+      expect(savedPhotoCategory).toBeNull();
     });
 
-    it("should return the removed article", async () => {
+    it("should return the removed photo", async () => {
       const res = await exec();
 
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("name", articleCategory.name);
+      expect(res.body).toHaveProperty("name", photoCategory.name);
     });
   });
 });

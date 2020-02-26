@@ -1,78 +1,78 @@
 const request = require("supertest");
-const { ArticleCategory } = require("../../models/articleCategory");
+const { VideoCategory } = require("../../models/videoCategory");
 const { User } = require("../../models/user");
 const mongoose = require("mongoose");
 const moment = require("moment");
 
 let server;
-describe("/articleCategories", () => {
+describe("/videoCategories", () => {
   beforeEach(() => {
     server = require("../../index");
   });
   afterEach(async () => {
     await server.close();
-    await ArticleCategory.deleteMany({});
+    await VideoCategory.deleteMany({});
   });
 
   describe("GET /", () => {
-    let articleCategory1;
-    let articleCategory2;
+    let videoCategory1;
+    let videoCategory2;
 
     beforeEach(async () => {
-      articleCategory1 = new ArticleCategory({ name: "Fiction" });
-      articleCategory1 = await articleCategory1.save();
+      videoCategory1 = new VideoCategory({ name: "Fiction" });
+      videoCategory1 = await videoCategory1.save();
 
-      articleCategory2 = new ArticleCategory({ name: "Non-Fiction" });
-      articleCategory2 = await articleCategory2.save();
+      videoCategory2 = new VideoCategory({ name: "Non-Fiction" });
+      videoCategory2 = await videoCategory2.save();
     });
 
-    it("Should return all the article categories", async () => {
-      const res = await request(server).get("/articleCategories");
+    it("Should return all the video categories", async () => {
+      const res = await request(server).get("/videoCategories");
 
       expect(res.status).toBe(200);
       expect(res.body.items.length).toBe(2);
-      expect(res.body.items.some(g => g.name === articleCategory1.name)).toBeTruthy();
-      expect(res.body.items.some(g => g.name === articleCategory2.name)).toBeTruthy();
+      expect(res.body.items.some(g => g.name === videoCategory1.name)).toBeTruthy();
+      expect(res.body.items.some(g => g.name === videoCategory2.name)).toBeTruthy();
     });
   });
 
   describe("GET /:id", () => {
-    it("should return an article category if valid id is passed", async () => {
-      let articleCategory = new ArticleCategory({ name: "Horror" });
-      articleCategory = await articleCategory.save();
+    it("should return an video category if valid id is passed", async () => {
+      let videoCategory = new VideoCategory({ name: "Horror" });
+      videoCategory = await videoCategory.save();
 
-      const res = await request(server).get("/articleCategories/" + articleCategory._id);
+      const res = await request(server).get("/videoCategories/" + videoCategory._id);
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("name", articleCategory.name);
+      expect(res.body).toHaveProperty("name", videoCategory.name);
     });
 
     it("should return 400 if invalid id is passed", async () => {
-      const res = await request(server).get("/articles/1");
+      const res = await request(server).get("/videos/1");
       expect(res.status).toBe(400);
     });
 
-    it("should return 404 if no article with the given id exists", async () => {
+    it("should return 404 if no video with the given id exists", async () => {
       const id = mongoose.Types.ObjectId();
-      const res = await request(server).get("/articles/" + id);
+      const res = await request(server).get("/videos/" + id);
 
       expect(res.status).toBe(404);
     });
   });
 
   describe("POST /", () => {
-    let articleCategory;
+    let videoCategory;
     let token;
 
     const exec = () => {
       return request(server)
-        .post("/articleCategories")
+        .post("/videoCategories")
         .set("x-auth-token", token)
-        .send(articleCategory);
+        .send(videoCategory);
     };
 
     beforeEach(async () => {
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
-      articleCategory = { name: "Fiction" };
+      videoCategory = { name: "Fiction" };
     });
 
     it("should return 401 if client is not logged in", async () => {
@@ -83,14 +83,14 @@ describe("/articleCategories", () => {
     });
 
     it("should return 400 if category name is less than 2 characters", async () => {
-      articleCategory.name = "t";
+      videoCategory.name = "t";
 
       const res = await exec();
       expect(res.status).toBe(400);
     });
 
     it("should return 400 if title is more than 50 characters", async () => {
-      articleCategory.name = new Array(52).join("a");
+      videoCategory.name = new Array(52).join("a");
       const res = await exec();
       expect(res.status).toBe(400);
     });
@@ -103,37 +103,37 @@ describe("/articleCategories", () => {
     it("should save if it is valid", async () => {
       await exec();
 
-      const savedArticleCategory = await ArticleCategory.find({ name: articleCategory.name });
-      expect(savedArticleCategory).not.toBeNull();
+      const savedVideoCategory = await VideoCategory.find({ name: videoCategory.name });
+      expect(savedVideoCategory).not.toBeNull();
     });
 
     it("should return it if it is valid", async () => {
       const res = await exec();
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("name", articleCategory.name);
+      expect(res.body).toHaveProperty("name", videoCategory.name);
     });
   });
 
   describe("PUT /", () => {
-    let existingArticleCategory;
-    let articleCategory;
+    let existingVideoCategory;
+    let videoCategory;
     let token;
     let id;
 
     const exec = () => {
       return request(server)
-        .put("/articleCategories/" + id)
+        .put("/videoCategories/" + id)
         .set("x-auth-token", token)
-        .send(articleCategory);
+        .send(videoCategory);
     };
 
     beforeEach(async () => {
-      existingArticleCategory = new ArticleCategory({ name: "Fiction" });
-      existingArticleCategory = await existingArticleCategory.save();
+      existingVideoCategory = new VideoCategory({ name: "Fiction" });
+      existingVideoCategory = await existingVideoCategory.save();
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
-      id = existingArticleCategory._id;
+      id = existingVideoCategory._id;
 
-      articleCategory = {
+      videoCategory = {
         name: "Fantasy"
       };
     });
@@ -152,7 +152,7 @@ describe("/articleCategories", () => {
       expect(res.status).toBe(400);
     });
 
-    it("should return 404 if an existing article category with the provided id is not found", async () => {
+    it("should return 404 if an existing video category with the provided id is not found", async () => {
       id = mongoose.Types.ObjectId();
       const res = await exec();
 
@@ -160,14 +160,14 @@ describe("/articleCategories", () => {
     });
 
     it("should return 400 if title is less than 2 characters", async () => {
-      articleCategory.title = "t";
+      videoCategory.title = "t";
       const res = await exec();
 
       expect(res.status).toBe(400);
     });
 
     it("should return 400 if title is more than 50 characters", async () => {
-      articleCategory.title = new Array(52).join("a");
+      videoCategory.title = new Array(52).join("a");
       const res = await exec();
       expect(res.status).toBe(400);
     });
@@ -180,42 +180,42 @@ describe("/articleCategories", () => {
     it("should save it if it is valid", async () => {
       await exec();
 
-      const savedArticleCategory = await ArticleCategory.find({ name: articleCategory.name });
-      expect(savedArticleCategory).not.toBeNull();
+      const savedVideoCategory = await VideoCategory.find({ name: videoCategory.name });
+      expect(savedVideoCategory).not.toBeNull();
     });
 
     it("should update it if input is valid", async () => {
       await exec();
 
-      const updatedArticleCategory = await ArticleCategory.findById(existingArticleCategory._id);
+      const updatedVideoCategory = await VideoCategory.findById(existingVideoCategory._id);
 
-      expect(updatedArticleCategory.name).toBe(articleCategory.name);
+      expect(updatedVideoCategory.name).toBe(videoCategory.name);
     });
 
     it("should return it if it is valid", async () => {
       const res = await exec();
 
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("name", articleCategory.name);
+      expect(res.body).toHaveProperty("name", videoCategory.name);
     });
   });
 
   describe("DELETE /", () => {
     let token;
-    let articleCategory;
+    let videoCategory;
     let id;
 
     const exec = async () => {
       return await request(server)
-        .delete("/articleCategories/" + id)
+        .delete("/videoCategories/" + id)
         .set("x-auth-token", token)
         .send();
     };
 
     beforeEach(async () => {
-      articleCategory = new ArticleCategory({ name: "Folk" });
-      articleCategory = await articleCategory.save();
-      id = articleCategory._id;
+      videoCategory = new VideoCategory({ name: "Folk" });
+      videoCategory = await videoCategory.save();
+      id = videoCategory._id;
       token = new User({ isAdmin: true }).generateAuthToken();
     });
 
@@ -243,7 +243,7 @@ describe("/articleCategories", () => {
       expect(res.status).toBe(400);
     });
 
-    it("should return 404 if no article with the given id was found", async () => {
+    it("should return 404 if no video with the given id was found", async () => {
       id = mongoose.Types.ObjectId();
 
       const res = await exec();
@@ -251,18 +251,18 @@ describe("/articleCategories", () => {
       expect(res.status).toBe(404);
     });
 
-    it("should delete the article if input is valid", async () => {
+    it("should delete the video if input is valid", async () => {
       await exec();
 
-      const savedArticleCategory = await ArticleCategory.findById(id);
-      expect(savedArticleCategory).toBeNull();
+      const savedVideoCategory = await VideoCategory.findById(id);
+      expect(savedVideoCategory).toBeNull();
     });
 
-    it("should return the removed article", async () => {
+    it("should return the removed video", async () => {
       const res = await exec();
 
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("name", articleCategory.name);
+      expect(res.body).toHaveProperty("name", videoCategory.name);
     });
   });
 });
