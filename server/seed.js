@@ -89,16 +89,19 @@ const data = [
 async function seed() {
   const connection = await mongoose.connect(config.get("db"), { useNewUrlParser: true, useUnifiedTopology: true });
 
-  await connection.connection.db.dropDatabase();
-
-  for (let dataItem of data) {
-    const { _id: categoryId } = await new ArticleCategory({ name: dataItem.categoryName }).save();
-    const articles = dataItem.posts.map(article => ({
-      ...article,
-      category: { _id: categoryId, name: dataItem.categoryName }
-    }));
-    await Article.insertMany(articles);
+  try {
+    await connection.connection.db.dropDatabase();
+  } catch (ex) {
+    console.log(ex);
   }
+  // for (let dataItem of data) {
+  //   const { _id: categoryId } = await new ArticleCategory({ name: dataItem.categoryName }).save();
+  //   const articles = dataItem.posts.map(article => ({
+  //     ...article,
+  //     category: { _id: categoryId, name: dataItem.categoryName }
+  //   }));
+  //   await Article.insertMany(articles);
+  // }
 
   mongoose.disconnect();
 }

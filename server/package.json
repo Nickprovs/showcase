@@ -9,7 +9,7 @@
   "scripts": {
     "seed": "node seed.js",
     "start": "nodemon index.js",
-    "test": "jest --watchAll --verbose"
+    "test": "jest --watchAll --verbose --maxWorkers=1"
   },
   "author": "",
   "license": "ISC",

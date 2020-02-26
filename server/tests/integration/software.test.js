@@ -22,13 +22,13 @@ describe("/software", () => {
       softwareCategory = await softwareCategory.save();
 
       const software1 = new Software({
-        slug: "the-great-cow-jumped-over-the-moon",
-        title: "The great cow jumped over the moon",
+        slug: "the-great-wallabee-jumped-over-the-moon",
+        title: "The great wallabee jumped over the moon",
         category: softwareCategory,
-        description: "The cowiest of cows.",
+        description: "The wallabeest of wallabees.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadada",
-        tags: ["the", "great", "cow"]
+        tags: ["the", "great", "wallabee"]
       });
       await software1.save();
 
@@ -46,8 +46,8 @@ describe("/software", () => {
       const res = await request(server).get("/software");
       expect(res.status).toBe(200);
       expect(res.body.items.length).toBe(2);
-      expect(res.body.items.some(g => g.title === "The great cow jumped over the moon")).toBeTruthy();
-      expect(res.body.items.some(g => g.title === "The dog jumped over the fence")).toBeTruthy();
+      expect(res.body.items.some(g => g.title === software1.title)).toBeTruthy();
+      expect(res.body.items.some(g => g.title === software2.title)).toBeTruthy();
       expect(res.body.items.some(g => g.body)).toBeFalsy();
     });
   });
@@ -84,6 +84,8 @@ describe("/software", () => {
       expect(res.body).toHaveProperty("image", software.image);
       expect(res.body).toHaveProperty("body", software.body);
       expect(res.body).toHaveProperty("addressableHighlight");
+      expect(res.body).toHaveProperty("tags");
+      expect(res.body).toHaveProperty("contingency");
     });
 
     it("should return 400 if invalid id is passed", async () => {
@@ -306,10 +308,9 @@ describe("/software", () => {
 
     it("should return the updated software if it is valid", async () => {
       const res = await exec();
-      expect(res.body).toHaveProperty("_id");
-      expect(res.body).toHaveProperty("title", software.title);
 
       expect(res.status).toBe(200);
+      expect(res.body).toHaveProperty("_id");
       expect(res.body).toHaveProperty("slug", software.slug);
       expect(res.body).toHaveProperty("title", software.title);
       expect(res.body).toHaveProperty("category");
@@ -323,7 +324,6 @@ describe("/software", () => {
       expect(res.body).toHaveProperty("tags", software.tags);
       expect(res.body).toHaveProperty("contingency", software.contingency);
       expect(res.body).toHaveProperty("addressableHighlight", software.addressableHighlight);
-      console.log(res.body);
     });
   });
 
@@ -344,10 +344,10 @@ describe("/software", () => {
       softwareCategory = await softwareCategory.save();
 
       software = new Software({
-        slug: "the-original-dogiest-of-dogs",
-        title: "The original dogiest of dogs",
+        slug: "the-best-dogiest-of-dogs",
+        title: "The best dogiest of dogs",
         category: softwareCategory,
-        description: "The original dogiest of dogs.",
+        description: "The best dogiest of dogs.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aaadeeadada",
         tags: ["The", "Dogiest", "Dog"],

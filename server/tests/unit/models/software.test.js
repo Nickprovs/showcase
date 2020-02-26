@@ -14,7 +14,6 @@ describe("software.validate", () => {
     };
 
     const { error } = schema.validate(software);
-    console.log(error);
     const isValid = !error;
 
     expect(isValid).toBe(true);
@@ -32,7 +31,6 @@ describe("software.validate", () => {
     };
 
     const { error } = schema.validate(software);
-    console.log(error);
     const isValid = !error;
 
     expect(isValid).toBe(false);
@@ -55,7 +53,6 @@ describe("software.validate", () => {
     };
 
     const { error } = schema.validate(software);
-    console.log(error);
     const isValid = !error;
 
     expect(isValid).toBe(true);
@@ -79,7 +76,6 @@ describe("software.validate", () => {
     };
 
     const { error } = schema.validate(software);
-    console.log(error);
     const isValid = !error;
 
     expect(isValid).toBe(false);
@@ -106,7 +102,6 @@ describe("software.validate", () => {
     };
 
     const { error } = schema.validate(software);
-    console.log(error);
     const isValid = !error;
 
     expect(isValid).toBe(true);
@@ -133,7 +128,6 @@ describe("software.validate", () => {
     };
 
     const { error } = schema.validate(software);
-    console.log(error);
     const isValid = !error;
 
     expect(isValid).toBe(false);

@@ -46,8 +46,8 @@ describe("/articles", () => {
       const res = await request(server).get("/articles");
       expect(res.status).toBe(200);
       expect(res.body.items.length).toBe(2);
-      expect(res.body.items.some(g => g.title === "The great cow jumped over the moon")).toBeTruthy();
-      expect(res.body.items.some(g => g.title === "The dog jumped over the fence")).toBeTruthy();
+      expect(res.body.items.some(g => g.title === article1.title)).toBeTruthy();
+      expect(res.body.items.some(g => g.title === article2.title)).toBeTruthy();
       expect(res.body.items.some(g => g.body)).toBeFalsy();
     });
   });
@@ -84,6 +84,8 @@ describe("/articles", () => {
       expect(res.body).toHaveProperty("image", article.image);
       expect(res.body).toHaveProperty("body", article.body);
       expect(res.body).toHaveProperty("addressableHighlight");
+      expect(res.body).toHaveProperty("tags");
+      expect(res.body).toHaveProperty("contingency");
     });
 
     it("should return 400 if invalid id is passed", async () => {
@@ -300,16 +302,15 @@ describe("/articles", () => {
 
       const updatedArticle = await Article.findById(existingArticle._id);
 
-      expect(updatedArticle.name).toBe(article.name);
+      expect(updatedArticle.title).toBe(article.title);
       expect(updatedArticle.contingency.get("key4")).toBeTruthy();
     });
 
     it("should return the updated article if it is valid", async () => {
       const res = await exec();
-      expect(res.body).toHaveProperty("_id");
-      expect(res.body).toHaveProperty("title", article.title);
 
       expect(res.status).toBe(200);
+      expect(res.body).toHaveProperty("_id");
       expect(res.body).toHaveProperty("slug", article.slug);
       expect(res.body).toHaveProperty("title", article.title);
       expect(res.body).toHaveProperty("category");
@@ -323,7 +324,6 @@ describe("/articles", () => {
       expect(res.body).toHaveProperty("tags", article.tags);
       expect(res.body).toHaveProperty("contingency", article.contingency);
       expect(res.body).toHaveProperty("addressableHighlight", article.addressableHighlight);
-      console.log(res.body);
     });
   });
 

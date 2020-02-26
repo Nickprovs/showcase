@@ -13,7 +13,6 @@ describe("video.validate", () => {
     };
 
     const { error } = schema.validate(video);
-    console.log(error);
     const isValid = !error;
 
     expect(isValid).toBe(true);

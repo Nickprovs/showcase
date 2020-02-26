@@ -1,6 +1,7 @@
 const express = require("express");
 const moment = require("moment");
 const { Photo, joiSchema: photoSchema } = require("../models/photo");
+const { PhotoCategory } = require("../models/photoCategory");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 const validateBody = require("../middleware/validateBody");
@@ -41,13 +42,19 @@ router.get("/:id", validateObjectId, async (req, res) => {
 });
 
 router.post("/", [auth, admin, validateBody(photoSchema)], async (req, res) => {
+  const photoCategory = await PhotoCategory.findById(req.body.categoryId);
+  if (!photoCategory) return res.status(400).send("Invalid photo category.");
+
   let photo = new Photo({
     title: req.body.title,
+    category: photoCategory,
     datePosted: moment().toJSON(),
     dateLastModified: moment().toJSON(),
+    description: req.body.description,
     orientation: req.body.orientation,
     displaySize: req.body.displaySize,
-    source: req.body.source
+    source: req.body.source,
+    tags: req.body.tags
   });
 
   photo = await photo.save();
@@ -56,14 +63,20 @@ router.post("/", [auth, admin, validateBody(photoSchema)], async (req, res) => {
 });
 
 router.put("/:id", [auth, admin, validateObjectId, validateBody(photoSchema)], async (req, res) => {
+  const photoCategory = await PhotoCategory.findById(req.body.categoryId);
+  if (!photoCategory) return res.status(400).send("Invalid photo category.");
+
   const updatedPhoto = await Photo.findByIdAndUpdate(
     req.params.id,
     {
       title: req.body.title,
+      category: photoCategory,
       dateLastModified: moment().toJSON(),
+      description: req.body.description,
       orientation: req.body.orientation,
       displaySize: req.body.displaySize,
-      source: req.body.source
+      source: req.body.source,
+      tags: req.body.tags
     },
     { new: true }
   );
