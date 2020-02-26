@@ -231,7 +231,6 @@ describe("/photos", () => {
       id = mongoose.Types.ObjectId();
       const res = await exec();
 
-      console.log(res);
       expect(res.status).toBe(404);
     });
 
