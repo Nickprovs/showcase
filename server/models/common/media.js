@@ -54,7 +54,7 @@ const mongoMediaSchema = new mongoose.Schema({
     validate: validateTags
   }
 });
-mongoMediaSchema.index({ title: "text", tags: "text", "category.name": "text" });
+mongoMediaSchema.index({ title: "text", description: "text", tags: "text", "category.name": "text" });
 
 function validateTags(val) {
   if (val.length >= 3 && val.length <= 10) return true;

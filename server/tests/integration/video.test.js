@@ -17,38 +17,133 @@ describe("/videos", () => {
   });
 
   describe("GET /", () => {
-    it("Should return all the video projects", async () => {
-      let videoCategory = new VideoCategory({ name: "Portraits" });
-      videoCategory = await videoCategory.save();
+    let videoCategory1;
+    let videoCategory2;
+    let video1;
+    let video2;
+    let video3;
 
-      const video1 = new Video({
+    beforeEach(async () => {
+      videoCategory1 = new VideoCategory({ name: "Mammal" });
+      videoCategory1 = await videoCategory1.save();
+
+      videoCategory2 = new VideoCategory({ name: "Reptile" });
+      videoCategory2 = await videoCategory2.save();
+
+      video1 = new Video({
         title: "Dog Video",
-        category: videoCategory,
+        category: videoCategory1,
         description: "A video of a dog.",
         orientation: "landscape",
         displaySize: "medium",
         source: "https://i.imgur.com/xyPtn4m.jpg",
-        tags: ["cute", "dog", "doggo"]
+        tags: ["cute", "dog", "doggo", "common1", "common2"]
       });
       await video1.save();
 
-      const video2 = new Video({
+      video2 = new Video({
         title: "Cat Video",
-        category: videoCategory,
+        category: videoCategory1,
         description: "A video of a cat.",
         orientation: "portrait",
         displaySize: "large",
         source: "https://i.imgur.com/ILv82mN.jpeg",
-        tags: ["cute", "cat", "kitten"]
+        tags: ["cute", "cat", "kitten", "common1", "common2"]
       });
       await video2.save();
 
+      video3 = new Video({
+        title: "Lizard Video",
+        category: videoCategory2,
+        description: "A video of a lizard.",
+        orientation: "portrait",
+        displaySize: "large",
+        source: "https://i.imgur.com/ILv82mN.jpeg",
+        tags: ["cute", "lizard", "lizards"]
+      });
+      await video3.save();
+    });
+
+    it("Should return all the videos when no query filter is provided", async () => {
       const res = await request(server).get("/videos");
+
+      expect(res.status).toBe(200);
+      expect(res.body.items.length).toBe(3);
+      expect(res.body.items.some(g => g.title === video1.title)).toBeTruthy();
+      expect(res.body.items.some(g => g.title === video2.title)).toBeTruthy();
+      expect(res.body.items.some(g => g.title === video3.title)).toBeTruthy();
+    });
+
+    it("Should return the correct metadata when no query filter is provided", async () => {
+      const res = await request(server).get("/videos");
+
+      expect(res.body.total === 3);
+      expect(res.body.offset === 0);
+      expect(res.body.limit === 10);
+    });
+
+    it("Should return only the videos that match the category id filter", async () => {
+      const res = await request(server).get(`/videos?categoryId=${videoCategory1._id}`);
+
       expect(res.status).toBe(200);
       expect(res.body.items.length).toBe(2);
       expect(res.body.items.some(g => g.title === video1.title)).toBeTruthy();
       expect(res.body.items.some(g => g.title === video2.title)).toBeTruthy();
-      expect(res.body.items.some(g => g.body)).toBeFalsy();
+    });
+
+    it("Should return the correct metadata that matches the category id filter", async () => {
+      const res = await request(server).get(`/videos?categoryId=${videoCategory1._id}`);
+
+      expect(res.body.items.length).toBe(2);
+      expect(res.body.total === 2);
+      expect(res.body.offset === 0);
+      expect(res.body.limit === 10);
+    });
+
+    it("Should return the correct metadata when providing an offset", async () => {
+      const res = await request(server).get(`/videos?offset=1`);
+
+      expect(res.body.items.length).toBe(2);
+      expect(res.body.total === 3);
+      expect(res.body.offset === 1);
+      expect(res.body.limit === 10);
+    });
+
+    it("Should return the correct metadata that matches offset and the category id filter", async () => {
+      const res = await request(server).get(`/videos?categoryId=${videoCategory1._id}&offset=1`);
+
+      expect(res.body.items.length).toBe(1);
+      expect(res.body.total === 2);
+      expect(res.body.offset === 1);
+      expect(res.body.limit === 10);
+    });
+
+    it("Should return the multiple of videos that match the description search", async () => {
+      const res = await request(server).get(`/videos?search=a video of a`);
+
+      //The items returned should nor have any results whose tags don't include "common1" or "common2"
+      expect(res.body.items.length).toBe(3);
+      expect(res.body.total === 3);
+    });
+
+    it("Should return the singular video that matches the tag search", async () => {
+      const res = await request(server).get(`/videos?search=cat`);
+
+      expect(res.body.items.length).toBe(1);
+      expect(res.body.total === 1);
+    });
+
+    it("Should return the singular video that matches the title search", async () => {
+      const res = await request(server).get(`/videos?search=cat`);
+
+      expect(res.body.items.length).toBe(1);
+      expect(res.body.total === 1);
+    });
+
+    it("Should return the multiple videos that matches the category search", async () => {
+      const res = await request(server).get(`/videos?search=mammal`);
+      expect(res.body.items.length).toBe(2);
+      expect(res.body.total === 2);
     });
   });
 

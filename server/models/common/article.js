@@ -84,7 +84,7 @@ const mongoArticleSchema = new mongoose.Schema({
     validate: validateContingency
   }
 });
-mongoArticleSchema.index({ title: "text", tags: "text", "category.name": "text" });
+mongoArticleSchema.index({ title: "text", description: "text", tags: "text", "category.name": "text" });
 
 function validateTags(val) {
   if (!val) throw new Error("Tags must contain between 3 and 10 entries.");

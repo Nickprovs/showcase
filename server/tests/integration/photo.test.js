@@ -17,38 +17,133 @@ describe("/photos", () => {
   });
 
   describe("GET /", () => {
-    it("Should return all the photo projects", async () => {
-      let photoCategory = new PhotoCategory({ name: "Portraits" });
-      photoCategory = await photoCategory.save();
+    let photoCategory1;
+    let photoCategory2;
+    let photo1;
+    let photo2;
+    let photo3;
 
-      const photo1 = new Photo({
+    beforeEach(async () => {
+      photoCategory1 = new PhotoCategory({ name: "Mammal" });
+      photoCategory1 = await photoCategory1.save();
+
+      photoCategory2 = new PhotoCategory({ name: "Reptile" });
+      photoCategory2 = await photoCategory2.save();
+
+      photo1 = new Photo({
         title: "Dog Photo",
-        category: photoCategory,
+        category: photoCategory1,
         description: "A photo of a dog.",
         orientation: "landscape",
         displaySize: "medium",
         source: "https://i.imgur.com/xyPtn4m.jpg",
-        tags: ["cute", "dog", "doggo"]
+        tags: ["cute", "dog", "doggo", "common1", "common2"]
       });
       await photo1.save();
 
-      const photo2 = new Photo({
+      photo2 = new Photo({
         title: "Cat Photo",
-        category: photoCategory,
+        category: photoCategory1,
         description: "A photo of a cat.",
         orientation: "portrait",
         displaySize: "large",
         source: "https://i.imgur.com/ILv82mN.jpeg",
-        tags: ["cute", "cat", "kitten"]
+        tags: ["cute", "cat", "kitten", "common1", "common2"]
       });
       await photo2.save();
 
+      photo3 = new Photo({
+        title: "Lizard Photo",
+        category: photoCategory2,
+        description: "A photo of a lizard.",
+        orientation: "portrait",
+        displaySize: "large",
+        source: "https://i.imgur.com/ILv82mN.jpeg",
+        tags: ["cute", "lizard", "lizards"]
+      });
+      await photo3.save();
+    });
+
+    it("Should return all the photos when no query filter is provided", async () => {
       const res = await request(server).get("/photos");
+
+      expect(res.status).toBe(200);
+      expect(res.body.items.length).toBe(3);
+      expect(res.body.items.some(g => g.title === photo1.title)).toBeTruthy();
+      expect(res.body.items.some(g => g.title === photo2.title)).toBeTruthy();
+      expect(res.body.items.some(g => g.title === photo3.title)).toBeTruthy();
+    });
+
+    it("Should return the correct metadata when no query filter is provided", async () => {
+      const res = await request(server).get("/photos");
+
+      expect(res.body.total === 3);
+      expect(res.body.offset === 0);
+      expect(res.body.limit === 10);
+    });
+
+    it("Should return only the photos that match the category id filter", async () => {
+      const res = await request(server).get(`/photos?categoryId=${photoCategory1._id}`);
+
       expect(res.status).toBe(200);
       expect(res.body.items.length).toBe(2);
       expect(res.body.items.some(g => g.title === photo1.title)).toBeTruthy();
       expect(res.body.items.some(g => g.title === photo2.title)).toBeTruthy();
-      expect(res.body.items.some(g => g.body)).toBeFalsy();
+    });
+
+    it("Should return the correct metadata that matches the category id filter", async () => {
+      const res = await request(server).get(`/photos?categoryId=${photoCategory1._id}`);
+
+      expect(res.body.items.length).toBe(2);
+      expect(res.body.total === 2);
+      expect(res.body.offset === 0);
+      expect(res.body.limit === 10);
+    });
+
+    it("Should return the correct metadata when providing an offset", async () => {
+      const res = await request(server).get(`/photos?offset=1`);
+
+      expect(res.body.items.length).toBe(2);
+      expect(res.body.total === 3);
+      expect(res.body.offset === 1);
+      expect(res.body.limit === 10);
+    });
+
+    it("Should return the correct metadata that matches offset and the category id filter", async () => {
+      const res = await request(server).get(`/photos?categoryId=${photoCategory1._id}&offset=1`);
+
+      expect(res.body.items.length).toBe(1);
+      expect(res.body.total === 2);
+      expect(res.body.offset === 1);
+      expect(res.body.limit === 10);
+    });
+
+    it("Should return the multiple of photos that match the description search", async () => {
+      const res = await request(server).get(`/photos?search=a photo of a`);
+
+      //The items returned should nor have any results whose tags don't include "common1" or "common2"
+      expect(res.body.items.length).toBe(3);
+      expect(res.body.total === 3);
+    });
+
+    it("Should return the singular photo that matches the tag search", async () => {
+      const res = await request(server).get(`/photos?search=cat`);
+
+      expect(res.body.items.length).toBe(1);
+      expect(res.body.total === 1);
+    });
+
+    it("Should return the singular photo that matches the title search", async () => {
+      const res = await request(server).get(`/photos?search=cat`);
+
+      expect(res.body.items.length).toBe(1);
+      expect(res.body.total === 1);
+    });
+
+    it("Should return the multiple photos that matches the category search", async () => {
+      const res = await request(server).get(`/photos?search=mammal`);
+      expect(res.body.items.length).toBe(2);
+      expect(res.body.total === 2);
     });
   });
 

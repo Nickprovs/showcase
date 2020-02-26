@@ -17,38 +17,147 @@ describe("/software", () => {
   });
 
   describe("GET /", () => {
-    it("Should return all the software projects", async () => {
-      let softwareCategory = new SoftwareCategory({ name: "Fiction" });
-      softwareCategory = await softwareCategory.save();
+    let softwareCategory1;
+    let softwareCategory2;
+    let software1;
+    let software2;
+    let software3;
 
-      const software1 = new Software({
-        slug: "the-great-wallabee-jumped-over-the-moon",
-        title: "The great wallabee jumped over the moon",
-        category: softwareCategory,
-        description: "The wallabeest of wallabees.",
+    beforeEach(async () => {
+      softwareCategory1 = new SoftwareCategory({ name: "Fiction" });
+      softwareCategory1 = await softwareCategory1.save();
+
+      softwareCategory2 = new SoftwareCategory({ name: "Non-Fiction" });
+      softwareCategory2 = await softwareCategory2.save();
+
+      software1 = new Software({
+        slug: "the-great-cow-jumped-over-the-moon",
+        title: "The great cow jumped over the moon",
+        category: softwareCategory1,
+        description: "The cowiest of cows.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadada",
-        tags: ["the", "great", "wallabee"]
+        tags: ["the", "great", "cow", "common1", "common2"]
       });
       await software1.save();
 
-      const software2 = new Software({
+      software2 = new Software({
         slug: "the-dog-jumped-over-the-fence",
         title: "The dog jumped over the fence",
-        category: softwareCategory,
+        category: softwareCategory2,
         description: "The dogiest of dogs.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadasfsfsfsfsfsfsfsda",
-        tags: ["the", "great", "cow"]
+        tags: ["the", "great", "cow", "common1", "common2"]
       });
       await software2.save();
 
+      software3 = new Software({
+        slug: "the-beaver-jumped-over-the-fence",
+        title: "The beaver jumped over the fence",
+        category: softwareCategory2,
+        description: "The beaveriest of beavers.",
+        image: "https://i.imgur.com/O2NQNvP.jpg",
+        body: "aadasfsfsfsfsfsfsfsda",
+        tags: ["the", "beaver", "beav"]
+      });
+      await software3.save();
+    });
+
+    it("Should return all the software when no query filter is provided", async () => {
       const res = await request(server).get("/software");
+
       expect(res.status).toBe(200);
-      expect(res.body.items.length).toBe(2);
+      expect(res.body.items.length).toBe(3);
       expect(res.body.items.some(g => g.title === software1.title)).toBeTruthy();
       expect(res.body.items.some(g => g.title === software2.title)).toBeTruthy();
-      expect(res.body.items.some(g => g.body)).toBeFalsy();
+      expect(res.body.items.some(g => g.title === software3.title)).toBeTruthy();
+    });
+
+    it("Should return the correct metadata when no query filter is provided", async () => {
+      const res = await request(server).get("/software");
+
+      expect(res.body.total === 3);
+      expect(res.body.offset === 0);
+      expect(res.body.limit === 10);
+    });
+
+    it("Should return only the software that match the category id filter", async () => {
+      const res = await request(server).get(`/software?categoryId=${softwareCategory2._id}`);
+
+      expect(res.status).toBe(200);
+      expect(res.body.items.length).toBe(2);
+      expect(res.body.items.some(g => g.title === software2.title)).toBeTruthy();
+      expect(res.body.items.some(g => g.title === software3.title)).toBeTruthy();
+    });
+
+    it("Should return the correct metadata that matches the category id filter", async () => {
+      const res = await request(server).get(`/software?categoryId=${softwareCategory2._id}`);
+
+      expect(res.body.items.length).toBe(2);
+      expect(res.body.total === 2);
+      expect(res.body.offset === 0);
+      expect(res.body.limit === 10);
+    });
+
+    it("Should return the correct metadata when providing an offset", async () => {
+      const res = await request(server).get(`/software?offset=1`);
+
+      expect(res.body.items.length).toBe(2);
+      expect(res.body.total === 3);
+      expect(res.body.offset === 1);
+      expect(res.body.limit === 10);
+    });
+
+    it("Should return the correct metadata that matches offset and the category id filter", async () => {
+      const res = await request(server).get(`/software?categoryId=${softwareCategory2._id}&offset=1`);
+
+      expect(res.body.items.length).toBe(1);
+      expect(res.body.total === 2);
+      expect(res.body.offset === 1);
+      expect(res.body.limit === 10);
+    });
+
+    it("Should return the multiple of software that match the tag search", async () => {
+      const res = await request(server).get(`/software?search=common1`);
+
+      //The items returned should nor have any results whose tags don't include "common1" or "common2"
+      expect(res.body.items.length).toBe(2);
+      expect(res.body.total === 2);
+    });
+
+    it("Should return the singular software that matches the tag search", async () => {
+      const res = await request(server).get(`/software?search=beaver`);
+
+      expect(res.body.items.length).toBe(1);
+      expect(res.body.total === 1);
+    });
+
+    it("Should return the singular software that matches the title search", async () => {
+      const res = await request(server).get(`/software?search=dog jumped over the fence`);
+
+      expect(res.body.items.length).toBe(1);
+      expect(res.body.total === 1);
+    });
+
+    it("Should return the multiple software that matches the title search", async () => {
+      const res = await request(server).get(`/software?search=jumped over the fence`);
+
+      expect(res.body.items.length).toBe(2);
+      expect(res.body.total === 2);
+    });
+
+    it("Should return the singular photo that matches the description search", async () => {
+      const res = await request(server).get(`/software?search=the cowiest of cows`);
+
+      expect(res.body.items.length).toBe(1);
+      expect(res.body.total === 1);
+    });
+
+    it("Should return the multiple software that matches the category search", async () => {
+      const res = await request(server).get(`/software?search=Non-Fiction`);
+      expect(res.body.items.length).toBe(2);
+      expect(res.body.total === 2);
     });
   });
 
