@@ -13,7 +13,7 @@ module.exports = function(CategoryModel, categoryJoiSchema) {
       .select("-__v")
       .sort({ name: "asc" });
 
-    const total = await CategoryModel.count({});
+    const total = await CategoryModel.countDocuments({});
     const data = {
       total: total,
       items: categories

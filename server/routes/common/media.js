@@ -15,7 +15,8 @@ module.exports = function(MediaModel, mediaJoiSchema, MediaCategoryModel) {
     const dateOrder = req.query.dateOrder ? req.query.dateOrder : "desc";
     const offset = req.query.offset ? parseInt(req.query.offset) : 0;
     const limit = req.query.limit ? parseInt(req.query.limit) : 10;
-    const total = await MediaModel.count({});
+
+    const total = await MediaModel.countDocuments({});
 
     const medias = await MediaModel.find()
       .select("-__v -body")
