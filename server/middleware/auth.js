@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const config = require("config");
+const winston = require("winston");
 
 module.exports = function(req, res, next) {
   if (!config.get("requiresAuth")) return next();
@@ -12,6 +13,6 @@ module.exports = function(req, res, next) {
     req.user = decoded;
     next();
   } catch (ex) {
-    res.status(400).send("Invalid token.");
+    return res.status(400).send("Invalid token.");
   }
 };
