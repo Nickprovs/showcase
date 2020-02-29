@@ -1,5 +1,10 @@
 const { Article } = require("./models/article");
 const { ArticleCategory } = require("./models/articleCategory");
+const { Software } = require("./models/software");
+const { SoftwareCategory } = require("./models/softwareCategory");
+const { Photo } = require("./models/photo");
+const { PhotoCategory } = require("./models/photoCategory");
+
 const mongoose = require("mongoose");
 mongoose.set("useCreateIndex", true);
 const config = require("config");
@@ -241,24 +246,29 @@ const data = {
   ]
 };
 
-async function seed() {
-  const connection = await mongoose.connect(config.get("db"), { useNewUrlParser: true, useUnifiedTopology: true });
+async function saveCollection(data, MainModel, CategoryModel) {
+  for (let dataItem of data) {
+    const { _id: categoryId } = await new CategoryModel({ name: dataItem.categoryName }).save();
+    const items = dataItem.items.map(item => ({
+      ...item,
+      category: { _id: categoryId, name: dataItem.categoryName }
+    }));
+    await MainModel.insertMany(items);
+  }
+}
 
+async function seed() {
   try {
+    const connection = await mongoose.connect(config.get("db"), { useNewUrlParser: true, useUnifiedTopology: true });
     await connection.connection.db.dropDatabase();
+    await saveCollection(data.articles, Article, ArticleCategory);
+    await saveCollection(data.software, Software, SoftwareCategory);
+    await saveCollection(data.photos, Photo, PhotoCategory);
   } catch (ex) {
     console.log(ex);
+  } finally {
+    mongoose.disconnect();
   }
-  // for (let dataItem of data) {
-  //   const { _id: categoryId } = await new ArticleCategory({ name: dataItem.categoryName }).save();
-  //   const articles = dataItem.posts.map(article => ({
-  //     ...article,
-  //     category: { _id: categoryId, name: dataItem.categoryName }
-  //   }));
-  //   await Article.insertMany(articles);
-  // }
-
-  mongoose.disconnect();
 }
 
 seed();
