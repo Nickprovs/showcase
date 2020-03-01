@@ -5,6 +5,7 @@ const error = require("./middleware/error");
 const app = express();
 
 require("./startup/logging")();
+require("./startup/cors")(app);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 require("./startup/routes")(app);

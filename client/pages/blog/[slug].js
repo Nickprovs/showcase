@@ -1,28 +1,24 @@
 import { useRouter } from "next/router";
 import Layout from "../../components/layout";
+import { getBlogAsync } from "../../services/blogService";
 
-export default function Blog() {
+export default function Blog({ blog }) {
   const router = useRouter();
   return (
     <Layout>
-      <h1>{router.query.id}</h1>
-      <h1>{router.query.page}</h1>
-      <p>This is the blog post content.</p>
+      <h1>{blog.title}</h1>
+      <p>{blog.body}</p>
     </Layout>
   );
 }
 
 Blog.getInitialProps = async function(context) {
-  const getOptions = {
-    offset: (currentPage - 1) * pageSize,
-    limit: pageSize
-  };
+  const { slug } = context.query;
+  console.log(slug);
 
-  const res = await getBlogPreviewsAsync(getOptions);
-
+  const res = await getBlogAsync(slug);
+  console.log(res);
   return {
-    previews: res.items,
-    currentPage: currentPage,
-    totalBlogsCount: res.total
+    blog: res
   };
 };

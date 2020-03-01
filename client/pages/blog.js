@@ -3,6 +3,7 @@ import { getBlogPreviewsAsync } from "../services/blogService";
 import blogStyles from "../styles/blog.module.css";
 import BasicButton from "../components/common/basicButton";
 import Pagination from "../components/common/pagination";
+import Link from "next/link";
 
 const pageSize = 6;
 
@@ -17,7 +18,9 @@ export default function Blog(props) {
         {previews.map(preview => (
           <div className={blogStyles.item}>
             <div className={blogStyles.previewTitle}>
-              <h2>{preview.title}</h2>
+              <Link href="/blog/[slug]" as={`/blog/${preview.slug}`}>
+                <h2>{preview.title}</h2>
+              </Link>
             </div>
             <div className={blogStyles.previewImage}>
               <img className={blogStyles.containerFitImage} src={preview.image} />

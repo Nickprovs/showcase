@@ -60,10 +60,11 @@ module.exports = function(ArticleModel, articleJoiSchema, ArticleCategoryModel) 
 
   router.get("/:id", validateVariableId, async (req, res) => {
     let article;
-    if (req.idIsSlug) article = await ArticleModel.find({ slug: req.params.id }).select("-__v");
+    if (req.idIsSlug) article = await ArticleModel.findOne({ slug: req.params.id }).select("-__v");
     else article = await ArticleModel.findById(req.params.id).select("-__v");
 
     if (!article) return res.status(404).send("The article with the given ID or Slugwas not found.");
+    console.log(article);
     res.send(article);
   });
 
