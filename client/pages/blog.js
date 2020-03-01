@@ -47,7 +47,7 @@ Blog.getInitialProps = async function(context) {
   const res = await getBlogPreviewsAsync(getOptions);
 
   return {
-    previews: res.previews,
+    previews: res.items,
     currentPage: currentPage,
     totalBlogsCount: res.total
   };

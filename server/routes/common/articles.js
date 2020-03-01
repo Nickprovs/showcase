@@ -4,7 +4,7 @@ const auth = require("../../middleware/auth");
 const admin = require("../../middleware/admin");
 const validateBody = require("../../middleware/validateBody");
 const validateQuery = require("../../middleware/validateQuery");
-const validateObjectId = require("../../middleware/validateObjectId");
+const validateVariableId = require("../../middleware/validateVariableId");
 const getAllQuerySchema = require("../schemas/queries/articles/getAllQuery");
 const winston = require("winston");
 
@@ -58,10 +58,12 @@ module.exports = function(ArticleModel, articleJoiSchema, ArticleCategoryModel) 
     res.send(data);
   });
 
-  router.get("/:id", validateObjectId, async (req, res) => {
-    const article = await ArticleModel.findById(req.params.id).select("-__v");
-    if (!article) return res.status(404).send("The article with the given ID was not found.");
+  router.get("/:id", validateVariableId, async (req, res) => {
+    let article;
+    if (req.idIsSlug) article = await ArticleModel.find({ slug: req.params.id }).select("-__v");
+    else article = await ArticleModel.findById(req.params.id).select("-__v");
 
+    if (!article) return res.status(404).send("The article with the given ID or Slugwas not found.");
     res.send(article);
   });
 
@@ -88,12 +90,16 @@ module.exports = function(ArticleModel, articleJoiSchema, ArticleCategoryModel) 
     res.send(article);
   });
 
-  router.put("/:id", [auth, admin, validateObjectId, validateBody(articleJoiSchema)], async (req, res) => {
+  router.put("/:id", [auth, admin, validateVariableId, validateBody(articleJoiSchema)], async (req, res) => {
     const articleCategory = await ArticleCategoryModel.findById(req.body.categoryId);
     if (!articleCategory) return res.status(400).send("Invalid article category.");
 
-    const updatedArticleModel = await ArticleModel.findByIdAndUpdate(
-      req.params.id,
+    let filter;
+    if (req.idIsSlug) filter = { slug: req.params.id };
+    else filter = { _id: req.params.id };
+
+    let updatedArticleModel = await ArticleModel.findOneAndUpdate(
+      filter,
       {
         slug: req.body.slug,
         title: req.body.title,
@@ -106,17 +112,23 @@ module.exports = function(ArticleModel, articleJoiSchema, ArticleCategoryModel) 
         tags: req.body.tags,
         contingency: req.body.contingency
       },
-      { new: true }
+      {
+        new: true
+      }
     );
 
-    if (!updatedArticleModel) return res.status(404).send("ArticleModel not found.");
+    if (!updatedArticleModel) return res.status(404).send("The article with the given ID or Slug was not found.");
 
     res.send(updatedArticleModel);
   });
 
-  router.delete("/:id", [auth, admin, validateObjectId], async (req, res) => {
-    const article = await ArticleModel.findByIdAndRemove(req.params.id);
-    if (!article) return res.status(404).send("The article with the given ID was not found.");
+  router.delete("/:id", [auth, admin, validateVariableId], async (req, res) => {
+    let filter;
+    if (req.idIsSlug) filter = { slug: req.params.id };
+    else filter = { _id: req.params.id };
+
+    const article = await ArticleModel.findOneAndDelete(filter);
+    if (!article) return res.status(404).send("The article with the given ID or Slug was not found.");
 
     res.send(article);
   });

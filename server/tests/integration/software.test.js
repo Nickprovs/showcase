@@ -198,7 +198,7 @@ describe("/software", () => {
     });
 
     it("should return 400 if invalid id is passed", async () => {
-      const res = await request(server).get("/software/1");
+      const res = await request(server).get("/software/A###1-");
       expect(res.status).toBe(400);
     });
 
@@ -298,7 +298,7 @@ describe("/software", () => {
     });
   });
 
-  describe("PUT /", () => {
+  describe("PUT /:id", () => {
     let existingSoftware;
     let software;
     let token;
@@ -367,7 +367,7 @@ describe("/software", () => {
     });
 
     it("should return 400 if the id is invalid", async () => {
-      id = 1;
+      id = -1;
       const res = await exec();
 
       expect(res.status).toBe(400);
@@ -436,7 +436,7 @@ describe("/software", () => {
     });
   });
 
-  describe("DELETE /", () => {
+  describe("DELETE /:id", () => {
     let token;
     let software;
     let id;
@@ -493,7 +493,7 @@ describe("/software", () => {
     });
 
     it("should return 400 if id is invalid", async () => {
-      id = 1;
+      id = "1-";
 
       const res = await exec();
 

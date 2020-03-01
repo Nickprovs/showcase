@@ -1,4 +1,5 @@
 {
   "jwtPrivateKey": "nickprovs_jwtPrivateKey",
+  "captchaPrivateKey": "nickprovs_captchaPrivateKey",
   "db": "nickprovs_db"
 }

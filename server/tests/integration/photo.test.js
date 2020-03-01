@@ -178,7 +178,7 @@ describe("/photos", () => {
     });
 
     it("should return 400 if invalid id is passed", async () => {
-      const res = await request(server).get("/photos/1");
+      const res = await request(server).get("/photos/-1");
       expect(res.status).toBe(400);
     });
 

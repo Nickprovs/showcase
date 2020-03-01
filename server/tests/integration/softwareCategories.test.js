@@ -47,13 +47,13 @@ describe("/softwareCategories", () => {
     });
 
     it("should return 400 if invalid id is passed", async () => {
-      const res = await request(server).get("/software/1");
+      const res = await request(server).get("/softwareCategories/-1");
       expect(res.status).toBe(400);
     });
 
     it("should return 404 if no software with the given id exists", async () => {
       const id = mongoose.Types.ObjectId();
-      const res = await request(server).get("/software/" + id);
+      const res = await request(server).get("/softwareCategories/" + id);
 
       expect(res.status).toBe(404);
     });

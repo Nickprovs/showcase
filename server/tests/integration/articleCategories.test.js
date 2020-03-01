@@ -47,13 +47,13 @@ describe("/articleCategories", () => {
     });
 
     it("should return 400 if invalid id is passed", async () => {
-      const res = await request(server).get("/articles/1");
+      const res = await request(server).get("/articleCategories/-1");
       expect(res.status).toBe(400);
     });
 
     it("should return 404 if no article with the given id exists", async () => {
       const id = mongoose.Types.ObjectId();
-      const res = await request(server).get("/articles/" + id);
+      const res = await request(server).get("/articleCategories/" + id);
 
       expect(res.status).toBe(404);
     });

@@ -198,7 +198,7 @@ describe("/articles", () => {
     });
 
     it("should return 400 if invalid id is passed", async () => {
-      const res = await request(server).get("/articles/1");
+      const res = await request(server).get("/articles/-1");
       expect(res.status).toBe(400);
     });
 
@@ -367,7 +367,7 @@ describe("/articles", () => {
     });
 
     it("should return 400 if the id is invalid", async () => {
-      id = 1;
+      id = "-1";
       const res = await exec();
 
       expect(res.status).toBe(400);
@@ -493,7 +493,7 @@ describe("/articles", () => {
     });
 
     it("should return 400 if id is invalid", async () => {
-      id = 1;
+      id = "1-";
 
       const res = await exec();
 

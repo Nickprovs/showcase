@@ -47,13 +47,13 @@ describe("/videoCategories", () => {
     });
 
     it("should return 400 if invalid id is passed", async () => {
-      const res = await request(server).get("/videos/1");
+      const res = await request(server).get("/videoCategories/1");
       expect(res.status).toBe(400);
     });
 
     it("should return 404 if no video with the given id exists", async () => {
       const id = mongoose.Types.ObjectId();
-      const res = await request(server).get("/videos/" + id);
+      const res = await request(server).get("/videoCategories/" + id);
 
       expect(res.status).toBe(404);
     });
