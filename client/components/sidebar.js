@@ -75,16 +75,18 @@ export default class Sidebar extends Component {
       );
     } else {
       return (
-        <a>
-          <button
-            style={{ padding: "5px" }}
-            onClick={async () => await this.handleInternalLinkableThingClicked(item.href)}
-            className="textButton"
-          >
-            {item.label}
-          </button>
+        <div>
+          <a>
+            <button
+              style={{ padding: "5px" }}
+              onClick={async () => await this.handleInternalLinkableThingClicked(item.href)}
+              className="textButton"
+            >
+              {item.label}
+            </button>
+          </a>
           <hr className={sidebar.lineStyle}></hr>
-        </a>
+        </div>
       );
     }
   }
