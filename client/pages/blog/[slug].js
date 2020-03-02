@@ -14,8 +14,6 @@ export default function Blog({ blog }) {
 
 Blog.getInitialProps = async function(context) {
   const { slug } = context.query;
-  console.log(slug);
-
   const res = await getBlogAsync(slug);
   console.log(res);
   return {

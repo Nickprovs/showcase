@@ -6,8 +6,6 @@ String.prototype.includes = includes;
 String.prototype.repeat = repeat;
 Object.assign = assign;
 
-console.log("in polyfill thing");
-
 //Polyfill necessary for Joi on some browsers
 if (RegExp.prototype.flags === undefined) {
   Object.defineProperty(RegExp.prototype, "flags", {

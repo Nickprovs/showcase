@@ -32,14 +32,11 @@ export default function Header(props) {
   const router = useRouter();
 
   const getHeaderButtonSelected = (item, currentPathName) => {
-    console.log("current path name", currentPathName);
-    console.log("item href", item.href);
     return currentPathName.toLowerCase().includes(item.label.toLowerCase());
   };
 
   const renderHeaderItem = item => {
     if (item.subPages && Object.entries(item.subPages).length > 0) {
-      console.log("dropdown");
       return (
         <Dropdown isSelected={getHeaderButtonSelected(item, router.pathname)} text={item.label}>
           {item.subPages.map(item => (

@@ -16,7 +16,7 @@ export default function Blog(props) {
     <Layout>
       <div className={blogStyles.container}>
         {previews.map(preview => (
-          <div className={blogStyles.item}>
+          <div key={preview.slug} className={blogStyles.item}>
             <div className={blogStyles.previewTitle}>
               <Link href="/blog/[slug]" as={`/blog/${preview.slug}`}>
                 <a className="clickableHeading">{preview.title}</a>

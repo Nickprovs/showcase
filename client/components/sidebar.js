@@ -62,6 +62,7 @@ export default class Sidebar extends Component {
           </label>
           {item.subPages.map(item => (
             <button
+              key={item.label}
               style={{ fontSize: "10pt", paddingLeft: "20px" }}
               onClick={async () => await this.handleInternalLinkableThingClicked(item.href)}
               className="textButton"
@@ -124,7 +125,7 @@ export default class Sidebar extends Component {
           {/* Internal Links*/}
           <ul style={internalPageListStyle}>
             {internalPages.map(item => (
-              <li style={internalPageListItemStyle} key={item.label}>
+              <li key={item.label} style={internalPageListItemStyle}>
                 {this.renderInternalItem(item)}
               </li>
             ))}
@@ -133,7 +134,7 @@ export default class Sidebar extends Component {
           {/* External Links*/}
           <ul style={externalPageListStyle}>
             {externalPages.map(item => (
-              <li style={externalPageListItemStyle} key={item.label}>
+              <li key={item.label} style={externalPageListItemStyle}>
                 <TransparentButton onClick={async () => await this.handleExternalLinkableThingClicked(item.href)}>
                   <Icon className={item.iconClasses}></Icon>
                 </TransparentButton>
