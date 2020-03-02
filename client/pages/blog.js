@@ -19,11 +19,15 @@ export default function Blog(props) {
           <div className={blogStyles.item}>
             <div className={blogStyles.previewTitle}>
               <Link href="/blog/[slug]" as={`/blog/${preview.slug}`}>
-                <h2>{preview.title}</h2>
+                <a className="clickableHeading">{preview.title}</a>
               </Link>
             </div>
             <div className={blogStyles.previewImage}>
-              <img className={blogStyles.containerFitImage} src={preview.image} />
+              <Link href="/blog/[slug]" as={`/blog/${preview.slug}`}>
+                <a>
+                  <img className={blogStyles.containerFitImage} src={preview.image} />
+                </a>
+              </Link>
             </div>
             <div className={blogStyles.description}>
               <label>{preview.description}</label>

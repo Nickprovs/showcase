@@ -97,7 +97,40 @@ h6 {
 }
 
 a {
-  font-family: SourceSansPro, Sans-Serif;
+  color: var(--f1);
+  font-family: SourceSansPro, Sans-Serif !important;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--s5) !important;
+
+  -moz-transition: border-color 0.2s ease-in-out, color 0.2s;
+  -o-transition: border-color 0.2s ease-in-out, color 0.2s;
+  -webkit-transition: border-color 0.2s ease-in-out, color 0.2s;
+  transition: border-color 0.2s ease-in-out, color 0.2s;
+}
+
+a:active {
+  color: var(--s6) !important;
+
+  -moz-transition: border-color 0.2s ease-in-out, color 0.2s;
+  -o-transition: border-color 0.2s ease-in-out, color 0.2s;
+  -webkit-transition: border-color 0.2s ease-in-out, color 0.2s;
+  transition: border-color 0.2s ease-in-out, color 0.2s;
+}
+
+a:disabled {
+  color: var(--s8) !important;
+  cursor: default;
+}
+
+.clickableHeading {
+  display: inline-block;
+  font-size: x-large;
+  text-align: center;
+  padding: 15px;
 }
 
 p {
