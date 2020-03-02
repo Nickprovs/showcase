@@ -268,6 +268,12 @@ describe("/articles", () => {
       expect(res.status).toBe(400);
     });
 
+    it("should return 400 if the slug is invalid", async () => {
+      article.slug = "@aiodadkn=affns";
+      const res = await exec();
+      expect(res.status).toBe(400);
+    });
+
     it("should return 200 if successful", async () => {
       const res = await exec();
       expect(res.status).toBe(200);
@@ -389,6 +395,12 @@ describe("/articles", () => {
 
     it("should return 400 if title is more than 64 characters", async () => {
       article.title = new Array(66).join("a");
+      const res = await exec();
+      expect(res.status).toBe(400);
+    });
+
+    it("should return 400 if the slug is invalid", async () => {
+      article.slug = "@aiodadkn=affns";
       const res = await exec();
       expect(res.status).toBe(400);
     });

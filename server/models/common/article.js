@@ -2,6 +2,7 @@ const Joi = require("@hapi/joi");
 Joi.objectId = require("joi-objectid")(Joi);
 const mongoose = require("mongoose");
 const { mongoSchema: categorySchema } = require("./category");
+const ValidationUtilities = require("../../util/validationUtilities");
 
 const addressableHighlightSchema = new mongoose.Schema(
   {
@@ -28,7 +29,8 @@ const mongoArticleSchema = new mongoose.Schema({
     required: true,
     unique: true,
     minlength: 2,
-    maxlength: 128
+    maxlength: 128,
+    validate: validateSlug
   },
   title: {
     type: String,
@@ -107,6 +109,11 @@ function validateContingency(map) {
   return true;
 }
 
+function validateSlug(slug) {
+  if (ValidationUtilities.IsSlug(slug)) return true;
+  else throw new Error("Slug must be a valid web-slug");
+}
+
 mongoArticleSchema.set("toJSON", { virtuals: false });
 
 //Public Schema - Joi
@@ -114,6 +121,7 @@ const joiArticleSchema = Joi.object({
   slug: Joi.string()
     .min(2)
     .max(128)
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
     .required(),
   title: Joi.string()
     .min(2)
