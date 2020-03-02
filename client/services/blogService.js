@@ -4,9 +4,13 @@ import { APIURL } from "../util/constants";
 
 const BLOGSAPIURL = `${APIURL}/articles`;
 
-export async function getBlogPreviewsAsync(limit = 10, offset = 0, search = "") {
+export async function getBlogPreviewsAsync(options) {
   console.log("Requesting from: ", BLOGSAPIURL);
-  const res = await fetch(BLOGSAPIURL);
+  let query = "";
+  if (options.limit) query += query ? `&limit=${options.limit}` : `?limit=${options.limit}`;
+  if (options.offset) query += query ? `&offset=${options.offset}` : `?offset=${options.offset}`;
+
+  const res = await fetch(BLOGSAPIURL + query);
   const data = await res.json();
   console.log(data);
   return data;

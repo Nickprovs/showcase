@@ -14,6 +14,5 @@ module.exports = function(req, res, next) {
     req.idIsSlug = true;
     return next();
   }
-  console.log("Invalid Id");
   return res.status(400).send("Invalid Database ID or Slug.");
 };
