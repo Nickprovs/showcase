@@ -39,6 +39,30 @@ const data = {
           image: "https://miro.medium.com/max/3840/1*e3E0OQzfYCuWk0pket5dAA.png",
           body: "I think reddit is do cool. It's such a fun website. Wow.",
           tags: ["how", "cool", "is", "reddit", "website"]
+        },
+        {
+          slug: "amazon-robots-become-sentient",
+          title: "The Amazon Robots Have Become Sentient",
+          description: "And their sick of moving boxes...",
+          image: "https://singularityhub.com/wp-content/uploads/2017/02/amazon-robots-1068x600.jpg",
+          body: "Them amazon bots be pissed.",
+          tags: ["amazon", "robots", "sentient", "pissed", "warehouse"]
+        },
+        {
+          slug: "stack-overflow-overflows",
+          title: "Stack Overflow Is Full",
+          description: "They full up.",
+          image: "https://jessehouwing.net/content/images/size/w2000/2018/07/stackoverflow-1.png",
+          body: "THEY SO FULL!",
+          tags: ["stack", "overflow", "overflows"]
+        },
+        {
+          slug: "apple-releases-smart-socks",
+          title: "Apple Releases Smart Socks",
+          description: "They apparently get cold unless you're connected to wifi.",
+          image: "https://as-images.apple.com/is/og-default?wid=1200&hei=630&fmt=jpeg",
+          body: "They come is rose gold and silver!",
+          tags: ["apple", "releases", "socks"]
         }
       ]
     },
@@ -60,6 +84,38 @@ const data = {
           image: "https://upload.wikimedia.org/wikipedia/commons/c/cf/Melt-2013-King_Krule-16.jpg",
           body: "King Krule is truly one of the saddest bois out there.",
           tags: ["king", "krule", "sad", "boi", "aaargh"]
+        },
+        {
+          slug: "thom-yorke-becomes-painter-like-jim-carrey",
+          title: "Thom Yorke Becomes Painter Like Jim Carrey",
+          description: "Thom Yorke's decided to throw in with the painting lot.",
+          image: "https://i.redd.it/6t3zljhof4j11.jpg",
+          body: "Thom Yorke decides on being a painty painter. WOWWW!",
+          tags: ["thom", "yorke", "painter", "art", "oil"]
+        },
+        {
+          slug: "my-chemical-romance-are-making-a-comeback",
+          title: "My Chemical Romance are Making a Comeback!",
+          description: "They're doing the stuff and the things.",
+          image: "https://consequenceofsound.net/wp-content/uploads/2020/01/My-Chemical-Romance-photo-by-Pooneh-Ghana-.png",
+          body: "My Chemical Romance is ready to pounce on them fools.",
+          tags: ["my", "chemical", "romance", "comeback", "emo"]
+        },
+        {
+          slug: "the-new-strokes-album-is-sci-fi",
+          title: "The New Strokes Album is Sci Fi",
+          description: "Bleep Bloop.",
+          image: "https://consequenceofsound.net/wp-content/uploads/2020/02/The-Strokes.jpg",
+          body: "The Strokes? More like the strokemos.",
+          tags: ["the", "strokes", "sci", "fi", "scifi"]
+        },
+        {
+          slug: "mf-doom-comes-out-with-new-album-about-cats",
+          title: "MF DOOM Comes Out With New Album About Cats",
+          description: "MEOWEMDOOM",
+          image: "https://swordsswords.com/blog/wp-content/uploads/2018/10/masks-swordsswords.png",
+          body: "Best get ready for it. MEOW ATTACK.",
+          tags: ["mf", "doom", "cat", "album"]
         }
       ]
     }
