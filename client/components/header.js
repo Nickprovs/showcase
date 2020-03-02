@@ -30,14 +30,11 @@ export default function Header(props) {
   };
 
   const router = useRouter();
-  console.log("router path", router.pathname);
 
   const getHeaderButtonSelected = (item, currentPathName) => {
-    if (item.subPages && Object.entries(item.subPages).length > 0) {
-      return item.subPages.filter(s => s.href === currentPathName).length > 0;
-    } else {
-      return item.href === currentPathName || (currentPathName === "/" && item.href === "/index");
-    }
+    console.log("current path name", currentPathName);
+    console.log("item href", item.href);
+    return currentPathName.toLowerCase().includes(item.label.toLowerCase());
   };
 
   const renderHeaderItem = item => {
