@@ -80,11 +80,11 @@ class Form extends Component {
     );
   }
 
-  renderInput(name, label, stain = "", type = "text") {
+  renderInput(name, label, placeholder = "", type = "text") {
     return (
       <Input
         name={name}
-        stain={stain}
+        placeholder={placeholder}
         label={label}
         value={this.state.data[name]}
         onChange={this.handleChange}
@@ -94,12 +94,12 @@ class Form extends Component {
     );
   }
 
-  renderTextArea(name, label, stain = "") {
+  renderTextArea(name, label, placeholder = "") {
     return (
       <FormTextArea
         name={name}
         label={label}
-        stain={stain}
+        placeholder={placeholder}
         value={this.state.data[name]}
         onChange={this.handleChange}
         error={this.state.errors[name]}

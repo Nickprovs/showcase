@@ -1,11 +1,11 @@
-const Input = ({ name, label, stain, error, ...rest }) => {
+const Input = ({ name, label, error, ...rest }) => {
   return (
     <div>
       <label className="form-label" htmlFor={name}>
         {label}
       </label>
       <br />
-      <input {...rest} className="form-control" name={name} id={name} aria-describedby={name} placeholder={stain} />
+      <input {...rest} className="form-control" name={name} id={name} aria-describedby={name} />
       {error && (
         <div>
           <label className="form-label-error" htmlFor={name}>

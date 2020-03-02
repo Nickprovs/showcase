@@ -1,4 +1,4 @@
-const FormTextArea = ({ name, label, stain, error, ...rest }) => {
+const FormTextArea = ({ name, label, placeholder, error, ...rest }) => {
   return (
     <div>
       <label className="form-label" htmlFor={name}>
@@ -11,7 +11,7 @@ const FormTextArea = ({ name, label, stain, error, ...rest }) => {
         name={name}
         id={name}
         aria-describedby={name}
-        placeholder={stain}
+        placeholder={placeholder}
       ></textarea>
       {error && (
         <div>

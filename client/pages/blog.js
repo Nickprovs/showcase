@@ -1,7 +1,7 @@
 import Layout from "../components/layout";
 import { getBlogPreviewsAsync } from "../services/blogService";
 import blogStyles from "../styles/blog.module.css";
-import BasicButton from "../components/common/basicButton";
+import Input from "../components/common/input";
 import Pagination from "../components/common/pagination";
 import Link from "next/link";
 
@@ -14,6 +14,9 @@ export default function Blog(props) {
 
   return (
     <Layout>
+      <form onSubmit={() => console.log("submitted")}>
+        <Input placeholder="Search..." style={{ width: "30%", marginLeft: "20px" }} />
+      </form>
       <div className={blogStyles.container}>
         {previews.map(preview => (
           <div key={preview.slug} className={blogStyles.item}>
