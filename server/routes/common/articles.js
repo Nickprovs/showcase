@@ -29,22 +29,33 @@ module.exports = function(ArticleModel, articleJoiSchema, ArticleCategoryModel) 
     }
 
     if (search) {
-      //Filters on all collection properties that have a text index
-      //The double quotes aided by our escape character require...
-      //...the predicate to have all words in the search (whitespace delimmited).
-      const fuzzySearch = `\"${search}\"`;
-      filterObject["$text"] = { $search: fuzzySearch };
+      //I've been able to get the search criteria to work in three decent ways.
+      //1.) Just case-insenitive text-based searched on indexes (fastest but not fuzzy)
+      //2.) Combining ONE case-insensitive text based search on indexes with ONE regex for fuzzy on one field.
+      //3.) Combining multiple regexes on certain fields for fuzziness. However, this could be very slow.
+      const searchArray = [];
+      searchArray.push({ $text: { $search: search } });
+      searchArray.push({ title: new RegExp(search, "i") });
+      // searchArray.push({ description: new RegExp(search, "i") });
+      // searchArray.push({ tags: new RegExp(search, "i") });
+      // searchArray.push({ "category.name": new RegExp(search, "i") });
+
+      filterObject["$or"] = searchArray;
+      console.log(filterObject);
     }
 
     //Get the total count that matches the filter object without pagination skipping / limiting
     const total = await ArticleModel.countDocuments(filterObject);
 
     //Get the paginated articles
-    const articles = await ArticleModel.find(filterObject)
+
+    const articles = await ArticleModel.find(filterObject, { score: { $meta: "textScore" } })
       .select("-__v -body")
+      .sort({ score: { $meta: "textScore" } })
       .sort({ datePosted: dateOrder })
       .skip(offset)
-      .limit(limit);
+      .limit(limit)
+      .collation({ locale: "en", strength: 2 });
 
     const data = {
       offset: offset,
