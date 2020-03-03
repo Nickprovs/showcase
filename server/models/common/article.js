@@ -23,69 +23,72 @@ const addressableHighlightSchema = new mongoose.Schema(
 );
 
 //Mongo Schema
-const mongoArticleSchema = new mongoose.Schema({
-  slug: {
-    type: String,
-    required: true,
-    unique: true,
-    minlength: 2,
-    maxlength: 128,
-    validate: validateSlug
+const mongoArticleSchema = new mongoose.Schema(
+  {
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
+      minlength: 2,
+      maxlength: 128,
+      validate: validateSlug
+    },
+    title: {
+      type: String,
+      required: true,
+      unique: true,
+      minlength: 2,
+      maxlength: 64
+    },
+    category: {
+      type: categorySchema,
+      required: true
+    },
+    description: {
+      type: String,
+      required: true,
+      minlength: 2,
+      maxlength: 128
+    },
+    datePosted: {
+      type: Date,
+      required: true,
+      default: Date.now
+    },
+    dateLastModified: {
+      type: Date,
+      required: true,
+      default: Date.now
+    },
+    image: {
+      type: String,
+      required: true,
+      minlength: 2,
+      maxlength: 1000
+    },
+    body: {
+      type: String,
+      minlength: 2,
+      required: true
+    },
+    addressableHighlight: {
+      type: addressableHighlightSchema,
+      required: false
+    },
+    tags: {
+      type: [String],
+      required: true,
+      validate: validateTags
+    },
+    contingency: {
+      type: Map,
+      of: String,
+      default: {},
+      validate: validateContingency
+    }
   },
-  title: {
-    type: String,
-    required: true,
-    unique: true,
-    minlength: 2,
-    maxlength: 64
-  },
-  category: {
-    type: categorySchema,
-    required: true
-  },
-  description: {
-    type: String,
-    required: true,
-    minlength: 2,
-    maxlength: 128
-  },
-  datePosted: {
-    type: Date,
-    required: true,
-    default: Date.now
-  },
-  dateLastModified: {
-    type: Date,
-    required: true,
-    default: Date.now
-  },
-  image: {
-    type: String,
-    required: true,
-    minlength: 2,
-    maxlength: 1000
-  },
-  body: {
-    type: String,
-    minlength: 2,
-    required: true
-  },
-  addressableHighlight: {
-    type: addressableHighlightSchema,
-    required: false
-  },
-  tags: {
-    type: [String],
-    required: true,
-    validate: validateTags
-  },
-  contingency: {
-    type: Map,
-    of: String,
-    default: {},
-    validate: validateContingency
-  }
-});
+  { collation: { locale: "en", strength: 2 } }
+);
 mongoArticleSchema.index({ title: "text", description: "text", tags: "text", "category.name": "text" });
 
 function validateTags(val) {
