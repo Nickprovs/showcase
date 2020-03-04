@@ -27,9 +27,11 @@ export default function Blog(props) {
 
   const handleTextChange = e => {
     setSearchText(e.target.value);
+    let query = {};
+    if (e.target.value) query.search = e.target.value;
     router.push({
       pathname: router.pathname,
-      query: { search: e.target.value }
+      query: query
     });
   };
 
@@ -45,7 +47,7 @@ export default function Blog(props) {
       </form>
       <div className={blogStyles.container}>
         {previews.map(preview => (
-          <div key={preview.slug} className={blogStyles.item}>
+          <div key={preview._id} className={blogStyles.item}>
             <div className={blogStyles.previewTitle}>
               <Link href="/blog/[slug]" as={`/blog/${preview.slug}`}>
                 <a className="clickableHeading">{preview.title}</a>

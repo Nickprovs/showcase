@@ -44,7 +44,7 @@ export default function Pagination({ itemsCount, pageSize, currentPage }) {
     <nav className={paginationStyles.nav} aria-label="...">
       <ul className={paginationStyles.pagination}>
         <li key="first" className={paginationStyles.paginationItem}>
-          <Link href={`${router.pathname}?page=1`}>
+          <Link href={{ pathname: router.pathname, query: { ...router.query, page: 1 } }}>
             <a>
               <TransparentButton disabled={currentPage === 1} className={paginationButtonClasses}>
                 First
@@ -55,7 +55,7 @@ export default function Pagination({ itemsCount, pageSize, currentPage }) {
 
         {pages.map(page => (
           <li key={page} className={paginationStyles.paginationItem}>
-            <Link href={`${router.pathname}?page=${page}`}>
+            <Link href={{ pathname: router.pathname, query: { ...router.query, page: page } }}>
               <a>
                 <TransparentButton
                   className={paginationButtonClasses + (currentPage === page ? paginationStyles.activePaginationButton : "")}
@@ -68,7 +68,7 @@ export default function Pagination({ itemsCount, pageSize, currentPage }) {
         ))}
 
         <li key="last" className={paginationStyles.paginationItem}>
-          <Link href={`${router.pathname}?page=${pagesCount}`}>
+          <Link href={{ pathname: router.pathname, query: { ...router.query, page: pagesCount } }}>
             <a>
               <TransparentButton disabled={currentPage === pagesCount} className={paginationButtonClasses}>
                 Last

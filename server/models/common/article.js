@@ -28,7 +28,6 @@ const mongoArticleSchema = new mongoose.Schema(
     slug: {
       type: String,
       required: true,
-      unique: true,
       minlength: 2,
       maxlength: 128,
       validate: validateSlug
@@ -36,7 +35,6 @@ const mongoArticleSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
-      unique: true,
       minlength: 2,
       maxlength: 64
     },
