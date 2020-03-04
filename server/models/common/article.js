@@ -26,6 +26,7 @@ const addressableHighlightSchema = new mongoose.Schema(
 const mongoArticleSchema = new mongoose.Schema(
   {
     slug: {
+      unique: true,
       type: String,
       required: true,
       minlength: 2,
@@ -33,6 +34,7 @@ const mongoArticleSchema = new mongoose.Schema(
       validate: validateSlug
     },
     title: {
+      unique: true,
       type: String,
       required: true,
       minlength: 2,
