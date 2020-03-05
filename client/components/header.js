@@ -2,7 +2,7 @@ import Link from "next/link";
 import Icon from "./common/icon";
 import TransparentButton from "./common/transparentButton";
 import HeaderButton from "./headerButton";
-import Dropdown from "./common/dropdown";
+import HeaderDropdown from "./common/headerDropdown";
 
 import header from "../styles/header.module.css";
 import { useRouter } from "next/router";
@@ -38,13 +38,13 @@ export default function Header(props) {
   const renderHeaderItem = item => {
     if (item.subPages && Object.entries(item.subPages).length > 0) {
       return (
-        <Dropdown isSelected={getHeaderButtonSelected(item, router.pathname)} text={item.label}>
+        <HeaderDropdown isSelected={getHeaderButtonSelected(item, router.pathname)} text={item.label}>
           {item.subPages.map(item => (
             <Link href={item.href} key={item.label}>
               <a>{item.label}</a>
             </Link>
           ))}
-        </Dropdown>
+        </HeaderDropdown>
       );
     } else {
       return (
