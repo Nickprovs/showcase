@@ -104,7 +104,7 @@ export default class Blog extends Component {
 
   handleSearch() {
     const { searchText } = this.state;
-    if (searchText === Router.query.search) {
+    if ((!searchText && !Router.query.search) || searchText === Router.query.search) {
       console.log("no good");
       return;
     }
