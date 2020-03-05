@@ -129,7 +129,9 @@ export default class Blog extends Component {
     let view = (
       <div style={{ textAlign: "center" }}>
         <h1>No blogs found</h1>
-        <object style={{ width: "35%" }} type="image/svg+xml" data="director_sad.svg"></object>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <object style={{ display: "block", width: "35%", overflow: "none" }} type="image/svg+xml" data="director_sad.svg"></object>
+        </div>
       </div>
     );
 
