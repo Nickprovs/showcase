@@ -5,7 +5,7 @@ export default function Select(props) {
 
   if (isSelected) mainButtonClasses += select.dropbtnSelected + " ";
   return (
-    <select {...rest} className={select.select}>
+    <select {...rest} className={select.input}>
       {props.children}
     </select>
   );

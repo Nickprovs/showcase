@@ -12,9 +12,14 @@
   border: 1px solid var(--s7);
   box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
   border-radius: 0.5em;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
   background-color: #fff;
 }
-
+.input::-ms-expand {
+  display: none;
+}
 .input:hover {
   box-shadow: 0 0 1px 1px var(--s5);
   border-color: #888;
