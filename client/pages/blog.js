@@ -1,5 +1,5 @@
 import Layout from "../components/layout";
-import { getBlogPreviewsAsync } from "../services/blogService";
+import { getBlogsAsync, getBlogCategoriesAsync } from "../services/blogService";
 import blogStyles from "../styles/blog.module.css";
 import FormTextInput from "../components/common/formTextInput";
 import Pagination from "../components/common/pagination";
@@ -32,13 +32,15 @@ export default class Blog extends Component {
       search: search
     };
 
-    const res = await getBlogPreviewsAsync(getQueryParams);
-    console.log(res);
+    const blogs = await getBlogsAsync(getQueryParams);
+    const categories = await getBlogCategoriesAsync();
+
     return {
-      previews: res.items,
+      previews: blogs.items,
       currentPage: page,
-      totalBlogsCount: res.total,
-      initialSearchProp: search
+      totalBlogsCount: blogs.total,
+      initialSearchProp: search,
+      categories: categories.items
     };
   }
 
@@ -60,11 +62,12 @@ export default class Blog extends Component {
   componentDidMount() {
     console.log("mounted baby");
 
-    const { previews, currentPage, totalBlogsCount, initialSearchProp } = this.props;
+    const { previews, categories, currentPage, totalBlogsCount, initialSearchProp } = this.props;
     this.setState({ previews: previews });
     this.setState({ currentPage: currentPage });
     this.setState({ totalBlogsCount: totalBlogsCount });
     this.setState({ initialSearchProp: initialSearchProp });
+    this.setState({ categories: categories });
 
     setTimeout(() => this.setState({ previews: this.state.previews.filter(i => !i.title.toLowerCase().includes("hozier")) }), 3000);
   }
@@ -170,6 +173,12 @@ export default class Blog extends Component {
       <Layout>
         <form onSubmit={e => this.handleSearchFormSubmission(e)}>
           <FormTextInput
+            value={searchText}
+            onChange={e => this.handleSearchTextChanged(e.target.value)}
+            placeholder="Search..."
+            style={{ width: "30%", marginLeft: "20px" }}
+          />
+          <Select
             value={searchText}
             onChange={e => this.handleSearchTextChanged(e.target.value)}
             placeholder="Search..."
