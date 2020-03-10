@@ -1,25 +1,18 @@
 import Layout from "../components/layout";
 import Select from "../components/common/select";
 import Datalist from "../components/common/datalist";
+import TestForm from "../components/testForm";
 
 export default function Playground() {
   return (
     <Layout>
-      <div style={{ height: "500px" }}>
+      <div>
         <div style={{ padding: "5px" }}>
-          <h1>yo</h1>
-          <Select text="Hey">
-            <option>"Yo"</option>
-            <option>"What's"</option>
-            <option>"Good"</option>
-            <option>"Homie"</option>
-          </Select>
+          <h1>Playground</h1>
 
-          <Datalist style={{ marginTop: "100px" }}>
-            <option>"Yo"</option>
-            <option>"SUP"</option>
-            <option>"DOG"</option>
-          </Datalist>
+          {/* Form Controls */}
+          <h2>Test Form</h2>
+          <TestForm />
         </div>
       </div>
     </Layout>

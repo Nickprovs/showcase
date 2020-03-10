@@ -1,6 +1,8 @@
 import { Component } from "react";
-import Input from "./input";
+import FormTextInput from "./formTextInput";
 import FormTextArea from "./formTextArea";
+import FormSelectInput from "./formSelectInput";
+import FormDatalist from "./formDatalist";
 import Joi from "@hapi/joi";
 import ReCAPTCHA from "react-google-recaptcha";
 import BasicButton from "./basicButton";
@@ -80,9 +82,9 @@ class Form extends Component {
     );
   }
 
-  renderInput(name, label, placeholder = "", type = "text") {
+  renderTextInput(name, label, placeholder = "", type = "text") {
     return (
-      <Input
+      <FormTextInput
         name={name}
         placeholder={placeholder}
         label={label}
@@ -106,6 +108,41 @@ class Form extends Component {
       />
     );
   }
+
+  renderSelect(name, label, placeholder = "", children) {
+    return (
+      <FormSelectInput
+        name={name}
+        label={label}
+        placeholder={placeholder}
+        value={this.state.data[name]}
+        onChange={this.handleChange}
+        error={this.state.errors[name]}
+      >
+        {children.map(c => (
+          <option>{c}</option>
+        ))}
+      </FormSelectInput>
+    );
+  }
+
+  renderDatalist(name, label, placeholder = "", children) {
+    return (
+      <FormDatalist
+        name={name}
+        label={label}
+        placeholder={placeholder}
+        value={this.state.data[name]}
+        onChange={this.handleChange}
+        error={this.state.errors[name]}
+      >
+        {children.map(c => (
+          <option>{c}</option>
+        ))}
+      </FormDatalist>
+    );
+  }
+
   onCaptchaChange(value) {
     this.setState({ captchaPassed: value !== null });
   }

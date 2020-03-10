@@ -14,8 +14,8 @@ export default class Datalist extends Component {
     const consumedId = id ? id : this.state.generatedId;
 
     return (
-      <div {...rest}>
-        <input list={consumedId} value={value} className={datalist.input} placeholder="select" />
+      <div>
+        <input {...rest} list={consumedId} value={value} className={datalist.input} />
         <datalist id={consumedId}>{children}</datalist>
       </div>
     );

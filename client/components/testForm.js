@@ -1,11 +1,11 @@
 import Joi from "@hapi/joi";
 import Form from "./common/form";
 
-class ContactForm extends Form {
+class TestForm extends Form {
   constructor() {
     super();
 
-    this.state.data = { name: "", email: "", message: "" };
+    this.state.data = { name: "" };
     this.state.errors = {};
   }
 
@@ -15,16 +15,11 @@ class ContactForm extends Form {
       .max(30)
       .required()
       .label("Name"),
-    email: Joi.string()
-      .min(6)
-      .max(20)
+    category: Joi.string()
+      .min(5)
+      .max(30)
       .required()
-      .label("Email"),
-    message: Joi.string()
-      .min(6)
-      .max(1000)
-      .required()
-      .label("Message")
+      .label("category")
   });
 
   doSubmit = () => {
@@ -36,14 +31,13 @@ class ContactForm extends Form {
       <div className="standardPadding">
         <form onSubmit={this.handleSubmit}>
           {this.renderTextInput("name", "NAME")}
-          {this.renderTextInput("email", "EMAIL")}
-          {this.renderTextArea("message", "MESSAGE")}
-          {this.renderRecaptcha()}
-          {this.renderButton("SEND MESSAGE")}
+          {/* {this.renderDatalist("category", "CATEGORY", "", ["Option1", "Option2", "Option3", "O"])} */}{" "}
+          {/* {this.renderDatalist("category", "CATEGORY", "", ["Option1", "Option2", "Option3", "O"])} */}
+          {this.renderSelect("category", "CATEGORY", "", ["Option1", "Option2", "Option3", "O"])}
         </form>
       </div>
     );
   }
 }
 
-export default ContactForm;
+export default TestForm;
