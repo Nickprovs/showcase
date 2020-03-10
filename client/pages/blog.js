@@ -1,7 +1,7 @@
 import Layout from "../components/layout";
 import { getBlogPreviewsAsync } from "../services/blogService";
 import blogStyles from "../styles/blog.module.css";
-import Input from "../components/common/input";
+import FormTextInput from "../components/common/formTextInput";
 import Pagination from "../components/common/pagination";
 import Link from "next/link";
 import Router from "next/router";
@@ -169,7 +169,7 @@ export default class Blog extends Component {
     return (
       <Layout>
         <form onSubmit={e => this.handleSearchFormSubmission(e)}>
-          <Input
+          <FormTextInput
             value={searchText}
             onChange={e => this.handleSearchTextChanged(e.target.value)}
             placeholder="Search..."
