@@ -16,7 +16,11 @@ export default class Datalist extends Component {
     return (
       <div>
         <input {...rest} list={consumedId} value={value} className={datalist.input} />
-        <datalist id={consumedId}>{children}</datalist>
+        <datalist id={consumedId}>
+          {children.map(c => (
+            <option key={c}>{c}</option>
+          ))}
+        </datalist>
       </div>
     );
   }

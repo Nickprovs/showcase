@@ -118,11 +118,8 @@ class Form extends Component {
         value={this.state.data[name]}
         onChange={this.handleChange}
         error={this.state.errors[name]}
-      >
-        {children.map(c => (
-          <option>{c}</option>
-        ))}
-      </FormSelectInput>
+        children={children}
+      />
     );
   }
 
@@ -135,11 +132,8 @@ class Form extends Component {
         value={this.state.data[name]}
         onChange={this.handleChange}
         error={this.state.errors[name]}
-      >
-        {children.map(c => (
-          <option>{c}</option>
-        ))}
-      </FormDatalist>
+        children={children}
+      />
     );
   }
 
