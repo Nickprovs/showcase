@@ -83,7 +83,7 @@ describe("/articles", () => {
     });
 
     it("Should return only the articles that match the category id filter", async () => {
-      const res = await request(server).get(`/articles?categoryId=${articleCategory2._id}`);
+      const res = await request(server).get(`/articles?category=${articleCategory2._id}`);
 
       expect(res.status).toBe(200);
       expect(res.body.items.length).toBe(2);
@@ -92,7 +92,7 @@ describe("/articles", () => {
     });
 
     it("Should return the correct metadata that matches the category id filter", async () => {
-      const res = await request(server).get(`/articles?categoryId=${articleCategory2._id}`);
+      const res = await request(server).get(`/articles?category=${articleCategory2._id}`);
 
       expect(res.body.items.length).toBe(2);
       expect(res.body.total === 2);
@@ -110,7 +110,7 @@ describe("/articles", () => {
     });
 
     it("Should return the correct metadata that matches offset and the category id filter", async () => {
-      const res = await request(server).get(`/articles?categoryId=${articleCategory2._id}&offset=1`);
+      const res = await request(server).get(`/articles?category=${articleCategory2._id}&offset=1`);
 
       expect(res.body.items.length).toBe(1);
       expect(res.body.total === 2);
@@ -155,7 +155,7 @@ describe("/articles", () => {
     });
 
     it("Should return the multiple articles that matches the category search", async () => {
-      const res = await request(server).get(`/category?search=Non-Fiction`);
+      const res = await request(server).get(`/articles?search=Non-Fiction`);
       expect(res.body.items.length).toBe(2);
       expect(res.body.total === 2);
     });

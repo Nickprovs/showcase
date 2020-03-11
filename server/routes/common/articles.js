@@ -4,7 +4,7 @@ const auth = require("../../middleware/auth");
 const admin = require("../../middleware/admin");
 const validateBody = require("../../middleware/validateBody");
 const validateQuery = require("../../middleware/validateQuery");
-const validationUtilities = require("../../util/validationUtilities");
+const ValidationUtilities = require("../../util/validationUtilities");
 
 const validateVariableId = require("../../middleware/validateVariableId");
 const getAllQuerySchema = require("../schemas/queries/articles/getAllQuery");
@@ -17,24 +17,22 @@ module.exports = function(ArticleModel, articleJoiSchema, ArticleCategoryModel) 
     const dateOrder = req.query.dateOrder ? req.query.dateOrder : "desc";
     const offset = req.query.offset ? parseInt(req.query.offset) : 0;
     const limit = req.query.limit ? parseInt(req.query.limit) : 10;
-    const categoryId = req.query.categoryId ? req.query.categoryId : "";
+    const categoryId = req.query.category ? req.query.category : "";
     const search = req.query.search ? req.query.search : "";
 
+    //Build filter object if filterable query data was passed
     const filterObject = {};
 
-    //Build filter object if filterable query data was passed
     if (categoryId) {
-      const articleCategory = await ArticleCategoryModel.findById(categoryId);
+      let articleCategory;
+      const { isIdSlug } = ValidationUtilities.isVariableId(categoryId);
+      if (isIdSlug) articleCategory = await ArticleCategoryModel.findOne({ slug: req.params.id }).select("-__v");
+      else articleCategory = await ArticleCategoryModel.findById(categoryId);
       if (!articleCategory) return res.status(400).send("Invalid article category in query.");
-
       filterObject["category"] = articleCategory;
     }
 
     if (search) {
-      //I've been able to get the search criteria to work in three decent ways.
-      //1.) Just case-insenitive text-based searched on indexes (fastest but not fuzzy)
-      //2.) Combining multiple regexes on certain fields for fuzziness. However, this could be very slow.
-      //Note.) Combingin regex and text search doesn't seem to work. Can't combine text index find with non-text index find.
       const searchArray = [];
       searchArray.push({ $text: { $search: search } });
       filterObject["$or"] = searchArray;

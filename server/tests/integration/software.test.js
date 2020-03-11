@@ -83,7 +83,7 @@ describe("/software", () => {
     });
 
     it("Should return only the software that match the category id filter", async () => {
-      const res = await request(server).get(`/software?categoryId=${softwareCategory2._id}`);
+      const res = await request(server).get(`/software?category=${softwareCategory2._id}`);
 
       expect(res.status).toBe(200);
       expect(res.body.items.length).toBe(2);
@@ -92,7 +92,7 @@ describe("/software", () => {
     });
 
     it("Should return the correct metadata that matches the category id filter", async () => {
-      const res = await request(server).get(`/software?categoryId=${softwareCategory2._id}`);
+      const res = await request(server).get(`/software?category=${softwareCategory2._id}`);
 
       expect(res.body.items.length).toBe(2);
       expect(res.body.total === 2);
@@ -110,7 +110,7 @@ describe("/software", () => {
     });
 
     it("Should return the correct metadata that matches offset and the category id filter", async () => {
-      const res = await request(server).get(`/software?categoryId=${softwareCategory2._id}&offset=1`);
+      const res = await request(server).get(`/software?category=${softwareCategory2._id}&offset=1`);
 
       expect(res.body.items.length).toBe(1);
       expect(res.body.total === 2);
