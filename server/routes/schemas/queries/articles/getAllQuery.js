@@ -9,7 +9,7 @@ module.exports = schema = Joi.object({
   offset: Joi.number()
     .integer()
     .min(0),
-  categoryId: Joi.objectId(),
+  categoryId: Joi.alternatives().try(Joi.objectId(), Joi.string().pattern(new RegExp("^[a-z0-9]+(?:-[a-z0-9]+)*$"))),
   search: Joi.string()
     .min(0)
     .max(128),

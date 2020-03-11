@@ -134,28 +134,28 @@ describe("/articles", () => {
     });
 
     it("Should return the singular article that matches the title search", async () => {
-      const res = await request(server).get(`/articles?search=dog jumped over the fence`);
+      const res = await request(server).get(`/articles?search=dog`);
 
       expect(res.body.items.length).toBe(1);
       expect(res.body.total === 1);
     });
 
     it("Should return the multiple articles that matches the title search", async () => {
-      const res = await request(server).get(`/articles?search=jumped over the fence`);
+      const res = await request(server).get(`/articles?search=jumped`);
 
-      expect(res.body.items.length).toBe(2);
-      expect(res.body.total === 2);
+      expect(res.body.items.length).toBe(3);
+      expect(res.body.total === 3);
     });
 
-    it("Should return the singular photo that matches the description search", async () => {
-      const res = await request(server).get(`/articles?search=the cowiest of cows`);
+    it("Should return the singular article that matches the description search", async () => {
+      const res = await request(server).get(`/articles?search=cowiest`);
 
       expect(res.body.items.length).toBe(1);
       expect(res.body.total === 1);
     });
 
     it("Should return the multiple articles that matches the category search", async () => {
-      const res = await request(server).get(`/articles?search=Non-Fiction`);
+      const res = await request(server).get(`/category?search=Non-Fiction`);
       expect(res.body.items.length).toBe(2);
       expect(res.body.total === 2);
     });

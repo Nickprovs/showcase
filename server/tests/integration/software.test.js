@@ -134,21 +134,21 @@ describe("/software", () => {
     });
 
     it("Should return the singular software that matches the title search", async () => {
-      const res = await request(server).get(`/software?search=dog jumped over the fence`);
+      const res = await request(server).get(`/software?search=dog`);
 
       expect(res.body.items.length).toBe(1);
       expect(res.body.total === 1);
     });
 
     it("Should return the multiple software that matches the title search", async () => {
-      const res = await request(server).get(`/software?search=jumped over the fence`);
+      const res = await request(server).get(`/software?search=jumped`);
 
-      expect(res.body.items.length).toBe(2);
-      expect(res.body.total === 2);
+      expect(res.body.items.length).toBe(3);
+      expect(res.body.total === 3);
     });
 
     it("Should return the singular photo that matches the description search", async () => {
-      const res = await request(server).get(`/software?search=the cowiest of cows`);
+      const res = await request(server).get(`/software?search=cowiest`);
 
       expect(res.body.items.length).toBe(1);
       expect(res.body.total === 1);
