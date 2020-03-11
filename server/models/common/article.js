@@ -42,6 +42,7 @@ const mongoArticleSchema = new mongoose.Schema(
     },
     category: {
       type: categorySchema,
+
       required: true
     },
     description: {

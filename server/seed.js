@@ -13,7 +13,7 @@ const moment = require("moment");
 const data = {
   articles: [
     {
-      categoryName: "Science and Technology",
+      category: { name: "Science and Technology", slug: "science-and-technology" },
       items: [
         {
           slug: "is-google-taking-over",
@@ -304,7 +304,7 @@ const data = {
 
 async function saveCollection(data, MainModel, CategoryModel) {
   for (let dataItem of data) {
-    const { _id: categoryId } = await new CategoryModel({ name: dataItem.categoryName }).save();
+    const { _id: categoryId } = await new CategoryModel({ ...dataItem.category }).save();
 
     for (let i = 0; i < 1000; i++) {
       const items = dataItem.items.map(item => ({

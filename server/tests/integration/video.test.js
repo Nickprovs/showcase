@@ -24,10 +24,10 @@ describe("/videos", () => {
     let video3;
 
     beforeEach(async () => {
-      videoCategory1 = new VideoCategory({ name: "Mammal" });
+      videoCategory1 = new VideoCategory({ name: "Mammal", slug: "mammal" });
       videoCategory1 = await videoCategory1.save();
 
-      videoCategory2 = new VideoCategory({ name: "Reptile" });
+      videoCategory2 = new VideoCategory({ name: "Reptile", slug: "reptile" });
       videoCategory2 = await videoCategory2.save();
 
       video1 = new Video({
@@ -149,7 +149,7 @@ describe("/videos", () => {
 
   describe("GET /:id", () => {
     it("should return a video if valid id is passed", async () => {
-      let videoCategory = new VideoCategory({ name: "Portrait" });
+      let videoCategory = new VideoCategory({ name: "Portrait", slug: "portrait" });
       videoCategory = await videoCategory.save();
 
       const video = new Video({
@@ -204,7 +204,7 @@ describe("/videos", () => {
     beforeEach(async () => {
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
 
-      let videoCategory = new VideoCategory({ name: "Panorama" });
+      let videoCategory = new VideoCategory({ name: "Panorama", slug: "panorama" });
       videoCategory = await videoCategory.save();
 
       video = {
@@ -281,7 +281,7 @@ describe("/videos", () => {
     };
 
     beforeEach(async () => {
-      videoCategory = new VideoCategory({ name: "Fiction" });
+      videoCategory = new VideoCategory({ name: "Fiction", slug: "fiction" });
       videoCategory = await videoCategory.save();
 
       existingVideo = new Video({
@@ -398,7 +398,7 @@ describe("/videos", () => {
     };
 
     beforeEach(async () => {
-      videoCategory = new VideoCategory({ name: "Candid" });
+      videoCategory = new VideoCategory({ name: "Candid", slug: "candid" });
       videoCategory = await videoCategory.save();
 
       video = new Video({

@@ -19,10 +19,10 @@ describe("/articleCategories", () => {
     let articleCategory2;
 
     beforeEach(async () => {
-      articleCategory1 = new ArticleCategory({ name: "Fiction" });
+      articleCategory1 = new ArticleCategory({ name: "Fiction", slug: "fiction" });
       articleCategory1 = await articleCategory1.save();
 
-      articleCategory2 = new ArticleCategory({ name: "Non-Fiction" });
+      articleCategory2 = new ArticleCategory({ name: "Non-Fiction", slug: "non-fiction" });
       articleCategory2 = await articleCategory2.save();
     });
 
@@ -38,7 +38,7 @@ describe("/articleCategories", () => {
 
   describe("GET /:id", () => {
     it("should return an article category if valid id is passed", async () => {
-      let articleCategory = new ArticleCategory({ name: "Horror" });
+      let articleCategory = new ArticleCategory({ name: "Horror", slug: "horror" });
       articleCategory = await articleCategory.save();
 
       const res = await request(server).get("/articleCategories/" + articleCategory._id);
@@ -72,7 +72,7 @@ describe("/articleCategories", () => {
 
     beforeEach(async () => {
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
-      articleCategory = { name: "Fiction" };
+      articleCategory = { name: "Fiction", slug: "fiction" };
     });
 
     it("should return 401 if client is not logged in", async () => {
@@ -128,13 +128,14 @@ describe("/articleCategories", () => {
     };
 
     beforeEach(async () => {
-      existingArticleCategory = new ArticleCategory({ name: "Fiction" });
+      existingArticleCategory = new ArticleCategory({ name: "Fiction", slug: "fiction" });
       existingArticleCategory = await existingArticleCategory.save();
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
       id = existingArticleCategory._id;
 
       articleCategory = {
-        name: "Fantasy"
+        name: "Fantasy",
+        slug: "fantasy"
       };
     });
 
@@ -213,7 +214,7 @@ describe("/articleCategories", () => {
     };
 
     beforeEach(async () => {
-      articleCategory = new ArticleCategory({ name: "Folk" });
+      articleCategory = new ArticleCategory({ name: "Folk", slug: "folk" });
       articleCategory = await articleCategory.save();
       id = articleCategory._id;
       token = new User({ isAdmin: true }).generateAuthToken();

@@ -24,10 +24,10 @@ describe("/photos", () => {
     let photo3;
 
     beforeEach(async () => {
-      photoCategory1 = new PhotoCategory({ name: "Mammal" });
+      photoCategory1 = new PhotoCategory({ name: "Mammal", slug: "mammal" });
       photoCategory1 = await photoCategory1.save();
 
-      photoCategory2 = new PhotoCategory({ name: "Reptile" });
+      photoCategory2 = new PhotoCategory({ name: "Reptile", slug: "reptile" });
       photoCategory2 = await photoCategory2.save();
 
       photo1 = new Photo({
@@ -149,7 +149,7 @@ describe("/photos", () => {
 
   describe("GET /:id", () => {
     it("should return a photo if valid id is passed", async () => {
-      let photoCategory = new PhotoCategory({ name: "Portrait" });
+      let photoCategory = new PhotoCategory({ name: "Portrait", slug: "portrait" });
       photoCategory = await photoCategory.save();
 
       const photo = new Photo({
@@ -204,7 +204,7 @@ describe("/photos", () => {
     beforeEach(async () => {
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
 
-      let photoCategory = new PhotoCategory({ name: "Panorama" });
+      let photoCategory = new PhotoCategory({ name: "Panorama", slug: "panorama" });
       photoCategory = await photoCategory.save();
 
       photo = {
@@ -281,7 +281,7 @@ describe("/photos", () => {
     };
 
     beforeEach(async () => {
-      photoCategory = new PhotoCategory({ name: "Fiction" });
+      photoCategory = new PhotoCategory({ name: "Fiction", slug: "fiction" });
       photoCategory = await photoCategory.save();
 
       existingPhoto = new Photo({
@@ -398,7 +398,7 @@ describe("/photos", () => {
     };
 
     beforeEach(async () => {
-      photoCategory = new PhotoCategory({ name: "Candid" });
+      photoCategory = new PhotoCategory({ name: "Candid", slug: "candid" });
       photoCategory = await photoCategory.save();
 
       photo = new Photo({

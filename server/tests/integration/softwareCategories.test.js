@@ -19,10 +19,10 @@ describe("/softwareCategories", () => {
     let softwareCategory2;
 
     beforeEach(async () => {
-      softwareCategory1 = new SoftwareCategory({ name: "Fiction" });
+      softwareCategory1 = new SoftwareCategory({ name: "Fiction", slug: "fiction" });
       softwareCategory1 = await softwareCategory1.save();
 
-      softwareCategory2 = new SoftwareCategory({ name: "Non-Fiction" });
+      softwareCategory2 = new SoftwareCategory({ name: "Non-Fiction", slug: "non-fiction" });
       softwareCategory2 = await softwareCategory2.save();
     });
 
@@ -38,7 +38,7 @@ describe("/softwareCategories", () => {
 
   describe("GET /:id", () => {
     it("should return an software category if valid id is passed", async () => {
-      let softwareCategory = new SoftwareCategory({ name: "Horror" });
+      let softwareCategory = new SoftwareCategory({ name: "Horror", slug: "horror" });
       softwareCategory = await softwareCategory.save();
 
       const res = await request(server).get("/softwareCategories/" + softwareCategory._id);
@@ -72,7 +72,7 @@ describe("/softwareCategories", () => {
 
     beforeEach(async () => {
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
-      softwareCategory = { name: "Fiction" };
+      softwareCategory = { name: "Fiction", slug: "fiction" };
     });
 
     it("should return 401 if client is not logged in", async () => {
@@ -128,13 +128,14 @@ describe("/softwareCategories", () => {
     };
 
     beforeEach(async () => {
-      existingSoftwareCategory = new SoftwareCategory({ name: "Fiction" });
+      existingSoftwareCategory = new SoftwareCategory({ name: "Fiction", slug: "fiction" });
       existingSoftwareCategory = await existingSoftwareCategory.save();
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
       id = existingSoftwareCategory._id;
 
       softwareCategory = {
-        name: "Fantasy"
+        name: "Fantasy",
+        slug: "fantasy"
       };
     });
 
@@ -213,7 +214,7 @@ describe("/softwareCategories", () => {
     };
 
     beforeEach(async () => {
-      softwareCategory = new SoftwareCategory({ name: "Folk" });
+      softwareCategory = new SoftwareCategory({ name: "Folk", slug: "folk" });
       softwareCategory = await softwareCategory.save();
       id = softwareCategory._id;
       token = new User({ isAdmin: true }).generateAuthToken();

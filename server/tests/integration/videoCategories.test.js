@@ -19,10 +19,10 @@ describe("/videoCategories", () => {
     let videoCategory2;
 
     beforeEach(async () => {
-      videoCategory1 = new VideoCategory({ name: "Fiction" });
+      videoCategory1 = new VideoCategory({ name: "Fiction", slug: "fiction" });
       videoCategory1 = await videoCategory1.save();
 
-      videoCategory2 = new VideoCategory({ name: "Non-Fiction" });
+      videoCategory2 = new VideoCategory({ name: "Non-Fiction", slug: "non-fiction" });
       videoCategory2 = await videoCategory2.save();
     });
 
@@ -38,7 +38,7 @@ describe("/videoCategories", () => {
 
   describe("GET /:id", () => {
     it("should return an video category if valid id is passed", async () => {
-      let videoCategory = new VideoCategory({ name: "Horror" });
+      let videoCategory = new VideoCategory({ name: "Horror", slug: "horror" });
       videoCategory = await videoCategory.save();
 
       const res = await request(server).get("/videoCategories/" + videoCategory._id);
@@ -72,7 +72,7 @@ describe("/videoCategories", () => {
 
     beforeEach(async () => {
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
-      videoCategory = { name: "Fiction" };
+      videoCategory = { name: "Fiction", slug: "fiction" };
     });
 
     it("should return 401 if client is not logged in", async () => {
@@ -128,13 +128,14 @@ describe("/videoCategories", () => {
     };
 
     beforeEach(async () => {
-      existingVideoCategory = new VideoCategory({ name: "Fiction" });
+      existingVideoCategory = new VideoCategory({ name: "Fiction", slug: "fiction" });
       existingVideoCategory = await existingVideoCategory.save();
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
       id = existingVideoCategory._id;
 
       videoCategory = {
-        name: "Fantasy"
+        name: "Fantasy",
+        slug: "fantasy"
       };
     });
 
@@ -213,7 +214,7 @@ describe("/videoCategories", () => {
     };
 
     beforeEach(async () => {
-      videoCategory = new VideoCategory({ name: "Folk" });
+      videoCategory = new VideoCategory({ name: "Folk", slug: "folk" });
       videoCategory = await videoCategory.save();
       id = videoCategory._id;
       token = new User({ isAdmin: true }).generateAuthToken();

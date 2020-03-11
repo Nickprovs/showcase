@@ -3,7 +3,8 @@ const { joiSchema: schema } = require("../../../models/softwareCategory");
 describe("softwareCategory.validate", () => {
   it("should validate a properly formed softwareCategory", () => {
     const softwareCategory = {
-      name: "Software"
+      name: "Software",
+      slug: "software"
     };
 
     const { error } = schema.validate(softwareCategory);
@@ -14,7 +15,8 @@ describe("softwareCategory.validate", () => {
 
   it("should validate an improperly formed softwareCategory", () => {
     const softwareCategory = {
-      namdgdg: "Software"
+      namdgdg: "Software",
+      slug: "sof$^&@tware"
     };
 
     const { error } = schema.validate(softwareCategory);

@@ -24,10 +24,10 @@ describe("/software", () => {
     let software3;
 
     beforeEach(async () => {
-      softwareCategory1 = new SoftwareCategory({ name: "Fiction" });
+      softwareCategory1 = new SoftwareCategory({ name: "Fiction", slug: "fiction" });
       softwareCategory1 = await softwareCategory1.save();
 
-      softwareCategory2 = new SoftwareCategory({ name: "Non-Fiction" });
+      softwareCategory2 = new SoftwareCategory({ name: "Non-Fiction", slug: "non-fiction" });
       softwareCategory2 = await softwareCategory2.save();
 
       software1 = new Software({
@@ -163,7 +163,7 @@ describe("/software", () => {
 
   describe("GET /:id", () => {
     it("should return a software if valid id is passed", async () => {
-      let softwareCategory = new SoftwareCategory({ name: "Fiction" });
+      let softwareCategory = new SoftwareCategory({ name: "Fiction", slug: "fiction" });
       softwareCategory = await softwareCategory.save();
 
       const software = new Software({
@@ -224,7 +224,7 @@ describe("/software", () => {
     beforeEach(async () => {
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
 
-      let softwareCategory = new SoftwareCategory({ name: "Fiction" });
+      let softwareCategory = new SoftwareCategory({ name: "Fiction", slug: "fiction" });
       softwareCategory = await softwareCategory.save();
 
       software = {
@@ -319,7 +319,7 @@ describe("/software", () => {
     };
 
     beforeEach(async () => {
-      softwareCategory = new SoftwareCategory({ name: "Fiction" });
+      softwareCategory = new SoftwareCategory({ name: "Fiction", slug: "fiction" });
       softwareCategory = await softwareCategory.save();
 
       existingSoftware = new Software({
@@ -461,7 +461,7 @@ describe("/software", () => {
     };
 
     beforeEach(async () => {
-      softwareCategory = new SoftwareCategory({ name: "Fiction" });
+      softwareCategory = new SoftwareCategory({ name: "Fiction", slug: "fiction" });
       softwareCategory = await softwareCategory.save();
 
       software = new Software({

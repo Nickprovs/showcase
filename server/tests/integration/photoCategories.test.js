@@ -19,10 +19,10 @@ describe("/photoCategories", () => {
     let photoCategory2;
 
     beforeEach(async () => {
-      photoCategory1 = new PhotoCategory({ name: "Fiction" });
+      photoCategory1 = new PhotoCategory({ name: "Fiction", slug: "fiction" });
       photoCategory1 = await photoCategory1.save();
 
-      photoCategory2 = new PhotoCategory({ name: "Non-Fiction" });
+      photoCategory2 = new PhotoCategory({ name: "Non-Fiction", slug: "non-fiction" });
       photoCategory2 = await photoCategory2.save();
     });
 
@@ -38,7 +38,7 @@ describe("/photoCategories", () => {
 
   describe("GET /:id", () => {
     it("should return an photo category if valid id is passed", async () => {
-      let photoCategory = new PhotoCategory({ name: "Horror" });
+      let photoCategory = new PhotoCategory({ name: "Horror", slug: "horror" });
       photoCategory = await photoCategory.save();
 
       const res = await request(server).get("/photoCategories/" + photoCategory._id);
@@ -72,7 +72,7 @@ describe("/photoCategories", () => {
 
     beforeEach(async () => {
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
-      photoCategory = { name: "Fiction" };
+      photoCategory = { name: "Fiction", slug: "fiction" };
     });
 
     it("should return 401 if client is not logged in", async () => {
@@ -128,13 +128,14 @@ describe("/photoCategories", () => {
     };
 
     beforeEach(async () => {
-      existingPhotoCategory = new PhotoCategory({ name: "Fiction" });
+      existingPhotoCategory = new PhotoCategory({ name: "Fiction", slug: "fiction" });
       existingPhotoCategory = await existingPhotoCategory.save();
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
       id = existingPhotoCategory._id;
 
       photoCategory = {
-        name: "Fantasy"
+        name: "Fantasy",
+        slug: "fantasy"
       };
     });
 
@@ -213,7 +214,7 @@ describe("/photoCategories", () => {
     };
 
     beforeEach(async () => {
-      photoCategory = new PhotoCategory({ name: "Folk" });
+      photoCategory = new PhotoCategory({ name: "Folk", slug: "folk" });
       photoCategory = await photoCategory.save();
       id = photoCategory._id;
       token = new User({ isAdmin: true }).generateAuthToken();

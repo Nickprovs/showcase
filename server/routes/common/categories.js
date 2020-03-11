@@ -31,7 +31,8 @@ module.exports = function(CategoryModel, categoryJoiSchema) {
 
   router.post("/", [auth, admin, validateBody(categoryJoiSchema)], async (req, res) => {
     let category = new CategoryModel({
-      name: req.body.name
+      name: req.body.name,
+      slug: req.body.slug
     });
 
     category = await category.save();
@@ -43,7 +44,8 @@ module.exports = function(CategoryModel, categoryJoiSchema) {
     const updatedCategoryModel = await CategoryModel.findByIdAndUpdate(
       req.params.id,
       {
-        name: req.body.name
+        name: req.body.name,
+        slug: req.body.slug
       },
       { new: true }
     );

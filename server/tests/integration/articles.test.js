@@ -24,10 +24,13 @@ describe("/articles", () => {
     let article3;
 
     beforeEach(async () => {
-      articleCategory1 = new ArticleCategory({ name: "Fiction" });
+      await Article.deleteMany({});
+      await ArticleCategory.deleteMany({});
+
+      articleCategory1 = new ArticleCategory({ name: "Fiction", slug: "fiction" });
       articleCategory1 = await articleCategory1.save();
 
-      articleCategory2 = new ArticleCategory({ name: "Non-Fiction" });
+      articleCategory2 = new ArticleCategory({ name: "Non-Fiction", slug: "non-fiction" });
       articleCategory2 = await articleCategory2.save();
 
       article1 = new Article({
@@ -163,7 +166,7 @@ describe("/articles", () => {
 
   describe("GET /:id", () => {
     it("should return a article if valid id is passed", async () => {
-      let articleCategory = new ArticleCategory({ name: "Fiction" });
+      let articleCategory = new ArticleCategory({ name: "Fiction", slug: "fiction" });
       articleCategory = await articleCategory.save();
 
       const article = new Article({
@@ -224,7 +227,7 @@ describe("/articles", () => {
     beforeEach(async () => {
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
 
-      let articleCategory = new ArticleCategory({ name: "Fiction" });
+      let articleCategory = new ArticleCategory({ name: "Fiction", slug: "fiction" });
       articleCategory = await articleCategory.save();
 
       article = {
@@ -319,7 +322,7 @@ describe("/articles", () => {
     };
 
     beforeEach(async () => {
-      articleCategory = new ArticleCategory({ name: "Fiction" });
+      articleCategory = new ArticleCategory({ name: "Fiction", slug: "fiction" });
       articleCategory = await articleCategory.save();
 
       existingArticle = new Article({
@@ -461,7 +464,7 @@ describe("/articles", () => {
     };
 
     beforeEach(async () => {
-      articleCategory = new ArticleCategory({ name: "Fiction" });
+      articleCategory = new ArticleCategory({ name: "Fiction", slug: "fiction" });
       articleCategory = await articleCategory.save();
 
       article = new Article({
