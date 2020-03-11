@@ -2,6 +2,7 @@ import Layout from "../components/layout";
 import { getBlogsAsync, getBlogCategoriesAsync } from "../services/blogService";
 import blogStyles from "../styles/blog.module.css";
 import FormTextInput from "../components/common/formTextInput";
+import Select from "../components/common/select";
 import Pagination from "../components/common/pagination";
 import Link from "next/link";
 import Router from "next/router";
@@ -51,6 +52,7 @@ export default class Blog extends Component {
     this.state.searchText = this.props.initialSearchProp;
     this.handleSearchTextChanged = this.handleSearchTextChanged.bind(this);
     this.handleSearchFormSubmission = this.handleSearchFormSubmission.bind(this);
+    this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
   }
 
@@ -122,8 +124,23 @@ export default class Blog extends Component {
     Router.push(url, url, { shallow: false });
   }
 
+  handleCategoryChange(selectedIndex) {
+    const category = this.state.categories[selectedIndex];
+    console.log(category);
+    const { searchText } = this.state;
+
+    const query = {};
+    if (searchText) query.search = searchText;
+    query.category = category._id;
+    const url = {
+      pathname: Router.pathname,
+      query: query
+    };
+    Router.push(url, url, { shallow: false });
+  }
+
   render() {
-    const { previews, currentPage, totalBlogsCount, initialSearchProp } = this.state;
+    const { previews, categories, currentPage, totalBlogsCount, initialSearchProp } = this.state;
     let searchText = "";
     searchText = this.state.searchText;
 
@@ -171,20 +188,24 @@ export default class Blog extends Component {
 
     return (
       <Layout>
-        <form onSubmit={e => this.handleSearchFormSubmission(e)}>
-          <FormTextInput
-            value={searchText}
-            onChange={e => this.handleSearchTextChanged(e.target.value)}
-            placeholder="Search..."
-            style={{ width: "30%", marginLeft: "20px" }}
-          />
+        <div>
+          <form onSubmit={e => this.handleSearchFormSubmission(e)}>
+            <FormTextInput
+              value={searchText}
+              onChange={e => this.handleSearchTextChanged(e.target.value)}
+              placeholder="Search..."
+              style={{ width: "30%", marginLeft: "20px" }}
+            />
+          </form>
+
           <Select
-            value={searchText}
-            onChange={e => this.handleSearchTextChanged(e.target.value)}
-            placeholder="Search..."
+            onChange={e => this.handleCategoryChange(e.target.selectedIndex)}
+            children={categories}
+            path={"name"}
             style={{ width: "30%", marginLeft: "20px" }}
           />
-        </form>
+        </div>
+
         {view}
       </Layout>
     );
