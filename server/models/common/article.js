@@ -113,7 +113,7 @@ function validateContingency(map) {
 }
 
 function validateSlug(slug) {
-  if (ValidationUtilities.IsSlug(slug)) return true;
+  if (ValidationUtilities.isSlug(slug)) return true;
   else throw new Error("Slug must be a valid web-slug");
 }
 
