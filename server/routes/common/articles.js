@@ -40,20 +40,17 @@ module.exports = function(ArticleModel, articleJoiSchema, ArticleCategoryModel) 
       filterObject["$or"] = searchArray;
     }
 
-    console.log(filterObject);
-
     //Get the total count that matches the filter object without pagination skipping / limiting
     const total = await ArticleModel.countDocuments(filterObject);
 
     //Get the paginated articles
-
     const articles = await ArticleModel.find(filterObject, { score: { $meta: "textScore" } })
       .select("-__v -body")
       .sort({ score: { $meta: "textScore" } })
       .sort({ datePosted: dateOrder })
       .skip(offset)
-      .limit(limit);
-    // .collation({ locale: "en", strength: 2 });
+      .limit(limit)
+      .collation({ locale: "en", strength: 2 });
 
     const data = {
       offset: offset,
