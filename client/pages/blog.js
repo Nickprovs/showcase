@@ -14,10 +14,12 @@ export default class Blog extends Component {
   static async getInitialProps(context) {
     let pageQueryParam = context.query.page ? parseInt(context.query.page) : 1;
     let searchQueryParam = context.query.search ? context.query.search : "";
+    let categoryQueryParam = context.query.category ? context.query.category : "";
 
     const options = {
       page: pageQueryParam,
-      search: searchQueryParam
+      search: searchQueryParam,
+      category: categoryQueryParam
     };
 
     return await Blog.getBlogData(options);
@@ -26,11 +28,13 @@ export default class Blog extends Component {
   static async getBlogData(options) {
     let page = options.page ? options.page : 1;
     let search = options.search ? options.search : "";
+    let category = options.category ? options.category : "";
 
     const getQueryParams = {
       offset: (page - 1) * pageSize,
       limit: pageSize,
-      search: search
+      search: search,
+      category: category
     };
 
     const blogs = await getBlogsAsync(getQueryParams);
@@ -131,7 +135,7 @@ export default class Blog extends Component {
 
     const query = {};
     if (searchText) query.search = searchText;
-    query.category = category._id;
+    query.category = category.slug;
     const url = {
       pathname: Router.pathname,
       query: query

@@ -67,7 +67,7 @@ const data = {
       ]
     },
     {
-      categoryName: "Music",
+      category: { name: "Music", slug: "music" },
       items: [
         {
           slug: "hozier-is-this-decades-goat",
@@ -304,15 +304,12 @@ const data = {
 
 async function saveCollection(data, MainModel, CategoryModel) {
   for (let dataItem of data) {
-    const { _id: categoryId } = await new CategoryModel({ ...dataItem.category }).save();
-
-    for (let i = 0; i < 1000; i++) {
-      const items = dataItem.items.map(item => ({
-        ...item,
-        category: { _id: categoryId, name: dataItem.categoryName }
-      }));
-      await MainModel.insertMany(items);
-    }
+    const category = await new CategoryModel({ ...dataItem.category }).save();
+    const items = dataItem.items.map(item => ({
+      ...item,
+      category: category
+    }));
+    await MainModel.insertMany(items);
   }
 }
 

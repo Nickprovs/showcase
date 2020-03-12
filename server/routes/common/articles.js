@@ -26,10 +26,12 @@ module.exports = function(ArticleModel, articleJoiSchema, ArticleCategoryModel) 
     if (categoryId) {
       let articleCategory;
       const { isIdSlug } = ValidationUtilities.isVariableId(categoryId);
-      if (isIdSlug) articleCategory = await ArticleCategoryModel.findOne({ slug: req.params.id }).select("-__v");
+
+      if (isIdSlug) articleCategory = await ArticleCategoryModel.findOne({ slug: categoryId }).select("-__v");
       else articleCategory = await ArticleCategoryModel.findById(categoryId);
+
       if (!articleCategory) return res.status(400).send("Invalid article category in query.");
-      filterObject["category"] = articleCategory;
+      filterObject["category._id"] = articleCategory._id;
     }
 
     if (search) {
@@ -37,6 +39,8 @@ module.exports = function(ArticleModel, articleJoiSchema, ArticleCategoryModel) 
       searchArray.push({ $text: { $search: search } });
       filterObject["$or"] = searchArray;
     }
+
+    console.log(filterObject);
 
     //Get the total count that matches the filter object without pagination skipping / limiting
     const total = await ArticleModel.countDocuments(filterObject);

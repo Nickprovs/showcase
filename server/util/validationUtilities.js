@@ -9,7 +9,7 @@ module.exports = class ValidationUtilities {
 
   static isVariableId(inputString) {
     if (mongoose.Types.ObjectId.isValid(inputString)) return { isVariableId: true, isIdSlug: false };
-    if (ValidationUtilities.isSlug(inputString)) return { isVariableId: true, isSlug: true };
+    if (ValidationUtilities.isSlug(inputString)) return { isVariableId: true, isIdSlug: true };
 
     return { isVariableId: false, isIdSlug: false };
   }
