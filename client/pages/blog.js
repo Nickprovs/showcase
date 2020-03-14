@@ -38,7 +38,8 @@ export default class Blog extends Component {
     };
 
     const blogs = await getBlogsAsync(getQueryParams);
-    const categories = await getBlogCategoriesAsync();
+    let categories = await getBlogCategoriesAsync();
+    categories.items = [{ _id: "", slug: "", name: "All" }, ...categories.items];
 
     return {
       previews: blogs.items,
@@ -113,32 +114,36 @@ export default class Blog extends Component {
 
   handleSearch() {
     const { searchText } = this.state;
-    if ((!searchText && !Router.query.search) || searchText === Router.query.search) {
-      console.log("no good");
-      return;
-    }
 
-    const query = {};
-    if (searchText) query.search = searchText;
+    //Check if the search changed or there is no search at all.
+    if ((!searchText && !Router.query.search) || searchText === Router.query.search) return;
+
+    let previousQuery = { ...Router.query };
+    delete previousQuery.search;
+
+    let searchQuery = {};
+    if (searchText) searchQuery = { search: searchText };
 
     const url = {
       pathname: Router.pathname,
-      query: query
+      query: { ...searchQuery, ...previousQuery }
     };
     Router.push(url, url, { shallow: false });
   }
 
   handleCategoryChange(selectedIndex) {
     const category = this.state.categories[selectedIndex];
-    console.log(category);
-    const { searchText } = this.state;
+    if (category.slug === Router.query.category) return;
 
-    const query = {};
-    if (searchText) query.search = searchText;
-    query.category = category.slug;
+    let previousQuery = { ...Router.query };
+    delete previousQuery.category;
+
+    let categoryQuery = {};
+    if (category._id) categoryQuery = { category: category.slug };
+
     const url = {
       pathname: Router.pathname,
-      query: query
+      query: { ...categoryQuery, ...previousQuery }
     };
     Router.push(url, url, { shallow: false });
   }
