@@ -114,8 +114,6 @@ export default class Blog extends Component {
 
   handleSearch() {
     const { searchText } = this.state;
-
-    //Check if the search changed or there is no search at all.
     if ((!searchText && !Router.query.search) || searchText === Router.query.search) return;
 
     let previousQuery = { ...Router.query };
