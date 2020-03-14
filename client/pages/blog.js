@@ -120,6 +120,7 @@ export default class Blog extends Component {
 
     let previousQuery = { ...Router.query };
     delete previousQuery.search;
+    delete previousQuery.page;
 
     let searchQuery = {};
     if (searchText) searchQuery = { search: searchText };
@@ -137,6 +138,7 @@ export default class Blog extends Component {
 
     let previousQuery = { ...Router.query };
     delete previousQuery.category;
+    delete previousQuery.page;
 
     let categoryQuery = {};
     if (category._id) categoryQuery = { category: category.slug };
