@@ -2,7 +2,7 @@ import Layout from "../components/layout";
 import { getBlogsAsync, getBlogCategoriesAsync } from "../services/blogService";
 import blogStyles from "../styles/blog.module.css";
 import FormTextInput from "../components/common/formTextInput";
-import Select from "../components/common/select";
+import FormSelectInput from "../components/common/formSelectInput";
 import Pagination from "../components/common/pagination";
 import Link from "next/link";
 import Router from "next/router";
@@ -56,7 +56,7 @@ export default class Blog extends Component {
     console.log(this.props.initialSearchProp);
     this.state.searchText = this.props.initialSearchProp;
     this.handleSearchTextChanged = this.handleSearchTextChanged.bind(this);
-    this.handleSearchFormSubmission = this.handleSearchFormSubmission.bind(this);
+    this.handleSearchKeyPress = this.handleSearchKeyPress.bind(this);
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
   }
@@ -109,8 +109,11 @@ export default class Blog extends Component {
     }
   }
 
-  handleSearchFormSubmission(e) {
-    e.preventDefault();
+  handleSearchKeyPress(e) {
+    console.log("key", e.key);
+    if (e.key != "Enter") return;
+    e.target.blur();
+
     this.handleSearch();
   }
 
@@ -206,26 +209,29 @@ export default class Blog extends Component {
 
     return (
       <Layout>
-        <div>
-          <form onSubmit={e => this.handleSearchFormSubmission(e)}>
+        {/* Search and Category */}
+        <div style={{ display: "flex", flex: "5em 25em", flexDirection: "row", alignItems: "center", justifyContent: "start" }}>
+          <div style={{ marginLeft: "20px" }}>
             <FormTextInput
+              onKeyPress={e => this.handleSearchKeyPress(e)}
               value={searchText}
               onChange={e => this.handleSearchTextChanged(e.target.value)}
               placeholder="Search..."
-              style={{ width: "30%", marginLeft: "20px" }}
             />
-          </form>
+          </div>
 
-          <Select
-            value={currentCategory ? currentCategory.name : "All"}
-            onChange={e => this.handleCategoryChange(e.target.selectedIndex)}
-            children={categories}
-            path={"name"}
-            style={{ width: "32%", marginLeft: "20px" }}
-          />
+          <div style={{ marginLeft: "20px" }}>
+            <FormSelectInput
+              value={currentCategory ? currentCategory.name : "All"}
+              onChange={e => this.handleCategoryChange(e.target.selectedIndex)}
+              children={categories}
+              path={"name"}
+            />
+          </div>
         </div>
 
-        {view}
+        {/* Main View */}
+        <div>{view}</div>
       </Layout>
     );
   }
