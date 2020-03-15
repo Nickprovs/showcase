@@ -208,6 +208,7 @@ p {
   border-style: solid;
   border-color: var(--s8);
   box-sizing: border-box;
+  width: 95%;
 }
 
 .form-control:focus {
