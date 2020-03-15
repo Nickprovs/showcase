@@ -76,6 +76,11 @@ export default class Blog extends Component {
     this.setState({ initialSearchProp: initialSearchProp });
     this.setState({ categories: categories });
 
+    let currentCategory = categories.filter(c => c.slug === Router.query.category)[0];
+    currentCategory = currentCategory ? currentCategory : categories.filter(c => c._id === "")[0];
+    console.log("current category", currentCategory);
+    this.setState({ currentCategory: currentCategory });
+
     setTimeout(() => this.setState({ previews: this.state.previews.filter(i => !i.title.toLowerCase().includes("hozier")) }), 3000);
   }
 
@@ -83,21 +88,25 @@ export default class Blog extends Component {
     searchText: ""
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     //If the search query changes..
     console.log(prevProps);
 
     console.log("updated");
-    const { previews, currentPage, totalBlogsCount, initialSearchProp } = this.props;
+    const { previews, currentPage, categories, totalBlogsCount, initialSearchProp } = this.props;
+    const { currentCategory } = this.state;
+
     if (prevProps.previews !== previews) this.setState({ previews });
     if (prevProps.currentPage !== currentPage) this.setState({ currentPage });
     if (prevProps.totalBlogsCount !== totalBlogsCount) this.setState({ totalBlogsCount });
     if (prevProps.initialSearchProp !== initialSearchProp) this.setState({ initialSearchProp });
-    // const { pathname, query } = this.props.router;
-    // verify props have changed to avoid an infinite loop
-    // if (query.search !== prevProps.router.query.search) {
-    //   this.setState
-    // }
+
+    //If there's a category in the query and it's different than the current category
+    if (Router.query.category != currentCategory.slug) {
+      let matchingCategory = categories.filter(c => c.slug === Router.query.category)[0];
+      matchingCategory = matchingCategory ? matchingCategory : categories.filter(c => c._id === "")[0];
+      if (prevState.currentCategory !== matchingCategory) this.setState({ currentCategory: matchingCategory });
+    }
   }
 
   handleSearchFormSubmission(e) {
@@ -149,7 +158,7 @@ export default class Blog extends Component {
   }
 
   render() {
-    const { previews, categories, currentPage, totalBlogsCount, initialSearchProp } = this.state;
+    const { previews, categories, currentPage, totalBlogsCount, currentCategory, initialSearchProp } = this.state;
     let searchText = "";
     searchText = this.state.searchText;
 
@@ -208,10 +217,11 @@ export default class Blog extends Component {
           </form>
 
           <Select
+            value={currentCategory ? currentCategory.name : "All"}
             onChange={e => this.handleCategoryChange(e.target.selectedIndex)}
             children={categories}
             path={"name"}
-            style={{ width: "30%", marginLeft: "20px" }}
+            style={{ width: "32%", marginLeft: "20px" }}
           />
         </div>
 

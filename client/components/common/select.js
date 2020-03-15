@@ -8,7 +8,9 @@ export default function Select(props) {
   return (
     <select {...rest} className={select.input}>
       {childrenArray.map(c => (
-        <option key={path ? c[path] : c}>{path ? c[path] : c}</option>
+        <option value={path ? c[path] : c} key={path ? c[path] : c}>
+          {path ? c[path] : c}
+        </option>
       ))}
     </select>
   );
