@@ -1,8 +1,7 @@
 import Layout from "../components/layout";
 import { getBlogsAsync, getBlogCategoriesAsync } from "../services/blogService";
 import blogStyles from "../styles/blog.module.css";
-import FormTextInput from "../components/common/formTextInput";
-import FormSelectInput from "../components/common/formSelectInput";
+import Select from "../components/common/select";
 import Pagination from "../components/common/pagination";
 import Link from "next/link";
 import Router from "next/router";
@@ -210,9 +209,11 @@ export default class Blog extends Component {
     return (
       <Layout>
         {/* Search and Category */}
-        <div style={{ display: "flex", flex: "5em 25em", flexDirection: "row", alignItems: "center", justifyContent: "start" }}>
-          <div style={{ marginLeft: "20px" }}>
-            <FormTextInput
+        <div className={blogStyles.headerControlsContainer}>
+          <div className={blogStyles.headerControl}>
+            <input
+              style={{ width: "100%" }}
+              className="form-control"
               onKeyPress={e => this.handleSearchKeyPress(e)}
               value={searchText}
               onChange={e => this.handleSearchTextChanged(e.target.value)}
@@ -220,8 +221,9 @@ export default class Blog extends Component {
             />
           </div>
 
-          <div style={{ marginLeft: "20px" }}>
-            <FormSelectInput
+          <div className={blogStyles.headerControl}>
+            <Select
+              style={{ width: "100%" }}
               value={currentCategory ? currentCategory.name : "All"}
               onChange={e => this.handleCategoryChange(e.target.selectedIndex)}
               children={categories}
