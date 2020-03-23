@@ -2,5 +2,7 @@
   "jwtPrivateKey": "1234",
   "captchaPrivateKey": "unsecureKey",
   "db": "mongodb://localhost/nickprovs_tests",
-  "requiresAuth": true
+  "requiresAuth": true,
+  "adminUsername": "admin",
+  "adminPassword": "password"
 }

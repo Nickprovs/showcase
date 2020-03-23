@@ -4,6 +4,7 @@ const config = require("config");
 const error = require("./middleware/error");
 const app = express();
 
+require("./startup/validateEnvironment")();
 require("./startup/logging")();
 require("./startup/cors")(app);
 app.use(express.json());
@@ -14,6 +15,7 @@ require("./startup/db")();
 require("./startup/config")();
 require("./startup/prod")(app);
 require("./startup/validation")();
+require("./startup/setupAdmin")();
 
 const port = process.env.PORT || config.get("port");
 const server = app.listen(port, () => winston.info(`Listening on port ${port}...`));
