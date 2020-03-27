@@ -1,4 +1,7 @@
 {
+  "clientProtocol": "http",
+  "clientAddress": "localhost",
+  "clientPort": "3000",
   "jwtPrivateKey": "unsecureKey",
   "captchaPrivateKey": "unsecureKey",
   "db": "mongodb://localhost/nickprovs",

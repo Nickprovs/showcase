@@ -8,11 +8,14 @@ export async function loginAsync(username, password) {
   console.log(AUTHURL);
   const res = await fetch(AUTHURL, {
     method: "post",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({ username: username, password: password })
   });
+
   const data = await res.json();
   console.log(data);
+  console.log(document.cookie);
 }

@@ -12,7 +12,15 @@ router.post("/", validateBody(joiSchema), async (req, res) => {
   const validPassword = await bcrypt.compare(req.body.password, user.password);
   if (!validPassword) return res.status(400).send("Invalid username or password.");
 
+  console.log(req.cookies);
+
   const accessToken = user.generateAuthToken();
+
+  let cookieOptions = { sameSite: "lax", httpOnly: true };
+  if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
+
+  res.cookie("nickprovs_accessToken", accessToken, cookieOptions);
+
   res.send({ accessToken });
 });
 

@@ -1,4 +1,7 @@
 {
+  "clientProtocol": "nickprovs_clientProtocol",
+  "clientAddress": "nickprovs_clientAddress",
+  "clientPort": "nickprovs_clientPort",
   "jwtPrivateKey": "nickprovs_jwtPrivateKey",
   "captchaPrivateKey": "nickprovs_captchaPrivateKey",
   "db": "nickprovs_db",
