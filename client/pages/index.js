@@ -1,8 +1,10 @@
 import Layout from "../components/layout";
+import withAuthAsync from "../components/common/withAuthAsync";
 
-export default function Index() {
+const Index = props => {
+  let user = props.user;
   return (
-    <Layout>
+    <Layout user={user}>
       <h1 className="mainContentTitle">About Me</h1>
       <p>
         The standard Lorem Ipsum passage, used since the 1500s "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
@@ -44,3 +46,5 @@ export default function Index() {
     </Layout>
   );
 }
+
+export default withAuthAsync(Index);

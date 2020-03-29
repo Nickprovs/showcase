@@ -64,7 +64,7 @@ export default class Sidebar extends Component {
             <button
               key={item.label}
               style={{ fontSize: "10pt", paddingLeft: "20px" }}
-              onClick={async () => await this.handleInternalLinkableThingClicked(item.href)}
+              onClick = {item.onClick ? item.onClick : async () => await this.handleInternalLinkableThingClicked(item.href)}
               className="textButton"
             >
               {item.label}

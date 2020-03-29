@@ -39,7 +39,7 @@ export default function Header(props) {
     if (item.subPages && Object.entries(item.subPages).length > 0) {
       return (
         <HeaderDropdown isSelected={getHeaderButtonSelected(item, router.pathname)} text={item.label}>
-          {item.subPages.map(item => (
+          {item.subPages.map(item => item.onClick ? <button onClick={item.onClick}>{item.label}</button> : (
             <Link href={item.href} key={item.label}>
               <a>{item.label}</a>
             </Link>

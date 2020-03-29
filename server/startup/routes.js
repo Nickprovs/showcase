@@ -1,4 +1,5 @@
 const auth = require("../routes/auth");
+const me = require("../routes/me");
 const articles = require("../routes/common/articles");
 const media = require("../routes/common/media");
 const categories = require("../routes/common/categories");
@@ -15,6 +16,7 @@ const { VideoCategory, joiSchema: joiVideoCategorySchema } = require("../models/
 
 module.exports = function(app) {
   app.use("/auth", auth);
+  app.use("/me", me);
 
   app.use("/articles", articles(Article, joiArticleSchema, ArticleCategory));
   app.use("/articleCategories", categories(ArticleCategory, joiArticleCategorySchema));

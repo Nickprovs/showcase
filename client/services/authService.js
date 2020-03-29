@@ -1,4 +1,3 @@
-import asyncUtilities from "../util/asyncUtilities";
 import fetch from "isomorphic-unfetch";
 import { APIURL } from "../util/constants";
 
@@ -14,8 +13,16 @@ export async function loginAsync(username, password) {
     },
     body: JSON.stringify({ username: username, password: password })
   });
+  return res;
+}
 
-  const data = await res.json();
-  console.log(data);
-  console.log(document.cookie);
+export async function logoutAsync() {
+  const res = await fetch(AUTHURL, {
+    method: "delete",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+  return res;
 }

@@ -2,6 +2,7 @@ import Joi from "@hapi/joi";
 import Form from "../components/common/form";
 import Layout from "../components/layout";
 import { loginAsync } from "../services/authService";
+import Router from "next/router";
 
 class LoginForm extends Form {
   constructor() {
@@ -24,7 +25,14 @@ class LoginForm extends Form {
 
   doSubmit = async () => {
     const { username, password } = this.state.data;
-    await loginAsync(username, password);
+    try{
+      const res = await loginAsync(username, password);
+      if(res.status === 200)
+        Router.push("/");
+    }
+    catch(ex){
+      console.log(ex);
+    }
   };
 
   render() {
