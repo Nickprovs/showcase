@@ -2,13 +2,14 @@ import Layout from "../../components/layout";
 import { getSoftwareProjectPreviewsAsync } from "../../services/softwareService";
 import softwareStyles from "../../styles/software.module.css";
 import BasicButton from "../../components/common/basicButton";
+import withAuthAsync from "../../components/common/withAuthAsync";
 
-export default function Software(props) {
-  const { previews } = props;
+function Software(props) {
+  const { previews, user } = props;
   console.log("client previews", previews);
   console.log(new Date());
   return (
-    <Layout>
+    <Layout user={user}>
       <div className={softwareStyles.container}>
         {previews.map(preview => (
           <div className={softwareStyles.item}>
@@ -39,3 +40,5 @@ Software.getInitialProps = async function() {
     previews: res.previews
   };
 };
+
+export default withAuthAsync(Software);

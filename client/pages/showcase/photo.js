@@ -3,9 +3,10 @@ import { getPhotosAsync } from "../../services/photoService";
 import photoStyles from "../../styles/photo.module.css";
 import FullscreenPhoto from "../../components/common/fullscreenPhoto";
 import { useState } from "react";
+import withAuthAsync from "../../components/common/withAuthAsync";
 
-export default function Photo(props) {
-  const { photos } = props;
+function Photo(props) {
+  const { photos, user } = props;
   console.log("photos!", photos);
 
   const getClassesForPhoto = photo => {
@@ -28,7 +29,7 @@ export default function Photo(props) {
   };
 
   return (
-    <Layout>
+    <Layout user = {user}>
       <div style={{ zIndex: "200" }} className={photoStyles.container}>
         {photos.map(photo => (
           <div className={getClassesForPhoto(photo)}>
@@ -52,3 +53,5 @@ Photo.getInitialProps = async function() {
     photos: res.photos
   };
 };
+
+export default withAuthAsync(Photo);

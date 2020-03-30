@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import Router from 'next/router'
 import { getCurrentUserAsync } from "../../services/userService";
 
-const withAuthSync = (WrappedComponent, redirect = false, redirectUri = "/login") => {
+const withAuthAsync = (WrappedComponent, redirect = false, redirectUri = "/login") => {
     const Wrapper = props => {
       const syncLogout = event => {
         if (event.key === 'logout') {
@@ -65,4 +65,4 @@ const withAuthSync = (WrappedComponent, redirect = false, redirectUri = "/login"
     return Wrapper
 }
 
-export default withAuthSync;
+export default withAuthAsync;

@@ -1,10 +1,15 @@
 import Layout from "../components/layout";
 import ContactForm from "../components/contactForm";
+import withAuthAsync from "../components/common/withAuthAsync";
 
-export default function Contact() {
+function Contact(props) {
+  let {user} = props;
   return (
-    <Layout>
+    <Layout user={user}>
       <ContactForm />
     </Layout>
   );
 }
+
+export default withAuthAsync(Contact);
+

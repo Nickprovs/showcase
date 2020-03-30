@@ -1,11 +1,12 @@
 import Layout from "../../components/layout";
 import { getVideosAsync } from "../../services/videoService";
 import videoStyles from "../../styles/video.module.css";
+import withAuthAsync from "../../components/common/withAuthAsync";
 
-export default function Video(props) {
-  const { videos } = props;
+function Video(props) {
+  const { videos, user } = props;
   return (
-    <Layout>
+    <Layout user={user}>
       <div className={videoStyles.container}>
         {videos.map(video => (
           <div className={videoStyles.item}>
@@ -33,3 +34,5 @@ Video.getInitialProps = async function() {
     videos: res.videos
   };
 };
+
+export default withAuthAsync(Video);

@@ -6,10 +6,11 @@ import Pagination from "../components/common/pagination";
 import Link from "next/link";
 import Router from "next/router";
 import { Component } from "react";
+import withAuthAsync from "../components/common/withAuthAsync";
 
 const pageSize = 6;
 
-export default class Blog extends Component {
+class Blog extends Component {
   static async getInitialProps(context) {
     let pageQueryParam = context.query.page ? parseInt(context.query.page) : 1;
     let searchQueryParam = context.query.search ? context.query.search : "";
@@ -161,6 +162,7 @@ export default class Blog extends Component {
 
   render() {
     const { previews, categories, currentPage, totalBlogsCount, currentCategory, initialSearchProp } = this.state;
+    const { user } =this.props;
     let searchText = "";
     searchText = this.state.searchText;
 
@@ -206,8 +208,9 @@ export default class Blog extends Component {
       );
     }
 
+    console.log(user);
     return (
-      <Layout>
+      <Layout user ={user}>
         {/* Search and Category */}
         <div className={blogStyles.headerControlsContainer}>
           <div className={blogStyles.headerControl}>
@@ -238,3 +241,5 @@ export default class Blog extends Component {
     );
   }
 }
+
+export default withAuthAsync(Blog)
