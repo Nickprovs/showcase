@@ -1,68 +1,73 @@
-import { useEffect } from 'react'
-import Router from 'next/router'
 import { getCurrentUserAsync } from "../../services/userService";
+import RedirectUtilities from "../../util/redirectUtilities"
+import {Component} from "react";
+
+
+
 
 const withAuthAsync = (WrappedComponent, redirect = false, redirectUri = "/login") => {
-    const Wrapper = props => {
-      const syncLogout = event => {
-        if (event.key === 'logout') {
-          console.log('logged out from storage!')
-          Router.push('/login')
-        }
-      }
-  
-      useEffect(() => {
-        window.addEventListener('storage', syncLogout)
-  
-        return () => {
-          window.removeEventListener('storage', syncLogout)
-          window.localStorage.removeItem('logout')
-        }
-      }, [])
-  
-      return <WrappedComponent {...props} />
-    }
-  
-    Wrapper.getInitialProps = async ctx => {
-        let user = null;
-        let authIssue = false; 
-        try{         
-            const res = await getCurrentUserAsync(ctx);
-            if(res.status === 200){
-              user = await res.json();
-              console.log("got user");
-            }
-            else{
-              authIssue = true;
-              console.log("couldn't get user");
-            }
-        }
-        catch(ex){
-            console.log(ex);
-            authIssue = true;
-            console.log("couldn't get user");
-        }
+  return class AuthComponent extends Component{
 
-        if(authIssue && redirect){
-          //Server
-          if(ctx.req){
-            console.log("YOOOO");
-            ctx.res.writeHead(301, { Location: redirectUri });
-            ctx.res.end();
-          }         
-          //Client
-          else
-            Router.push(redirectUri)     
-        }
-  
-      const componentProps =
+    static async getInitialProps(ctx){
+
+      //Authenticate w/ server
+      const res = await getCurrentUserAsync(ctx);
+      
+      let authIssue = true;
+      let user = null;
+      try {         
+          const res = await getCurrentUserAsync(ctx);
+          if(res.status === 200){
+            const user = await res.json();
+            authIssue = false;
+          }
+      }
+      catch(ex) {
+        authIssue = true;
+      }    
+
+      const innerProps =
         WrappedComponent.getInitialProps &&
         (await WrappedComponent.getInitialProps(ctx))
-  
-      return { ...componentProps, user }
+      
+      if(authIssue){
+        if(redirect)
+          RedirectUtilities.Redirect(ctx, redirectUri);
+        return { ...innerProps, user }
+      }
+
+      else{
+        return { ...innerProps, user }
+      }
     }
-  
-    return Wrapper
+
+    constructor(props){
+      super(props);
+      this.syncLogout = this.syncLogout.bind(this);
+    }
+
+    syncLogout(event) {
+      if (event.key === 'logout') {
+        console.log('logged out from storage!')
+        Router.push('/login')
+      }
+    }
+
+    componentDidMount(){
+      window.addEventListener('storage', this.syncLogout)
+
+    }
+
+    componentWillUnmount(){
+      window.removeEventListener('storage', this.syncLogout)
+      window.localStorage.removeItem('logout')
+    }
+
+    render(){
+      return <WrappedComponent {...this.props}/>
+    }
+
+  }
 }
 
 export default withAuthAsync;
