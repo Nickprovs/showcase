@@ -88,7 +88,7 @@ module.exports = function(ArticleModel, articleJoiSchema, ArticleCategoryModel) 
       image: req.body.image,
       body: req.body.body,
       addressableHighlight: req.body.addressableHighlight,
-      tags: req.body.tags,
+      tags: req.body.tags.map(str => str.trim()),
       contingency: req.body.contingency ? req.body.contingency : {}
     });
 
@@ -116,7 +116,7 @@ module.exports = function(ArticleModel, articleJoiSchema, ArticleCategoryModel) 
         image: req.body.image,
         body: req.body.body,
         addressableHighlight: req.body.addressableHighlight,
-        tags: req.body.tags,
+        tags: req.body.tags.map(str => str.trim()),
         contingency: req.body.contingency
       },
       {

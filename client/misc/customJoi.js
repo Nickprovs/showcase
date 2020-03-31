@@ -7,10 +7,10 @@ const CustomJoi = Joi.extend(
         if(typeof value !== 'string') 
             return {value};
     
-        return {value: value.replace(/^,+|,+$/mg, '').split(',')};
-    },
-    validate(value, helpers){
-        console.log("Post-Base validation");
+        //Split string into array and trim leading/trailing spaces.
+        let data = value.replace(/^,+|,+$/mg, '').split(',');
+        data = data.map(str => str.trim());
+        return {value: data};
     }
 });
 export default CustomJoi;
