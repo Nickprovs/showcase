@@ -32,7 +32,8 @@
 }
 
 .basicButton:disabled {
-  opacity: 0.2;
+  border-color: var(--s8);
+  color: var(--s8);
   cursor: not-allowed;
 }
 
