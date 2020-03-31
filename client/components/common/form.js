@@ -3,7 +3,7 @@ import FormTextInput from "./formTextInput";
 import FormTextArea from "./formTextArea";
 import FormSelectInput from "./formSelectInput";
 import FormDatalist from "./formDatalist";
-import Joi from "@hapi/joi";
+import CustomJoi from "../../misc/customJoi";
 import ReCAPTCHA from "react-google-recaptcha";
 import BasicButton from "./basicButton";
 
@@ -26,7 +26,7 @@ class Form extends Component {
 
   validateProperty({ name, value }) {
     const propertyToValidateAsObject = { [name]: value };
-    const schemaForProperty = Joi.object({ [name]: this.schema.extract(name) });
+    const schemaForProperty = CustomJoi.object({ [name]: this.schema.extract(name) });
     const { error } = schemaForProperty.validate(propertyToValidateAsObject);
     return error ? error.details[0].message : null;
   }
