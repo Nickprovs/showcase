@@ -18,7 +18,7 @@ const withAuthAsync = (WrappedComponent, redirect = false, redirectUri = "/login
       try {         
           const res = await getCurrentUserAsync(ctx);
           if(res.status === 200){
-            const user = await res.json();
+            user = await res.json();
             authIssue = false;
           }
       }
