@@ -3,6 +3,8 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import Router from "next/router";
 import NProgress from "nprogress";
 import Head from "next/head";
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 // This default export is required in a new `pages/_app.js` file.
 
@@ -32,6 +34,7 @@ export default function MyApp({ Component, pageProps }) {
         {/* Import CSS for nprogress */}
         <link rel="stylesheet" type="text/css" href="/nprogress.css" />
       </Head>
+      <ToastContainer/>
       <Component {...pageProps} />
     </div>
   );
