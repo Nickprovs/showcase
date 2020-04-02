@@ -3,6 +3,9 @@ import withAuthAsync from "../../../components/common/withAuthAsync";
 import Form from "../../../components/common/form";
 import CustomJoi from "../../../misc/customJoi";
 import {getBlogCategoriesAsync} from "../../../services/blogService";
+import { Editor } from '@tinymce/tinymce-react';
+import Head from 'next/head';
+
 class Article extends Form{
 
   static async getInitialProps(context) {
@@ -13,8 +16,13 @@ class Article extends Form{
   constructor() {
     super();
 
+    this.state.mounted = false;
     this.state.data = { title: "", slug: "", category: "", image: "", description: "", tags: ""};
     this.state.errors = {};
+  }
+
+  componentDidMount(){
+    this.setState({mounted: true});
   }
 
   schema = CustomJoi.object({
@@ -61,7 +69,11 @@ class Article extends Form{
     let {categories} = this.props;
     categories = categories ? categories : [];
     return (
-      <Layout>
+      <div>
+        <Head>
+          <script src="/static/scripts/tinymce/tinymce.min.js"></script>
+        </Head>
+        <Layout>
         <div className="standardPadding">
           <form onSubmit={this.handleSubmit}>
             {this.renderTextInput("title", "TITLE")}
@@ -69,12 +81,35 @@ class Article extends Form{
             {this.renderSelect("category", "CATEGORY", "", categories.items, "name")}
             {this.renderTextInput("image", "IMAGE")}
             {this.renderTextArea("description", "DESCRIPTION")}
-            {this.renderTextInput("tags", "TAGS")}
 
+            {/* Render the editor client side. */}
+            {this.state.mounted &&             
+              <Editor    
+                initialValue="<p>This is the initial content of the editor</p>"
+                init={{
+                  width: "95%",
+                  height: 500,
+                  menubar: true,
+                  plugins: [
+                    'advlist autolink lists link image charmap print preview anchor',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table paste code help wordcount'
+                  ],
+                  toolbar:
+                    'undo redo | formatselect | bold italic backcolor | \
+                    alignleft aligncenter alignright alignjustify | \
+                    bullist numlist outdent indent | removeformat | help'
+                }}
+                onEditorChange={this.handleEditorChange}
+            />}
+            
+            {this.renderTextInput("tags", "TAGS")}
             {this.renderButton("POST")}
           </form>
         </div>
       </Layout>
+      </div>
+
     );
   }
 }
