@@ -6,7 +6,7 @@ const FormSelectInput = ({ children, name, label, error, ...rest }) => {
         {label}
       </label>
       <br />
-      <Select {...rest} children={children} name={name} id={name} aria-describedby={name} />
+      <Select {...rest} children={children} name={name} id={name} aria-describedby={name} style={{width: "95%"}}/>
       {error && (
         <div>
           <label className="form-label-error" htmlFor={name}>

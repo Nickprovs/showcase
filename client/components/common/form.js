@@ -109,7 +109,7 @@ class Form extends Component {
     );
   }
 
-  renderSelect(name, label, placeholder = "", children) {
+  renderSelect(name, label, placeholder = "", children, path) {
     return (
       <FormSelectInput
         name={name}
@@ -119,6 +119,7 @@ class Form extends Component {
         onChange={this.handleChange}
         error={this.state.errors[name]}
         children={children}
+        path={path}
       />
     );
   }

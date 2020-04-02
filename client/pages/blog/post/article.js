@@ -2,12 +2,18 @@ import Layout from "../../../components/layout";
 import withAuthAsync from "../../../components/common/withAuthAsync";
 import Form from "../../../components/common/form";
 import CustomJoi from "../../../misc/customJoi";
-
+import {getBlogCategoriesAsync} from "../../../services/blogService";
 class Article extends Form{
+
+  static async getInitialProps(context) {
+    let categories = await getBlogCategoriesAsync();
+    return {categories: categories};
+  }
+
   constructor() {
     super();
 
-    this.state.data = { title: "", slug: "", image: "", description: "", tags: ""};
+    this.state.data = { title: "", slug: "", category: "", image: "", description: "", tags: ""};
     this.state.errors = {};
   }
 
@@ -21,6 +27,10 @@ class Article extends Form{
       .max(128)
       .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
       .required(),
+    category: CustomJoi.string()
+      .min(1)
+      .required()
+      .label("Category"),
     description: CustomJoi.string()
       .min(1)
       .required()
@@ -48,12 +58,15 @@ class Article extends Form{
   };
   
   render() {
+    let {categories} = this.props;
+    categories = categories ? categories : [];
     return (
       <Layout>
         <div className="standardPadding">
           <form onSubmit={this.handleSubmit}>
             {this.renderTextInput("title", "TITLE")}
             {this.renderTextInput("slug", "SLUG")}
+            {this.renderSelect("category", "CATEGORY", "", categories.items, "name")}
             {this.renderTextInput("image", "IMAGE")}
             {this.renderTextArea("description", "DESCRIPTION")}
             {this.renderTextInput("tags", "TAGS")}
