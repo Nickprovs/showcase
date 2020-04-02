@@ -83,6 +83,7 @@ class Article extends Form{
             {this.renderTextArea("description", "DESCRIPTION")}
 
             {/* Render the editor client side. */}
+            <p>TODO: See if "value" tag works and bind content to value -- extend form somehow to do final validation?</p>
             {this.state.mounted &&             
               <Editor    
                 initialValue="<p>This is the initial content of the editor</p>"
