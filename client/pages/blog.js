@@ -5,6 +5,8 @@ import Select from "../components/common/select";
 import Pagination from "../components/common/pagination";
 import Link from "next/link";
 import Router from "next/router";
+import Icon from "../components/common/icon";
+import TransparentButton from "../components/common/transparentButton";
 import { Component } from "react";
 import withAuthAsync from "../components/common/withAuthAsync";
 
@@ -183,6 +185,18 @@ class Blog extends Component {
           <div className={blogStyles.container}>
             {previews.map(preview => (
               <div key={preview._id} className={blogStyles.item}>
+
+                {/*Admin Controls*/}
+                {user && user.isAdmin &&                
+                <div className={blogStyles.adminOptions}>
+                  <TransparentButton style={{ color: "var(--f1)" }}>
+                    <Icon className="fas fa-edit"></Icon>
+                    </TransparentButton>
+                  <TransparentButton style={{ color: "var(--f1)" }}>
+                    <Icon className="fas fa-trash"></Icon>
+                  </TransparentButton>
+                </div>}
+
                 <div className={blogStyles.previewTitle}>
                   <Link href="/blog/[slug]" as={`/blog/${preview.slug}`}>
                     <a className="clickableHeading">{preview.title}</a>
