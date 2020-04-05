@@ -2,9 +2,10 @@ import Layout from "../../../components/layout";
 import withAuthAsync from "../../../components/common/withAuthAsync";
 import Form from "../../../components/common/form";
 import CustomJoi from "../../../misc/customJoi";
-import {getBlogCategoriesAsync} from "../../../services/blogService";
-import { Editor } from '@tinymce/tinymce-react';
+import {getBlogCategoriesAsync, saveBlogAsync} from "../../../services/blogService";
 import Head from 'next/head';
+import { toast } from 'react-toastify';
+import Router from "next/router";
 
 class Article extends Form{
 
@@ -16,13 +17,8 @@ class Article extends Form{
   constructor() {
     super();
 
-    this.state.mounted = false;
-    this.state.data = { title: "", slug: "", category: "", image: "", description: "", tags: ""};
+    this.state.data = { title: "", slug: "", category: "", image: "", description: "", body: "", tags: ""};
     this.state.errors = {};
-  }
-
-  componentDidMount(){
-    this.setState({mounted: true});
   }
 
   schema = CustomJoi.object({
@@ -47,23 +43,60 @@ class Article extends Form{
       .min(2)
       .max(1000)
       .required(),
+    body: CustomJoi.string()
+      .min(10)
+      .max(1000)
+      .required(),
     tags: CustomJoi.csvString()
         .required()
         .min(3)
         .max(10)
   });
+
+  getBlogFromPassingState(){
+    const {categories} = this.props;
+    let blog = {...this.state.data};
+
+    let category = blog.category;
+    delete blog.category;
+    blog.categoryId = categories.items.filter(c => c.name == category)[0]._id;
+
+    let tagsString = blog.tags;
+    delete blog.tags;
+    let tagsArray = tagsString.replace(/^,+|,+$/mg, '').split(',');
+    tagsArray = tagsArray.map(str => str.trim());
+    blog.tags = tagsArray;
+
+    return blog;
+  }
   
   doSubmit = async () => {
-    const { username, password } = this.state.data;
+    const blog = this.getBlogFromPassingState();    
+    console.log(blog);
+    let res = null;
+    //Try and post the new category
     try{
-      const res = await loginAsync(username, password);
-      if(res.status === 200)
-        Router.push("/");
+        res = await saveBlogAsync(blog);
     }
     catch(ex){
-      console.log(ex);
+        let errorMessage = `Error: ${ex}`;
+        console.log(errorMessage);
+        toast.error(errorMessage);
+        return;
     }
-  };
+    if(!res.ok){
+        let body = "";
+        //TODO: Parse Text OR JSON
+        body = await res.text(); 
+        let errorMessage = `Error: ${res.status} - ${body}`;
+        console.log(errorMessage)
+        toast.error(errorMessage);    
+        return;
+    }
+
+    //TODO: Disallow posting duplicate category at server level.
+    Router.push("/blog");
+  }
   
   render() {
     let {categories} = this.props;
@@ -81,29 +114,7 @@ class Article extends Form{
             {this.renderSelect("category", "CATEGORY", "", categories.items, "name")}
             {this.renderTextInput("image", "IMAGE")}
             {this.renderTextArea("description", "DESCRIPTION")}
-
-            {/* Render the editor client side. */}
-            <p>TODO: See if "value" tag works and bind content to value -- extend form somehow to do final validation?</p>
-            {this.state.mounted &&             
-              <Editor    
-                initialValue="<p>This is the initial content of the editor</p>"
-                init={{
-                  width: "95%",
-                  height: 500,
-                  menubar: true,
-                  plugins: [
-                    'advlist autolink lists link image charmap print preview anchor',
-                    'searchreplace visualblocks code fullscreen',
-                    'insertdatetime media table paste code help wordcount'
-                  ],
-                  toolbar:
-                    'undo redo | formatselect | bold italic backcolor | \
-                    alignleft aligncenter alignright alignjustify | \
-                    bullist numlist outdent indent | removeformat | help'
-                }}
-                onEditorChange={this.handleEditorChange}
-            />}
-            
+            {this.renderHtmlEditor("body", "BODY")}
             {this.renderTextInput("tags", "TAGS")}
             {this.renderButton("POST")}
           </form>

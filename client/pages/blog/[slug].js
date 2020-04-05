@@ -12,10 +12,11 @@ Blog.getInitialProps = async function(context) {
 };
 
 function Blog({ blog, user }) {
+  console.log(blog.body);
   return (
     <Layout user={user}>
       <h1>{blog.title}</h1>
-      <p>{blog.body}</p>
+      <div dangerouslySetInnerHTML={{__html: blog.body}}/>
     </Layout>
   );
 }

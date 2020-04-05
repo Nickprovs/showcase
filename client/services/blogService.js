@@ -5,6 +5,8 @@ import { APIURL } from "../util/constants";
 const BLOGSAPIURL = `${APIURL}/articles`;
 const BLOGGENRESAPIURL = `${APIURL}/articleCategories`;
 
+
+
 export async function createBlogCategoryAsync(name, slug){
   const res = await fetch(BLOGGENRESAPIURL, {
     method: "post",
@@ -13,6 +15,18 @@ export async function createBlogCategoryAsync(name, slug){
       "Content-Type": "application/json"
     },
     body: JSON.stringify({ name: name, slug: slug })
+  });
+  return res;
+}
+
+export async function saveBlogAsync(blog){
+  const res = await fetch(BLOGSAPIURL, {
+    method: "post",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(blog)
   });
   return res;
 }

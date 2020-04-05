@@ -3,6 +3,7 @@ import FormTextInput from "./formTextInput";
 import FormTextArea from "./formTextArea";
 import FormSelectInput from "./formSelectInput";
 import FormDatalist from "./formDatalist";
+import FormHtmlEditor from "./formHtmlEditor";
 import CustomJoi from "../../misc/customJoi";
 import ReCAPTCHA from "react-google-recaptcha";
 import BasicButton from "./basicButton";
@@ -17,14 +18,13 @@ class Form extends Component {
 
   constructor() {
     super();
-
     this.recaptcha = null;
     this.setRecaptcha = element => {
       this.recaptcha = element;
     };
   }
 
-  validateProperty({ name, value }) {
+  validateProperty(name, value) {
     const propertyToValidateAsObject = { [name]: value };
     const schemaForProperty = CustomJoi.object({ [name]: this.schema.extract(name) });
     const { error } = schemaForProperty.validate(propertyToValidateAsObject);
@@ -59,17 +59,18 @@ class Form extends Component {
     this.doSubmit();
   };
 
-  handleChange = ({ currentTarget: input }) => {
+  //Needs... "name" of input, "value" of input, "type" of input
+  handleChange = (inputName, inputValue, inputType) => {
     const errors = { ...this.state.errors };
-    const errorMessage = this.validateProperty(input);
+    const errorMessage = this.validateProperty(inputName, inputValue);
     if (errorMessage) {
-      errors[input.name] = errorMessage;
+      errors[inputName] = errorMessage;
     } else {
-      delete errors[input.name];
+      delete errors[inputName];
     }
     const data = { ...this.state.data };
-    if (input) {
-      data[input.name] = input.type === "checkbox" ? input.checked : input.value;
+    if (inputName) {
+      data[inputName] = inputType === "checkbox" ? input.checked : inputValue;
     }
     this.setState({ errors, data });
   };
@@ -89,7 +90,7 @@ class Form extends Component {
         placeholder={placeholder}
         label={label}
         value={this.state.data[name]}
-        onChange={this.handleChange}
+        onChange={(e) => this.handleChange(e.currentTarget.name, e.currentTarget.value, e.currentTarget.type)}
         error={this.state.errors[name]}
         type={type}
       />
@@ -103,7 +104,7 @@ class Form extends Component {
         label={label}
         placeholder={placeholder}
         value={this.state.data[name]}
-        onChange={this.handleChange}
+        onChange={(e) => this.handleChange(e.currentTarget.name, e.currentTarget.value, e.currentTarget.type)}
         error={this.state.errors[name]}
       />
     );
@@ -116,7 +117,7 @@ class Form extends Component {
         label={label}
         placeholder={placeholder}
         value={this.state.data[name]}
-        onChange={this.handleChange}
+        onChange={(e) => this.handleChange(e.currentTarget.name, e.currentTarget.value, e.currentTarget.type)}
         error={this.state.errors[name]}
         children={children}
         path={path}
@@ -131,9 +132,26 @@ class Form extends Component {
         label={label}
         placeholder={placeholder}
         value={this.state.data[name]}
-        onChange={this.handleChange}
+        onChange={(e) => this.handleChange(e.currentTarget.name, e.currentTarget.value, e.currentTarget.type)}
         error={this.state.errors[name]}
         children={children}
+      />
+    );
+  }
+
+  renderHtmlEditor(name, label) {
+    if(typeof(document) !== "undefined"){
+      if(document.querySelectorAll(`script[src="/static/scripts/tinymce/tinymce.min.js"]`).length < 1)
+        throw new Error("Must import tinymce.min.js script in head of html file");
+    }
+
+    return (
+      <FormHtmlEditor
+        name={name}
+        label={label}
+        value={this.state.data[name]}
+        onEditorChange={(e) => this.handleChange(name, e, "text")}
+        error={this.state.errors[name]}
       />
     );
   }
