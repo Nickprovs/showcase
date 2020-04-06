@@ -31,6 +31,17 @@ export async function saveBlogAsync(blog){
   return res;
 }
 
+export async function deleteBlogAsync(blogId){
+  const res = await fetch(`${BLOGSAPIURL}/${blogId}` , {
+    method: "delete",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+  return res;
+}
+
 export async function getBlogCategoriesAsync() {
   const res = await fetch(BLOGGENRESAPIURL);
   const data = await res.json();

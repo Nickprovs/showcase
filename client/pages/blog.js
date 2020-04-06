@@ -1,5 +1,5 @@
 import Layout from "../components/layout";
-import { getBlogsAsync, getBlogCategoriesAsync } from "../services/blogService";
+import { getBlogsAsync, getBlogCategoriesAsync, deleteBlogAsync } from "../services/blogService";
 import blogStyles from "../styles/blog.module.css";
 import Select from "../components/common/select";
 import Pagination from "../components/common/pagination";
@@ -7,10 +7,19 @@ import Link from "next/link";
 import Router from "next/router";
 import Icon from "../components/common/icon";
 import TransparentButton from "../components/common/transparentButton";
+import BasicButton from "../components/common/basicButton";
 import { Component } from "react";
 import withAuthAsync from "../components/common/withAuthAsync";
+import { toast } from 'react-toastify';
 
 const pageSize = 6;
+
+const RemoveArticleToast = ({closeToast, article, onRemoveArticle}) =>(
+  <div>
+    Are you sure you want to remove?
+    <BasicButton onClick={()=> onRemoveArticle(article)}>Remove</BasicButton>
+  </div>
+  );
 
 class Blog extends Component {
   static async getInitialProps(context) {
@@ -80,10 +89,7 @@ class Blog extends Component {
 
     let currentCategory = categories.filter(c => c.slug === Router.query.category)[0];
     currentCategory = currentCategory ? currentCategory : categories.filter(c => c._id === "")[0];
-    console.log("current category", currentCategory);
     this.setState({ currentCategory: currentCategory });
-
-    setTimeout(() => this.setState({ previews: this.state.previews.filter(i => !i.title.toLowerCase().includes("hozier")) }), 3000);
   }
 
   state = {
@@ -162,6 +168,32 @@ class Blog extends Component {
     Router.push(url, url, { shallow: false });
   }
 
+  async handleRemoveArticle(article){
+      let res = null;
+      try{
+        res = await deleteBlogAsync(article._id);
+      }
+      catch(ex){
+          let errorMessage = `Error: ${ex}`;
+          console.log(errorMessage);
+          toast.error(errorMessage);
+          return;
+      }
+      if(!res.ok){
+          let body = "";
+          //TODO: Parse Text OR JSON
+          body = await res.text(); 
+          let errorMessage = `Error: ${res.status} - ${body}`;
+          console.log(errorMessage)
+          toast.error(errorMessage);    
+          return;
+      }
+
+      const originalPreviews = this.state.previews;
+      const previews = originalPreviews.filter(p => p._id !== article._id);   
+      this.setState({ previews });
+  }
+
   render() {
     const { previews, categories, currentPage, totalBlogsCount, currentCategory, initialSearchProp } = this.state;
     const { user } =this.props;
@@ -192,7 +224,7 @@ class Blog extends Component {
                   <TransparentButton style={{ color: "var(--f1)" }}>
                     <Icon className="fas fa-edit"></Icon>
                     </TransparentButton>
-                  <TransparentButton style={{ color: "var(--f1)" }}>
+                  <TransparentButton onClick={() => toast.info(<RemoveArticleToast article={preview} onRemoveArticle={async (article) => this.handleRemoveArticle(article)} />)} style={{ color: "var(--f1)" }}>
                     <Icon className="fas fa-trash"></Icon>
                   </TransparentButton>
                 </div>}
