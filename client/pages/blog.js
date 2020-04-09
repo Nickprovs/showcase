@@ -224,13 +224,12 @@ class Blog extends Component {
                 {/*Admin Controls*/}
                 {user && user.isAdmin &&                
                 <div className={blogStyles.adminOptions}>
-                  <Link href="/blog/edit/article/[id]" as={`/blog/edit/article/${preview._id}`}>
-                    <a>                  
+                    {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
+                    <a href={`/blog/edit/article/${preview._id}`}>                  
                       <TransparentButton style={{ color: "var(--f1)" }}>
                         <Icon className="fas fa-edit"></Icon>
                       </TransparentButton>
                     </a>
-                  </Link>
 
                   <TransparentButton onClick={() => toast.info(<RemoveArticleToast article={preview} onRemoveArticle={async (article) => this.handleRemoveArticle(article)} />)} style={{ color: "var(--f1)" }}>
                     <Icon className="fas fa-trash"></Icon>
@@ -294,11 +293,10 @@ class Blog extends Component {
           {/* New Blog (If Admin) */}
           {user && user.isAdmin && 
           (<div className={blogStyles.headerControl}>
-            <Link href="/blog/post/article">
-              <a>                  
-                <BasicButton style={{ width: "100%" }}>New Article</BasicButton>
-              </a>
-            </Link>
+            {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
+            <a href={`/blog/post/article`}>                  
+              <BasicButton style={{ width: "100%" }}>New Article</BasicButton>
+            </a>
           </div>)}
 
 

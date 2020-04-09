@@ -140,11 +140,15 @@ class Form extends Component {
   }
 
   renderHtmlEditor(name, label) {
-    //This block sometimes give trouble when using a Link component to a page that has this -- even with script set
-    // if(typeof(document) !== "undefined"){
-    //   if(document.querySelectorAll(`script[src="/static/scripts/tinymce/tinymce.min.js"]`).length < 1)
-    //     throw new Error("Must import tinymce.min.js script in head of html file");
-    // }
+    //When doing client-side nav... the next head sometimes doesn't contain the script right away. So be sure to server-side nav to 
+    //This may be fixed with RFC $8981 in the future
+    if(typeof(document) !== "undefined"){
+      if(document.querySelectorAll(`script[src="/static/scripts/tinymce/tinymce.min.js"]`).length < 1)
+        throw new Error("Must import tinymce.min.js script in head of html file. \n" +
+                        "Could also be due to next.js client side rendering head issue. \n" +
+                        "Workaround in that case: Redirect to server with <a/> instead of <Link/>. \n" +
+                        "See next.js RFC $8981 for status of this issue.");
+    }
 
     return (
       <FormHtmlEditor

@@ -154,7 +154,7 @@ class Article extends Form{
     return (
       <div>
         <Head>
-          <script key="tinyMCE" src="/static/scripts/tinymce/tinymce.min.js"></script>
+        <script key="tinyMCE" type="text/javascript" src="/static/scripts/tinymce/tinymce.min.js"></script>
         </Head>
         <Layout user={user}> 
         <div className="standardPadding">
