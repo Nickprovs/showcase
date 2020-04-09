@@ -2,7 +2,7 @@ import Layout from "../../../../components/layout";
 import withAuthAsync from "../../../../components/common/withAuthAsync";
 import Form from "../../../../components/common/form";
 import CustomJoi from "../../../../misc/customJoi";
-import {getBlogAsync, getBlogCategoriesAsync, saveBlogAsync} from "../../../../services/blogService";
+import {getBlogAsync, getBlogCategoriesAsync, updateBlogAsync} from "../../../../services/blogService";
 import Head from 'next/head';
 import { toast, cssTransition } from 'react-toastify';
 import Router from "next/router";
@@ -121,12 +121,14 @@ class Article extends Form{
   }
   
   doSubmit = async () => {
-    const blog = this.getBlogFromPassingState();    
-    console.log(blog);
+    let originalBlog = this.props.blog;
+    let blog = this.getBlogFromPassingState();    
+    blog._id = originalBlog._id;
+
     let res = null;
     //Try and post the new category
     try{
-        res = await saveBlogAsync(blog);
+        res = await updateBlogAsync(blog);
     }
     catch(ex){
         let errorMessage = `Error: ${ex}`;
@@ -166,7 +168,7 @@ class Article extends Form{
             {this.renderTextArea("description", "DESCRIPTION")}
             {this.renderHtmlEditor("body", "BODY")}
             {this.renderTextInput("tags", "TAGS")}
-            {this.renderButton("POST")}
+            {this.renderButton("UPDATE")}
           </form>
         </div>
       </Layout>

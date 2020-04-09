@@ -2,7 +2,7 @@ import Layout from "../../../components/layout";
 import withAuthAsync from "../../../components/common/withAuthAsync";
 import Form from "../../../components/common/form";
 import CustomJoi from "../../../misc/customJoi";
-import {getBlogCategoriesAsync, saveBlogAsync} from "../../../services/blogService";
+import {getBlogCategoriesAsync, createBlogAsync} from "../../../services/blogService";
 import Head from 'next/head';
 import { toast } from 'react-toastify';
 import Router from "next/router";
@@ -77,7 +77,7 @@ class Article extends Form{
     let res = null;
     //Try and post the new category
     try{
-        res = await saveBlogAsync(blog);
+        res = await createBlogAsync(blog);
     }
     catch(ex){
         let errorMessage = `Error: ${ex}`;

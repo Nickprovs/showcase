@@ -19,7 +19,7 @@ export async function createBlogCategoryAsync(name, slug){
   return res;
 }
 
-export async function saveBlogAsync(blog){
+export async function createBlogAsync(blog){
   const res = await fetch(BLOGSAPIURL, {
     method: "post",
     credentials: "include",
@@ -27,6 +27,21 @@ export async function saveBlogAsync(blog){
       "Content-Type": "application/json"
     },
     body: JSON.stringify(blog)
+  });
+  return res;
+}
+
+export async function updateBlogAsync(blog){
+  const body = {...blog};
+  delete body._id;
+
+  const res = await fetch(`${BLOGSAPIURL}/${blog._id}`, {
+    method: "put",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(body)
   });
   return res;
 }
