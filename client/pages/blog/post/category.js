@@ -55,8 +55,9 @@ class Category extends Form{
   };
   
   render() {
+    const {user} = this.props;
     return (
-      <Layout>
+      <Layout user={user}>
         <div className="standardPadding">
           <form onSubmit={this.handleSubmit}>
             {this.renderTextInput("name", "NAME")}
