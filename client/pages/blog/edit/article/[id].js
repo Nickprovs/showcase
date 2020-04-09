@@ -4,20 +4,36 @@ import Form from "../../../../components/common/form";
 import CustomJoi from "../../../../misc/customJoi";
 import {getBlogAsync, getBlogCategoriesAsync, saveBlogAsync} from "../../../../services/blogService";
 import Head from 'next/head';
-import { toast } from 'react-toastify';
+import { toast, cssTransition } from 'react-toastify';
 import Router from "next/router";
+import RouterUtilities from "../../../../util/routerUtilities";
 
 class Article extends Form{
   static async getInitialProps(context) {
 
     const { id } = context.query;
-    const blogRes = await getBlogAsync(id);
-    const blog = await blogRes.json();
-    console.log(blog);
 
-    let categoriesRes = await getBlogCategoriesAsync();
-    const categories = await categoriesRes.json();
-    return {categories: categories};
+    //Get the blog
+    let blog = null;
+    try{
+      const blogRes = await getBlogAsync(id);
+      blog = await blogRes.json();
+    }
+    catch(ex){
+      blog = null;
+    }
+    
+    //Get categories for form
+    let categories = null;
+    try{
+      let categoriesRes = await getBlogCategoriesAsync();
+      categories = await categoriesRes.json();
+    }
+    catch(ex){
+      categories = null;
+    }
+
+    return {blog: blog, categories: categories};
   }
 
   constructor() {
@@ -25,6 +41,20 @@ class Article extends Form{
 
     this.state.data = { title: "", slug: "", category: "", image: "", description: "", body: "", tags: ""};
     this.state.errors = {};
+  }
+
+  componentDidMount(){
+    const {blog, categories} = this.props;
+    if(!blog){
+      toast.error("Couldn't get blog. Redirecting back.", {autoClose: 1500});
+      RouterUtilities.routeInternalWithDelayAsync("/blog", 2000);
+    }
+
+    if(!categories){
+      toast.error("Couldn't get categories. Redirecting back.", {autoClose: 1500});
+      RouterUtilities.routeInternalWithDelayAsync("/blog", 2000);
+    }
+
   }
 
   schema = CustomJoi.object({
@@ -105,14 +135,14 @@ class Article extends Form{
   }
   
   render() {
-    let {categories} = this.props;
+    let {categories, user} = this.props;
     categories = categories ? categories : [];
     return (
       <div>
         <Head>
           <script src="/static/scripts/tinymce/tinymce.min.js"></script>
         </Head>
-        <Layout>
+        <Layout user={user}> 
         <div className="standardPadding">
           <form onSubmit={this.handleSubmit}>
             {this.renderTextInput("title", "TITLE")}
