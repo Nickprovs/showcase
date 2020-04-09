@@ -109,6 +109,6 @@
 .headerControl {
   margin-top: 15px;
   margin-left: 20px;
-  flex-basis: 215px;
-  flex-shrink: 0.15;
+  flex-basis: 200px;
+  flex-grow: 0.15;
 }
