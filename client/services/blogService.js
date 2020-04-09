@@ -44,8 +44,7 @@ export async function deleteBlogAsync(blogId){
 
 export async function getBlogCategoriesAsync() {
   const res = await fetch(BLOGGENRESAPIURL);
-  const data = await res.json();
-  return data;
+  return res;
 }
 
 export async function getBlogsAsync(options) {
@@ -56,13 +55,11 @@ export async function getBlogsAsync(options) {
   if (options.category) query += query ? `&category=${options.category}` : `?category=${options.category}`;
 
   const res = await fetch(BLOGSAPIURL + query);
-  const data = await res.json();
-  return data;
+  return res;
 }
 
 export async function getBlogAsync(blogIdOrSlug) {
   const requestUrl = BLOGSAPIURL + "/" + blogIdOrSlug;
   const res = await fetch(requestUrl);
-  const data = await res.json();
-  return data;
+  return res;
 }

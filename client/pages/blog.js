@@ -48,8 +48,11 @@ class Blog extends Component {
       category: category
     };
 
-    const blogs = await getBlogsAsync(getQueryParams);
-    let categories = await getBlogCategoriesAsync();
+    const blogsRes = await getBlogsAsync(getQueryParams);
+    const blogs = await blogsRes.json();
+    
+    let res = await getBlogCategoriesAsync();
+    let categories = await res.json();
     categories.items = [{ _id: "", slug: "", name: "All" }, ...categories.items];
 
     return {

@@ -1,17 +1,22 @@
-import Layout from "../../../components/layout";
-import withAuthAsync from "../../../components/common/withAuthAsync";
-import Form from "../../../components/common/form";
-import CustomJoi from "../../../misc/customJoi";
-import {getBlogCategoriesAsync, saveBlogAsync} from "../../../services/blogService";
+import Layout from "../../../../components/layout";
+import withAuthAsync from "../../../../components/common/withAuthAsync";
+import Form from "../../../../components/common/form";
+import CustomJoi from "../../../../misc/customJoi";
+import {getBlogAsync, getBlogCategoriesAsync, saveBlogAsync} from "../../../../services/blogService";
 import Head from 'next/head';
 import { toast } from 'react-toastify';
 import Router from "next/router";
 
 class Article extends Form{
-
   static async getInitialProps(context) {
-    let res = await getBlogCategoriesAsync();
-    let categories = await res.json();
+
+    const { id } = context.query;
+    const blogRes = await getBlogAsync(id);
+    const blog = await blogRes.json();
+    console.log(blog);
+
+    let categoriesRes = await getBlogCategoriesAsync();
+    const categories = await categoriesRes.json();
     return {categories: categories};
   }
 

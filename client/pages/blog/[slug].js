@@ -5,9 +5,9 @@ import withAuthAsync from "../../components/common/withAuthAsync";
 Blog.getInitialProps = async function(context) {
   const { slug } = context.query;
   const res = await getBlogAsync(slug);
-  console.log(res);
+  const blog = await res.json();
   return {
-    blog: res
+    blog: blog
   };
 };
 
