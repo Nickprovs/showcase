@@ -224,9 +224,14 @@ class Blog extends Component {
                 {/*Admin Controls*/}
                 {user && user.isAdmin &&                
                 <div className={blogStyles.adminOptions}>
-                  <TransparentButton style={{ color: "var(--f1)" }}>
-                    <Icon className="fas fa-edit"></Icon>
-                    </TransparentButton>
+                  <Link href="/blog/edit/article/[id]" as={`/blog/edit/article/${preview._id}`}>
+                    <a>                  
+                      <TransparentButton style={{ color: "var(--f1)" }}>
+                        <Icon className="fas fa-edit"></Icon>
+                      </TransparentButton>
+                    </a>
+                  </Link>
+
                   <TransparentButton onClick={() => toast.info(<RemoveArticleToast article={preview} onRemoveArticle={async (article) => this.handleRemoveArticle(article)} />)} style={{ color: "var(--f1)" }}>
                     <Icon className="fas fa-trash"></Icon>
                   </TransparentButton>
@@ -260,8 +265,10 @@ class Blog extends Component {
     console.log(user);
     return (
       <Layout user ={user}>
-        {/* Search and Category */}
+        {/* Header Controls*/}
         <div className={blogStyles.headerControlsContainer}>
+
+          {/* Search Filter */}
           <div className={blogStyles.headerControl}>
             <input
               style={{ width: "100%" }}
@@ -273,6 +280,7 @@ class Blog extends Component {
             />
           </div>
 
+          {/* Category Filter */}
           <div className={blogStyles.headerControl}>
             <Select
               style={{ width: "100%" }}
@@ -282,7 +290,29 @@ class Blog extends Component {
               path={"name"}
             />
           </div>
-        </div>
+
+          {/* New Blog (If Admin) */}
+          {user && user.isAdmin && 
+          (<div className={blogStyles.headerControl}>
+            <Link href="/blog/post/article">
+              <a>                  
+                <BasicButton style={{ width: "100%" }}>New Article</BasicButton>
+              </a>
+            </Link>
+          </div>)}
+
+
+        {/* New Category (If Admin) */}
+        {user && user.isAdmin && 
+          (<div className={blogStyles.headerControl}>
+            <Link href="/blog/post/category">
+              <a>                  
+                <BasicButton style={{ width: "100%" }}>New Category</BasicButton>
+              </a>
+            </Link>
+          </div>)}
+
+      </div>
 
         {/* Main View */}
         <div>{view}</div>

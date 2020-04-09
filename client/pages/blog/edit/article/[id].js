@@ -7,6 +7,7 @@ import Head from 'next/head';
 import { toast, cssTransition } from 'react-toastify';
 import Router from "next/router";
 import RouterUtilities from "../../../../util/routerUtilities";
+import StringUtilities from "../../../../util/stringUtilities";
 
 class Article extends Form{
   static async getInitialProps(context) {
@@ -55,6 +56,19 @@ class Article extends Form{
       RouterUtilities.routeInternalWithDelayAsync("/blog", 2000);
     }
 
+    this.getStateDataFromBlog(blog);
+  }
+
+  getStateDataFromBlog(blog){
+    this.setState({data: {
+      title: blog.title,
+      slug: blog.slug,
+      category: blog.category.name,
+      image: blog.image,
+      description: blog.description,
+      body: blog.body,
+      tags: StringUtilities.getCsvStringFromArray(blog.tags)
+    }});
   }
 
   schema = CustomJoi.object({
@@ -140,7 +154,7 @@ class Article extends Form{
     return (
       <div>
         <Head>
-          <script src="/static/scripts/tinymce/tinymce.min.js"></script>
+          <script key="tinyMCE" src="/static/scripts/tinymce/tinymce.min.js"></script>
         </Head>
         <Layout user={user}> 
         <div className="standardPadding">

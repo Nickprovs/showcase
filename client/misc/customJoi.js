@@ -1,3 +1,5 @@
+import StringUtilities from "../util/stringUtilities";
+
 import Joi from "@hapi/joi";
 const CustomJoi = Joi.extend(
 {
@@ -7,9 +9,7 @@ const CustomJoi = Joi.extend(
         if(typeof value !== 'string') 
             return {value};
     
-        //Split string into array and trim leading/trailing spaces.
-        let data = value.replace(/^,+|,+$/mg, '').split(',');
-        data = data.map(str => str.trim());
+        let data = StringUtilities.getArrayFromCsvString(value);
         return {value: data};
     }
 });

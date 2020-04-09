@@ -140,10 +140,11 @@ class Form extends Component {
   }
 
   renderHtmlEditor(name, label) {
-    if(typeof(document) !== "undefined"){
-      if(document.querySelectorAll(`script[src="/static/scripts/tinymce/tinymce.min.js"]`).length < 1)
-        throw new Error("Must import tinymce.min.js script in head of html file");
-    }
+    //This block sometimes give trouble when using a Link component to a page that has this -- even with script set
+    // if(typeof(document) !== "undefined"){
+    //   if(document.querySelectorAll(`script[src="/static/scripts/tinymce/tinymce.min.js"]`).length < 1)
+    //     throw new Error("Must import tinymce.min.js script in head of html file");
+    // }
 
     return (
       <FormHtmlEditor
