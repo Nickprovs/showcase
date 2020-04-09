@@ -14,7 +14,7 @@ const FormHtmlEditor = ({ name, label, error, init, initialValue, ...rest }) => 
             initialValue = {initialValue ? initialValue : "<p></p>"}
             init= {init ? init : {
                   width: "95%",
-                  height: 500,
+                  height: 777,
                   menubar: true,
                   plugins: [
                     'advlist autolink lists link image charmap print preview anchor',
