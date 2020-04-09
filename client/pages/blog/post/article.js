@@ -100,14 +100,14 @@ class Article extends Form{
   }
   
   render() {
-    let {categories} = this.props;
+    let {categories, user} = this.props;
     categories = categories ? categories : [];
     return (
       <div>
         <Head>
           <script src="/static/scripts/tinymce/tinymce.min.js"></script>
         </Head>
-        <Layout>
+        <Layout user={user}>
         <div className="standardPadding">
           <form onSubmit={this.handleSubmit}>
             {this.renderTextInput("title", "TITLE")}
