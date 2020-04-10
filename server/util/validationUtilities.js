@@ -8,9 +8,20 @@ module.exports = class ValidationUtilities {
   }
 
   static isVariableId(inputString) {
-    if (mongoose.Types.ObjectId.isValid(inputString)) return { isVariableId: true, isIdSlug: false };
+    if (this.isMongoId(inputString)) 
+      return { isVariableId: true, isIdSlug: false };
+    
     if (ValidationUtilities.isSlug(inputString)) return { isVariableId: true, isIdSlug: true };
 
     return { isVariableId: false, isIdSlug: false };
+  }
+
+  static isMongoId(inputString){
+    //12 Char Special Case: Mongo reports valid id's for any string of length 12... 
+    //... which isn't correct. This validation works in that case.
+    if(inputString.length === 12)
+      return new mongoose.Types.ObjectId(inputString).toString() === inputString;
+    else
+      return mongoose.Types.ObjectId.isValid(inputString);
   }
 };

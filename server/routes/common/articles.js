@@ -70,7 +70,6 @@ module.exports = function(ArticleModel, articleJoiSchema, ArticleCategoryModel) 
     else article = await ArticleModel.findById(req.params.id).select("-__v");
 
     if (!article) return res.status(404).send("The article with the given ID or Slugwas not found.");
-    console.log(article);
     res.send(article);
   });
 
