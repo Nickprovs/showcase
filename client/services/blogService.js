@@ -60,6 +60,12 @@ export async function deleteBlogAsync(blogId){
   return res;
 }
 
+export async function getBlogCategoryAsync(categoryId) {
+  const requestUrl = BLOGGENRESAPIURL + "/" + categoryId;
+  const res = await fetch(requestUrl);
+  return res;
+}
+
 export async function getBlogCategoriesAsync() {
   const res = await fetch(BLOGGENRESAPIURL);
   return res;
@@ -73,6 +79,21 @@ export async function createBlogCategoryAsync(name, slug){
       "Content-Type": "application/json"
     },
     body: JSON.stringify({ name: name, slug: slug })
+  });
+  return res;
+}
+
+export async function updateBlogCategoryAsync(category){
+  const body = {...category};
+  delete body._id;
+
+  const res = await fetch(`${BLOGGENRESAPIURL}/${category._id}`, {
+    method: "put",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(body)
   });
   return res;
 }

@@ -164,7 +164,9 @@ class Blog extends Component {
     Router.push(url, url, { shallow: false });
   }
 
-  handleCategoryChange(category) {
+  handleCategoryChange(selectedItem) {
+    const category = selectedItem.value;
+    
     if (category.slug === Router.query.category) return;
 
     let previousQuery = { ...Router.query };
@@ -242,6 +244,17 @@ class Blog extends Component {
           {props.data.label}
           {user && user.isAdmin && (
             <div>
+              {/* Edit */}
+              <Link href="/blog/edit/category/[id]" as={`/blog/edit/category/${props.data.value._id}`}>
+                  <a>
+                    <TransparentButton
+                      style={{ marginLeft: "auto", marginRight: "0", color: "var(--f1)" }}>
+                        <Icon className="fas fa-edit"></Icon>
+                  </TransparentButton>
+                  </a>
+              </Link>
+
+              {/* Delete */}
               <TransparentButton
                   onClick={() => toast.info(<RemoveCategoryToast category={props.data.value} 
                   onRemoveCategory={async() => await this.handleRemoveCategory(props.data.value)} />)} 

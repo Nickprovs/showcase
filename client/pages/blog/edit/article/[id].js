@@ -44,16 +44,18 @@ class Article extends Form{
     this.state.errors = {};
   }
 
-  componentDidMount(){
+  async componentDidMount(){
     const {blog, categories} = this.props;
     if(!blog){
       toast.error("Couldn't get blog. Redirecting back.", {autoClose: 1500});
-      RouterUtilities.routeInternalWithDelayAsync("/blog", 2000);
+      await RouterUtilities.routeInternalWithDelayAsync("/blog", 2000);
+      return;
     }
 
     if(!categories){
       toast.error("Couldn't get categories. Redirecting back.", {autoClose: 1500});
-      RouterUtilities.routeInternalWithDelayAsync("/blog", 2000);
+      await RouterUtilities.routeInternalWithDelayAsync("/blog", 2000);
+      return;
     }
 
     this.getStateDataFromBlog(blog);
