@@ -97,7 +97,6 @@ class Article extends Form{
       .required(),
     body: CustomJoi.string()
       .min(10)
-      .max(1000)
       .required(),
     tags: CustomJoi.csvString()
         .required()
