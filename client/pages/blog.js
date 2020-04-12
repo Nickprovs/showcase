@@ -85,13 +85,10 @@ class Blog extends Component {
   }
 
   componentWillUnmount() {
-    console.log("unmounting");
     if (this.searchTimer) clearTimeout(this.searchTimer);
   }
 
   componentDidMount() {
-    console.log("mounted baby");
-
     const { previews, categories, currentPage, totalBlogsCount, initialSearchProp } = this.props;
     this.setState({ previews: previews });
     this.setState({ currentPage: currentPage });
@@ -105,10 +102,6 @@ class Blog extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    //If the search query changes..
-    console.log(prevProps);
-
-    console.log("updated");
     const { previews, currentPage, categories, totalBlogsCount } = this.props;
     const { currentCategory } = this.state;
 
@@ -217,9 +210,6 @@ class Blog extends Component {
     let searchText = "";
     searchText = this.state.searchText;
 
-    console.log("current page", currentPage, "total blogs", totalBlogsCount);
-    console.log("current category", currentCategory);
-
     let view = (
       <div style={{ textAlign: "center" }}>
         <h1>No blogs found</h1>
@@ -283,7 +273,6 @@ class Blog extends Component {
       );
     }
 
-    console.log(user);
     return (
       <Layout user={user}>
         <CommonPageHeaderControls

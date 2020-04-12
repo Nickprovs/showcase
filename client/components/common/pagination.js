@@ -27,11 +27,7 @@ const getPaginationIndexArray = (start, current, end) => {
 };
 
 export default function Pagination({ itemsCount, pageSize, currentPage }) {
-  console.log("pagination", currentPage);
-
   const router = useRouter();
-  console.log("currrrrent page", currentPage);
-
   const pagesCount = Math.ceil(itemsCount / pageSize);
   const pages = getPaginationIndexArray(1, currentPage, pagesCount);
   if (pages <= 1) {
@@ -53,7 +49,7 @@ export default function Pagination({ itemsCount, pageSize, currentPage }) {
           </Link>
         </li>
 
-        {pages.map(page => (
+        {pages.map((page) => (
           <li key={page} className={paginationStyles.paginationItem}>
             <Link href={{ pathname: router.pathname, query: { ...router.query, page: page } }}>
               <a>
