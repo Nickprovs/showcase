@@ -1,7 +1,6 @@
 import Layout from "../components/layout";
 import { getBlogsAsync, deleteBlogAsync, getBlogCategoriesAsync, deleteBlogCategoryAsync } from "../services/blogService";
 import blogStyles from "../styles/blog.module.css";
-import Select, {components} from "react-select";
 import Pagination from "../components/common/pagination";
 import Link from "next/link";
 import Router from "next/router";
@@ -10,23 +9,17 @@ import TransparentButton from "../components/common/transparentButton";
 import BasicButton from "../components/common/basicButton";
 import { Component } from "react";
 import withAuthAsync from "../components/common/withAuthAsync";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
+import CommonPageHeaderControls from "../components/common/commonPageHeaderControls";
 
 const pageSize = 6;
 
-const RemoveArticleToast = ({closeToast, article, onRemoveArticle}) =>(
+const RemoveArticleToast = ({ closeToast, article, onRemoveArticle }) => (
   <div>
     Are you sure you want to remove?
-    <BasicButton onClick={()=> onRemoveArticle(article)}>Remove</BasicButton>
+    <BasicButton onClick={() => onRemoveArticle(article)}>Remove</BasicButton>
   </div>
-  );
-
-const RemoveCategoryToast = ({closeToast, category, onRemoveCategory}) =>(
-  <div>
-    Are you sure you want to remove?
-    <BasicButton onClick={()=> onRemoveCategory(category)}>Remove</BasicButton>
-  </div>
-  );
+);
 
 class Blog extends Component {
   static async getInitialProps(context) {
@@ -37,7 +30,7 @@ class Blog extends Component {
     const options = {
       page: pageQueryParam,
       search: searchQueryParam,
-      category: categoryQueryParam
+      category: categoryQueryParam,
     };
 
     return await Blog.getBlogData(options);
@@ -52,12 +45,12 @@ class Blog extends Component {
       offset: (page - 1) * pageSize,
       limit: pageSize,
       search: search,
-      category: category
+      category: category,
     };
 
     const blogsRes = await getBlogsAsync(getQueryParams);
     const blogs = await blogsRes.json();
-    
+
     let res = await getBlogCategoriesAsync();
     let categories = await res.json();
     categories.items = [{ _id: "", slug: "", name: "All" }, ...categories.items];
@@ -67,7 +60,7 @@ class Blog extends Component {
       currentPage: page,
       totalBlogsCount: blogs.total,
       initialSearchProp: search,
-      categories: categories.items
+      categories: categories.items,
     };
   }
 
@@ -77,13 +70,10 @@ class Blog extends Component {
     console.log(this.props.initialSearchProp);
     this.state.searchText = this.props.initialSearchProp;
 
-    this.handleSearchTextChanged = this.handleSearchTextChanged.bind(this);
-    this.handleSearchKeyPress = this.handleSearchKeyPress.bind(this);
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleRemoveCategory = this.handleRemoveCategory.bind(this);
     this.handleRemoveArticle = this.handleRemoveArticle.bind(this);
-    this.getCustomCategoryOptions = this.getCustomCategoryOptions.bind(this);
   }
 
   componentWillUnmount() {
@@ -101,13 +91,13 @@ class Blog extends Component {
     this.setState({ initialSearchProp: initialSearchProp });
     this.setState({ categories: categories });
 
-    let currentCategory = categories.filter(c => c.slug === Router.query.category)[0];
-    currentCategory = currentCategory ? currentCategory : categories.filter(c => c._id === "")[0];
+    let currentCategory = categories.filter((c) => c.slug === Router.query.category)[0];
+    currentCategory = currentCategory ? currentCategory : categories.filter((c) => c._id === "")[0];
     this.setState({ currentCategory: currentCategory });
   }
 
   state = {
-    searchText: ""
+    searchText: "",
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -125,25 +115,10 @@ class Blog extends Component {
 
     //If there's a category in the query and it's different than the current category
     if (Router.query.category != currentCategory.slug) {
-      let matchingCategory = categories.filter(c => c.slug === Router.query.category)[0];
-      matchingCategory = matchingCategory ? matchingCategory : categories.filter(c => c._id === "")[0];
+      let matchingCategory = categories.filter((c) => c.slug === Router.query.category)[0];
+      matchingCategory = matchingCategory ? matchingCategory : categories.filter((c) => c._id === "")[0];
       if (prevState.currentCategory !== matchingCategory) this.setState({ currentCategory: matchingCategory });
     }
-  }
-
-  handleSearchKeyPress(e) {
-    console.log("key", e.key);
-    if (e.key != "Enter") return;
-    e.target.blur();
-
-    this.handleSearch();
-  }
-
-  handleSearchTextChanged(text) {
-    this.setState({ searchText: text });
-    this.unrenderedSearchTextChange = true;
-    if (this.searchTimer) clearTimeout(this.searchTimer);
-    this.searchTimer = setTimeout(this.handleSearch, 700);
   }
 
   handleSearch() {
@@ -159,14 +134,14 @@ class Blog extends Component {
 
     const url = {
       pathname: Router.pathname,
-      query: { ...searchQuery, ...previousQuery }
+      query: { ...searchQuery, ...previousQuery },
     };
     Router.push(url, url, { shallow: false });
   }
 
   handleCategoryChange(selectedItem) {
-    const category = selectedItem.value;
-    
+    const category = selectedItem;
+
     if (category.slug === Router.query.category) return;
 
     let previousQuery = { ...Router.query };
@@ -178,105 +153,69 @@ class Blog extends Component {
 
     const url = {
       pathname: Router.pathname,
-      query: { ...categoryQuery, ...previousQuery }
+      query: { ...categoryQuery, ...previousQuery },
     };
     Router.push(url, url, { shallow: false });
   }
 
-  async handleRemoveArticle(article){
-      let res = null;
-      try{
-        res = await deleteBlogAsync(article._id);
-      }
-      catch(ex){
-          let errorMessage = `Error: ${ex}`;
-          console.log(errorMessage);
-          toast.error(errorMessage);
-          return;
-      }
-      if(!res.ok){
-          let body = "";
-          //TODO: Parse Text OR JSON
-          body = await res.text(); 
-          let errorMessage = `Error: ${res.status} - ${body}`;
-          console.log(errorMessage)
-          toast.error(errorMessage);    
-          return;
-      }
+  async handleRemoveArticle(article) {
+    let res = null;
+    try {
+      res = await deleteBlogAsync(article._id);
+    } catch (ex) {
+      let errorMessage = `Error: ${ex}`;
+      console.log(errorMessage);
+      toast.error(errorMessage);
+      return;
+    }
+    if (!res.ok) {
+      let body = "";
+      //TODO: Parse Text OR JSON
+      body = await res.text();
+      let errorMessage = `Error: ${res.status} - ${body}`;
+      console.log(errorMessage);
+      toast.error(errorMessage);
+      return;
+    }
 
-      const originalPreviews = this.state.previews;
-      const previews = originalPreviews.filter(p => p._id !== article._id);   
-      this.setState({ previews });
+    const originalPreviews = this.state.previews;
+    const previews = originalPreviews.filter((p) => p._id !== article._id);
+    this.setState({ previews });
   }
 
-  async handleRemoveCategory(category){
+  async handleRemoveCategory(category) {
     let res = null;
-    try{
+    try {
       res = await deleteBlogCategoryAsync(category._id);
+    } catch (ex) {
+      let errorMessage = `Error: ${ex}`;
+      console.log(errorMessage);
+      toast.error(errorMessage);
+      return;
     }
-    catch(ex){
-        let errorMessage = `Error: ${ex}`;
-        console.log(errorMessage);
-        toast.error(errorMessage);
-        return;
-    }
-    if(!res.ok){
-        let body = "";
-        //TODO: Parse Text OR JSON
-        body = await res.text(); 
-        let errorMessage = `Error: ${res.status} - ${body}`;
-        console.log(errorMessage)
-        toast.error(errorMessage);    
-        return;
+    if (!res.ok) {
+      let body = "";
+      //TODO: Parse Text OR JSON
+      body = await res.text();
+      let errorMessage = `Error: ${res.status} - ${body}`;
+      console.log(errorMessage);
+      toast.error(errorMessage);
+      return;
     }
 
     const originalCategories = this.state.categories;
-    const categories = originalCategories.filter(c => c._id !== category._id);   
+    const categories = originalCategories.filter((c) => c._id !== category._id);
     this.setState({ categories });
-}
-
-  getCustomCategoryOptions(props) {
-    const {user} = this.props;
-
-    return (
-      <components.Option {...props}>
-        <div style={{display: "flex", justifyContent: "space-between"}}>
-          {props.data.label}
-          {user && user.isAdmin && (
-            <div>
-              {/* Edit */}
-              <Link href="/blog/edit/category/[id]" as={`/blog/edit/category/${props.data.value._id}`}>
-                  <a>
-                    <TransparentButton
-                      style={{ marginLeft: "auto", marginRight: "0", color: "var(--f1)" }}>
-                        <Icon className="fas fa-edit"></Icon>
-                  </TransparentButton>
-                  </a>
-              </Link>
-
-              {/* Delete */}
-              <TransparentButton
-                  onClick={() => toast.info(<RemoveCategoryToast category={props.data.value} 
-                  onRemoveCategory={async() => await this.handleRemoveCategory(props.data.value)} />)} 
-                  style={{ marginLeft: "auto", marginRight: "0", color: "var(--f1)" }}>
-                      <Icon className="fas fa-trash"></Icon>
-              </TransparentButton>
-            </div>
-          )}
-        </div>
-      </components.Option>
-    );
-  };
+  }
 
   render() {
     const { previews, categories, currentPage, totalBlogsCount, currentCategory, initialSearchProp } = this.state;
-    const { user } =this.props;
+    const { user } = this.props;
     let searchText = "";
     searchText = this.state.searchText;
 
     console.log("current page", currentPage, "total blogs", totalBlogsCount);
-    console.log("current category", currentCategory)
-
+    console.log("current category", currentCategory);
 
     let view = (
       <div style={{ textAlign: "center" }}>
@@ -291,23 +230,30 @@ class Blog extends Component {
       view = (
         <div>
           <div className={blogStyles.container}>
-            {previews.map(preview => (
+            {previews.map((preview) => (
               <div key={preview._id} className={blogStyles.item}>
-
                 {/*Admin Controls*/}
-                {user && user.isAdmin &&                
-                <div className={blogStyles.adminOptions}>
+                {user && user.isAdmin && (
+                  <div className={blogStyles.adminOptions}>
                     {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
-                    <a href={`/blog/edit/article/${preview._id}`}>                  
+                    <a href={`/blog/edit/article/${preview._id}`}>
                       <TransparentButton style={{ color: "var(--f1)" }}>
                         <Icon className="fas fa-edit"></Icon>
                       </TransparentButton>
                     </a>
 
-                  <TransparentButton onClick={() => toast.info(<RemoveArticleToast article={preview} onRemoveArticle={async (article) => this.handleRemoveArticle(article)} />)} style={{ color: "var(--f1)" }}>
-                    <Icon className="fas fa-trash"></Icon>
-                  </TransparentButton>
-                </div>}
+                    <TransparentButton
+                      onClick={() =>
+                        toast.info(
+                          <RemoveArticleToast article={preview} onRemoveArticle={async (article) => this.handleRemoveArticle(article)} />
+                        )
+                      }
+                      style={{ color: "var(--f1)" }}
+                    >
+                      <Icon className="fas fa-trash"></Icon>
+                    </TransparentButton>
+                  </div>
+                )}
 
                 <div className={blogStyles.previewTitle}>
                   <Link href="/blog/[slug]" as={`/blog/${preview.slug}`}>
@@ -336,58 +282,22 @@ class Blog extends Component {
 
     console.log(user);
     return (
-      <Layout user ={user}>
-        {/* Header Controls*/}
-        <div className={blogStyles.headerControlsContainer}>
-
-          {/* Search Filter */}
-          <div className={blogStyles.headerControl}>
-            <input
-              style={{ width: "100%" }}
-              className="form-control"
-              onKeyPress={e => this.handleSearchKeyPress(e)}
-              value={searchText}
-              onChange={e => this.handleSearchTextChanged(e.target.value)}
-              placeholder="Search..."
-            />
-          </div>
-
-          {/* Category Filter */}
-          <div className={blogStyles.headerControl}>           
-            <Select 
-              components={{ Option: this.getCustomCategoryOptions }}
-              placeholder="Category"
-              onChange={selected => this.handleCategoryChange(selected)} 
-              options={categories ? categories.map(c => ({value: c, label: c.name})) : null} />
-          </div>
-
-          {/* New Blog (If Admin) */}
-          {user && user.isAdmin && 
-          (<div className={blogStyles.headerControl}>
-            {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
-            <a href={`/blog/post/article`}>                  
-              <BasicButton style={{ width: "100%" }}>New Article</BasicButton>
-            </a>
-          </div>)}
-
-
-        {/* New Category (If Admin) */}
-        {user && user.isAdmin && 
-          (<div className={blogStyles.headerControl}>
-            <Link href="/blog/post/category">
-              <a>                  
-                <BasicButton style={{ width: "100%" }}>New Category</BasicButton>
-              </a>
-            </Link>
-          </div>)}
-
-      </div>
-
-        {/* Main View */}
+      <Layout user={user}>
+        <CommonPageHeaderControls
+          user={user}
+          mainPagePath="blog"
+          mainContentType="article"
+          searchText={searchText}
+          onSearchTextChanged={(searchText) => this.setState({ searchText })}
+          onSearch={() => this.handleSearch()}
+          categories={categories}
+          onCategoryChange={(category) => this.handleCategoryChange(category)}
+          onDeleteCategoryAsync={async (category) => this.handleRemoveCategory(category)}
+        />
         <div>{view}</div>
       </Layout>
     );
   }
 }
 
-export default withAuthAsync(Blog)
+export default withAuthAsync(Blog);
