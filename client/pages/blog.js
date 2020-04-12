@@ -64,10 +64,18 @@ class Blog extends Component {
     };
   }
 
+  state = {
+    searchText: "",
+    previews: [],
+    totalBlogsCount: 0,
+    currentPage: 1,
+    categories: [],
+    currentCategory: null,
+  };
+
   constructor(props) {
     super(props);
-    console.log("constructed");
-    console.log(this.props.initialSearchProp);
+
     this.state.searchText = this.props.initialSearchProp;
 
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
@@ -96,22 +104,17 @@ class Blog extends Component {
     this.setState({ currentCategory: currentCategory });
   }
 
-  state = {
-    searchText: "",
-  };
-
   componentDidUpdate(prevProps, prevState) {
     //If the search query changes..
     console.log(prevProps);
 
     console.log("updated");
-    const { previews, currentPage, categories, totalBlogsCount, initialSearchProp } = this.props;
+    const { previews, currentPage, categories, totalBlogsCount } = this.props;
     const { currentCategory } = this.state;
 
     if (prevProps.previews !== previews) this.setState({ previews });
     if (prevProps.currentPage !== currentPage) this.setState({ currentPage });
     if (prevProps.totalBlogsCount !== totalBlogsCount) this.setState({ totalBlogsCount });
-    if (prevProps.initialSearchProp !== initialSearchProp) this.setState({ initialSearchProp });
 
     //If there's a category in the query and it's different than the current category
     if (Router.query.category != currentCategory.slug) {
@@ -209,7 +212,7 @@ class Blog extends Component {
   }
 
   render() {
-    const { previews, categories, currentPage, totalBlogsCount, currentCategory, initialSearchProp } = this.state;
+    const { previews, categories, currentPage, totalBlogsCount, currentCategory } = this.state;
     const { user } = this.props;
     let searchText = "";
     searchText = this.state.searchText;
