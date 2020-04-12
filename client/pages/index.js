@@ -1,7 +1,7 @@
 import Layout from "../components/layout";
 import withAuthAsync from "../components/common/withAuthAsync";
 
-const Index = props => {
+const Index = (props) => {
   let user = props.user;
   return (
     <Layout user={user}>
@@ -45,6 +45,6 @@ const Index = props => {
       </p>
     </Layout>
   );
-}
+};
 
 export default withAuthAsync(Index);
