@@ -63,9 +63,9 @@ export default class Layout extends Component {
     ],
     externalPages: [
       {
-        href: "http://www.linkedin.com/in/nickprovs/",
-        iconClasses: "fab fa-linkedin-in",
-        label: "LinkedIn",
+        href: "http://www.instagram.com/nickprovs/",
+        iconClasses: "fab fa-instagram",
+        label: "Instagram",
       },
       {
         href: "http://www.github.com/Nickprovs",
@@ -73,9 +73,9 @@ export default class Layout extends Component {
         label: "Github",
       },
       {
-        href: "http://www.instagram.com/nickprovs/",
-        iconClasses: "fab fa-instagram",
-        label: "Instagram",
+        href: "http://www.linkedin.com/in/nickprovs/",
+        iconClasses: "fab fa-linkedin-in",
+        label: "LinkedIn",
       },
     ],
   };
