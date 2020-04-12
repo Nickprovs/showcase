@@ -90,15 +90,17 @@ class Blog extends Component {
 
   componentDidMount() {
     const { previews, categories, currentPage, totalBlogsCount, initialSearchProp } = this.props;
+
+    //Get the current category
+    let currentCategory = categories.filter((c) => c.slug === Router.query.category)[0];
+    currentCategory = currentCategory ? currentCategory : categories.filter((c) => c._id === "")[0];
+
+    this.setState({ currentCategory: currentCategory });
     this.setState({ previews: previews });
     this.setState({ currentPage: currentPage });
     this.setState({ totalBlogsCount: totalBlogsCount });
     this.setState({ initialSearchProp: initialSearchProp });
     this.setState({ categories: categories });
-
-    let currentCategory = categories.filter((c) => c.slug === Router.query.category)[0];
-    currentCategory = currentCategory ? currentCategory : categories.filter((c) => c._id === "")[0];
-    this.setState({ currentCategory: currentCategory });
   }
 
   componentDidUpdate(prevProps, prevState) {
