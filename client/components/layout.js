@@ -6,21 +6,20 @@ import Sidebar from "./sidebar";
 import Theme from "./common/theme";
 import Dimmer from "./dimmer";
 import layout from "../styles/layout.module.css";
-import {logoutAsync} from "../services/authService";
-import Router from 'next/router'
+import { logoutAsync } from "../services/authService";
+import Router from "next/router";
 
 const contentStyle = {
   zIndex: 3,
   backgroundColor: "var(--b1)",
   margin: "0px",
-  padding: "0px"
+  padding: "0px",
 };
 
 const containerStyle = {
   width: "100%",
-  height: "100vh"
+  height: "100vh",
 };
-
 
 export default class Layout extends Component {
   state = {
@@ -28,7 +27,7 @@ export default class Layout extends Component {
     internalPages: [
       {
         href: "/index",
-        label: "HOME"
+        label: "HOME",
       },
       {
         label: "SHOWCASE",
@@ -37,64 +36,61 @@ export default class Layout extends Component {
           {
             href: "/showcase/software",
             label: "SOFTWARE",
-            iconClasses: ""
+            iconClasses: "",
           },
           {
             href: "/showcase/photo",
             label: "PHOTO",
-            iconClasses: ""
+            iconClasses: "",
           },
           {
             href: "/showcase/video",
             label: "VIDEO",
-            iconClasses: ""
-          }
-        ]
+            iconClasses: "",
+          },
+        ],
       },
       {
         href: "/blog",
         label: "BLOG",
-        iconClasses: ""
+        iconClasses: "",
       },
       {
         href: "/contact",
         label: "CONTACT",
-        iconClasses: ""
-      }
+        iconClasses: "",
+      },
     ],
     externalPages: [
       {
         href: "http://www.linkedin.com/in/nickprovs/",
         iconClasses: "fab fa-linkedin-in",
-        label: "LinkedIn"
+        label: "LinkedIn",
       },
       {
         href: "http://www.github.com/Nickprovs",
         iconClasses: "fab fa-github",
-        label: "Github"
+        label: "Github",
       },
       {
         href: "http://www.instagram.com/nickprovs/",
         iconClasses: "fab fa-instagram",
-        label: "Instagram"
-      }
-    ]
+        label: "Instagram",
+      },
+    ],
   };
 
   handleToggleSidebar(openStatus) {
     this.setState({ isSidebarOpen: openStatus });
   }
 
-  componentDidMount(){
-    if(this.props.user){
-      console.log("yo");
-
+  componentDidMount() {
+    if (this.props.user) {
       this.addUserPages(this.props.user);
-
     }
   }
 
-  addUserPages(user){
+  addUserPages(user) {
     const newInternalPages = this.state.internalPages.slice();
     newInternalPages.unshift({
       label: user.username.toUpperCase(),
@@ -103,28 +99,26 @@ export default class Layout extends Component {
         {
           href: "/profile",
           label: "PROFILE",
-          iconClasses: ""
+          iconClasses: "",
         },
         {
           label: "LOGOUT",
           iconClasses: "",
           onClick: async () => {
-            try{
+            try {
               await logoutAsync();
-              window.localStorage.setItem('logout', Date.now())
+              window.localStorage.setItem("logout", Date.now());
               console.log("test");
               Router.push("/login");
-            }
-            catch(ex)
-            {
+            } catch (ex) {
               console.log(ex);
             }
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
 
-    this.setState({internalPages: newInternalPages});
+    this.setState({ internalPages: newInternalPages });
   }
 
   render() {
@@ -135,7 +129,7 @@ export default class Layout extends Component {
         <div style={containerStyle}>
           <div className={layout.background} />
           <Sidebar
-            onSetSidebarOpen={openStatus => this.handleToggleSidebar(openStatus)}
+            onSetSidebarOpen={(openStatus) => this.handleToggleSidebar(openStatus)}
             isSidebarOpen={isSidebarOpen}
             internalPages={internalPages}
             externalPages={externalPages}
