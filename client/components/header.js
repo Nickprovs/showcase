@@ -10,23 +10,23 @@ import { useRouter } from "next/router";
 const menuStyle = {
   margin: "0px",
   padding: "0px",
-  height: "100%"
+  height: "100%",
 };
 
 const menuItemStyle = {
-  display: "inline"
+  display: "inline",
 };
 
 export default function Header(props) {
   const { internalPages, externalPages } = props;
 
   const externalPageListStyle = {
-    listStyleType: "none"
+    listStyleType: "none",
   };
 
   const externalPageListItemStyle = {
     paddingRight: "25px",
-    display: "inline"
+    display: "inline",
   };
 
   const router = useRouter();
@@ -35,15 +35,21 @@ export default function Header(props) {
     return currentPathName.toLowerCase().includes(item.label.toLowerCase());
   };
 
-  const renderHeaderItem = item => {
+  const renderHeaderItem = (item) => {
     if (item.subPages && Object.entries(item.subPages).length > 0) {
       return (
         <HeaderDropdown isSelected={getHeaderButtonSelected(item, router.pathname)} text={item.label}>
-          {item.subPages.map(item => item.onClick ? <button onClick={item.onClick}>{item.label}</button> : (
-            <Link href={item.href} key={item.label}>
-              <a>{item.label}</a>
-            </Link>
-          ))}
+          {item.subPages.map((item) =>
+            item.onClick ? (
+              <button key={item.label} onClick={item.onClick}>
+                {item.label}
+              </button>
+            ) : (
+              <Link href={item.href} key={item.label}>
+                <a>{item.label}</a>
+              </Link>
+            )
+          )}
         </HeaderDropdown>
       );
     } else {
@@ -62,7 +68,7 @@ export default function Header(props) {
       {/* Internal Links*/}
       <div className={header.leftContent}>
         <ul style={menuStyle}>
-          {internalPages.map(item => (
+          {internalPages.map((item) => (
             <li style={menuItemStyle} key={item.label}>
               {renderHeaderItem(item)}
             </li>
@@ -73,7 +79,7 @@ export default function Header(props) {
       {/* External Links*/}
       <div className={header.rightContent}>
         <ul style={externalPageListStyle}>
-          {externalPages.map(item => (
+          {externalPages.map((item) => (
             <li style={externalPageListItemStyle} key={item.label}>
               <a href={item.href}>
                 <TransparentButton style={{ color: "var(--s1)" }}>
