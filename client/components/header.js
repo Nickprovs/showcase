@@ -32,7 +32,12 @@ export default function Header(props) {
   const router = useRouter();
 
   const getHeaderButtonSelected = (item, currentPathName) => {
-    return currentPathName.toLowerCase().includes(item.label.toLowerCase());
+    console.log(item);
+    console.log(currentPathName);
+    return (
+      currentPathName.toLowerCase().includes(item.label.toLowerCase()) ||
+      ((currentPathName.toLowerCase() === "/" || currentPathName.toLowerCase() === "/index") && item.href === "/index")
+    );
   };
 
   const renderHeaderItem = (item) => {
