@@ -122,6 +122,7 @@ class CommonPageHeaderControls extends Component {
         {/* Category Box */}
         <div className={blogStyles.headerControl}>
           <Select
+            instanceId={`category_select_${mainPagePath}`}
             components={{ Option: this.getCustomCategoryDropdownEntries }}
             placeholder="Category"
             onChange={(selected) => onCategoryChange(selected.value)}
