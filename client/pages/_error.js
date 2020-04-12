@@ -5,7 +5,11 @@ function Error({ statusCode }) {
     <Layout>
       <h1 className="mainContentTitle">{statusCode ? `${statusCode} Error` : "Error"}</h1>
       <p>{statusCode ? `An error occurred on the server.` : "An error occurred on client."}</p>
-      <img className="centerImage" src="/sad.png"></img>
+      <div style={{ textAlign: "center" }}>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <object style={{ display: "block", width: "35%", overflow: "none" }} type="image/svg+xml" data="director_sad.svg"></object>
+        </div>
+      </div>
     </Layout>
   );
 }
