@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { toast } from "react-toastify";
-import blogStyles from "../../styles/blog.module.css";
+import articleSectionStyles from "../../styles/articleSection.module.css";
 import Icon from "./icon";
 import TransparentButton from "./transparentButton";
 import BasicButton from "./basicButton";
@@ -52,12 +52,12 @@ class CommonPageArticleSection extends Component {
 
     return (
       <div>
-        <div className={blogStyles.container}>
+        <div className={articleSectionStyles.container}>
           {previews.map((preview) => (
-            <div key={preview._id} className={blogStyles.item}>
+            <div key={preview._id} className={articleSectionStyles.item}>
               {/*Admin Controls*/}
               {user && user.isAdmin && (
-                <div className={blogStyles.adminOptions}>
+                <div className={articleSectionStyles.adminOptions}>
                   {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
                   <a href={`/${mainPagePath}/edit/${mainContentType}/${preview._id}`}>
                     <TransparentButton style={{ color: "var(--f1)" }}>
@@ -81,25 +81,25 @@ class CommonPageArticleSection extends Component {
                 </div>
               )}
 
-              <div className={blogStyles.previewTitle}>
+              <div className={articleSectionStyles.previewTitle}>
                 <Link href={`/${mainPagePath}/[slug]`} as={`/${mainPagePath}/${preview.slug}`}>
                   <a className="clickableHeading">{preview.title}</a>
                 </Link>
               </div>
-              <div className={blogStyles.previewImage}>
+              <div className={articleSectionStyles.previewImage}>
                 <Link href={`/${mainPagePath}/[slug]`} as={`/${mainPagePath}/${preview.slug}`}>
                   <a>
-                    <img className={blogStyles.containerFitImage} src={preview.image} />
+                    <img className={articleSectionStyles.containerFitImage} src={preview.image} />
                   </a>
                 </Link>
               </div>
-              <div className={blogStyles.descriptionContainer}>
-                <label className={blogStyles.description}>{preview.description}</label>
+              <div className={articleSectionStyles.descriptionContainer}>
+                <label className={articleSectionStyles.description}>{preview.description}</label>
               </div>
             </div>
           ))}
         </div>
-        <div className={blogStyles.paginationContainer}>
+        <div className={articleSectionStyles.paginationContainer}>
           <Pagination itemsCount={totalBlogsCount} pageSize={pageSize} currentPage={currentPage} />
         </div>
       </div>

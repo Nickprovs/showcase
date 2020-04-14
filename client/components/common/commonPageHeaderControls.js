@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { toast } from "react-toastify";
-import blogStyles from "../../styles/blog.module.css";
+import pageHeaderStyles from "../../styles/pageHeader.module.css";
 import BasicButton from "./basicButton";
 import Icon from "./icon";
 import TransparentButton from "./transparentButton";
@@ -106,9 +106,9 @@ class CommonPageHeaderControls extends Component {
     const { categories, onCategoryChange } = this.props;
 
     return (
-      <div className={blogStyles.headerControlsContainer}>
+      <div className={pageHeaderStyles.headerControlsContainer}>
         {/* Search Box */}
-        <div className={blogStyles.headerControl}>
+        <div className={pageHeaderStyles.headerControl}>
           <input
             style={{ width: "100%" }}
             className="form-control"
@@ -120,7 +120,7 @@ class CommonPageHeaderControls extends Component {
         </div>
 
         {/* Category Box */}
-        <div className={blogStyles.headerControl}>
+        <div className={pageHeaderStyles.headerControl}>
           <Select
             instanceId={`category_select_${mainPagePath}`}
             components={{ Option: this.getCustomCategoryDropdownEntries }}
@@ -132,7 +132,7 @@ class CommonPageHeaderControls extends Component {
 
         {/* Post Content (ADMIN) */}
         {user && user.isAdmin && (
-          <div className={blogStyles.headerControl}>
+          <div className={pageHeaderStyles.headerControl}>
             {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
             <a href={`/${mainPagePath}/post/${mainContentType}`}>
               <BasicButton style={{ width: "100%" }}>{`New ${mainContentType}`}</BasicButton>
@@ -142,7 +142,7 @@ class CommonPageHeaderControls extends Component {
 
         {/* Post Category (ADMIN) */}
         {user && user.isAdmin && (
-          <div className={blogStyles.headerControl}>
+          <div className={pageHeaderStyles.headerControl}>
             <Link href={`/${mainPagePath}/post/category`}>
               <a>
                 <BasicButton style={{ width: "100%" }}>New Category</BasicButton>

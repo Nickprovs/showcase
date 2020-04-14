@@ -1,0 +1,17 @@
+.headerControlsContainer {
+  padding-top: 15px;
+  padding-bottom: 15px;
+
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.headerControl {
+  margin-top: 15px;
+  margin-left: 20px;
+  flex-basis: 200px;
+  flex-grow: 0.15;
+}
