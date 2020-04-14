@@ -18,8 +18,7 @@ const RemoveArticleToast = ({ closeToast, article, onRemoveArticleAsync }) => (
 // General
 // 1.) user - to render user-specific controls
 // 2.) mainPagePath - for rendering links - "blog", "software", "photo", or "video"
-// 3.) mainContentType - for rendering links - "article", "photo", "video"
-// 4.) previews
+// 3.) previews
 // Commands
 // 2.) onRemoveArticleAsync
 // Pagination
@@ -43,7 +42,7 @@ class CommonPageArticleSection extends Component {
   }
 
   render() {
-    const { user, mainPagePath, mainContentType, previews } = this.props;
+    const { user, mainPagePath, previews } = this.props;
     const { onRemoveArticleAsync } = this.props;
     const { currentPage, totalBlogsCount, pageSize } = this.props;
 
@@ -59,7 +58,7 @@ class CommonPageArticleSection extends Component {
               {user && user.isAdmin && (
                 <div className={articleSectionStyles.adminOptions}>
                   {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
-                  <a href={`/${mainPagePath}/edit/${mainContentType}/${preview._id}`}>
+                  <a href={`/${mainPagePath}/edit/article/${preview._id}`}>
                     <TransparentButton style={{ color: "var(--f1)" }}>
                       <Icon className="fas fa-edit"></Icon>
                     </TransparentButton>
