@@ -56,11 +56,16 @@
   width: 80%;
 }
 
-.description {
+.descriptionContainer {
   flex: 15;
   order: 4;
   display: flex;
   align-items: center;
+}
+
+.description {
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
 
 .previewButtons {

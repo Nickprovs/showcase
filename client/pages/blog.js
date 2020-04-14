@@ -1,25 +1,13 @@
-import Layout from "../components/layout";
-import { getBlogsAsync, deleteBlogAsync, getBlogCategoriesAsync, deleteBlogCategoryAsync } from "../services/blogService";
-import blogStyles from "../styles/blog.module.css";
-import Pagination from "../components/common/pagination";
-import Link from "next/link";
-import Router from "next/router";
-import Icon from "../components/common/icon";
-import TransparentButton from "../components/common/transparentButton";
-import BasicButton from "../components/common/basicButton";
 import { Component } from "react";
-import withAuthAsync from "../components/common/withAuthAsync";
 import { toast } from "react-toastify";
+import withAuthAsync from "../components/common/withAuthAsync";
+import Layout from "../components/layout";
 import CommonPageHeaderControls from "../components/common/commonPageHeaderControls";
+import CommonPageArticleSection from "../components/common/commonPageArticleSection";
+import Router from "next/router";
+import { getBlogsAsync, deleteBlogAsync, getBlogCategoriesAsync, deleteBlogCategoryAsync } from "../services/blogService";
 
 const pageSize = 6;
-
-const RemoveArticleToast = ({ closeToast, article, onRemoveArticle }) => (
-  <div>
-    Are you sure you want to remove?
-    <BasicButton onClick={() => onRemoveArticle(article)}>Remove</BasicButton>
-  </div>
-);
 
 class Blog extends Component {
   static async getInitialProps(context) {
@@ -157,6 +145,8 @@ class Blog extends Component {
   }
 
   async handleRemoveArticle(article) {
+    let { previews: originalPreviews, totalBlogsCount } = this.state;
+
     let res = null;
     try {
       res = await deleteBlogAsync(article._id);
@@ -176,9 +166,9 @@ class Blog extends Component {
       return;
     }
 
-    const originalPreviews = this.state.previews;
     const previews = originalPreviews.filter((p) => p._id !== article._id);
     this.setState({ previews });
+    this.setState({ totalBlogsCount: totalBlogsCount-- });
   }
 
   async handleRemoveCategory(category) {
@@ -207,73 +197,8 @@ class Blog extends Component {
   }
 
   render() {
-    const { previews, categories, currentPage, totalBlogsCount, currentCategory } = this.state;
+    const { previews, categories, currentPage, totalBlogsCount, currentCategory, searchText } = this.state;
     const { user } = this.props;
-    let searchText = "";
-    searchText = this.state.searchText;
-
-    let view = (
-      <div style={{ textAlign: "center" }}>
-        <h1>No blogs found</h1>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <object style={{ display: "block", width: "35%", overflow: "none" }} type="image/svg+xml" data="director_sad.svg"></object>
-        </div>
-      </div>
-    );
-
-    if (previews && previews.length > 0) {
-      view = (
-        <div>
-          <div className={blogStyles.container}>
-            {previews.map((preview) => (
-              <div key={preview._id} className={blogStyles.item}>
-                {/*Admin Controls*/}
-                {user && user.isAdmin && (
-                  <div className={blogStyles.adminOptions}>
-                    {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
-                    <a href={`/blog/edit/article/${preview._id}`}>
-                      <TransparentButton style={{ color: "var(--f1)" }}>
-                        <Icon className="fas fa-edit"></Icon>
-                      </TransparentButton>
-                    </a>
-
-                    <TransparentButton
-                      onClick={() =>
-                        toast.info(
-                          <RemoveArticleToast article={preview} onRemoveArticle={async (article) => this.handleRemoveArticle(article)} />
-                        )
-                      }
-                      style={{ color: "var(--f1)" }}
-                    >
-                      <Icon className="fas fa-trash"></Icon>
-                    </TransparentButton>
-                  </div>
-                )}
-
-                <div className={blogStyles.previewTitle}>
-                  <Link href="/blog/[slug]" as={`/blog/${preview.slug}`}>
-                    <a className="clickableHeading">{preview.title}</a>
-                  </Link>
-                </div>
-                <div className={blogStyles.previewImage}>
-                  <Link href="/blog/[slug]" as={`/blog/${preview.slug}`}>
-                    <a>
-                      <img className={blogStyles.containerFitImage} src={preview.image} />
-                    </a>
-                  </Link>
-                </div>
-                <div className={blogStyles.description}>
-                  <label>{preview.description}</label>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className={blogStyles.paginationContainer}>
-            <Pagination itemsCount={totalBlogsCount} pageSize={pageSize} currentPage={currentPage} />
-          </div>
-        </div>
-      );
-    }
 
     return (
       <Layout user={user}>
@@ -288,7 +213,16 @@ class Blog extends Component {
           onCategoryChange={(category) => this.handleCategoryChange(category)}
           onDeleteCategoryAsync={async (category) => this.handleRemoveCategory(category)}
         />
-        <div>{view}</div>
+        <CommonPageArticleSection
+          user={user}
+          mainPagePath="blog"
+          mainContentType="article"
+          previews={previews}
+          onRemoveArticleAsync={async (article) => await this.handleRemoveArticle(article)}
+          currentPage={currentPage}
+          totalBlogsCount={totalBlogsCount}
+          pageSize={pageSize}
+        />
       </Layout>
     );
   }
