@@ -108,7 +108,7 @@ class CommonPageHeaderControls extends Component {
     const { categories, currentCategory, onCategoryChange } = this.props;
 
     const categoriesFormattedForSelect = categories ? categories.map((c) => ({ value: c, label: c.name })) : null;
-    const currentCategoryFormattedForSelect = categoriesFormattedForSelect.filter((c) => c.value === currentCategory)[0];
+    const currentCategoryFormattedForSelect = categoriesFormattedForSelect.filter((c) => c.value._id === currentCategory._id)[0];
 
     return (
       <div className={pageHeaderStyles.headerControlsContainer}>
