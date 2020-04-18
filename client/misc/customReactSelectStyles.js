@@ -27,3 +27,14 @@ export const styles = {
     };
   },
 };
+
+export const theme = (theme) => ({
+  ...theme,
+  borderRadius: 0,
+  colors: {
+    ...theme.colors,
+    neutral20: "var(--s8)",
+    primary25: "var(--s5)",
+    primary: "var(--s5)",
+  },
+});

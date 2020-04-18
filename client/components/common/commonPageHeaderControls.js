@@ -6,6 +6,7 @@ import Icon from "./icon";
 import TransparentButton from "./transparentButton";
 import Select, { components } from "react-select";
 import Link from "next/link";
+import { styles as customReactSelectStyles, theme as customReactSelectTheme } from "../..//misc/customReactSelectStyles";
 
 const RemoveCategoryToast = ({ closeToast, category, onRemoveCategory }) => (
   <div>
@@ -13,36 +14,6 @@ const RemoveCategoryToast = ({ closeToast, category, onRemoveCategory }) => (
     <BasicButton onClick={() => onRemoveCategory(category)}>Remove</BasicButton>
   </div>
 );
-
-const styles = {
-  option: (styles, state) => {
-    return {
-      ...styles,
-      backgroundColor: state.isSelected ? "var(--s6)" : state.isFocused ? "var(--s11)" : "var(--b1)",
-      cursor: "pointer",
-    };
-  },
-  control: (styles) => {
-    return {
-      ...styles,
-      height: 45,
-      borderWidth: 2,
-      boxShadow: "none",
-    };
-  },
-  menu: (styles, state) => {
-    return {
-      ...styles,
-      marginTop: 0,
-    };
-  },
-  menuList: (styles, state) => {
-    return {
-      ...styles,
-      paddingTop: 0,
-    };
-  },
-};
 
 // Contract:
 // General
@@ -156,24 +127,15 @@ class CommonPageHeaderControls extends Component {
         {/* Category Box */}
         <div className={pageHeaderStyles.headerControl}>
           <Select
-            theme={(theme) => ({
-              ...theme,
-              borderRadius: 0,
-              colors: {
-                ...theme.colors,
-                neutral20: "var(--s8)",
-                primary25: "var(--s5)",
-                primary: "var(--s5)",
-              },
-            })}
-            isSearchable={false}
-            styles={styles}
-            value={currentCategoryFormattedForSelect}
             instanceId={`category_select_${mainPagePath}`}
-            components={{ Option: this.getCustomCategoryDropdownEntries }}
-            placeholder="Category"
-            onChange={(selected) => onCategoryChange(selected.value)}
             options={categoriesFormattedForSelect}
+            onChange={(selected) => onCategoryChange(selected.value)}
+            value={currentCategoryFormattedForSelect}
+            placeholder="Category"
+            isSearchable={false}
+            components={{ Option: this.getCustomCategoryDropdownEntries }}
+            theme={customReactSelectTheme}
+            styles={customReactSelectStyles}
           />
         </div>
 
