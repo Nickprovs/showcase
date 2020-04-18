@@ -1,44 +1,237 @@
-import Layout from "../../components/layout";
-import { getSoftwareProjectPreviewsAsync } from "../../services/softwareService";
-import softwareStyles from "../../styles/software.module.css";
-import BasicButton from "../../components/common/basicButton";
+import { Component } from "react";
+import { toast } from "react-toastify";
 import withAuthAsync from "../../components/common/withAuthAsync";
+import Layout from "../../components/layout";
+import CommonPageHeaderControls from "../../components/common/commonPageHeaderControls";
+import CommonPageArticleSection from "../../components/common/commonPageArticleSection";
+import Router from "next/router";
+import {
+  getSoftwaresAsync,
+  deleteSoftwareAsync,
+  getSoftwareCategoriesAsync,
+  deleteSoftwareCategoryAsync,
+} from "../../services/softwareService";
 
-function Software(props) {
-  const { previews, user } = props;
-  console.log("client previews", previews);
-  console.log(new Date());
-  return (
-    <Layout user={user}>
-      <div className={softwareStyles.container}>
-        {previews.map(preview => (
-          <div className={softwareStyles.item}>
-            <div className={softwareStyles.previewLabel}>
-              <h2>{preview.title.toUpperCase()}</h2>
-            </div>
-            <div className={softwareStyles.previewImage}>
-              <img className={softwareStyles.containerFitImage} src={preview.image} />
-            </div>
-            <div className={softwareStyles.description}>
-              <label>{preview.description}</label>
-            </div>
-            <div className={softwareStyles.previewButtons}>
-              <BasicButton className={softwareStyles.postButton}>Read Article</BasicButton>
-              <BasicButton className={softwareStyles.postButton}>Open Project</BasicButton>
-            </div>
-          </div>
-        ))}
-      </div>
-    </Layout>
-  );
-}
+const pageSize = 6;
 
-Software.getInitialProps = async function() {
-  const res = await getSoftwareProjectPreviewsAsync();
-  console.log("Got Data", res);
-  return {
-    previews: res.previews
+class Software extends Component {
+  static async getInitialProps(context) {
+    let pageQueryParam = context.query.page ? parseInt(context.query.page) : 1;
+    let searchQueryParam = context.query.search ? context.query.search : "";
+    let categoryQueryParam = context.query.category ? context.query.category : "";
+
+    const options = {
+      page: pageQueryParam,
+      search: searchQueryParam,
+      category: categoryQueryParam,
+    };
+
+    return await Software.getSoftwareData(options);
+  }
+
+  static async getSoftwareData(options) {
+    let page = options.page ? options.page : 1;
+    let search = options.search ? options.search : "";
+    let category = options.category ? options.category : "";
+
+    const getQueryParams = {
+      offset: (page - 1) * pageSize,
+      limit: pageSize,
+      search: search,
+      category: category,
+    };
+
+    const softwareRes = await getSoftwaresAsync(getQueryParams);
+    const software = await softwareRes.json();
+
+    let res = await getSoftwareCategoriesAsync();
+    let categories = await res.json();
+    categories.items = [{ _id: "", slug: "", name: "All" }, ...categories.items];
+
+    return {
+      previews: software.items,
+      currentPage: page,
+      totalSoftwaresCount: software.total,
+      initialSearchProp: search,
+      categories: categories.items,
+    };
+  }
+
+  state = {
+    searchText: "",
+    previews: [],
+    totalSoftwaresCount: 0,
+    currentPage: 1,
+    categories: [],
+    currentCategory: null,
   };
-};
+
+  constructor(props) {
+    super(props);
+
+    this.state.searchText = this.props.initialSearchProp;
+
+    this.handleCategoryChange = this.handleCategoryChange.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+    this.handleRemoveCategory = this.handleRemoveCategory.bind(this);
+    this.handleRemoveArticle = this.handleRemoveArticle.bind(this);
+  }
+
+  componentWillUnmount() {
+    if (this.searchTimer) clearTimeout(this.searchTimer);
+  }
+
+  componentDidMount() {
+    const { previews, categories, currentPage, totalSoftwaresCount, initialSearchProp } = this.props;
+
+    //Get the current category
+    let currentCategory = categories.filter((c) => c.slug === Router.query.category)[0];
+    currentCategory = currentCategory ? currentCategory : categories.filter((c) => c._id === "")[0];
+
+    this.setState({ currentCategory: currentCategory });
+    this.setState({ previews: previews });
+    this.setState({ currentPage: currentPage });
+    this.setState({ totalSoftwaresCount: totalSoftwaresCount });
+    this.setState({ initialSearchProp: initialSearchProp });
+    this.setState({ categories: categories });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { previews, currentPage, categories, totalSoftwaresCount } = this.props;
+    const { currentCategory } = this.state;
+
+    if (prevProps.previews !== previews) this.setState({ previews });
+    if (prevProps.currentPage !== currentPage) this.setState({ currentPage });
+    if (prevProps.totalSoftwaresCount !== totalSoftwaresCount) this.setState({ totalSoftwaresCount });
+
+    //If there's a category in the query and it's different than the current category
+    if (Router.query.category != currentCategory.slug) {
+      let matchingCategory = categories.filter((c) => c.slug === Router.query.category)[0];
+      matchingCategory = matchingCategory ? matchingCategory : categories.filter((c) => c._id === "")[0];
+      if (prevState.currentCategory !== matchingCategory) this.setState({ currentCategory: matchingCategory });
+    }
+  }
+
+  handleSearch() {
+    const { searchText } = this.state;
+    if ((!searchText && !Router.query.search) || searchText === Router.query.search) return;
+
+    let previousQuery = { ...Router.query };
+    delete previousQuery.search;
+    delete previousQuery.page;
+
+    let searchQuery = {};
+    if (searchText) searchQuery = { search: searchText };
+
+    const url = {
+      pathname: Router.pathname,
+      query: { ...searchQuery, ...previousQuery },
+    };
+    Router.push(url, url, { shallow: false });
+  }
+
+  handleCategoryChange(selectedItem) {
+    const category = selectedItem;
+
+    if (category.slug === Router.query.category) return;
+
+    let previousQuery = { ...Router.query };
+    delete previousQuery.category;
+    delete previousQuery.page;
+
+    let categoryQuery = {};
+    if (category._id) categoryQuery = { category: category.slug };
+
+    const url = {
+      pathname: Router.pathname,
+      query: { ...categoryQuery, ...previousQuery },
+    };
+    Router.push(url, url, { shallow: false });
+  }
+
+  async handleRemoveArticle(article) {
+    let { previews: originalPreviews, totalSoftwaresCount } = this.state;
+
+    let res = null;
+    try {
+      res = await deleteSoftwareAsync(article._id);
+    } catch (ex) {
+      let errorMessage = `Error: ${ex}`;
+      console.log(errorMessage);
+      toast.error(errorMessage);
+      return;
+    }
+    if (!res.ok) {
+      let body = "";
+      //TODO: Parse Text OR JSON
+      body = await res.text();
+      let errorMessage = `Error: ${res.status} - ${body}`;
+      console.log(errorMessage);
+      toast.error(errorMessage);
+      return;
+    }
+
+    const previews = originalPreviews.filter((p) => p._id !== article._id);
+    this.setState({ previews });
+    this.setState({ totalSoftwaresCount: totalSoftwaresCount-- });
+  }
+
+  async handleRemoveCategory(category) {
+    let res = null;
+    try {
+      res = await deleteSoftwareCategoryAsync(category._id);
+    } catch (ex) {
+      let errorMessage = `Error: ${ex}`;
+      console.log(errorMessage);
+      toast.error(errorMessage);
+      return;
+    }
+    if (!res.ok) {
+      let body = "";
+      //TODO: Parse Text OR JSON
+      body = await res.text();
+      let errorMessage = `Error: ${res.status} - ${body}`;
+      console.log(errorMessage);
+      toast.error(errorMessage);
+      return;
+    }
+
+    const originalCategories = this.state.categories;
+    const categories = originalCategories.filter((c) => c._id !== category._id);
+    this.setState({ categories });
+  }
+
+  render() {
+    const { previews, categories, currentPage, totalSoftwaresCount, currentCategory, searchText } = this.state;
+    const { user } = this.props;
+
+    return (
+      <Layout user={user}>
+        <CommonPageHeaderControls
+          user={user}
+          mainPagePath="showcase/software"
+          mainContentType="article"
+          searchText={searchText}
+          onSearchTextChanged={(searchText) => this.setState({ searchText })}
+          onSearch={() => this.handleSearch()}
+          categories={categories}
+          currentCategory={currentCategory}
+          onCategoryChange={(category) => this.handleCategoryChange(category)}
+          onDeleteCategoryAsync={async (category) => this.handleRemoveCategory(category)}
+        />
+        <CommonPageArticleSection
+          user={user}
+          mainPagePath="showcase/software"
+          mainContentType="article"
+          previews={previews}
+          onRemoveArticleAsync={async (article) => await this.handleRemoveArticle(article)}
+          currentPage={currentPage}
+          totalSoftwaresCount={totalSoftwaresCount}
+          pageSize={pageSize}
+        />
+      </Layout>
+    );
+  }
+}
 
 export default withAuthAsync(Software);

@@ -10,7 +10,7 @@ const validateVariableId = require("../../middleware/validateVariableId");
 const getAllQuerySchema = require("../schemas/queries/articles/getAllQuery");
 const winston = require("winston");
 
-module.exports = function(ArticleModel, articleJoiSchema, ArticleCategoryModel) {
+module.exports = function (ArticleModel, articleJoiSchema, ArticleCategoryModel) {
   const router = express.Router();
 
   router.get("/", validateQuery(getAllQuerySchema), async (req, res) => {
@@ -58,9 +58,8 @@ module.exports = function(ArticleModel, articleJoiSchema, ArticleCategoryModel) 
       dateOrder: dateOrder,
       total: total,
       search: search,
-      items: articles
+      items: articles,
     };
-
     res.send(data);
   });
 
@@ -87,8 +86,8 @@ module.exports = function(ArticleModel, articleJoiSchema, ArticleCategoryModel) 
       image: req.body.image,
       body: req.body.body,
       addressableHighlight: req.body.addressableHighlight,
-      tags: req.body.tags.map(str => str.trim()),
-      contingency: req.body.contingency ? req.body.contingency : {}
+      tags: req.body.tags.map((str) => str.trim()),
+      contingency: req.body.contingency ? req.body.contingency : {},
     });
 
     article = await article.save();
@@ -115,11 +114,11 @@ module.exports = function(ArticleModel, articleJoiSchema, ArticleCategoryModel) 
         image: req.body.image,
         body: req.body.body,
         addressableHighlight: req.body.addressableHighlight,
-        tags: req.body.tags.map(str => str.trim()),
-        contingency: req.body.contingency
+        tags: req.body.tags.map((str) => str.trim()),
+        contingency: req.body.contingency,
       },
       {
-        new: true
+        new: true,
       }
     );
 

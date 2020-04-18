@@ -217,6 +217,7 @@ class Blog extends Component {
         <CommonPageArticleSection
           user={user}
           mainPagePath="blog"
+          mainContentType="Article"
           previews={previews}
           onRemoveArticleAsync={async (article) => await this.handleRemoveArticle(article)}
           currentPage={currentPage}

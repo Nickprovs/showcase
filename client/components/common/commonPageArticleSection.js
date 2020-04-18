@@ -18,7 +18,8 @@ const RemoveArticleToast = ({ closeToast, article, onRemoveArticleAsync }) => (
 // General
 // 1.) user - to render user-specific controls
 // 2.) mainPagePath - for rendering links - "blog", "software", "photo", or "video"
-// 3.) previews
+// 3.) mainContentType - for displaying "No [mainContentType]s found"
+// 4.) previews
 // Commands
 // 2.) onRemoveArticleAsync
 // Pagination
@@ -31,11 +32,13 @@ class CommonPageArticleSection extends Component {
   }
 
   getEmptyArticleSectionMarkup() {
+    const { mainContentType } = this.props;
+
     return (
       <div style={{ textAlign: "center" }}>
-        <h1>No blogs found</h1>
+        <h1>{`No ${mainContentType}s found.`}</h1>
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <object style={{ display: "block", width: "35%", overflow: "none" }} type="image/svg+xml" data="director_sad.svg"></object>
+          <object style={{ display: "block", width: "35%", overflow: "none" }} type="image/svg+xml" data="/director_sad.svg"></object>
         </div>
       </div>
     );
