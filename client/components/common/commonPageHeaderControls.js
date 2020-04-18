@@ -103,7 +103,10 @@ class CommonPageHeaderControls extends Component {
   render() {
     const { user, mainContentType, mainPagePath } = this.props;
     const { searchText } = this.props;
-    const { categories, onCategoryChange } = this.props;
+    const { categories, currentCategory, onCategoryChange } = this.props;
+
+    const categoriesFormattedForSelect = categories ? categories.map((c) => ({ value: c, label: c.name })) : null;
+    const currentCategoryFormattedForSelect = categoriesFormattedForSelect.filter((c) => c.value === currentCategory)[0];
 
     return (
       <div className={pageHeaderStyles.headerControlsContainer}>
@@ -122,11 +125,12 @@ class CommonPageHeaderControls extends Component {
         {/* Category Box */}
         <div className={pageHeaderStyles.headerControl}>
           <Select
+            value={currentCategoryFormattedForSelect}
             instanceId={`category_select_${mainPagePath}`}
             components={{ Option: this.getCustomCategoryDropdownEntries }}
             placeholder="Category"
             onChange={(selected) => onCategoryChange(selected.value)}
-            options={categories ? categories.map((c) => ({ value: c, label: c.name })) : null}
+            options={categoriesFormattedForSelect}
           />
         </div>
 

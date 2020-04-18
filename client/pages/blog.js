@@ -210,6 +210,7 @@ class Blog extends Component {
           onSearchTextChanged={(searchText) => this.setState({ searchText })}
           onSearch={() => this.handleSearch()}
           categories={categories}
+          currentCategory={currentCategory}
           onCategoryChange={(category) => this.handleCategoryChange(category)}
           onDeleteCategoryAsync={async (category) => this.handleRemoveCategory(category)}
         />
