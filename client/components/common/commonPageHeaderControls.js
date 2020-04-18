@@ -14,6 +14,36 @@ const RemoveCategoryToast = ({ closeToast, category, onRemoveCategory }) => (
   </div>
 );
 
+const styles = {
+  option: (styles, state) => {
+    return {
+      ...styles,
+      backgroundColor: state.isSelected ? "var(--s6)" : state.isFocused ? "var(--s11)" : "var(--b1)",
+      cursor: "pointer",
+    };
+  },
+  control: (styles) => {
+    return {
+      ...styles,
+      height: 45,
+      borderWidth: 2,
+      boxShadow: "none",
+    };
+  },
+  menu: (styles, state) => {
+    return {
+      ...styles,
+      marginTop: 0,
+    };
+  },
+  menuList: (styles, state) => {
+    return {
+      ...styles,
+      paddingTop: 0,
+    };
+  },
+};
+
 // Contract:
 // General
 // 1.) user - to render user-specific controls
@@ -25,8 +55,9 @@ const RemoveCategoryToast = ({ closeToast, category, onRemoveCategory }) => (
 // 3.) onSearch
 // Category
 // 1.) categories
-// 2.) onCategoryChange
-// 3.) onDeleteCategoryAsync
+// 2.) currentCategory
+// 3.) onCategoryChange
+// 4.) onDeleteCategoryAsync
 class CommonPageHeaderControls extends Component {
   constructor(props) {
     super(props);
@@ -113,7 +144,7 @@ class CommonPageHeaderControls extends Component {
         {/* Search Box */}
         <div className={pageHeaderStyles.headerControl}>
           <input
-            style={{ width: "100%" }}
+            style={{ width: "100%", height: "45px" }}
             className="form-control"
             onKeyPress={(e) => this.internalOnSearchKeyPressed(e)}
             value={searchText}
@@ -125,6 +156,18 @@ class CommonPageHeaderControls extends Component {
         {/* Category Box */}
         <div className={pageHeaderStyles.headerControl}>
           <Select
+            theme={(theme) => ({
+              ...theme,
+              borderRadius: 0,
+              colors: {
+                ...theme.colors,
+                neutral20: "var(--s8)",
+                primary25: "var(--s5)",
+                primary: "var(--s5)",
+              },
+            })}
+            isSearchable={false}
+            styles={styles}
             value={currentCategoryFormattedForSelect}
             instanceId={`category_select_${mainPagePath}`}
             components={{ Option: this.getCustomCategoryDropdownEntries }}
