@@ -6,5 +6,7 @@
   "captchaPrivateKey": "unsecureKey",
   "db": "mongodb://localhost/nickprovs",
   "port": "8080",
-  "requiresAuth": true
+  "requiresAuth": true,
+  "adminUsername": "admin",
+  "adminPassword": "password"
 }
