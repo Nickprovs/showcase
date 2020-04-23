@@ -9,15 +9,21 @@ function Photo(props) {
   const { photos, user } = props;
   console.log("photos!", photos);
 
-  const getClassesForPhoto = photo => {
-    if (photo.orientation === "portrait") return photoStyles.portrait;
-    else return photoStyles.landscape;
+  const getClassesForPhoto = (photo) => {
+    const displaySizeWithFirstCharUppercase = photo.displaySize.charAt(0).toUpperCase() + photo.displaySize.slice(1);
+    const photoClassName = photo.orientation + displaySizeWithFirstCharUppercase;
+
+    if (photoClassName in photoStyles) return photoStyles[photoClassName];
+    else {
+      console.error("Coudn't find appropriate photo class for orientation and displaySize");
+      return photoStyles.landscapeMedium;
+    }
   };
 
   const [fullscreenPhotoSrc, setFullscreenPhotoSrc] = useState("");
   const [fullscreenPhotoVisible, setFullscreenPhotoVisible] = useState(false);
 
-  const setFullscreenPhoto = src => {
+  const setFullscreenPhoto = (src) => {
     setFullscreenPhotoSrc(src);
     setFullscreenPhotoVisible(true);
   };
@@ -29,11 +35,11 @@ function Photo(props) {
   };
 
   return (
-    <Layout user = {user}>
+    <Layout user={user}>
       <div style={{ zIndex: "200" }} className={photoStyles.container}>
-        {photos.map(photo => (
-          <div className={getClassesForPhoto(photo)}>
-            <img onClick={() => setFullscreenPhoto(photo.src)} className={photoStyles.containerFitImage} src={photo.src} />
+        {photos.map((photo) => (
+          <div title={`Orientation: ${photo.orientation}, DisplaySize: ${photo.displaySize}`} className={getClassesForPhoto(photo)}>
+            <img onClick={() => setFullscreenPhoto(photo.source)} className={photoStyles.containerFitImage} src={photo.source} />
           </div>
         ))}
         <FullscreenPhoto
@@ -46,11 +52,11 @@ function Photo(props) {
   );
 }
 
-Photo.getInitialProps = async function() {
+Photo.getInitialProps = async function () {
   const res = await getPhotosAsync();
   console.log("Got Data", res);
   return {
-    photos: res.photos
+    photos: res.photos,
   };
 };
 

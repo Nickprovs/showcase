@@ -1,20 +1,19 @@
 const auth = require("../routes/auth");
 const me = require("../routes/me");
 const articles = require("../routes/common/articles");
-const media = require("../routes/common/media");
 const categories = require("../routes/common/categories");
+const photos = require("../routes/photo");
 
 const { Article, joiSchema: joiArticleSchema } = require("../models/article");
 const { Software, joiSchema: joiSoftwareSchema } = require("../models/software");
-const { Photo, joiSchema: joiPhotoSchema } = require("../models/photo");
-const { Video, joiSchema: joiVideoSchema } = require("../models/video");
+// const { Video, joiSchema: joiVideoSchema } = require("../models/video");
 
 const { ArticleCategory, joiSchema: joiArticleCategorySchema } = require("../models/articleCategory");
 const { SoftwareCategory, joiSchema: joiSoftwareCategorySchema } = require("../models/softwareCategory");
-const { PhotoCategory, joiSchema: joiPhotoCategorySchema } = require("../models/photoCategory");
-const { VideoCategory, joiSchema: joiVideoCategorySchema } = require("../models/videoCategory");
+const { PhotoCategoryModel, joiSchema: joiPhotoCategorySchema } = require("../models/photoCategory");
+// const { VideoCategory, joiSchema: joiVideoCategorySchema } = require("../models/videoCategory");
 
-module.exports = function(app) {
+module.exports = function (app) {
   app.use("/auth", auth);
   app.use("/me", me);
 
@@ -24,9 +23,13 @@ module.exports = function(app) {
   app.use("/software", articles(Software, joiSoftwareSchema, SoftwareCategory));
   app.use("/softwareCategories", categories(SoftwareCategory, joiSoftwareCategorySchema));
 
-  app.use("/photos", media(Photo, joiPhotoSchema, PhotoCategory));
-  app.use("/photoCategories", categories(PhotoCategory, joiPhotoCategorySchema));
+  app.use("/photos", photos());
+  app.use("/photoCategories", categories(PhotoCategoryModel, joiPhotoCategorySchema));
 
-  app.use("/videos", media(Video, joiVideoSchema, VideoCategory));
-  app.use("/videoCategories", categories(VideoCategory, joiVideoCategorySchema));
+  // app.use("/photos", (req, res) => {
+  //   res.send("hello");
+  // });
+
+  // app.use("/videos", media(Video, joiVideoSchema, VideoCategory));
+  // app.use("/videoCategories", categories(VideoCategory, joiVideoCategorySchema));
 };
