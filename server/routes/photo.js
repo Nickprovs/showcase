@@ -19,7 +19,7 @@ module.exports = function () {
     const dateOrder = req.query.dateOrder ? req.query.dateOrder : "desc";
     const offset = req.query.offset ? parseInt(req.query.offset) : 0;
     const limit = req.query.limit ? parseInt(req.query.limit) : 10;
-    const categoryId = req.query.categoryId ? req.query.categoryId : "";
+    const categoryId = req.query.category ? req.query.category : "";
     const search = req.query.search ? req.query.search : "";
 
     //Build filter object if filterable query data was passed

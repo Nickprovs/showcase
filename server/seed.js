@@ -2,8 +2,8 @@ const { Article } = require("./models/article");
 const { ArticleCategory } = require("./models/articleCategory");
 const { Software } = require("./models/software");
 const { SoftwareCategory } = require("./models/softwareCategory");
-const { Photo } = require("./models/photo");
-const { PhotoCategory } = require("./models/photoCategory");
+const { PhotoModel } = require("./models/photo");
+const { PhotoCategoryModel } = require("./models/photoCategory");
 
 const mongoose = require("mongoose");
 mongoose.set("useCreateIndex", true);
@@ -222,14 +222,6 @@ const data = {
           tags: ["swiss", "switzerland", "landscape", "nature"],
         },
         {
-          title: "Swiss Landscape 3",
-          description: "A photo of a swiss landscape.",
-          orientation: "landscape",
-          displaySize: "medium",
-          source: "https://jakubpolomski.com/wp-content/uploads/2018/01/Switzerland-Landscape-Photo-Jakub-Polomski-12ALP0680.jpg",
-          tags: ["swiss", "switzerland", "landscape", "nature"],
-        },
-        {
           title: "Swiss Landscape 4",
           description: "A photo of a swiss landscape.",
           orientation: "landscape",
@@ -319,7 +311,7 @@ async function seed() {
     await connection.connection.db.dropDatabase();
     await saveCollection(data.articles, Article, ArticleCategory);
     await saveCollection(data.software, Software, SoftwareCategory);
-    await saveCollection(data.photos, Photo, PhotoCategory);
+    await saveCollection(data.photos, PhotoModel, PhotoCategoryModel);
   } catch (ex) {
     console.log(ex);
   } finally {
