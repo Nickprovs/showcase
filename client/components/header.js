@@ -21,12 +21,12 @@ export default function Header(props) {
   const { internalPages, externalPages } = props;
 
   const externalPageListStyle = {
-    listStyleType: "none",
+    display: "flex",
+    listStyle: "none",
   };
 
   const externalPageListItemStyle = {
     paddingRight: "25px",
-    display: "inline",
   };
 
   const router = useRouter();
