@@ -7,6 +7,9 @@ import withAuthAsync from "../../components/common/withAuthAsync";
 import { getPhotosAsync, deletePhotoAsync, getPhotoCategoriesAsync, deletePhotoCategoryAsync } from "../../services/photoService";
 import Router from "next/router";
 import CommonPageHeaderControls from "../../components/common/commonPageHeaderControls";
+import Link from "next/link";
+import Icon from "../../components/common/icon";
+import TransparentButton from "../../components/common/transparentButton";
 
 const pageSize = 15;
 
@@ -247,12 +250,32 @@ class Photo extends Component {
                 key={photo._id}
                 title={`Orientation: ${photo.orientation}, DisplaySize: ${photo.displaySize}`}
                 className={this.getClassesForPhoto(photo)}
+                style={{ position: "relative" }}
               >
-                <img
-                  onClick={() => this.handleOpenFullScreenPhoto(photo.source)}
-                  className={photoStyles.containerFitImage}
-                  src={photo.source}
-                />
+                <div className={photoStyles.cellContainer}>
+                  {/* Admin Options */}
+                  {user && user.isAdmin && (
+                    <div id="test" className={photoStyles.adminOptions}>
+                      <div style={{ backgroundColor: "white" }}>
+                        <Link href={`/showcase/photo/edit/photo/[id]`} as={`/showcase/photo/edit/photo/${photo._id}`}>
+                          <TransparentButton>
+                            <Icon className="fas fa-edit"></Icon>
+                          </TransparentButton>
+                        </Link>
+
+                        <TransparentButton>
+                          <Icon className="fas fa-trash"></Icon>
+                        </TransparentButton>
+                      </div>
+                    </div>
+                  )}
+
+                  <img
+                    className={photoStyles.containerFitImage}
+                    onClick={() => this.handleOpenFullScreenPhoto(photo.source)}
+                    src={photo.source}
+                  />
+                </div>
               </div>
             ))}
             <FullscreenPhoto

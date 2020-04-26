@@ -159,9 +159,29 @@
   height: 100%;
   transition: all 0.3s;
   cursor: pointer;
+  pointer-events: all;
 }
 
 .portrait:hover .containerFitImage,
 .landscape:hover .containerFitImage {
   transform: scale(1.15);
+}
+
+.cellContainer {
+  width: 100%;
+  height: 100%;
+  pointer-events: all;
+}
+
+.cellContainer:hover .adminOptions {
+  opacity: 1;
+}
+
+.adminOptions {
+  pointer-events: all;
+  position: absolute;
+  display: flex;
+  right: 0;
+  justify-content: flex-end;
+  opacity: 0;
 }

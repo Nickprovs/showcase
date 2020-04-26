@@ -38,7 +38,12 @@
   border-bottom: none;
 }
 
+.item:hover .adminOptions {
+  opacity: 1;
+}
+
 .adminOptions {
+  opacity: 0;
   margin-left: auto;
   flex: 5;
   order: 1;
