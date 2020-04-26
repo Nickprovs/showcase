@@ -10,8 +10,17 @@ import CommonPageHeaderControls from "../../components/common/commonPageHeaderCo
 import Link from "next/link";
 import Icon from "../../components/common/icon";
 import TransparentButton from "../../components/common/transparentButton";
+import BasicButton from "../../components/common/basicButton";
+import { toast } from "react-toastify";
 
 const pageSize = 15;
+
+const RemovePhotoToast = ({ closeToast, photo, onRemovePhotoAsync }) => (
+  <div>
+    Are you sure you want to remove?
+    <BasicButton onClick={async () => await onRemovePhotoAsync(photo)}>Remove</BasicButton>
+  </div>
+);
 
 class Photo extends Component {
   constructor(props) {
@@ -148,12 +157,12 @@ class Photo extends Component {
     Router.push(url, url, { shallow: false });
   }
 
-  async handleRemovePhoto(article) {
-    let { previews: originalPreviews, totalPhotosCount } = this.state;
+  async handleRemovePhoto(photo) {
+    let { photos: originalPhotos, totalPhotosCount } = this.state;
 
     let res = null;
     try {
-      res = await deletePhotoAsync(article._id);
+      res = await deletePhotoAsync(photo._id);
     } catch (ex) {
       let errorMessage = `Error: ${ex}`;
       console.log(errorMessage);
@@ -170,8 +179,8 @@ class Photo extends Component {
       return;
     }
 
-    const previews = originalPreviews.filter((p) => p._id !== article._id);
-    this.setState({ previews });
+    const photos = originalPhotos.filter((p) => p._id !== photo._id);
+    this.setState({ photos });
     this.setState({ totalPhotosCount: totalPhotosCount-- });
   }
 
@@ -238,7 +247,7 @@ class Photo extends Component {
     const { photos, fullScreenPhotoVisible, fullScreenPhotoSource, searchText, categories, currentCategory } = this.state;
     const { user } = this.props;
 
-    //If we have no articles to display for this route...
+    //If we have no photos to display for this route...
     let markupBody;
     if (!photos || photos.length === 0) markupBody = this.getEmptyPhotoSectionMarkup();
     else
@@ -263,7 +272,14 @@ class Photo extends Component {
                           </TransparentButton>
                         </Link>
 
-                        <TransparentButton>
+                        <TransparentButton
+                          onClick={() =>
+                            toast.info(
+                              <RemovePhotoToast photo={photo} onRemovePhotoAsync={async (photo) => await this.handleRemovePhoto(photo)} />
+                            )
+                          }
+                          style={{ color: "var(--f1)" }}
+                        >
                           <Icon className="fas fa-trash"></Icon>
                         </TransparentButton>
                       </div>
