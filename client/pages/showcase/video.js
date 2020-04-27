@@ -3,6 +3,8 @@ import videoStyles from "../../styles/video.module.css";
 import withAuthAsync from "../../components/common/withAuthAsync";
 import { Component } from "react";
 import { getVideosAsync, deleteVideoAsync, getVideoCategoriesAsync, deleteVideoCategoryAsync } from "../../services/videoService";
+import CommonPageHeaderControls from "../../components/common/commonPageHeaderControls";
+import Router from "next/router";
 
 const pageSize = 5;
 
@@ -60,6 +62,7 @@ class Video extends Component {
     super(props);
     this.videoContainerRefs = [];
     this.state.searchText = this.props.initialSearchProp;
+    this.addSpecialVideoStylesIfNecessary = this.addSpecialVideoStylesIfNecessary.bind(this);
   }
 
   state = {
@@ -84,6 +87,8 @@ class Video extends Component {
     this.setState({ totalVideosCount: totalVideosCount });
     this.setState({ initialSearchProp: initialSearchProp });
     this.setState({ categories: categories });
+
+    // setTimeout(this.addSpecialVideoStylesIfNecessary, 2000);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -106,15 +111,77 @@ class Video extends Component {
     this.videoContainerRefs.push(ref);
   };
 
-  componentDidMount() {
-    for (let videoContainer of this.videoContainerRefs) videoContainer.firstElementChild.className += videoStyles.containerFitImage;
+  addSpecialVideoStylesIfNecessary() {
+    for (let videoContainer of this.videoContainerRefs) {
+      if (
+        videoContainer &&
+        videoContainer.firstElementChild &&
+        !videoContainer.firstElementChild.className.includes(videoStyles.containerFitImage)
+      ) {
+        console.log("yo");
+        videoContainer.firstElementChild.className += videoStyles.containerFitImage;
+      }
+    }
+  }
+
+  handleSearch() {
+    const { searchText } = this.state;
+    if ((!searchText && !Router.query.search) || searchText === Router.query.search) return;
+
+    let previousQuery = { ...Router.query };
+    delete previousQuery.search;
+    delete previousQuery.page;
+
+    let searchQuery = {};
+    if (searchText) searchQuery = { search: searchText };
+
+    const url = {
+      pathname: Router.pathname,
+      query: { ...searchQuery, ...previousQuery },
+    };
+    Router.push(url, url, { shallow: false });
+  }
+
+  handleCategoryChange(selectedItem) {
+    console.log(selectedItem);
+    const category = selectedItem;
+
+    if (category.slug === Router.query.category) return;
+
+    let previousQuery = { ...Router.query };
+    delete previousQuery.category;
+    delete previousQuery.page;
+
+    let categoryQuery = {};
+    if (category._id) categoryQuery = { category: category.slug };
+
+    const url = {
+      pathname: Router.pathname,
+      query: { ...categoryQuery, ...previousQuery },
+    };
+    Router.push(url, url, { shallow: false });
   }
 
   render() {
-    const { videos, user } = this.props;
+    const { user } = this.props;
+    const { videos, searchText, categories, currentCategory } = this.state;
+
+    this.addSpecialVideoStylesIfNecessary();
 
     return (
       <Layout user={user}>
+        <CommonPageHeaderControls
+          user={user}
+          mainPagePath="showcase/video"
+          mainContentType="video"
+          searchText={searchText}
+          onSearchTextChanged={(searchText) => this.setState({ searchText })}
+          onSearch={() => this.handleSearch()}
+          categories={categories}
+          currentCategory={currentCategory}
+          onCategoryChange={(category) => this.handleCategoryChange(category)}
+          onDeleteCategoryAsync={async (category) => this.handleRemoveCategory(category)}
+        />
         <div className={videoStyles.container}>
           {videos.map((video, i) => (
             <div key={video._id} className={videoStyles.item}>
