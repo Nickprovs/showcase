@@ -2,7 +2,6 @@ import { Component } from "react";
 import Layout from "../../components/layout";
 import photoStyles from "../../styles/photo.module.css";
 import FullscreenPhoto from "../../components/common/fullscreenPhoto";
-import { useState } from "react";
 import withAuthAsync from "../../components/common/withAuthAsync";
 import { getPhotosAsync, deletePhotoAsync, getPhotoCategoriesAsync, deletePhotoCategoryAsync } from "../../services/photoService";
 import Router from "next/router";
