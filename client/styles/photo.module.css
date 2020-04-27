@@ -185,3 +185,9 @@
   justify-content: flex-end;
   opacity: 0;
 }
+
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -10,9 +10,10 @@ import Link from "next/link";
 import Icon from "../../components/common/icon";
 import TransparentButton from "../../components/common/transparentButton";
 import BasicButton from "../../components/common/basicButton";
+import Pagination from "../../components/common/pagination";
 import { toast } from "react-toastify";
 
-const pageSize = 15;
+const pageSize = 10;
 
 const RemovePhotoToast = ({ closeToast, photo, onRemovePhotoAsync }) => (
   <div>
@@ -230,11 +231,9 @@ class Photo extends Component {
   }
 
   getEmptyPhotoSectionMarkup() {
-    const { mainContentType } = this.props;
-
     return (
       <div style={{ textAlign: "center" }}>
-        <h1>{`No ${mainContentType}s found.`}</h1>
+        <h1>{`No photos found.`}</h1>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <object style={{ display: "block", width: "35%", overflow: "none" }} type="image/svg+xml" data="/director_sad.svg"></object>
         </div>
@@ -243,7 +242,16 @@ class Photo extends Component {
   }
 
   render() {
-    const { photos, fullScreenPhotoVisible, fullScreenPhotoSource, searchText, categories, currentCategory } = this.state;
+    const {
+      photos,
+      totalPhotosCount,
+      fullScreenPhotoVisible,
+      fullScreenPhotoSource,
+      searchText,
+      categories,
+      currentCategory,
+      currentPage,
+    } = this.state;
     const { user } = this.props;
 
     //If we have no photos to display for this route...
@@ -317,6 +325,9 @@ class Photo extends Component {
           onDeleteCategoryAsync={async (category) => this.handleRemoveCategory(category)}
         />
         {markupBody}
+        <div className={photoStyles.paginationContainer}>
+          <Pagination itemsCount={totalPhotosCount} pageSize={pageSize} currentPage={currentPage} />
+        </div>
       </Layout>
     );
   }
