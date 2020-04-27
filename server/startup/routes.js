@@ -1,17 +1,17 @@
 const auth = require("../routes/auth");
 const me = require("../routes/me");
-const articles = require("../routes/common/articles");
 const categories = require("../routes/common/categories");
+const articles = require("../routes/common/articles");
 const photos = require("../routes/photo");
+const videos = require("../routes/video");
 
 const { Article, joiSchema: joiArticleSchema } = require("../models/article");
 const { Software, joiSchema: joiSoftwareSchema } = require("../models/software");
-// const { Video, joiSchema: joiVideoSchema } = require("../models/video");
 
 const { ArticleCategory, joiSchema: joiArticleCategorySchema } = require("../models/articleCategory");
 const { SoftwareCategory, joiSchema: joiSoftwareCategorySchema } = require("../models/softwareCategory");
 const { PhotoCategoryModel, joiSchema: joiPhotoCategorySchema } = require("../models/photoCategory");
-// const { VideoCategory, joiSchema: joiVideoCategorySchema } = require("../models/videoCategory");
+const { VideoCategoryModel, joiSchema: joiVideoCategorySchema } = require("../models/videoCategory");
 
 module.exports = function (app) {
   app.use("/auth", auth);
@@ -26,10 +26,6 @@ module.exports = function (app) {
   app.use("/photos", photos());
   app.use("/photoCategories", categories(PhotoCategoryModel, joiPhotoCategorySchema));
 
-  // app.use("/photos", (req, res) => {
-  //   res.send("hello");
-  // });
-
-  // app.use("/videos", media(Video, joiVideoSchema, VideoCategory));
-  // app.use("/videoCategories", categories(VideoCategory, joiVideoCategorySchema));
+  app.use("/videos", videos());
+  app.use("/videoCategories", categories(VideoCategoryModel, joiVideoCategorySchema));
 };
