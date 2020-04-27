@@ -4,6 +4,8 @@ const { Software } = require("./models/software");
 const { SoftwareCategory } = require("./models/softwareCategory");
 const { PhotoModel } = require("./models/photo");
 const { PhotoCategoryModel } = require("./models/photoCategory");
+const { VideoModel } = require("./models/video");
+const { VideoCategoryModel } = require("./models/videoCategory");
 
 const mongoose = require("mongoose");
 mongoose.set("useCreateIndex", true);
@@ -292,6 +294,77 @@ const data = {
       ],
     },
   ],
+  videos: [
+    {
+      category: { name: "Life", slug: "life" },
+      items: [
+        {
+          title: "Tree Fiddy",
+          description: "A film by the incredible Drew Network.",
+          markup: `<iframe src="https://player.vimeo.com/video/138343914" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`,
+          tags: ["tree", "fiddy", "life"],
+        },
+        {
+          title: "Kittens",
+          description: "A video that took about tree fiddy to make.",
+          markup: `<iframe width="560" height="315" src="https://www.youtube.com/embed/OE2snz8_BnE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
+          tags: ["drew", "network", "kittens"],
+        },
+        {
+          title: "Sicily",
+          description: "A video by Lorenz Hideyoshi",
+          markup: `<iframe width="560" height="315" src="https://www.youtube.com/embed/MIuD7B8ys2o" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
+          tags: ["sicily", "lorenz", "hideyoshi"],
+        },
+        {
+          title: "A Drop in the Ocean",
+          description: "A film by the incredible Kendy Ty.",
+          markup: `<iframe src="https://player.vimeo.com/video/94390460" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+          <p><a href="https://vimeo.com/94390460">A Drop In The Ocean - Shortfilm</a> from <a href="https://vimeo.com/kendyty">Kendy</a> on <a href="https://vimeo.com">Vimeo</a>.</p>`,
+          tags: ["drop", "in", "ocean", "kendy", "ty"],
+        },
+        {
+          title: "NYC",
+          description: "A film by Paul Tkachenko.",
+          markup: `<iframe src="https://player.vimeo.com/video/276083030" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+          <p><a href="https://vimeo.com/276083030">NYC (Panasonic GH5)</a> from <a href="https://vimeo.com/paultkachenko">Paul Tkachenko</a> on <a href="https://vimeo.com">Vimeo</a>.</p>`,
+          tags: ["nyc", "paul", "tkachenko"],
+        },
+        {
+          title: "Biking in Paris",
+          description: "A film by Leonard Raaf.",
+          markup: `<iframe width="560" height="315" src="https://www.youtube.com/embed/Zl50J5cyta0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
+          tags: ["biking", "in", "paris"],
+        },
+
+        {
+          title: "New Zealand",
+          description: "A film by Iswan Arif.",
+          markup: `<iframe width="560" height="315" src="https://www.youtube.com/embed/2ABPmCElIGw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
+          tags: ["new", "zealand", "iswan"],
+        },
+        {
+          title: "Better Cartoon Show",
+          description: "A film by Toonami.",
+          markup: `<iframe width="560" height="315" src="https://www.youtube.com/embed/qKmZaCmAR6I" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
+          tags: ["better", "cartoon", "show"],
+        },
+        {
+          title: "Samurai Champloo Opening",
+          description: "This is the show's opening.",
+          markup: `<iframe width="560" height="315" src="https://www.youtube.com/embed/Eq6EYcpWB_c" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
+          tags: ["samurai", "champloo", "opening"],
+        },
+        {
+          title: "Coming Home",
+          description: "A film by dooster.",
+          markup: `<iframe src="https://player.vimeo.com/video/406878212?title=0&byline=0&portrait=0" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+          <p><a href="https://vimeo.com/406878212">COMING HOME - Ag Teacht Abhaile</a> from <a href="https://vimeo.com/dooster">Dooster</a> on <a href="https://vimeo.com">Vimeo</a>.</p>`,
+          tags: ["coming", "home", "dooster"],
+        },
+      ],
+    },
+  ],
 };
 
 async function saveCollection(data, MainModel, CategoryModel) {
@@ -312,6 +385,7 @@ async function seed() {
     await saveCollection(data.articles, Article, ArticleCategory);
     await saveCollection(data.software, Software, SoftwareCategory);
     await saveCollection(data.photos, PhotoModel, PhotoCategoryModel);
+    await saveCollection(data.videos, VideoModel, VideoCategoryModel);
   } catch (ex) {
     console.log(ex);
   } finally {
