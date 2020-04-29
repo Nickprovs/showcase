@@ -105,6 +105,8 @@ class Video extends Component {
       matchingCategory = matchingCategory ? matchingCategory : categories.filter((c) => c._id === "")[0];
       if (prevState.currentCategory !== matchingCategory) this.setState({ currentCategory: matchingCategory });
     }
+
+    this.addSpecialVideoStylesIfNecessary();
   }
 
   setVideoContainerRefs = (ref) => {
@@ -162,26 +164,26 @@ class Video extends Component {
     Router.push(url, url, { shallow: false });
   }
 
+  getEmptyPhotoSectionMarkup() {
+    return (
+      <div style={{ textAlign: "center" }}>
+        <h1>{`No videos found.`}</h1>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <object style={{ display: "block", width: "35%", overflow: "none" }} type="image/svg+xml" data="/director_sad.svg"></object>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const { user } = this.props;
     const { videos, searchText, categories, currentCategory } = this.state;
 
-    this.addSpecialVideoStylesIfNecessary();
-
-    return (
-      <Layout user={user}>
-        <CommonPageHeaderControls
-          user={user}
-          mainPagePath="showcase/video"
-          mainContentType="video"
-          searchText={searchText}
-          onSearchTextChanged={(searchText) => this.setState({ searchText })}
-          onSearch={() => this.handleSearch()}
-          categories={categories}
-          currentCategory={currentCategory}
-          onCategoryChange={(category) => this.handleCategoryChange(category)}
-          onDeleteCategoryAsync={async (category) => this.handleRemoveCategory(category)}
-        />
+    //If we have no videos to display for this route...
+    let markupBody;
+    if (!videos || videos.length === 0) markupBody = this.getEmptyPhotoSectionMarkup();
+    else {
+      markupBody = (
         <div className={videoStyles.container}>
           {videos.map((video, i) => (
             <div key={video._id} className={videoStyles.item}>
@@ -205,6 +207,24 @@ class Video extends Component {
             </div>
           ))}
         </div>
+      );
+    }
+
+    return (
+      <Layout user={user}>
+        <CommonPageHeaderControls
+          user={user}
+          mainPagePath="showcase/video"
+          mainContentType="video"
+          searchText={searchText}
+          onSearchTextChanged={(searchText) => this.setState({ searchText })}
+          onSearch={() => this.handleSearch()}
+          categories={categories}
+          currentCategory={currentCategory}
+          onCategoryChange={(category) => this.handleCategoryChange(category)}
+          onDeleteCategoryAsync={async (category) => this.handleRemoveCategory(category)}
+        />
+        {markupBody}
       </Layout>
     );
   }
