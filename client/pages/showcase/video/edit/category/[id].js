@@ -2,7 +2,7 @@ import Layout from "../../../../../components/layout";
 import withAuthAsync from "../../../../../components/common/withAuthAsync";
 import Form from "../../../../../components/common/form";
 import CustomJoi from "../../../../../misc/customJoi";
-import { getPhotoCategoryAsync, updatePhotoCategoryAsync } from "../../../../../services/photoService";
+import { getVideoCategoryAsync, updateVideoCategoryAsync } from "../../../../../services/videoService";
 import { toast, cssTransition } from "react-toastify";
 import Router from "next/router";
 import RouterUtilities from "../../../../../util/routerUtilities";
@@ -14,7 +14,7 @@ class Category extends Form {
     //Get the category
     let category = null;
     try {
-      let categoryRes = await getPhotoCategoryAsync(id);
+      let categoryRes = await getVideoCategoryAsync(id);
       category = await categoryRes.json();
     } catch (ex) {
       category = null;
@@ -34,7 +34,7 @@ class Category extends Form {
     const { category } = this.props;
     if (!category) {
       toast.error("Couldn't get category. Redirecting back.", { autoClose: 1500 });
-      await RouterUtilities.routeInternalWithDelayAsync("/showcase/photo", 2000);
+      await RouterUtilities.routeInternalWithDelayAsync("/showcase/video", 2000);
       return;
     }
 
@@ -67,7 +67,7 @@ class Category extends Form {
     let res = null;
     //Try and post the new category
     try {
-      res = await updatePhotoCategoryAsync(category);
+      res = await updateVideoCategoryAsync(category);
     } catch (ex) {
       let errorMessage = `Error: ${ex}`;
       console.log(errorMessage);
@@ -85,7 +85,7 @@ class Category extends Form {
     }
 
     //TODO: Disallow posting duplicate category at server level.
-    Router.push("/showcase/photo");
+    Router.push("/showcase/video");
   };
 
   render() {

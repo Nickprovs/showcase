@@ -23,6 +23,7 @@
     "react-google-recaptcha": "^2.0.1",
     "react-select": "^3.1.0",
     "react-toastify": "^5.5.0",
+    "reframe.js": "^2.2.8",
     "text-encoding": "^0.7.0"
   }
 }

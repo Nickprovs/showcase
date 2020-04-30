@@ -5,8 +5,21 @@ import { Component } from "react";
 import { getVideosAsync, deleteVideoAsync, getVideoCategoriesAsync, deleteVideoCategoryAsync } from "../../services/videoService";
 import CommonPageHeaderControls from "../../components/common/commonPageHeaderControls";
 import Router from "next/router";
-
+import Link from "next/link";
+import Icon from "../../components/common/icon";
+import TransparentButton from "../../components/common/transparentButton";
+import BasicButton from "../../components/common/basicButton";
+import Pagination from "../../components/common/pagination";
+import { toast } from "react-toastify";
+import reframe from "reframe.js";
 const pageSize = 5;
+
+const RemoveVideoToast = ({ closeToast, video, onRemoveVideoAsync }) => (
+  <div>
+    Are you sure you want to remove?
+    <BasicButton onClick={async () => await onRemoveVideoAsync(video)}>Remove</BasicButton>
+  </div>
+);
 
 class Video extends Component {
   static async getInitialProps(context) {
@@ -75,6 +88,8 @@ class Video extends Component {
   };
 
   componentDidMount() {
+    console.log(reframe);
+
     const { videos, categories, currentPage, totalVideosCount, initialSearchProp } = this.props;
 
     //Get the current category
@@ -107,6 +122,7 @@ class Video extends Component {
     }
 
     this.addSpecialVideoStylesIfNecessary();
+    reframe("iframe");
   }
 
   setVideoContainerRefs = (ref) => {
@@ -114,16 +130,15 @@ class Video extends Component {
   };
 
   addSpecialVideoStylesIfNecessary() {
-    for (let videoContainer of this.videoContainerRefs) {
-      if (
-        videoContainer &&
-        videoContainer.firstElementChild &&
-        !videoContainer.firstElementChild.className.includes(videoStyles.containerFitImage)
-      ) {
-        console.log("yo");
-        videoContainer.firstElementChild.className += videoStyles.containerFitImage;
-      }
-    }
+    // for (let videoContainer of this.videoContainerRefs) {
+    //   if (
+    //     videoContainer &&
+    //     videoContainer.firstElementChild &&
+    //     !videoContainer.firstElementChild.className.includes(videoStyles.containerFitImage)
+    //   ) {
+    //     videoContainer.firstElementChild.className += videoStyles.containerFitImage;
+    //   }
+    // }
   }
 
   handleSearch() {
@@ -164,7 +179,59 @@ class Video extends Component {
     Router.push(url, url, { shallow: false });
   }
 
-  getEmptyPhotoSectionMarkup() {
+  async handleRemoveVideo(video) {
+    let { videos: originalVideos, totalVideosCount } = this.state;
+
+    let res = null;
+    try {
+      res = await deleteVideoAsync(video._id);
+    } catch (ex) {
+      let errorMessage = `Error: ${ex}`;
+      console.log(errorMessage);
+      toast.error(errorMessage);
+      return;
+    }
+    if (!res.ok) {
+      let body = "";
+      //TODO: Parse Text OR JSON
+      body = await res.text();
+      let errorMessage = `Error: ${res.status} - ${body}`;
+      console.log(errorMessage);
+      toast.error(errorMessage);
+      return;
+    }
+
+    const videos = originalVideos.filter((p) => p._id !== video._id);
+    this.setState({ videos });
+    this.setState({ totalVideosCount: totalVideosCount-- });
+  }
+
+  async handleRemoveCategory(category) {
+    let res = null;
+    try {
+      res = await deleteVideoCategoryAsync(category._id);
+    } catch (ex) {
+      let errorMessage = `Error: ${ex}`;
+      console.log(errorMessage);
+      toast.error(errorMessage);
+      return;
+    }
+    if (!res.ok) {
+      let body = "";
+      //TODO: Parse Text OR JSON
+      body = await res.text();
+      let errorMessage = `Error: ${res.status} - ${body}`;
+      console.log(errorMessage);
+      toast.error(errorMessage);
+      return;
+    }
+
+    const originalCategories = this.state.categories;
+    const categories = originalCategories.filter((c) => c._id !== category._id);
+    this.setState({ categories });
+  }
+
+  getEmptyVideoSectionMarkup() {
     return (
       <div style={{ textAlign: "center" }}>
         <h1>{`No videos found.`}</h1>
@@ -177,31 +244,51 @@ class Video extends Component {
 
   render() {
     const { user } = this.props;
-    const { videos, searchText, categories, currentCategory } = this.state;
+    const { videos, totalVideosCount, currentPage, searchText, categories, currentCategory } = this.state;
 
     //If we have no videos to display for this route...
     let markupBody;
-    if (!videos || videos.length === 0) markupBody = this.getEmptyPhotoSectionMarkup();
+    if (!videos || videos.length === 0) markupBody = this.getEmptyVideoSectionMarkup();
     else {
       markupBody = (
         <div className={videoStyles.container}>
           {videos.map((video, i) => (
             <div key={video._id} className={videoStyles.item}>
+              {/*Admin Controls*/}
+              {user && user.isAdmin && (
+                <div className={videoStyles.adminOptions}>
+                  {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
+                  <a href={`video/edit/video/${video._id}`}>
+                    <TransparentButton style={{ color: "var(--f1)" }}>
+                      <Icon className="fas fa-edit"></Icon>
+                    </TransparentButton>
+                  </a>
+
+                  <TransparentButton
+                    onClick={() =>
+                      toast.info(
+                        <RemoveVideoToast video={video} onRemoveVideoAsync={async (video) => await this.handleRemoveVideo(video)} />
+                      )
+                    }
+                    style={{ color: "var(--f1)" }}
+                  >
+                    <Icon className="fas fa-trash"></Icon>
+                  </TransparentButton>
+                </div>
+              )}
+
               <div className={videoStyles.title}>
                 <h2>{video.title.toUpperCase()}</h2>
               </div>
-              <div className={videoStyles.video}>
-                {/*TODO: Changed to iFrame or Video Tag*/}
-                <div
-                  style={{ width: "100%", height: "100%" }}
-                  ref={this.setVideoContainerRefs}
-                  dangerouslySetInnerHTML={{
-                    className: videoStyles.containerFitImage,
-                    __html: video.markup,
-                  }}
-                ></div>
-              </div>
-              <div className={videoStyles.text}>
+              {/*TODO: Changed to iFrame or Video Tag*/}
+              <div
+                className={videoStyles.videoContainer}
+                ref={this.setVideoContainerRefs}
+                dangerouslySetInnerHTML={{
+                  __html: video.markup,
+                }}
+              />
+              <div className={videoStyles.descriptionContainer}>
                 <label>{video.description}</label>
               </div>
             </div>
@@ -225,6 +312,9 @@ class Video extends Component {
           onDeleteCategoryAsync={async (category) => this.handleRemoveCategory(category)}
         />
         {markupBody}
+        <div className={videoStyles.paginationContainer}>
+          <Pagination itemsCount={totalVideosCount} pageSize={pageSize} currentPage={currentPage} />
+        </div>
       </Layout>
     );
   }

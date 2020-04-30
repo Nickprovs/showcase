@@ -3,28 +3,18 @@
   padding: 5px;
   grid-gap: 5px;
   grid-template-columns: 1fr;
-  grid-auto-rows: 500px;
   grid-auto-flow: dense;
-}
-
-@media screen and (min-height: 850px) {
-  .container {
-    grid-auto-rows: 750px;
-  }
 }
 
 .item {
   grid-row: span 1;
   grid-column: span 1;
 
-  justify-items: center;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
   align-items: center;
-
-  display: grid;
-  padding: 5px;
-  grid-gap: 5px;
-  grid-template-columns: 1fr;
-  grid-auto-rows: 10fr 80fr 10fr;
+  padding: 10px;
   border-bottom: 2px solid var(--s8);
 }
 /* Remove border bottom from last item & from second last if its odd */
@@ -32,24 +22,75 @@
 .item:nth-last-child(2):nth-child(odd) {
   border-bottom: none;
 }
+.item:hover .adminOptions {
+  opacity: 1;
+}
+
+.adminOptions {
+  opacity: 0;
+  margin-left: auto;
+  flex: 5;
+  order: 1;
+}
 
 .title {
-  grid-row: 1;
+  flex: 10;
+  order: 2;
 }
 
-.video {
-  grid-row: 2;
+.videoContainer {
+  order: 3;
+  flex: 65;
   height: 100%;
   width: 100%;
+  max-width: 1200px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.text {
-  grid-row: 3;
+.videoContainer iframe {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.descriptionContainer {
+  flex: 15;
+  order: 4;
+  display: flex;
+  align-items: center;
+}
+
+.description {
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+.previewButtons {
+  flex: 20;
+  order: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.postButton {
+  margin: 4px;
 }
 
 .containerFitImage {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
   max-height: 100%;
+}
+
+.previewImage:hover .containerFitImage,
+.previewImage:focus .containerFitImage {
+  transform: scale(1.2);
+}
+
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
