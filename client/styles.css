@@ -245,3 +245,11 @@ p {
   font-family: "SourceSansPro";
   font-weight: bold;
 }
+
+.twitter-tweet {
+  width: max(350px, 40%) !important;
+}
+
+.twitter-timeline {
+  width: max(350px, 40%) !important;
+}
