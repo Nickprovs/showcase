@@ -10,8 +10,12 @@ import Icon from "../../components/common/icon";
 import TransparentButton from "../../components/common/transparentButton";
 import BasicButton from "../../components/common/basicButton";
 import Pagination from "../../components/common/pagination";
+import DangerousInnerHtmlWithScript from "../../components/common/dangerousInnerHtmlWithScript";
+import EmbedUtilities from "../../util/embedUtilities";
+
 import { toast } from "react-toastify";
 import reframe from "reframe.js";
+
 const pageSize = 5;
 
 const RemoveVideoToast = ({ closeToast, video, onRemoveVideoAsync }) => (
@@ -75,7 +79,6 @@ class Video extends Component {
     super(props);
     this.videoContainerRefs = [];
     this.state.searchText = this.props.initialSearchProp;
-    this.addSpecialVideoStylesIfNecessary = this.addSpecialVideoStylesIfNecessary.bind(this);
   }
 
   state = {
@@ -88,8 +91,6 @@ class Video extends Component {
   };
 
   componentDidMount() {
-    console.log(reframe);
-
     const { videos, categories, currentPage, totalVideosCount, initialSearchProp } = this.props;
 
     //Get the current category
@@ -102,8 +103,6 @@ class Video extends Component {
     this.setState({ totalVideosCount: totalVideosCount });
     this.setState({ initialSearchProp: initialSearchProp });
     this.setState({ categories: categories });
-
-    // setTimeout(this.addSpecialVideoStylesIfNecessary, 2000);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -121,25 +120,14 @@ class Video extends Component {
       if (prevState.currentCategory !== matchingCategory) this.setState({ currentCategory: matchingCategory });
     }
 
-    this.addSpecialVideoStylesIfNecessary();
+    //Adjusts iframes in the page to fit based on aspect ration
     reframe("iframe");
+    EmbedUtilities.loadAllAvailableEmbedHelpers();
   }
 
   setVideoContainerRefs = (ref) => {
     this.videoContainerRefs.push(ref);
   };
-
-  addSpecialVideoStylesIfNecessary() {
-    // for (let videoContainer of this.videoContainerRefs) {
-    //   if (
-    //     videoContainer &&
-    //     videoContainer.firstElementChild &&
-    //     !videoContainer.firstElementChild.className.includes(videoStyles.containerFitImage)
-    //   ) {
-    //     videoContainer.firstElementChild.className += videoStyles.containerFitImage;
-    //   }
-    // }
-  }
 
   handleSearch() {
     const { searchText } = this.state;
@@ -160,7 +148,6 @@ class Video extends Component {
   }
 
   handleCategoryChange(selectedItem) {
-    console.log(selectedItem);
     const category = selectedItem;
 
     if (category.slug === Router.query.category) return;
@@ -281,13 +268,7 @@ class Video extends Component {
                 <h2>{video.title.toUpperCase()}</h2>
               </div>
               {/*TODO: Changed to iFrame or Video Tag*/}
-              <div
-                className={videoStyles.videoContainer}
-                ref={this.setVideoContainerRefs}
-                dangerouslySetInnerHTML={{
-                  __html: video.markup,
-                }}
-              />
+              <DangerousInnerHtmlWithScript className={videoStyles.videoContainer} html={video.markup} />
               <div className={videoStyles.descriptionContainer}>
                 <label>{video.description}</label>
               </div>

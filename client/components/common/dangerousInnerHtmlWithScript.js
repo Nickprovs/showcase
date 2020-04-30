@@ -1,0 +1,16 @@
+import React, { useEffect, useRef } from "react";
+
+function DangerousInnerHtmlWithScript(props) {
+  const { html } = props;
+  const divRef = useRef(null);
+
+  useEffect(() => {
+    const slotHtml = document.createRange().createContextualFragment(html); // Create a 'tiny' document and parse the html string
+    divRef.current.innerHTML = ""; // Clear the container
+    divRef.current.appendChild(slotHtml); // Append the new content
+  }, [html]);
+
+  return <div {...props} ref={divRef}></div>;
+}
+
+export default DangerousInnerHtmlWithScript;
