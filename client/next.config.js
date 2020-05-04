@@ -23,52 +23,32 @@ module.exports = (phase, { defaultConfig }) => {
 };
 
 function getPublicRuntimeConfig(phase) {
+  let configFile = null;
   if (phase === PHASE_DEVELOPMENT_SERVER) {
     //Parse a dev config if it exists
-    let devConfig = null;
     let devConfigFilePath = "./config/development.json";
     let devConfigFileExists = fileSystem.existsSync(devConfigFilePath) && fileSystem.lstatSync(devConfigFilePath).isFile();
     if (devConfigFileExists) {
       let rawDevConfigData = fileSystem.readFileSync("./config/development.json");
-      devConfig = JSON.parse(rawDevConfigData);
+      configFile = JSON.parse(rawDevConfigData);
     }
-
-    return {
-      apiProtocol: getApiProtocolFromEnvOrOptionallyThrow(!devConfigFileExists) || devConfig.apiProtocol,
-      apiAddress: getApiAddressFromEnvOrOptionallyThrow(!devConfigFileExists) || devConfig.apiAddress,
-      apiPort: getApiPortFromEnvOrOptionallyThrow(!devConfigFileExists) || devConfig.apiPort,
-      recaptchaSiteKey: getApiPortFromEnvOrOptionallyThrow(!devConfigFileExists) || devConfig.recaptchaSiteKey,
-    };
   }
 
-  //For all non dev configurations -- only get data from environment
-  return {
-    apiProtocol: getApiProtocolFromEnvOrOptionallyThrow(true),
-    apiAddress: getApiAddressFromEnvOrOptionallyThrow(true),
-    apiPort: getApiPortFromEnvOrOptionallyThrow(true),
-    recaptchaSiteKey: getRecaptchaSiteKeyFromEnvOrOptionallyThrow(true),
+  //Configuration will usually come from environment -- but also potentially a config file for convenience
+  publicRuntimeConfig = {
+    apiProtocol: process.env.nickprovs_apiProtocol || (configFile && configFile.apiProtocol),
+    apiAddress: process.env.nickprovs_apiAddress || (configFile && configFile.apiAddress),
+    apiPort: process.env.nickprovs_apiPort || (configFile && configFile.apiPort),
+    recaptchaSiteKey: process.env.nickprovs_recaptchaSiteKey || (configFile && configFile.recaptchaSiteKey),
   };
+
+  validatePublicRuntimeConfig(publicRuntimeConfig);
+  return publicRuntimeConfig;
 }
 
-function getApiProtocolFromEnvOrOptionallyThrow(shouldThrowOnFail) {
-  if (!process.env.nickprovs_apiProtocol && shouldThrowOnFail)
-    throw new Error("Must set nickprovs_apiProtocol environment variable (http or https)");
-
-  return process.env.nickprovs_apiProtocol;
-}
-
-function getApiAddressFromEnvOrOptionallyThrow(shouldThrowOnFail) {
-  if (!process.env.nickprovs_apiAddress && shouldThrowOnFail) throw new Error("Must set nickprovs_apiAddress environment variable");
-  return process.env.nickprovs_apiAddress;
-}
-
-function getApiPortFromEnvOrOptionallyThrow(shouldThrowOnFail) {
-  if (!process.env.nickprovs_apiPort && shouldThrowOnFail) throw new Error("Must set nickprovs_apiPort environment variable");
-  return process.env.nickprovs_apiPort;
-}
-
-function getRecaptchaSiteKeyFromEnvOrOptionallyThrow(shouldThrowOnFail) {
-  if (!process.env.nickprovs_recaptchaSiteKey && shouldThrowOnFail)
-    throw new Error("Must set nickprovs_recaptchaSiteKey environment variable");
-  return process.env.nickprovs_recaptchaSiteKey;
+function validatePublicRuntimeConfig(publicRuntimeConfig) {
+  if (!publicRuntimeConfig.apiProtocol) throw new Error("Must set nickprovs_apiProtocol environment variable (http or https)");
+  if (!publicRuntimeConfig.apiAddress) throw new Error("Must set nickprovs_apiAddress environment variable");
+  if (!publicRuntimeConfig.apiPort) throw new Error("Must set nickprovs_apiPort environment variable");
+  if (!publicRuntimeConfig.recaptchaSiteKey) throw new Error("Must set nickprovs_recaptchaSiteKey environment variable");
 }
