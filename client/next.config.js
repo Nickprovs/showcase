@@ -1,40 +1,54 @@
-module.exports = {
-  webpack: function(cfg) {
-    const originalEntry = cfg.entry;
-    cfg.entry = async () => {
-      const entries = await originalEntry();
+const { PHASE_DEVELOPMENT_SERVER } = require("next/constants");
 
-      if (entries["main.js"] && !entries["main.js"].includes("./client/polyfills.js")) {
-        entries["main.js"].unshift("./client/polyfills.js");
-      }
+module.exports = (phase, { defaultConfig }) => {
+  return {
+    //Public runtime config is for both the next client and server. There is also a server-only option (serverRuntimeConfig).
+    publicRuntimeConfig: getPublicRuntimeConfig(phase),
+    webpack: function (cfg) {
+      const originalEntry = cfg.entry;
+      cfg.entry = async () => {
+        const entries = await originalEntry();
 
-      return entries;
-    };
+        if (entries["main.js"] && !entries["main.js"].includes("./client/polyfills.js")) {
+          entries["main.js"].unshift("./client/polyfills.js");
+        }
 
-    return cfg;
-  },
-  publicRuntimeConfig: {
-    // Will be available on both server and client
-    apiProtocol: getApiProtocolFromEnvOrThrow(),
-    apiAddress: getApiAddressFromEnvOrThrow(),
-    apiPort: getApiPortFromEnvOrThrow()
-  }
+        return entries;
+      };
+
+      return cfg;
+    },
+  };
 };
 
-function getApiProtocolFromEnvOrThrow() {
-  if (!process.env.nickprovs_apiProtocol) throw new Error("Must set nickprovs_apiProtocol environment variable (http or https)");
+function getPublicRuntimeConfig(phase) {
+  if (phase === PHASE_DEVELOPMENT_SERVER) {
+    return {
+      apiProtocol: getApiProtocolFromEnvOrOptionallyThrow(false) || "http",
+      apiAddress: getApiAddressFromEnvOrOptionallyThrow(false) || "localhost",
+      apiPort: getApiPortFromEnvOrOptionallyThrow(false) || "8080",
+    };
+  }
+  return {
+    apiProtocol: getApiProtocolFromEnvOrOptionallyThrow(true),
+    apiAddress: getApiAddressFromEnvOrOptionallyThrow(true),
+    apiPort: getApiPortFromEnvOrOptionallyThrow(true),
+  };
+}
+
+function getApiProtocolFromEnvOrOptionallyThrow(shouldThrowOnFail) {
+  if (!process.env.nickprovs_apiProtocol && shouldThrowOnFail)
+    throw new Error("Must set nickprovs_apiProtocol environment variable (http or https)");
 
   return process.env.nickprovs_apiProtocol;
 }
 
-function getApiAddressFromEnvOrThrow() {
-  if (!process.env.nickprovs_apiAddress) throw new Error("Must set nickprovs_apiAddress environment variable");
-
+function getApiAddressFromEnvOrOptionallyThrow(shouldThrowOnFail) {
+  if (!process.env.nickprovs_apiAddress && shouldThrowOnFail) throw new Error("Must set nickprovs_apiAddress environment variable");
   return process.env.nickprovs_apiAddress;
 }
 
-function getApiPortFromEnvOrThrow() {
-  if (!process.env.nickprovs_apiPort) throw new Error("Must set nickprovs_apiPort environment variable");
-
+function getApiPortFromEnvOrOptionallyThrow(shouldThrowOnFail) {
+  if (!process.env.nickprovs_apiPort && shouldThrowOnFail) throw new Error("Must set nickprovs_apiPort environment variable");
   return process.env.nickprovs_apiPort;
 }
