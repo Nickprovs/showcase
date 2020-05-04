@@ -1,7 +1,9 @@
 import asyncUtilities from "../util/asyncUtilities";
 import fetch from "isomorphic-unfetch";
-import { APIURL } from "../util/constants";
-import { Component } from "react";
+import getConfig from "next/config";
+
+const { publicRuntimeConfig } = getConfig();
+const APIURL = `${publicRuntimeConfig.apiProtocol}://${publicRuntimeConfig.apiAddress}:${publicRuntimeConfig.apiPort}`;
 
 const PHOTOSAPIURL = `${APIURL}/photos`;
 const PHOTOCATEGORIESURL = `${APIURL}/photoCategories`;

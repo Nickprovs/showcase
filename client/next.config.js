@@ -1,4 +1,5 @@
 const { PHASE_DEVELOPMENT_SERVER } = require("next/constants");
+const fileSystem = require("fs");
 
 module.exports = (phase, { defaultConfig }) => {
   return {
@@ -23,16 +24,29 @@ module.exports = (phase, { defaultConfig }) => {
 
 function getPublicRuntimeConfig(phase) {
   if (phase === PHASE_DEVELOPMENT_SERVER) {
+    //Parse a dev config if it exists
+    let devConfig = null;
+    let devConfigFilePath = "./config/development.json";
+    let devConfigFileExists = fileSystem.existsSync(devConfigFilePath) && fileSystem.lstatSync(devConfigFilePath).isFile();
+    if (devConfigFileExists) {
+      let rawDevConfigData = fileSystem.readFileSync("./config/development.json");
+      devConfig = JSON.parse(rawDevConfigData);
+    }
+
     return {
-      apiProtocol: getApiProtocolFromEnvOrOptionallyThrow(false) || "http",
-      apiAddress: getApiAddressFromEnvOrOptionallyThrow(false) || "localhost",
-      apiPort: getApiPortFromEnvOrOptionallyThrow(false) || "8080",
+      apiProtocol: getApiProtocolFromEnvOrOptionallyThrow(!devConfigFileExists) || devConfig.apiProtocol,
+      apiAddress: getApiAddressFromEnvOrOptionallyThrow(!devConfigFileExists) || devConfig.apiAddress,
+      apiPort: getApiPortFromEnvOrOptionallyThrow(!devConfigFileExists) || devConfig.apiPort,
+      recaptchaSiteKey: getApiPortFromEnvOrOptionallyThrow(!devConfigFileExists) || devConfig.recaptchaSiteKey,
     };
   }
+
+  //For all non dev configurations -- only get data from environment
   return {
     apiProtocol: getApiProtocolFromEnvOrOptionallyThrow(true),
     apiAddress: getApiAddressFromEnvOrOptionallyThrow(true),
     apiPort: getApiPortFromEnvOrOptionallyThrow(true),
+    recaptchaSiteKey: getRecaptchaSiteKeyFromEnvOrOptionallyThrow(true),
   };
 }
 
@@ -51,4 +65,10 @@ function getApiAddressFromEnvOrOptionallyThrow(shouldThrowOnFail) {
 function getApiPortFromEnvOrOptionallyThrow(shouldThrowOnFail) {
   if (!process.env.nickprovs_apiPort && shouldThrowOnFail) throw new Error("Must set nickprovs_apiPort environment variable");
   return process.env.nickprovs_apiPort;
+}
+
+function getRecaptchaSiteKeyFromEnvOrOptionallyThrow(shouldThrowOnFail) {
+  if (!process.env.nickprovs_recaptchaSiteKey && shouldThrowOnFail)
+    throw new Error("Must set nickprovs_recaptchaSiteKey environment variable");
+  return process.env.nickprovs_recaptchaSiteKey;
 }

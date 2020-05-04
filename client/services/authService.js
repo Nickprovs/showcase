@@ -1,6 +1,8 @@
 import fetch from "isomorphic-unfetch";
-import { APIURL } from "../util/constants";
+import getConfig from "next/config";
 
+const { publicRuntimeConfig } = getConfig();
+const APIURL = `${publicRuntimeConfig.apiProtocol}://${publicRuntimeConfig.apiAddress}:${publicRuntimeConfig.apiPort}`;
 const AUTHURL = `${APIURL}/auth`;
 
 export async function loginAsync(username, password) {
@@ -9,9 +11,9 @@ export async function loginAsync(username, password) {
     method: "post",
     credentials: "include",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({ username: username, password: password })
+    body: JSON.stringify({ username: username, password: password }),
   });
   return res;
 }
@@ -21,8 +23,8 @@ export async function logoutAsync() {
     method: "delete",
     credentials: "include",
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   });
   return res;
 }

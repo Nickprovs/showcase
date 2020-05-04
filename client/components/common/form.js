@@ -7,21 +7,17 @@ import FormHtmlEditor from "./formHtmlEditor";
 import CustomJoi from "../../misc/customJoi";
 import ReCAPTCHA from "react-google-recaptcha";
 import BasicButton from "./basicButton";
+import FormRecaptcha from "./formRecaptcha";
 
 class Form extends Component {
   state = {
     data: {},
     errors: {},
-    captchaInUse: false,
-    captchaPassed: false
   };
 
   constructor() {
     super();
-    this.recaptcha = null;
-    this.setRecaptcha = element => {
-      this.recaptcha = element;
-    };
+    this.recaptchaRef = React.createRef();
   }
 
   validateProperty(name, value) {
@@ -34,28 +30,21 @@ class Form extends Component {
   validate() {
     const options = { abortEarly: false };
     const { error } = this.schema.validate(this.state.data, options);
-    const { captchaPassed, captchaInUse } = this.state;
 
     const errors = {};
     if (error) {
       for (let item of error.details) errors[item.path[0]] = item.message;
     }
 
-    const captchaValid = !captchaInUse || captchaPassed;
-    const isValid = Object.entries(errors).length === 0 && captchaValid;
+    const isValid = Object.entries(errors).length === 0;
     return { isValid: isValid, errors: errors };
   }
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
     const validationResult = this.validate();
     this.setState({ errors: validationResult.errors || {} });
     if (!validationResult.isValid) return;
-
-    if (this.recaptcha) {
-      this.recaptcha.reset();
-      this.setState({ captchaPassed: false });
-    }
     this.doSubmit();
   };
 
@@ -140,14 +129,16 @@ class Form extends Component {
   }
 
   renderHtmlEditor(name, label) {
-    //When doing client-side nav... the next head sometimes doesn't contain the script right away. So be sure to server-side nav to 
+    //When doing client-side nav... the next head sometimes doesn't contain the script right away. So be sure to server-side nav to
     //This may be fixed with RFC $8981 in the future
-    if(typeof(document) !== "undefined"){
-      if(document.querySelectorAll(`script[src="/static/scripts/tinymce/tinymce.min.js"]`).length < 1)
-        throw new Error("Must import tinymce.min.js script in head of html file. \n" +
-                        "Could also be due to next.js client side rendering head issue. \n" +
-                        "Workaround in that case: Redirect to server with <a/> instead of <Link/>. \n" +
-                        "See next.js RFC $8981 for status of this issue.");
+    if (typeof document !== "undefined") {
+      if (document.querySelectorAll(`script[src="/static/scripts/tinymce/tinymce.min.js"]`).length < 1)
+        throw new Error(
+          "Must import tinymce.min.js script in head of html file. \n" +
+            "Could also be due to next.js client side rendering head issue. \n" +
+            "Workaround in that case: Redirect to server with <a/> instead of <Link/>. \n" +
+            "See next.js RFC $8981 for status of this issue."
+        );
     }
 
     return (
@@ -161,21 +152,23 @@ class Form extends Component {
     );
   }
 
-  onCaptchaChange(value) {
-    this.setState({ captchaPassed: value !== null });
-  }
-
-  renderRecaptcha() {
-    if (!this.state.captchaInUse) this.setState({ captchaInUse: true });
+  renderRecaptcha(name, label, sitekey) {
     return (
-      <ReCAPTCHA
-        ref={this.setRecaptcha}
-        style={{ marginTop: "10px" }}
-        size="normal"
-        onChange={value => this.onCaptchaChange(value)}
-        sitekey="6LdhjtcUAAAAAOIfWZRUu81PNIRcau2OouRlLQn7"
+      <FormRecaptcha
+        ref={this.recaptchaRef}
+        name={name}
+        label={label}
+        onChange={(value) => this.handleChange(name, value, "captcha")}
+        sitekey={sitekey}
       />
     );
+  }
+
+  resetRecaptcha() {
+    if (!this.recaptchaRef.current) return;
+
+    this.recaptchaRef.current.reset();
+    this.recaptchaRef.current.props.onChange("");
   }
 }
 

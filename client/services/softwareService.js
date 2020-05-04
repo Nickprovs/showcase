@@ -1,6 +1,8 @@
 import fetch from "isomorphic-unfetch";
-import { APIURL } from "../util/constants";
+import getConfig from "next/config";
 
+const { publicRuntimeConfig } = getConfig();
+const APIURL = `${publicRuntimeConfig.apiProtocol}://${publicRuntimeConfig.apiAddress}:${publicRuntimeConfig.apiPort}`;
 const SOFTWAREAPIURL = `${APIURL}/software`;
 const SOFTWARECATEGORIESAPIURL = `${APIURL}/softwareCategories`;
 

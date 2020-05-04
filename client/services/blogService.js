@@ -1,7 +1,9 @@
 import asyncUtilities from "../util/asyncUtilities";
 import fetch from "isomorphic-unfetch";
-import { APIURL } from "../util/constants";
+import getConfig from "next/config";
+const { publicRuntimeConfig } = getConfig();
 
+const APIURL = `${publicRuntimeConfig.apiProtocol}://${publicRuntimeConfig.apiAddress}:${publicRuntimeConfig.apiPort}`;
 const BLOGSAPIURL = `${APIURL}/articles`;
 const BLOGGENRESAPIURL = `${APIURL}/articleCategories`;
 
@@ -22,40 +24,40 @@ export async function getBlogAsync(blogIdOrSlug) {
   return res;
 }
 
-export async function createBlogAsync(blog){
+export async function createBlogAsync(blog) {
   const res = await fetch(BLOGSAPIURL, {
     method: "post",
     credentials: "include",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(blog)
+    body: JSON.stringify(blog),
   });
   return res;
 }
 
-export async function updateBlogAsync(blog){
-  const body = {...blog};
+export async function updateBlogAsync(blog) {
+  const body = { ...blog };
   delete body._id;
 
   const res = await fetch(`${BLOGSAPIURL}/${blog._id}`, {
     method: "put",
     credentials: "include",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
   });
   return res;
 }
 
-export async function deleteBlogAsync(blogId){
-  const res = await fetch(`${BLOGSAPIURL}/${blogId}` , {
+export async function deleteBlogAsync(blogId) {
+  const res = await fetch(`${BLOGSAPIURL}/${blogId}`, {
     method: "delete",
     credentials: "include",
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   });
   return res;
 }
@@ -71,41 +73,41 @@ export async function getBlogCategoriesAsync() {
   return res;
 }
 
-export async function createBlogCategoryAsync(name, slug){
+export async function createBlogCategoryAsync(name, slug) {
   const res = await fetch(BLOGGENRESAPIURL, {
     method: "post",
     credentials: "include",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({ name: name, slug: slug })
+    body: JSON.stringify({ name: name, slug: slug }),
   });
   return res;
 }
 
-export async function updateBlogCategoryAsync(category){
-  const body = {...category};
+export async function updateBlogCategoryAsync(category) {
+  const body = { ...category };
   delete body._id;
 
   const res = await fetch(`${BLOGGENRESAPIURL}/${category._id}`, {
     method: "put",
     credentials: "include",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
   });
   return res;
 }
 
-export async function deleteBlogCategoryAsync(blogCategoryId){
-  console.log("Making request to", `${BLOGGENRESAPIURL}/${blogCategoryId}`)
-  const res = await fetch(`${BLOGGENRESAPIURL}/${blogCategoryId}` , {
+export async function deleteBlogCategoryAsync(blogCategoryId) {
+  console.log("Making request to", `${BLOGGENRESAPIURL}/${blogCategoryId}`);
+  const res = await fetch(`${BLOGGENRESAPIURL}/${blogCategoryId}`, {
     method: "delete",
     credentials: "include",
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   });
   return res;
 }

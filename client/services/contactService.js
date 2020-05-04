@@ -3,21 +3,16 @@ import getConfig from "next/config";
 
 const { publicRuntimeConfig } = getConfig();
 const APIURL = `${publicRuntimeConfig.apiProtocol}://${publicRuntimeConfig.apiAddress}:${publicRuntimeConfig.apiPort}`;
+const CONTACTURL = `${APIURL}/contact`;
 
-const MEURL = `${APIURL}/me`;
-
-export async function getCurrentUserAsync(context) {
-  const fetchRequest = {
-    method: "get",
+export async function contactAsync(contactData) {
+  const res = await fetch(CONTACTURL, {
+    method: "post",
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
-  };
-
-  //If this is a SSR request
-  if (context.req) fetchRequest.headers.Cookie = context.req.headers.cookie;
-
-  const res = await fetch(MEURL, fetchRequest);
+    body: JSON.stringify(contactData),
+  });
   return res;
 }
