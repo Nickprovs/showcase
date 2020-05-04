@@ -1,5 +1,6 @@
 const auth = require("../routes/auth");
 const me = require("../routes/me");
+const contact = require("../routes/contact");
 const categories = require("../routes/common/categories");
 const articles = require("../routes/common/articles");
 const photos = require("../routes/photo");
@@ -16,6 +17,7 @@ const { VideoCategoryModel, joiSchema: joiVideoCategorySchema } = require("../mo
 module.exports = function (app) {
   app.use("/auth", auth);
   app.use("/me", me);
+  app.use("/contact", contact);
 
   app.use("/articles", articles(Article, joiArticleSchema, ArticleCategory));
   app.use("/articleCategories", categories(ArticleCategory, joiArticleCategorySchema));

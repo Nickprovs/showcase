@@ -8,5 +8,14 @@
   "port": "8080",
   "requiresAuth": true,
   "adminUsername": "admin",
-  "adminPassword": "password"
+  "adminPassword": "password",
+  "smtp": {
+    "host": "",
+    "port": "",
+    "displayUsername": "",
+    "authUsername": "",
+    "authPassword": "",
+    "captchaSecret": "",
+    "receiver": ""
+  }
 }
