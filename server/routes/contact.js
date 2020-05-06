@@ -10,6 +10,7 @@ const config = require("config");
 const smtpInfo = config.get("smtp");
 if (!smtpInfo.host || !smtpInfo.port || !smtpInfo.authUsername || !smtpInfo.authPassword)
   throw new Error("SMTP Info not all set in configuration.");
+if (!smtpInfo.captchaSecret) throw new Error("Captcha Secret also needs to be set as part of smtpInfo");
 
 // create reusable transporter object using the default SMTP transport
 const transporter = nodemailer.createTransport({
@@ -23,20 +24,24 @@ const transporter = nodemailer.createTransport({
 });
 
 router.post("/", validateBody(contactSchema), async (req, res) => {
-  //Validate captcha from form to avoid spam
-  console.log(req.body);
+  //Validate the captcha
   try {
-    let captchaRes = await fetch("https://www.google.com/recaptcha/api/siteverify", {
-      method: "post",
-      body: JSON.stringify({
-        secret: "1233",
-        response: "123",
-      }),
-      headers: { "Content-Type": "application/json" },
-    });
-    console.log("captcha res", captchaRes.status);
+    let captchaValidationRes = await fetch(
+      `https://www.google.com/recaptcha/api/siteverify?secret=${smtpInfo.captchaSecret}&response=${req.body.captcha}`,
+      {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    let captchaValidation = await captchaValidationRes.json();
+    if (captchaValidation.success == false) {
+      let reason = "error-codes" in captchaValidation ? captchaValidation["error-codes"].join(" ") : "Unknown";
+      res.status(400).send(`Captcha not valid. Reason - ${reason}`);
+      return;
+    }
   } catch (ex) {
     console.log("ERROR VALIDATING CAPTCHA", ex);
+    res.status(500).send(`Error validating captcha - ${ex.message}`);
   }
 
   //Send mail
@@ -47,12 +52,11 @@ router.post("/", validateBody(contactSchema), async (req, res) => {
     await transporter.sendMail({
       from: `"${smtpInfo.displayUsername}" <${smtpInfo.authUsername}>`, // sender address
       to: `${smtpInfo.receiver}`, // list of receivers
-      subject: "Hello ✔", // Subject line
-      text: "Hello world?", // plain text body
-      html: "<b>Hello world?</b>", // html body
+      subject: `Showcase Site Mail - ${req.body.name}`, // Subject line
+      text: `${req.body.message} \n\n - Reply To ${req.body.email}`, // plain text body
     });
   } catch (ex) {
-    console.log("error sending mail", ex.message);
+    console.log("ERROR SENDING MAIL", ex);
     res.send(ex.message);
     return;
   }
