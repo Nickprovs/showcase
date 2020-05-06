@@ -26,7 +26,6 @@ class Contact extends Form {
 
   doSubmit = async () => {
     let contactData = { ...this.state.data };
-    contactData.captcha = "12345";
 
     let res = null;
     //Try and post the new category
