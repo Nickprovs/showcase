@@ -9,10 +9,14 @@ const BLOGGENRESAPIURL = `${APIURL}/articleCategories`;
 
 export async function getBlogsAsync(options) {
   let query = "";
-  if (options.limit) query += query ? `&limit=${options.limit}` : `?limit=${options.limit}`;
-  if (options.offset) query += query ? `&offset=${options.offset}` : `?offset=${options.offset}`;
-  if (options.search) query += query ? `&search=${options.search}` : `?search=${options.search}`;
-  if (options.category) query += query ? `&category=${options.category}` : `?category=${options.category}`;
+
+  if (options) {
+    if (options.limit) query += query ? `&limit=${options.limit}` : `?limit=${options.limit}`;
+    if (options.offset) query += query ? `&offset=${options.offset}` : `?offset=${options.offset}`;
+    if (options.search) query += query ? `&search=${options.search}` : `?search=${options.search}`;
+    if (options.category) query += query ? `&category=${options.category}` : `?category=${options.category}`;
+    if (options.dateOrder) query += query ? `&dateOrder=${options.dateOrder}` : `?dateOrder=${options.category}`;
+  }
 
   const res = await fetch(BLOGSAPIURL + query);
   return res;
