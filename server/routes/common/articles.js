@@ -9,6 +9,8 @@ const ValidationUtilities = require("../../util/validationUtilities");
 const validateVariableId = require("../../middleware/validateVariableId");
 const getAllQuerySchema = require("../schemas/queries/articles/getAllQuery");
 const winston = require("winston");
+const { FeaturedModel } = require("../../models/featured");
+const changeFeaturedArticleSchema = require("../schemas/body/featured/put/changeFeaturedArticle");
 
 module.exports = function (ArticleModel, articleJoiSchema, ArticleCategoryModel) {
   const router = express.Router();
@@ -136,6 +138,54 @@ module.exports = function (ArticleModel, articleJoiSchema, ArticleCategoryModel)
     if (!article) return res.status(404).send("The article with the given ID or Slug was not found.");
 
     res.send(article);
+  });
+
+  router.put("/featured", [auth, admin, validateBody(changeFeaturedArticleSchema)], async (req, res) => {
+    //Make sure that article actually exists
+    const matchingArticle = await ArticleModel.findOne({ _id: req.body.articleId }).select("-__v");
+    if (!matchingArticle) return res.status(400).send("Invalid article id.");
+
+    //Change the featured article id
+    const featured = await FeaturedModel.findOne();
+    featured.articleId = req.body.articleId;
+    await featured.save();
+
+    //The updated article
+    const data = {
+      article: matchingArticle,
+    };
+
+    //Return the newly featured article
+    res.send(data);
+  });
+
+  router.delete("/featured", [auth, admin], async (req, res) => {
+    //The return -- null -- null unless there's already a featured article.
+    let data = {
+      article: null,
+    };
+
+    //Check existing featured article -- if there's none -- job done
+    const featured = await FeaturedModel.findOne();
+    featured.articleId = req.body.articleId;
+    if (!featured.articleId) {
+      return res.send(data);
+    }
+
+    //If there's an existing featured article -- grab it.
+    const matchingArticle = await ArticleModel.findOne({ _id: req.body.articleId });
+    if (!matchingArticle) {
+      return res.send(data);
+    }
+
+    //Delete featured article
+    featured.articleId = null;
+    await featured.save();
+
+    data.article = matchingArticle;
+
+    //Return the newly featured article
+    res.send(data);
   });
 
   return router;
