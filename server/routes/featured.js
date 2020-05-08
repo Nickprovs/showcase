@@ -6,7 +6,10 @@ const validateBody = require("../middleware/validateBody");
 const validateQuery = require("../middleware/validateQuery");
 const validateObjectId = require("../middleware/validateObjectId");
 const getAllQuerySchema = require("./schemas/queries/photo/getAllQuery");
+
+const { Article } = require("../models/article");
 const { FeaturedModel, joiSchema: joiFeaturedModel } = require("../models/featured");
+const changeFeaturedArticleSchema = require("./schemas/body/featured/put/changeFeaturedArticle");
 const ValidationUtilities = require("../util/validationUtilities");
 const winston = require("winston");
 
@@ -15,17 +18,58 @@ module.exports = function () {
 
   router.get("/", async (req, res) => {
     const featured = await FeaturedModel.findOne();
-    res.send(featured);
+    const article = await Article.findOne({ _id: featured.articleId });
+
+    const data = {
+      article: article,
+    };
+    res.send(data);
   });
 
-  router.put("/video", auth, admin, async (req, res) => {
-    //TODO: Validate query (should have videoId in body)
-    //TODO: Check if item exists in native table
-    //
+  router.put("/article", auth, admin, validateBody(changeFeaturedArticleSchema), async (req, res) => {
+    //Make sure that article actually exists
+    const matchingArticle = await Article.findOne({ _id: req.body.articleId });
+    if (!matchingArticle) return res.status(400).send("Invalid article id.");
 
+    //Change the featured article id
     const featured = await FeaturedModel.findOne();
-    featured.videoId = req.body.videoId;
-    res.send(featured);
+    featured.articleId = req.body.articleId;
+    await featured.save();
+
+    //The updated article
+    const data = {
+      article: matchingArticle,
+    };
+
+    //Return the newly featured article
+    res.send(data);
+  });
+
+  router.delete("/article", auth, admin, async (req, res) => {
+    //The return -- null -- null unless there's already a featured article.
+    let data = {
+      article: null,
+    };
+
+    //Check existing featured article -- if there's none -- job done
+    const featured = await FeaturedModel.findOne();
+    featured.articleId = req.body.articleId;
+    if (!featured.articleId) {
+      return res.send(data);
+    }
+
+    //If there's an existing featured article -- grab it.
+    const matchingArticle = await Article.findOne({ _id: req.body.articleId });
+    if (!matchingArticle) {
+      return res.send(data);
+    }
+
+    //Delete featured article
+    featured.articleId = null;
+    await featured.save();
+
+    //Return the newly featured article
+    res.send(matchingArticle);
   });
 
   return router;
