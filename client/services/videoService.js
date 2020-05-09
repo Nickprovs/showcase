@@ -6,6 +6,7 @@ const APIURL = `${publicRuntimeConfig.apiProtocol}://${publicRuntimeConfig.apiAd
 
 const PHOTOSAPIURL = `${APIURL}/videos`;
 const PHOTOCATEGORIESURL = `${APIURL}/videoCategories`;
+const FEATUREDVIDEOSAPIURL = `${APIURL}/featured/video`;
 
 export async function getVideosAsync(options) {
   let query = "";
@@ -107,6 +108,40 @@ export async function updateVideoCategoryAsync(category) {
 export async function deleteVideoCategoryAsync(videoCategoryId) {
   console.log("Making request to", `${PHOTOCATEGORIESURL}/${videoCategoryId}`);
   const res = await fetch(`${PHOTOCATEGORIESURL}/${videoCategoryId}`, {
+    method: "delete",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return res;
+}
+
+export async function getFeaturedVideoAsync() {
+  const res = await fetch(`${FEATUREDVIDEOSAPIURL}`, {
+    method: "get",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return res;
+}
+
+export async function updateFeaturedVideoAsync(updated) {
+  const res = await fetch(`${FEATUREDVIDEOSAPIURL}`, {
+    method: "put",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updated),
+  });
+  return res;
+}
+
+export async function deleteFeaturedVideoAsync() {
+  const res = await fetch(`${FEATUREDVIDEOSAPIURL}`, {
     method: "delete",
     credentials: "include",
     headers: {

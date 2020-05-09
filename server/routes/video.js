@@ -8,6 +8,7 @@ const validateObjectId = require("../middleware/validateObjectId");
 const getAllQuerySchema = require("./schemas/queries/video/getAllQuery");
 const { VideoModel, joiSchema: joiVideoSchema } = require("../models/video");
 const { VideoCategoryModel } = require("../models/videoCategory");
+const { FeaturedModel } = require("../models/featured");
 const ValidationUtilities = require("../util/validationUtilities");
 
 const winston = require("winston");
@@ -54,6 +55,11 @@ module.exports = function () {
       .limit(limit)
       .collation({ locale: "en", strength: 2 });
 
+    //Check for a featured video
+    let featuredVideo = null;
+    const featured = await FeaturedModel.findOne();
+    if (featured.videoId) featuredVideo = await VideoModel.findOne({ _id: featured.videoId });
+
     const data = {
       offset: offset,
       limit: limit,
@@ -61,6 +67,7 @@ module.exports = function () {
       total: total,
       search: search,
       items: videos,
+      featured: featuredVideo,
     };
 
     res.send(data);

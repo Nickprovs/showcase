@@ -60,8 +60,6 @@ module.exports = function () {
     const featured = await FeaturedModel.findOne();
     if (featured.photoId) featuredPhoto = await PhotoModel.findOne({ _id: featured.photoId });
 
-    console.log(featuredPhoto);
-
     const data = {
       offset: offset,
       limit: limit,

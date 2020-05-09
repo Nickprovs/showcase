@@ -2,7 +2,14 @@ import Layout from "../../components/layout";
 import videoStyles from "../../styles/video.module.css";
 import withAuthAsync from "../../components/common/withAuthAsync";
 import { Component } from "react";
-import { getVideosAsync, deleteVideoAsync, getVideoCategoriesAsync, deleteVideoCategoryAsync } from "../../services/videoService";
+import {
+  getVideosAsync,
+  deleteVideoAsync,
+  getVideoCategoriesAsync,
+  deleteVideoCategoryAsync,
+  deleteFeaturedVideoAsync,
+  updateFeaturedVideoAsync,
+} from "../../services/videoService";
 import CommonPageHeaderControls from "../../components/common/commonPageHeaderControls";
 import Router from "next/router";
 import Link from "next/link";
@@ -26,13 +33,6 @@ const RemoveVideoToast = ({ closeToast, video, onRemoveVideoAsync }) => (
 );
 
 class Video extends Component {
-  static async getInitialProps(context) {
-    const res = await getVideosAsync();
-    return {
-      videos: res.videos,
-    };
-  }
-
   static async getInitialProps(context) {
     let pageQueryParam = context.query.page ? parseInt(context.query.page) : 1;
     let searchQueryParam = context.query.search ? context.query.search : "";
@@ -68,6 +68,7 @@ class Video extends Component {
 
     return {
       videos: videos.items,
+      featured: videos.featured,
       currentPage: page,
       totalVideosCount: videos.total,
       initialSearchProp: search,
@@ -84,6 +85,7 @@ class Video extends Component {
   state = {
     searchText: "",
     videos: [],
+    featured: null,
     totalVideosCount: 0,
     currentPage: 1,
     categories: [],
@@ -91,7 +93,7 @@ class Video extends Component {
   };
 
   componentDidMount() {
-    const { videos, categories, currentPage, totalVideosCount, initialSearchProp } = this.props;
+    const { videos, featured, categories, currentPage, totalVideosCount, initialSearchProp } = this.props;
 
     //Get the current category
     let currentCategory = categories.filter((c) => c.slug === Router.query.category)[0];
@@ -99,6 +101,7 @@ class Video extends Component {
 
     this.setState({ currentCategory: currentCategory });
     this.setState({ videos: videos });
+    this.setState({ featured: featured });
     this.setState({ currentPage: currentPage });
     this.setState({ totalVideosCount: totalVideosCount });
     this.setState({ initialSearchProp: initialSearchProp });
@@ -106,9 +109,10 @@ class Video extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { videos, currentPage, categories, totalVideosCount } = this.props;
+    const { videos, featured, currentPage, categories, totalVideosCount } = this.props;
     const { currentCategory } = this.state;
 
+    if (prevProps.featured !== featured) this.setState({ featured });
     if (prevProps.videos !== videos) this.setState({ videos });
     if (prevProps.currentPage !== currentPage) this.setState({ currentPage });
     if (prevProps.totalVideosCount !== totalVideosCount) this.setState({ totalVideosCount });
@@ -218,6 +222,38 @@ class Video extends Component {
     this.setState({ categories });
   }
 
+  async handleToggleFeaturedVideo(video) {
+    const { featured: originalFeatured } = this.state;
+
+    //Try to update the featured video... update ui right away for responsiveness... revert back if issue.
+    let res = null;
+    try {
+      if (originalFeatured && originalFeatured._id === video._id) {
+        res = await deleteFeaturedVideoAsync();
+        this.setState({ featured: null });
+      } else {
+        res = await updateFeaturedVideoAsync({ videoId: video._id });
+        let featuredVideoRes = await res.json();
+        this.setState({ featured: featuredVideoRes.video });
+      }
+    } catch (ex) {
+      let errorMessage = `Error: ${ex}`;
+      console.log(errorMessage);
+      this.setState({ featured: originalFeatured });
+      toast.error(errorMessage);
+      return;
+    }
+    if (!res.ok) {
+      let body = "";
+      body = await res.text();
+      let errorMessage = `Error: ${res.status} - ${body}`;
+      console.log(errorMessage);
+      this.setState({ featured: originalFeatured });
+      toast.error(errorMessage);
+      return;
+    }
+  }
+
   getEmptyVideoSectionMarkup() {
     return (
       <div style={{ textAlign: "center" }}>
@@ -231,7 +267,7 @@ class Video extends Component {
 
   render() {
     const { user } = this.props;
-    const { videos, totalVideosCount, currentPage, searchText, categories, currentCategory } = this.state;
+    const { videos, featured, totalVideosCount, currentPage, searchText, categories, currentCategory } = this.state;
 
     //If we have no videos to display for this route...
     let markupBody;
@@ -244,6 +280,9 @@ class Video extends Component {
               {/*Admin Controls*/}
               {user && user.isAdmin && (
                 <div className={videoStyles.adminOptions}>
+                  <TransparentButton onClick={async () => await this.handleToggleFeaturedVideo(video)} style={{ color: "var(--f1)" }}>
+                    <Icon className={featured && video._id === featured._id ? "fas fa-star" : "far fa-star"}></Icon>
+                  </TransparentButton>
                   {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
                   <a href={`video/edit/video/${video._id}`}>
                     <TransparentButton style={{ color: "var(--f1)" }}>

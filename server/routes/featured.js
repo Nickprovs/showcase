@@ -4,18 +4,16 @@ const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 const validateBody = require("../middleware/validateBody");
 const validateQuery = require("../middleware/validateQuery");
-const validateObjectId = require("../middleware/validateObjectId");
-const getAllQuerySchema = require("./schemas/queries/photo/getAllQuery");
-
+const { FeaturedModel, joiSchema: joiFeaturedModel } = require("../models/featured");
 const { Article: ArticleModel } = require("../models/article");
 const { Software: SoftwareModel } = require("../models/software");
 const { PhotoModel } = require("../models/photo");
-const { FeaturedModel, joiSchema: joiFeaturedModel } = require("../models/featured");
-const ValidationUtilities = require("../util/validationUtilities");
-const winston = require("winston");
+const { VideoModel } = require("../models/video");
 const changeFeaturedArticleSchema = require("./schemas/body/featured/put/changeFeaturedArticle");
 const changeFeaturedSoftwareSchema = require("./schemas/body/featured/put/changeFeaturedSoftware");
 const changeFeaturedPhotoSchema = require("./schemas/body/featured/put/changeFeaturedPhoto");
+const changeFeaturedVideoSchema = require("./schemas/body/featured/put/changeFeaturedVideo");
+const winston = require("winston");
 
 module.exports = function () {
   const router = express.Router();
@@ -196,6 +194,62 @@ module.exports = function () {
 
     //Return what was deleted
     data.photo = matchingPhoto;
+    res.send(data);
+  });
+
+  router.get("/video", async (req, res) => {
+    //The return -- null -- unless there's a featured video.
+    let data = {
+      video: null,
+    };
+
+    //Check existing featured video -- if there's none -- job done
+    const featured = await FeaturedModel.findOne();
+    if (!featured.videoId) return res.send(data);
+
+    //If there's an existing featured video -- grab it.
+    const matchingVideo = await VideoModel.findOne({ _id: featured.videoId });
+    if (!matchingVideo) return res.send(data);
+
+    //Return the newly featured video
+    data.video = matchingVideo;
+    res.send(data);
+  });
+
+  router.put("/video", [auth, admin, validateBody(changeFeaturedVideoSchema)], async (req, res) => {
+    //Make sure that video actually exists
+    const matchingVideo = await VideoModel.findOne({ _id: req.body.videoId }).select("-__v");
+    if (!matchingVideo) return res.status(400).send("Invalid video id.");
+
+    //Change the featured video id
+    const featured = await FeaturedModel.findOne();
+    featured.videoId = req.body.videoId;
+    await featured.save();
+
+    //Return updated video
+    const data = {
+      video: matchingVideo,
+    };
+    res.send(data);
+  });
+
+  router.delete("/video", [auth, admin], async (req, res) => {
+    //The return will be the featured video if it exists.
+    let data = {
+      video: null,
+    };
+
+    //Check existing featured video -- if there's none -- job done
+    const featured = await FeaturedModel.findOne();
+    if (!featured.videoId) return res.send(data);
+    const matchingVideo = await VideoModel.findOne({ _id: featured.videoId });
+
+    //Deletion
+    featured.videoId = null;
+    await featured.save();
+
+    //Return what was deleted
+    data.video = matchingVideo;
     res.send(data);
   });
 
