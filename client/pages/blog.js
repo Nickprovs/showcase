@@ -214,7 +214,7 @@ class Blog extends Component {
     let res = null;
     try {
       if (originalFeatured && originalFeatured._id === article._id) {
-        await deleteFeaturedBlogAsync();
+        res = await deleteFeaturedBlogAsync();
         this.setState({ featured: null });
       } else {
         res = await updateFeaturedBlogAsync({ articleId: article._id });

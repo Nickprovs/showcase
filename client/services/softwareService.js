@@ -5,6 +5,7 @@ const { publicRuntimeConfig } = getConfig();
 const APIURL = `${publicRuntimeConfig.apiProtocol}://${publicRuntimeConfig.apiAddress}:${publicRuntimeConfig.apiPort}`;
 const SOFTWAREAPIURL = `${APIURL}/software`;
 const SOFTWARECATEGORIESAPIURL = `${APIURL}/softwareCategories`;
+const FEATUREDSOFTWAREAPIURL = `${APIURL}/featured/software`;
 
 export async function getSoftwaresAsync(options) {
   let query = "";
@@ -106,6 +107,40 @@ export async function updateSoftwareCategoryAsync(category) {
 export async function deleteSoftwareCategoryAsync(softwareCategoryId) {
   console.log("Making request to", `${SOFTWARECATEGORIESAPIURL}/${softwareCategoryId}`);
   const res = await fetch(`${SOFTWARECATEGORIESAPIURL}/${softwareCategoryId}`, {
+    method: "delete",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return res;
+}
+
+export async function getFeaturedSoftwareAsync() {
+  const res = await fetch(`${FEATUREDSOFTWAREAPIURL}`, {
+    method: "get",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return res;
+}
+
+export async function updateFeaturedSoftwareAsync(updated) {
+  const res = await fetch(`${FEATUREDSOFTWAREAPIURL}`, {
+    method: "put",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updated),
+  });
+  return res;
+}
+
+export async function deleteFeaturedSoftwareAsync() {
+  const res = await fetch(`${FEATUREDSOFTWAREAPIURL}`, {
     method: "delete",
     credentials: "include",
     headers: {

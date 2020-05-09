@@ -129,7 +129,6 @@ export async function getFeaturedBlogAsync() {
 }
 
 export async function updateFeaturedBlogAsync(updated) {
-  console.log("updated", updated);
   const res = await fetch(`${FEATUREDBLOGSAPIURL}`, {
     method: "put",
     credentials: "include",

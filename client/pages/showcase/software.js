@@ -10,6 +10,8 @@ import {
   deleteSoftwareAsync,
   getSoftwareCategoriesAsync,
   deleteSoftwareCategoryAsync,
+  updateFeaturedSoftwareAsync,
+  deleteFeaturedSoftwareAsync,
 } from "../../services/softwareService";
 
 const pageSize = 6;
@@ -50,6 +52,7 @@ class Software extends Component {
 
     return {
       previews: software.items,
+      featured: software.featured,
       currentPage: page,
       totalSoftwaresCount: software.total,
       initialSearchProp: search,
@@ -60,6 +63,7 @@ class Software extends Component {
   state = {
     searchText: "",
     previews: [],
+    featured: null,
     totalSoftwaresCount: 0,
     currentPage: 1,
     categories: [],
@@ -82,7 +86,7 @@ class Software extends Component {
   }
 
   componentDidMount() {
-    const { previews, categories, currentPage, totalSoftwaresCount, initialSearchProp } = this.props;
+    const { previews, featured, categories, currentPage, totalSoftwaresCount, initialSearchProp } = this.props;
 
     //Get the current category
     let currentCategory = categories.filter((c) => c.slug === Router.query.category)[0];
@@ -90,6 +94,7 @@ class Software extends Component {
 
     this.setState({ currentCategory: currentCategory });
     this.setState({ previews: previews });
+    this.setState({ featured: featured });
     this.setState({ currentPage: currentPage });
     this.setState({ totalSoftwaresCount: totalSoftwaresCount });
     this.setState({ initialSearchProp: initialSearchProp });
@@ -97,9 +102,10 @@ class Software extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { previews, currentPage, categories, totalSoftwaresCount } = this.props;
+    const { previews, featured, currentPage, categories, totalSoftwaresCount } = this.props;
     const { currentCategory } = this.state;
 
+    if (prevProps.featured !== featured) this.setState({ featured });
     if (prevProps.previews !== previews) this.setState({ previews });
     if (prevProps.currentPage !== currentPage) this.setState({ currentPage });
     if (prevProps.totalSoftwaresCount !== totalSoftwaresCount) this.setState({ totalSoftwaresCount });
@@ -201,8 +207,40 @@ class Software extends Component {
     this.setState({ categories });
   }
 
+  async handleToggleFeaturedArticle(article) {
+    const { featured: originalFeatured } = this.state;
+
+    //Try to update the featured article... update ui right away for responsiveness... revert back if issue.
+    let res = null;
+    try {
+      if (originalFeatured && originalFeatured._id === article._id) {
+        res = await deleteFeaturedSoftwareAsync();
+        this.setState({ featured: null });
+      } else {
+        res = await updateFeaturedSoftwareAsync({ softwareId: article._id });
+        let featuredArticleRes = await res.json();
+        this.setState({ featured: featuredArticleRes.software });
+      }
+    } catch (ex) {
+      let errorMessage = `Error: ${ex}`;
+      console.log(errorMessage);
+      this.setState({ featured: originalFeatured });
+      toast.error(errorMessage);
+      return;
+    }
+    if (!res.ok) {
+      let body = "";
+      body = await res.text();
+      let errorMessage = `Error: ${res.status} - ${body}`;
+      console.log(errorMessage);
+      this.setState({ featured: originalFeatured });
+      toast.error(errorMessage);
+      return;
+    }
+  }
+
   render() {
-    const { previews, categories, currentPage, totalSoftwaresCount, currentCategory, searchText } = this.state;
+    const { previews, featured, categories, currentPage, totalSoftwaresCount, currentCategory, searchText } = this.state;
     const { user } = this.props;
 
     return (
@@ -224,7 +262,9 @@ class Software extends Component {
           mainPagePath="showcase/software"
           mainContentType="article"
           previews={previews}
+          featured={featured}
           onRemoveArticleAsync={async (article) => await this.handleRemoveArticle(article)}
+          onToggleFeaturedArticleAsync={async (article) => await this.handleToggleFeaturedArticle(article)}
           currentPage={currentPage}
           totalSoftwaresCount={totalSoftwaresCount}
           pageSize={pageSize}

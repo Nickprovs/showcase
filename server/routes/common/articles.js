@@ -57,7 +57,7 @@ module.exports = function (ArticleModel, articleJoiSchema, ArticleCategoryModel,
     let featuredArticle = null;
     const featured = await FeaturedModel.findOne();
     let featuredArticleId = featured[`${typeName}Id`];
-    if (featuredArticleId) featuredArticle = await ArticleModel.findOne({ _id: featured.articleId });
+    if (featuredArticleId) featuredArticle = await ArticleModel.findOne({ _id: featuredArticleId });
 
     const data = {
       offset: offset,
