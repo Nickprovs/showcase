@@ -5,7 +5,7 @@ const { publicRuntimeConfig } = getConfig();
 const APIURL = `${publicRuntimeConfig.apiProtocol}://${publicRuntimeConfig.apiAddress}:${publicRuntimeConfig.apiPort}`;
 const FEATUREDAPIURL = `${APIURL}/featured`;
 
-export async function getFeaturedAsync(options) {
-  const res = await fetch(FEATUREDAPIURL + query);
+export async function getFeaturedAsync() {
+  const res = await fetch(FEATUREDAPIURL);
   return res;
 }

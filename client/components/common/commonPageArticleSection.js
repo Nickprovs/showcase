@@ -45,8 +45,8 @@ class CommonPageArticleSection extends Component {
   }
 
   render() {
-    const { user, mainPagePath, previews } = this.props;
-    const { onRemoveArticleAsync } = this.props;
+    const { user, mainPagePath, previews, featured } = this.props;
+    const { onToggleFeaturedArticleAsync, onRemoveArticleAsync } = this.props;
     const { currentPage, totalBlogsCount, pageSize } = this.props;
 
     //If we have no articles to display for this route...
@@ -60,13 +60,15 @@ class CommonPageArticleSection extends Component {
               {/*Admin Controls*/}
               {user && user.isAdmin && (
                 <div className={articleSectionStyles.adminOptions}>
+                  <TransparentButton onClick={async () => await onToggleFeaturedArticleAsync(preview)} style={{ color: "var(--f1)" }}>
+                    <Icon className={featured && preview._id === featured._id ? "fas fa-star" : "far fa-star"}></Icon>
+                  </TransparentButton>
                   {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
                   <a href={`/${mainPagePath}/edit/article/${preview._id}`}>
                     <TransparentButton style={{ color: "var(--f1)" }}>
                       <Icon className="fas fa-edit"></Icon>
                     </TransparentButton>
                   </a>
-
                   <TransparentButton
                     onClick={() =>
                       toast.info(

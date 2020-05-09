@@ -5,7 +5,14 @@ import Layout from "../components/layout";
 import CommonPageHeaderControls from "../components/common/commonPageHeaderControls";
 import CommonPageArticleSection from "../components/common/commonPageArticleSection";
 import Router from "next/router";
-import { getBlogsAsync, deleteBlogAsync, getBlogCategoriesAsync, deleteBlogCategoryAsync } from "../services/blogService";
+import {
+  getBlogsAsync,
+  deleteBlogAsync,
+  getBlogCategoriesAsync,
+  deleteBlogCategoryAsync,
+  updateFeaturedBlogAsync,
+  deleteFeaturedBlogAsync,
+} from "../services/blogService";
 
 const pageSize = 6;
 
@@ -45,6 +52,7 @@ class Blog extends Component {
 
     return {
       previews: blogs.items,
+      featured: blogs.featured,
       currentPage: page,
       totalBlogsCount: blogs.total,
       initialSearchProp: search,
@@ -55,6 +63,7 @@ class Blog extends Component {
   state = {
     searchText: "",
     previews: [],
+    featured: null,
     totalBlogsCount: 0,
     currentPage: 1,
     categories: [],
@@ -77,7 +86,7 @@ class Blog extends Component {
   }
 
   componentDidMount() {
-    const { previews, categories, currentPage, totalBlogsCount, initialSearchProp } = this.props;
+    const { previews, featured, categories, currentPage, totalBlogsCount, initialSearchProp } = this.props;
 
     //Get the current category
     let currentCategory = categories.filter((c) => c.slug === Router.query.category)[0];
@@ -85,6 +94,7 @@ class Blog extends Component {
 
     this.setState({ currentCategory: currentCategory });
     this.setState({ previews: previews });
+    this.setState({ featured: featured });
     this.setState({ currentPage: currentPage });
     this.setState({ totalBlogsCount: totalBlogsCount });
     this.setState({ initialSearchProp: initialSearchProp });
@@ -92,9 +102,10 @@ class Blog extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { previews, currentPage, categories, totalBlogsCount } = this.props;
+    const { previews, featured, currentPage, categories, totalBlogsCount } = this.props;
     const { currentCategory } = this.state;
 
+    if (prevProps.featured !== featured) this.setState({ featured });
     if (prevProps.previews !== previews) this.setState({ previews });
     if (prevProps.currentPage !== currentPage) this.setState({ currentPage });
     if (prevProps.totalBlogsCount !== totalBlogsCount) this.setState({ totalBlogsCount });
@@ -196,8 +207,43 @@ class Blog extends Component {
     this.setState({ categories });
   }
 
+  async handleToggleFeaturedArticle(article) {
+    const { featured } = this.state;
+
+    let res = null;
+    let wasDeletion = false;
+    try {
+      if (featured && featured._id === article._id) {
+        res = await deleteFeaturedBlogAsync();
+        wasDeletion = true;
+      } else {
+        res = await updateFeaturedBlogAsync({ articleId: article._id });
+      }
+    } catch (ex) {
+      let errorMessage = `Error: ${ex}`;
+      console.log(errorMessage);
+      toast.error(errorMessage);
+      return;
+    }
+    if (!res.ok) {
+      let body = "";
+      //TODO: Parse Text OR JSON
+      body = await res.text();
+      let errorMessage = `Error: ${res.status} - ${body}`;
+      console.log(errorMessage);
+      toast.error(errorMessage);
+      return;
+    }
+
+    if (wasDeletion) this.setState({ featured: null });
+    else {
+      let featuredArticleRes = await res.json();
+      this.setState({ featured: featuredArticleRes.article });
+    }
+  }
+
   render() {
-    const { previews, categories, currentPage, totalBlogsCount, currentCategory, searchText } = this.state;
+    const { previews, featured, categories, currentPage, totalBlogsCount, currentCategory, searchText } = this.state;
     const { user } = this.props;
 
     return (
@@ -219,7 +265,9 @@ class Blog extends Component {
           mainPagePath="blog"
           mainContentType="Article"
           previews={previews}
+          featured={featured}
           onRemoveArticleAsync={async (article) => await this.handleRemoveArticle(article)}
+          onToggleFeaturedArticleAsync={async (article) => await this.handleToggleFeaturedArticle(article)}
           currentPage={currentPage}
           totalBlogsCount={totalBlogsCount}
           pageSize={pageSize}

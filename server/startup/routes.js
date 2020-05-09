@@ -21,10 +21,10 @@ module.exports = function (app) {
   app.use("/contact", contact);
   app.use("/featured", featured());
 
-  app.use("/articles", articles(Article, joiArticleSchema, ArticleCategory));
+  app.use("/articles", articles(Article, joiArticleSchema, ArticleCategory, "article"));
   app.use("/articleCategories", categories(ArticleCategory, joiArticleCategorySchema));
 
-  app.use("/software", articles(Software, joiSoftwareSchema, SoftwareCategory));
+  app.use("/software", articles(Software, joiSoftwareSchema, SoftwareCategory, "software"));
   app.use("/softwareCategories", categories(SoftwareCategory, joiSoftwareCategorySchema));
 
   app.use("/photos", photos());

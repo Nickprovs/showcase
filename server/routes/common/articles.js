@@ -10,9 +10,8 @@ const validateVariableId = require("../../middleware/validateVariableId");
 const getAllQuerySchema = require("../schemas/queries/articles/getAllQuery");
 const winston = require("winston");
 const { FeaturedModel } = require("../../models/featured");
-const changeFeaturedArticleSchema = require("../schemas/body/featured/put/changeFeaturedArticle");
 
-module.exports = function (ArticleModel, articleJoiSchema, ArticleCategoryModel) {
+module.exports = function (ArticleModel, articleJoiSchema, ArticleCategoryModel, typeName) {
   const router = express.Router();
 
   router.get("/", validateQuery(getAllQuerySchema), async (req, res) => {
@@ -54,6 +53,12 @@ module.exports = function (ArticleModel, articleJoiSchema, ArticleCategoryModel)
       .limit(limit)
       .collation({ locale: "en", strength: 2 });
 
+    //Check for a featured article
+    let featuredArticle = null;
+    const featured = await FeaturedModel.findOne();
+    let featuredArticleId = featured[`${typeName}Id`];
+    if (featuredArticleId) featuredArticle = await ArticleModel.findOne({ _id: featured.articleId });
+
     const data = {
       offset: offset,
       limit: limit,
@@ -61,6 +66,7 @@ module.exports = function (ArticleModel, articleJoiSchema, ArticleCategoryModel)
       total: total,
       search: search,
       items: articles,
+      featured: featuredArticle,
     };
     res.send(data);
   });
@@ -70,7 +76,7 @@ module.exports = function (ArticleModel, articleJoiSchema, ArticleCategoryModel)
     if (req.isIdSlug) article = await ArticleModel.findOne({ slug: req.params.id }).select("-__v");
     else article = await ArticleModel.findById(req.params.id).select("-__v");
 
-    if (!article) return res.status(404).send("The article with the given ID or Slugwas not found.");
+    if (!article) return res.status(404).send("The article with the given ID or Slug was not found.");
     res.send(article);
   });
 
@@ -138,54 +144,6 @@ module.exports = function (ArticleModel, articleJoiSchema, ArticleCategoryModel)
     if (!article) return res.status(404).send("The article with the given ID or Slug was not found.");
 
     res.send(article);
-  });
-
-  router.put("/featured", [auth, admin, validateBody(changeFeaturedArticleSchema)], async (req, res) => {
-    //Make sure that article actually exists
-    const matchingArticle = await ArticleModel.findOne({ _id: req.body.articleId }).select("-__v");
-    if (!matchingArticle) return res.status(400).send("Invalid article id.");
-
-    //Change the featured article id
-    const featured = await FeaturedModel.findOne();
-    featured.articleId = req.body.articleId;
-    await featured.save();
-
-    //The updated article
-    const data = {
-      article: matchingArticle,
-    };
-
-    //Return the newly featured article
-    res.send(data);
-  });
-
-  router.delete("/featured", [auth, admin], async (req, res) => {
-    //The return -- null -- null unless there's already a featured article.
-    let data = {
-      article: null,
-    };
-
-    //Check existing featured article -- if there's none -- job done
-    const featured = await FeaturedModel.findOne();
-    featured.articleId = req.body.articleId;
-    if (!featured.articleId) {
-      return res.send(data);
-    }
-
-    //If there's an existing featured article -- grab it.
-    const matchingArticle = await ArticleModel.findOne({ _id: req.body.articleId });
-    if (!matchingArticle) {
-      return res.send(data);
-    }
-
-    //Delete featured article
-    featured.articleId = null;
-    await featured.save();
-
-    data.article = matchingArticle;
-
-    //Return the newly featured article
-    res.send(data);
   });
 
   return router;

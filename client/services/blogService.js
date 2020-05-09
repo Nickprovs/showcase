@@ -6,7 +6,7 @@ const { publicRuntimeConfig } = getConfig();
 const APIURL = `${publicRuntimeConfig.apiProtocol}://${publicRuntimeConfig.apiAddress}:${publicRuntimeConfig.apiPort}`;
 const BLOGSAPIURL = `${APIURL}/articles`;
 const BLOGGENRESAPIURL = `${APIURL}/articleCategories`;
-const FEATUREDBLOGSAPIURL = `${APIURL}/articles/featured`;
+const FEATUREDBLOGSAPIURL = `${APIURL}/featured/article`;
 
 export async function getBlogsAsync(options) {
   let query = "";
@@ -117,7 +117,19 @@ export async function deleteBlogCategoryAsync(blogCategoryId) {
   return res;
 }
 
+export async function getFeaturedBlogAsync() {
+  const res = await fetch(`${FEATUREDBLOGSAPIURL}`, {
+    method: "get",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return res;
+}
+
 export async function updateFeaturedBlogAsync(updated) {
+  console.log("updated", updated);
   const res = await fetch(`${FEATUREDBLOGSAPIURL}`, {
     method: "put",
     credentials: "include",
