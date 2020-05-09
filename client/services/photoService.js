@@ -7,6 +7,7 @@ const APIURL = `${publicRuntimeConfig.apiProtocol}://${publicRuntimeConfig.apiAd
 
 const PHOTOSAPIURL = `${APIURL}/photos`;
 const PHOTOCATEGORIESURL = `${APIURL}/photoCategories`;
+const FEATUREDPHOTOSAPIURL = `${APIURL}/featured/photo`;
 
 export async function getPhotosAsync(options) {
   let query = "";
@@ -107,6 +108,40 @@ export async function updatePhotoCategoryAsync(category) {
 export async function deletePhotoCategoryAsync(photoCategoryId) {
   console.log("Making request to", `${PHOTOCATEGORIESURL}/${photoCategoryId}`);
   const res = await fetch(`${PHOTOCATEGORIESURL}/${photoCategoryId}`, {
+    method: "delete",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return res;
+}
+
+export async function getFeaturedPhotoAsync() {
+  const res = await fetch(`${FEATUREDPHOTOSAPIURL}`, {
+    method: "get",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return res;
+}
+
+export async function updateFeaturedPhotoAsync(updated) {
+  const res = await fetch(`${FEATUREDPHOTOSAPIURL}`, {
+    method: "put",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updated),
+  });
+  return res;
+}
+
+export async function deleteFeaturedPhotoAsync() {
+  const res = await fetch(`${FEATUREDPHOTOSAPIURL}`, {
     method: "delete",
     credentials: "include",
     headers: {

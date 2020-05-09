@@ -9,11 +9,13 @@ const getAllQuerySchema = require("./schemas/queries/photo/getAllQuery");
 
 const { Article: ArticleModel } = require("../models/article");
 const { Software: SoftwareModel } = require("../models/software");
+const { PhotoModel } = require("../models/photo");
 const { FeaturedModel, joiSchema: joiFeaturedModel } = require("../models/featured");
 const ValidationUtilities = require("../util/validationUtilities");
 const winston = require("winston");
 const changeFeaturedArticleSchema = require("./schemas/body/featured/put/changeFeaturedArticle");
 const changeFeaturedSoftwareSchema = require("./schemas/body/featured/put/changeFeaturedSoftware");
+const changeFeaturedPhotoSchema = require("./schemas/body/featured/put/changeFeaturedPhoto");
 
 module.exports = function () {
   const router = express.Router();
@@ -138,6 +140,62 @@ module.exports = function () {
 
     //Return what was deleted
     data.software = matchingSoftware;
+    res.send(data);
+  });
+
+  router.get("/photo", async (req, res) => {
+    //The return -- null -- unless there's a featured photo.
+    let data = {
+      photo: null,
+    };
+
+    //Check existing featured photo -- if there's none -- job done
+    const featured = await FeaturedModel.findOne();
+    if (!featured.photoId) return res.send(data);
+
+    //If there's an existing featured photo -- grab it.
+    const matchingPhoto = await PhotoModel.findOne({ _id: featured.photoId });
+    if (!matchingPhoto) return res.send(data);
+
+    //Return the newly featured photo
+    data.photo = matchingPhoto;
+    res.send(data);
+  });
+
+  router.put("/photo", [auth, admin, validateBody(changeFeaturedPhotoSchema)], async (req, res) => {
+    //Make sure that photo actually exists
+    const matchingPhoto = await PhotoModel.findOne({ _id: req.body.photoId }).select("-__v");
+    if (!matchingPhoto) return res.status(400).send("Invalid photo id.");
+
+    //Change the featured photo id
+    const featured = await FeaturedModel.findOne();
+    featured.photoId = req.body.photoId;
+    await featured.save();
+
+    //Return updated photo
+    const data = {
+      photo: matchingPhoto,
+    };
+    res.send(data);
+  });
+
+  router.delete("/photo", [auth, admin], async (req, res) => {
+    //The return will be the featured photo if it exists.
+    let data = {
+      photo: null,
+    };
+
+    //Check existing featured photo -- if there's none -- job done
+    const featured = await FeaturedModel.findOne();
+    if (!featured.photoId) return res.send(data);
+    const matchingPhoto = await PhotoModel.findOne({ _id: featured.photoId });
+
+    //Deletion
+    featured.photoId = null;
+    await featured.save();
+
+    //Return what was deleted
+    data.photo = matchingPhoto;
     res.send(data);
   });
 

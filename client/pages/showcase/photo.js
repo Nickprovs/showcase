@@ -3,7 +3,14 @@ import Layout from "../../components/layout";
 import photoStyles from "../../styles/photo.module.css";
 import FullscreenPhoto from "../../components/common/fullscreenPhoto";
 import withAuthAsync from "../../components/common/withAuthAsync";
-import { getPhotosAsync, deletePhotoAsync, getPhotoCategoriesAsync, deletePhotoCategoryAsync } from "../../services/photoService";
+import {
+  getPhotosAsync,
+  deletePhotoAsync,
+  getPhotoCategoriesAsync,
+  deletePhotoCategoryAsync,
+  deleteFeaturedPhotoAsync,
+  updateFeaturedPhotoAsync,
+} from "../../services/photoService";
 import Router from "next/router";
 import CommonPageHeaderControls from "../../components/common/commonPageHeaderControls";
 import Link from "next/link";
@@ -70,6 +77,7 @@ class Photo extends Component {
 
     return {
       photos: photos.items,
+      featured: photos.featured,
       currentPage: page,
       totalPhotosCount: photos.total,
       initialSearchProp: search,
@@ -80,6 +88,7 @@ class Photo extends Component {
   state = {
     searchText: "",
     photos: [],
+    featured: null,
     totalPhotosCount: 0,
     currentPage: 1,
     categories: [],
@@ -89,7 +98,7 @@ class Photo extends Component {
   };
 
   componentDidMount() {
-    const { photos, categories, currentPage, totalPhotosCount, initialSearchProp } = this.props;
+    const { photos, featured, categories, currentPage, totalPhotosCount, initialSearchProp } = this.props;
 
     //Get the current category
     let currentCategory = categories.filter((c) => c.slug === Router.query.category)[0];
@@ -97,6 +106,7 @@ class Photo extends Component {
 
     this.setState({ currentCategory: currentCategory });
     this.setState({ photos: photos });
+    this.setState({ featured: featured });
     this.setState({ currentPage: currentPage });
     this.setState({ totalPhotosCount: totalPhotosCount });
     this.setState({ initialSearchProp: initialSearchProp });
@@ -104,9 +114,10 @@ class Photo extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { photos, currentPage, categories, totalPhotosCount } = this.props;
+    const { photos, featured, currentPage, categories, totalPhotosCount } = this.props;
     const { currentCategory } = this.state;
 
+    if (prevProps.featured !== featured) this.setState({ featured });
     if (prevProps.photos !== photos) this.setState({ photos });
     if (prevProps.currentPage !== currentPage) this.setState({ currentPage });
     if (prevProps.totalPhotosCount !== totalPhotosCount) this.setState({ totalPhotosCount });
@@ -209,6 +220,38 @@ class Photo extends Component {
     this.setState({ categories });
   }
 
+  async handleToggleFeaturedPhoto(photo) {
+    const { featured: originalFeatured } = this.state;
+
+    //Try to update the featured photo... update ui right away for responsiveness... revert back if issue.
+    let res = null;
+    try {
+      if (originalFeatured && originalFeatured._id === photo._id) {
+        res = await deleteFeaturedPhotoAsync();
+        this.setState({ featured: null });
+      } else {
+        res = await updateFeaturedPhotoAsync({ photoId: photo._id });
+        let featuredPhotoRes = await res.json();
+        this.setState({ featured: featuredPhotoRes.photo });
+      }
+    } catch (ex) {
+      let errorMessage = `Error: ${ex}`;
+      console.log(errorMessage);
+      this.setState({ featured: originalFeatured });
+      toast.error(errorMessage);
+      return;
+    }
+    if (!res.ok) {
+      let body = "";
+      body = await res.text();
+      let errorMessage = `Error: ${res.status} - ${body}`;
+      console.log(errorMessage);
+      this.setState({ featured: originalFeatured });
+      toast.error(errorMessage);
+      return;
+    }
+  }
+
   getClassesForPhoto(photo) {
     const displaySizeWithFirstCharUppercase = photo.displaySize.charAt(0).toUpperCase() + photo.displaySize.slice(1);
     const photoClassName = photo.orientation + displaySizeWithFirstCharUppercase;
@@ -244,6 +287,7 @@ class Photo extends Component {
   render() {
     const {
       photos,
+      featured,
       totalPhotosCount,
       fullScreenPhotoVisible,
       fullScreenPhotoSource,
@@ -273,6 +317,9 @@ class Photo extends Component {
                   {user && user.isAdmin && (
                     <div id="test" className={photoStyles.adminOptions}>
                       <div style={{ backgroundColor: "white" }}>
+                        <TransparentButton onClick={async () => await this.handleToggleFeaturedPhoto(photo)} style={{ color: "var(--f1)" }}>
+                          <Icon className={featured && photo._id === featured._id ? "fas fa-star" : "far fa-star"}></Icon>
+                        </TransparentButton>
                         <Link href={`/showcase/photo/edit/photo/[id]`} as={`/showcase/photo/edit/photo/${photo._id}`}>
                           <TransparentButton>
                             <Icon className="fas fa-edit"></Icon>
