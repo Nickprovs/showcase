@@ -7,7 +7,6 @@ class Index extends Component {
   static async getInitialProps(context) {
     const featuredRes = await getFeaturedAsync();
     const featured = await featuredRes.json();
-
     return {
       featured: featured,
     };

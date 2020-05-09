@@ -208,37 +208,34 @@ class Blog extends Component {
   }
 
   async handleToggleFeaturedArticle(article) {
-    const { featured } = this.state;
+    const { featured: originalFeatured } = this.state;
 
+    //Try to update the featured article... update ui right away for responsiveness... revert back if issue.
     let res = null;
-    let wasDeletion = false;
     try {
-      if (featured && featured._id === article._id) {
-        res = await deleteFeaturedBlogAsync();
-        wasDeletion = true;
+      if (originalFeatured && originalFeatured._id === article._id) {
+        await deleteFeaturedBlogAsync();
+        this.setState({ featured: null });
       } else {
         res = await updateFeaturedBlogAsync({ articleId: article._id });
+        let featuredArticleRes = await res.json();
+        this.setState({ featured: featuredArticleRes.article });
       }
     } catch (ex) {
       let errorMessage = `Error: ${ex}`;
       console.log(errorMessage);
+      this.setState({ featured: originalFeatured });
       toast.error(errorMessage);
       return;
     }
     if (!res.ok) {
       let body = "";
-      //TODO: Parse Text OR JSON
       body = await res.text();
       let errorMessage = `Error: ${res.status} - ${body}`;
       console.log(errorMessage);
+      this.setState({ featured: originalFeatured });
       toast.error(errorMessage);
       return;
-    }
-
-    if (wasDeletion) this.setState({ featured: null });
-    else {
-      let featuredArticleRes = await res.json();
-      this.setState({ featured: featuredArticleRes.article });
     }
   }
 
