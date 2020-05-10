@@ -117,7 +117,7 @@ class Index extends Component {
               <h2>Featured Video</h2>
             </div>
             <div className={indexStyles.previewTitle}>
-              <h2>Test Title</h2>
+              <h2>{featured.video.title}</h2>
             </div>
             <DangerousInnerHtmlWithScript className={indexStyles.videoContainer} html={featured.video.markup} />
             <div className={indexStyles.descriptionContainer}>
