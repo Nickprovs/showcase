@@ -21,10 +21,16 @@ module.exports = function () {
   router.get("/", async (req, res) => {
     const featured = await FeaturedModel.findOne();
     const article = await ArticleModel.findOne({ _id: featured.articleId });
+    const software = await SoftwareModel.findOne({ _id: featured.softwareId });
+    const photo = await PhotoModel.findOne({ _id: featured.photoId });
+    const video = await VideoModel.findOne({ _id: featured.videoId });
 
     const data = {
       body: featured.body,
       article: article,
+      software: software,
+      photo: photo,
+      video: video,
     };
     res.send(data);
   });
