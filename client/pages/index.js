@@ -97,7 +97,7 @@ class Index extends Component {
               <h2>Featured Photo</h2>
             </div>
             <div className={indexStyles.previewTitle}>
-              <a className="clickableHeading">{featured.photo.title}</a>
+              <h2>{featured.photo.title}</h2>
             </div>
             <div className={indexStyles.previewImage}>
               <a>
@@ -117,7 +117,7 @@ class Index extends Component {
               <h2>Featured Video</h2>
             </div>
             <div className={indexStyles.previewTitle}>
-              <a className="clickableHeading">Test Title</a>
+              <h2>Test Title</h2>
             </div>
             <DangerousInnerHtmlWithScript className={indexStyles.videoContainer} html={featured.video.markup} />
             <div className={indexStyles.descriptionContainer}>
