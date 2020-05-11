@@ -11,21 +11,12 @@ class Index extends Component {
   static async getInitialProps(context) {
     const featuredRes = await getFeaturedAsync();
     const featured = await featuredRes.json();
-    console.log(featured);
     return {
       featured: featured,
     };
   }
 
   componentDidMount() {
-    console.log("Test1");
-    reframe("iframe");
-    reframe("blockquote");
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    console.log("test");
-    //Adjusts iframes in the page to fit based on aspect ration
     reframe("iframe");
   }
 
@@ -33,10 +24,19 @@ class Index extends Component {
     let { user, featured } = this.props;
     return (
       <Layout user={user}>
-        <div dangerouslySetInnerHTML={{ __html: featured.body }} />
-        <div className={indexStyles.container}>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: `<h1>This is a title</h1><p>Lorem ipsum dolor sit amet, 
+                      consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore 
+                      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi 
+                      ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate 
+                      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                       sunt in culpa qui officia deserunt mollit anim id est laborum.`,
+          }}
+        />
+        {/* <div className={indexStyles.container}>
           {/* Featured Software */}
-          <div className={indexStyles.item}>
+        {/* <div className={indexStyles.item}>
             <div className={indexStyles.previewType}>
               <Link href={`/showcase/software/[slug]`} as={`/showcase/software/${featured.software.slug}`}>
                 <a style={{ width: "100%", padding: "0px", textAlign: "center" }} className="clickableHeading">
@@ -61,10 +61,10 @@ class Index extends Component {
                 {featured.software.description}
               </label>
             </div>
-          </div>
+          </div> */}
 
-          {/* Featured Blog */}
-          <div className={indexStyles.item}>
+        {/* Featured Blog */}
+        {/* <div className={indexStyles.item}>
             <div className={indexStyles.previewType}>
               <Link href={`/blog/[slug]`} as={`/blog/${featured.article.slug}`}>
                 <a style={{ width: "100%", padding: "0px", textAlign: "center" }} className="clickableHeading">
@@ -89,10 +89,10 @@ class Index extends Component {
                 {featured.article.description}
               </label>
             </div>
-          </div>
+          </div> */}
 
-          {/* Featured Photo */}
-          <div className={indexStyles.item}>
+        {/* Featured Photo */}
+        {/* <div className={indexStyles.item}>
             <div className={indexStyles.previewType}>
               <h2>Featured Photo</h2>
             </div>
@@ -109,10 +109,10 @@ class Index extends Component {
                 {featured.photo.description}
               </label>
             </div>
-          </div>
+          </div> */}
 
-          {/* Featured Video */}
-          <div className={indexStyles.item}>
+        {/* Featured Video */}
+        {/* <div className={indexStyles.item}>
             <div className={indexStyles.previewType}>
               <h2>Featured Video</h2>
             </div>
@@ -126,7 +126,7 @@ class Index extends Component {
               </label>
             </div>
           </div>
-        </div>
+        </div>  */}
       </Layout>
     );
   }
