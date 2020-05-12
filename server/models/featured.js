@@ -2,29 +2,39 @@ const Joi = require("@hapi/joi");
 Joi.objectId = require("joi-objectid")(Joi);
 const mongoose = require("mongoose");
 
+const subSchema = {
+  id: {
+    type: mongoose.Types.ObjectId,
+    required: false,
+  },
+  type: {
+    type: String,
+    required: false,
+    enum: ["blog", "software", "photo", "media"],
+  },
+  dateLastModified: {
+    type: Date,
+    required: true,
+    default: Date.now,
+  },
+};
+
 //Mongo Schema
 const mongoFeaturedSchema = new mongoose.Schema({
-  body: {
-    type: String,
-    minlength: 2,
-    required: true,
+  primary: {
+    markup: {
+      type: String,
+      minlength: 2,
+      required: true,
+    },
+    dateLastModified: {
+      type: Date,
+      required: true,
+      default: Date.now,
+    },
   },
-  articleId: {
-    type: mongoose.Types.ObjectId,
-    required: false,
-  },
-  softwareId: {
-    type: mongoose.Types.ObjectId,
-    required: false,
-  },
-  photoId: {
-    type: mongoose.Types.ObjectId,
-    required: false,
-  },
-  videoId: {
-    type: mongoose.Types.ObjectId,
-    required: false,
-  },
+  sub1: subSchema,
+  sub2: subSchema,
 });
 const FeaturedModel = mongoose.model("Featured", mongoFeaturedSchema);
 
@@ -35,12 +45,17 @@ function validateId(val) {
 }
 
 //Joi Schema
+const joiSubSchema = Joi.object({
+  id: Joi.objectId().allow(null),
+  type: Joi.string().valid("software", "blog", "photo", "medium").allow(null),
+});
+
 const joiFeaturedSchema = Joi.object({
-  body: Joi.string().min(2).required(),
-  articleId: Joi.objectId().allow(null),
-  softwareId: Joi.objectId().allow(null),
-  photoId: Joi.objectId().allow(null),
-  videoId: Joi.objectId().allow(null),
+  primary: Joi.object({
+    markup: Joi.string().min(2),
+  }),
+  sub1: joiSubSchema,
+  sub2: joiSubSchema,
 });
 
 exports.FeaturedModel = FeaturedModel;
