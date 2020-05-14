@@ -4,259 +4,165 @@ const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 const validateBody = require("../middleware/validateBody");
 const validateQuery = require("../middleware/validateQuery");
-const { FeaturedModel, joiSchema: joiFeaturedModel } = require("../models/featured");
+const { FeaturedModel, joiFeaturedSchema, joiPrimarySchema, joiSubsidiarySchema } = require("../models/featured");
 const { Article: ArticleModel } = require("../models/article");
 const { Software: SoftwareModel } = require("../models/software");
 const { PhotoModel } = require("../models/photo");
 const { VideoModel } = require("../models/video");
-const changeFeaturedArticleSchema = require("./schemas/body/featured/put/changeFeaturedArticle");
-const changeFeaturedSoftwareSchema = require("./schemas/body/featured/put/changeFeaturedSoftware");
-const changeFeaturedPhotoSchema = require("./schemas/body/featured/put/changeFeaturedPhoto");
-const changeFeaturedVideoSchema = require("./schemas/body/featured/put/changeFeaturedVideo");
+const getAllQuerySchema = require("./schemas/queries/featured/getAllQuery");
+const getSubsidiariesQuerySchema = require("./schemas/queries/featured/getSubsidiariesQuery");
+const patchSubsidiaryQuerySchema = require("./schemas/queries/featured/patchSubsidiaryQuery");
+
 const winston = require("winston");
+
+async function getContentByTypeAndId(type, id) {
+  switch (type) {
+    case "blog":
+      return await ArticleModel.findOne({ _id: id });
+    case "software":
+      return await SoftwareModel.findOne({ _id: id });
+    case "photo":
+      return await PhotoModel.findOne({ _id: id });
+    case "video":
+      return await VideoModel.findOne({ _id: id });
+    default:
+      return null;
+  }
+}
 
 module.exports = function () {
   const router = express.Router();
 
-  router.get("/", async (req, res) => {
-    const featured = await FeaturedModel.findOne();
-    const article = await ArticleModel.findOne({ _id: featured.articleId });
-    const software = await SoftwareModel.findOne({ _id: featured.softwareId });
-    const photo = await PhotoModel.findOne({ _id: featured.photoId });
-    const video = await VideoModel.findOne({ _id: featured.videoId });
+  router.get("/", validateQuery(getAllQuerySchema), async (req, res) => {
+    const scope = req.query.scope ? req.query.scope : "detailed";
+    let featured = await FeaturedModel.findOne();
+    featured = featured.toObject();
 
-    const data = {
-      body: featured.body,
-      article: article,
-      software: software,
-      photo: photo,
-      video: video,
-    };
-    res.send(data);
+    //Get detailed data for featured if scope is "detailed"
+    switch (scope) {
+      case "detailed":
+        let detailedSubsidiaryItems = [];
+        for (let item of featured.subsidiaries.items)
+          detailedSubsidiaryItems.push({
+            ...item,
+            data: await getContentByTypeAndId(item.type, item.id),
+          });
+        featured.subsidiaries.items = detailedSubsidiaryItems;
+        break;
+      case "verbatim":
+        break;
+      default:
+        break;
+    }
+
+    res.send({
+      featured: featured,
+      scope: scope,
+    });
   });
 
-  router.get("/article", async (req, res) => {
-    //The return -- null -- unless there's a featured article.
-    let data = {
-      article: null,
-    };
-
-    //Check existing featured article -- if there's none -- job done
-    const featured = await FeaturedModel.findOne();
-    if (!featured.articleId) return res.send(data);
-
-    //If there's an existing featured article -- grab it.
-    const matchingArticle = await ArticleModel.findOne({ _id: featured.articleId });
-    if (!matchingArticle) return res.send(data);
-
-    //Return the newly featured article
-    data.article = matchingArticle;
-    res.send(data);
+  router.get("/primary", async (req, res) => {
+    let featured = await FeaturedModel.findOne();
+    res.send({
+      primary: featured.primary,
+    });
   });
 
-  router.put("/article", [auth, admin, validateBody(changeFeaturedArticleSchema)], async (req, res) => {
-    //Make sure that article actually exists
-    const matchingArticle = await ArticleModel.findOne({ _id: req.body.articleId }).select("-__v");
-    if (!matchingArticle) return res.status(400).send("Invalid article id.");
+  router.get("/subsidiaries", validateQuery(getSubsidiariesQuerySchema), async (req, res) => {
+    const scope = req.query.scope ? req.query.scope : "detailed";
+    let featured = await FeaturedModel.findOne();
+    featured = featured.toObject();
 
-    //Change the featured article id
-    const featured = await FeaturedModel.findOne();
-    featured.articleId = req.body.articleId;
+    switch (scope) {
+      case "detailed":
+        let detailedSubsidiaryItems = [];
+        for (let item of featured.subsidiaries.items)
+          detailedSubsidiaryItems.push({
+            ...item,
+            data: await getContentByTypeAndId(item.type, item.id),
+          });
+        featured.subsidiaries.items = detailedSubsidiaryItems;
+        break;
+      case "verbatim":
+        break;
+      default:
+        break;
+    }
+
+    res.send({
+      subsidiaries: featured.subsidiaries,
+      scope: scope,
+    });
+  });
+
+  router.put("/primary", [auth, admin, validateBody(joiPrimarySchema)], async (req, res) => {
+    let featured = await FeaturedModel.findOne();
+    featured.primary.markup = req.body.markup;
+    featured.primary.dateLastModified = moment().toJSON();
+
     await featured.save();
-
-    //Return updated article
-    const data = {
-      article: matchingArticle,
-    };
-    res.send(data);
+    res.send({ primary: featured.primary });
   });
 
-  router.delete("/article", [auth, admin], async (req, res) => {
-    //The return will be the featured article if it exists.
-    let data = {
-      article: null,
+  router.post("/subsidiaries", [auth, admin, validateBody(joiSubsidiarySchema)], async (req, res) => {
+    let featured = await FeaturedModel.findOne();
+    const contentToSave = await getContentByTypeAndId(req.body.type, req.body.id);
+    if (!contentToSave) return res.status(400).send("The specified content was not found. Cannot save in featured.");
+
+    if (featured.subsidiaries.items.some((item) => item.id.toString() === req.body.id))
+      return res.status(400).send("Cannot feature the same content twice.");
+
+    let newFeaturedSubsidiary = {
+      id: req.body.id,
+      type: req.body.type,
     };
+    featured.subsidiaries.items.push(newFeaturedSubsidiary);
+    featured.subsidiaries.dateLastModified = moment().toJSON();
 
-    //Check existing featured article -- if there's none -- job done
-    const featured = await FeaturedModel.findOne();
-    if (!featured.articleId) return res.send(data);
-    const matchingArticle = await ArticleModel.findOne({ _id: featured.articleId });
-
-    //Deletion
-    featured.articleId = null;
     await featured.save();
-
-    //Return what was deleted
-    data.article = matchingArticle;
-    res.send(data);
+    res.send({ subsidiary: newFeaturedSubsidiary });
   });
 
-  router.get("/software", async (req, res) => {
-    //The return -- null -- unless there's a featured software.
-    let data = {
-      software: null,
-    };
+  router.patch("/subsidiaries/:id", [auth, admin], validateQuery(patchSubsidiaryQuerySchema), async (req, res) => {
+    let featured = await FeaturedModel.findOne();
 
-    //Check existing featured software -- if there's none -- job done
-    const featured = await FeaturedModel.findOne();
-    if (!featured.softwareId) return res.send(data);
+    let itemToUpdate = featured.subsidiaries.items.find((item) => item.id.toString() === req.params.id);
+    if (!itemToUpdate) return res.status(400).send("An item with the specified id doesn't exist in featured subsidiaries.");
 
-    //If there's an existing featured software -- grab it.
-    const matchingSoftware = await SoftwareModel.findOne({ _id: featured.softwareId });
-    if (!matchingSoftware) return res.send(data);
+    switch (req.query.operation) {
+      case "bump":
+        featured.subsidiaries.items.splice(featured.subsidiaries.items.indexOf(itemToUpdate), 1);
+        featured.subsidiaries.items.unshift(itemToUpdate);
+        featured.subsidiaries.dateLastModified = moment().toJSON();
 
-    //Return the newly featured software
-    data.software = matchingSoftware;
-    res.send(data);
+        await featured.save();
+        res.send({ subsidiaries: featured.subsidiaries });
+        break;
+      default:
+        return res.status(400).send("Invalid patch operation specified. Add operation to query.");
+    }
   });
 
-  router.put("/software", [auth, admin, validateBody(changeFeaturedSoftwareSchema)], async (req, res) => {
-    //Make sure that software actually exists
-    const matchingSoftware = await SoftwareModel.findOne({ _id: req.body.softwareId }).select("-__v");
-    if (!matchingSoftware) return res.status(400).send("Invalid software id.");
+  router.delete("/subsidiaries/:id", [auth, admin], async (req, res) => {
+    let featured = await FeaturedModel.findOne();
 
-    //Change the featured software id
-    const featured = await FeaturedModel.findOne();
-    featured.softwareId = req.body.softwareId;
+    let itemToDelete = featured.subsidiaries.items.find((item) => item.id.toString() === req.params.id);
+    if (!itemToDelete) return res.status(400).send("An item with the specified id doesn't exist in featured subsidiaries.");
+
+    featured.subsidiaries.items.splice(featured.subsidiaries.items.indexOf(itemToDelete), 1);
+    featured.subsidiaries.dateLastModified = moment().toJSON();
+
     await featured.save();
-
-    //Return updated software
-    const data = {
-      software: matchingSoftware,
-    };
-    res.send(data);
+    res.send({ subsidiary: itemToDelete });
   });
 
-  router.delete("/software", [auth, admin], async (req, res) => {
-    //The return will be the featured software if it exists.
-    let data = {
-      software: null,
-    };
+  router.delete("/subsidiaries", [auth, admin], async (req, res) => {
+    let featured = await FeaturedModel.findOne();
+    featured.subsidiaries.items = [];
+    featured.subsidiaries.dateLastModified = moment().toJSON();
 
-    //Check existing featured software -- if there's none -- job done
-    const featured = await FeaturedModel.findOne();
-    if (!featured.softwareId) return res.send(data);
-    const matchingSoftware = await SoftwareModel.findOne({ _id: featured.softwareId });
-
-    //Deletion
-    featured.softwareId = null;
     await featured.save();
-
-    //Return what was deleted
-    data.software = matchingSoftware;
-    res.send(data);
-  });
-
-  router.get("/photo", async (req, res) => {
-    //The return -- null -- unless there's a featured photo.
-    let data = {
-      photo: null,
-    };
-
-    //Check existing featured photo -- if there's none -- job done
-    const featured = await FeaturedModel.findOne();
-    if (!featured.photoId) return res.send(data);
-
-    //If there's an existing featured photo -- grab it.
-    const matchingPhoto = await PhotoModel.findOne({ _id: featured.photoId });
-    if (!matchingPhoto) return res.send(data);
-
-    //Return the newly featured photo
-    data.photo = matchingPhoto;
-    res.send(data);
-  });
-
-  router.put("/photo", [auth, admin, validateBody(changeFeaturedPhotoSchema)], async (req, res) => {
-    //Make sure that photo actually exists
-    const matchingPhoto = await PhotoModel.findOne({ _id: req.body.photoId }).select("-__v");
-    if (!matchingPhoto) return res.status(400).send("Invalid photo id.");
-
-    //Change the featured photo id
-    const featured = await FeaturedModel.findOne();
-    featured.photoId = req.body.photoId;
-    await featured.save();
-
-    //Return updated photo
-    const data = {
-      photo: matchingPhoto,
-    };
-    res.send(data);
-  });
-
-  router.delete("/photo", [auth, admin], async (req, res) => {
-    //The return will be the featured photo if it exists.
-    let data = {
-      photo: null,
-    };
-
-    //Check existing featured photo -- if there's none -- job done
-    const featured = await FeaturedModel.findOne();
-    if (!featured.photoId) return res.send(data);
-    const matchingPhoto = await PhotoModel.findOne({ _id: featured.photoId });
-
-    //Deletion
-    featured.photoId = null;
-    await featured.save();
-
-    //Return what was deleted
-    data.photo = matchingPhoto;
-    res.send(data);
-  });
-
-  router.get("/video", async (req, res) => {
-    //The return -- null -- unless there's a featured video.
-    let data = {
-      video: null,
-    };
-
-    //Check existing featured video -- if there's none -- job done
-    const featured = await FeaturedModel.findOne();
-    if (!featured.videoId) return res.send(data);
-
-    //If there's an existing featured video -- grab it.
-    const matchingVideo = await VideoModel.findOne({ _id: featured.videoId });
-    if (!matchingVideo) return res.send(data);
-
-    //Return the newly featured video
-    data.video = matchingVideo;
-    res.send(data);
-  });
-
-  router.put("/video", [auth, admin, validateBody(changeFeaturedVideoSchema)], async (req, res) => {
-    //Make sure that video actually exists
-    const matchingVideo = await VideoModel.findOne({ _id: req.body.videoId }).select("-__v");
-    if (!matchingVideo) return res.status(400).send("Invalid video id.");
-
-    //Change the featured video id
-    const featured = await FeaturedModel.findOne();
-    featured.videoId = req.body.videoId;
-    await featured.save();
-
-    //Return updated video
-    const data = {
-      video: matchingVideo,
-    };
-    res.send(data);
-  });
-
-  router.delete("/video", [auth, admin], async (req, res) => {
-    //The return will be the featured video if it exists.
-    let data = {
-      video: null,
-    };
-
-    //Check existing featured video -- if there's none -- job done
-    const featured = await FeaturedModel.findOne();
-    if (!featured.videoId) return res.send(data);
-    const matchingVideo = await VideoModel.findOne({ _id: featured.videoId });
-
-    //Deletion
-    featured.videoId = null;
-    await featured.save();
-
-    //Return what was deleted
-    data.video = matchingVideo;
-    res.send(data);
+    res.send({ subsidiaries: featured.subsidiaries.items });
   });
 
   return router;

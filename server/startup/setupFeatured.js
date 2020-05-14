@@ -8,17 +8,11 @@ module.exports = async function () {
     const featured = new FeaturedModel({
       primary: {
         markup: "<h1>My Glorious Title</h1><br/><br/><p>My glorious paragraph</p>",
-        dateLastModified: moment.json(),
+        dateLastModified: moment().toJSON(),
       },
-      sub1: {
-        id: null,
-        type: null,
-        dateLastModified: null,
-      },
-      sub2: {
-        id: null,
-        type: null,
-        dateLastModified: null,
+      subsidiaries: {
+        items: [],
+        dateLastModified: moment().toJSON(),
       },
     });
     await featured.save();

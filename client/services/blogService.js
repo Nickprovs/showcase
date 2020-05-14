@@ -116,37 +116,3 @@ export async function deleteBlogCategoryAsync(blogCategoryId) {
   });
   return res;
 }
-
-export async function getFeaturedBlogAsync() {
-  const res = await fetch(`${FEATUREDBLOGSAPIURL}`, {
-    method: "get",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  return res;
-}
-
-export async function updateFeaturedBlogAsync(updated) {
-  const res = await fetch(`${FEATUREDBLOGSAPIURL}`, {
-    method: "put",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(updated),
-  });
-  return res;
-}
-
-export async function deleteFeaturedBlogAsync() {
-  const res = await fetch(`${FEATUREDBLOGSAPIURL}`, {
-    method: "delete",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  return res;
-}

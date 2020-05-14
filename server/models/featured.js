@@ -2,15 +2,23 @@ const Joi = require("@hapi/joi");
 Joi.objectId = require("joi-objectid")(Joi);
 const mongoose = require("mongoose");
 
-const subSchema = {
+const subsidiarySchema = {
   id: {
     type: mongoose.Types.ObjectId,
-    required: false,
+    required: true,
   },
   type: {
     type: String,
-    required: false,
+    required: true,
     enum: ["blog", "software", "photo", "media"],
+  },
+};
+
+const primarySchema = {
+  markup: {
+    type: String,
+    minlength: 2,
+    required: true,
   },
   dateLastModified: {
     type: Date,
@@ -21,11 +29,12 @@ const subSchema = {
 
 //Mongo Schema
 const mongoFeaturedSchema = new mongoose.Schema({
-  primary: {
-    markup: {
-      type: String,
-      minlength: 2,
+  primary: primarySchema,
+  subsidiaries: {
+    items: {
+      type: [subsidiarySchema],
       required: true,
+      _id: false,
     },
     dateLastModified: {
       type: Date,
@@ -33,30 +42,27 @@ const mongoFeaturedSchema = new mongoose.Schema({
       default: Date.now,
     },
   },
-  sub1: subSchema,
-  sub2: subSchema,
 });
 const FeaturedModel = mongoose.model("Featured", mongoFeaturedSchema);
 
-function validateId(val) {
-  console.log(val, typeof val);
-  if (typeof val === undefined || mongoose.Types.ObjectId.isValid(val)) return true;
-  else throw new Error("Featured content (other than body) must be an id.");
-}
-
 //Joi Schema
-const joiSubSchema = Joi.object({
-  id: Joi.objectId().allow(null),
-  type: Joi.string().valid("software", "blog", "photo", "medium").allow(null),
+const joiSubsidiarySchema = Joi.object({
+  id: Joi.objectId(),
+  type: Joi.string().valid("software", "blog", "photo", "medium"),
+});
+
+const joiPrimarySchema = Joi.object({
+  markup: Joi.string().min(2),
 });
 
 const joiFeaturedSchema = Joi.object({
-  primary: Joi.object({
-    markup: Joi.string().min(2),
+  primary: joiPrimarySchema,
+  subsidiaries: Joi.object({
+    items: Joi.array().items(joiSubsidiarySchema).min(0).max(10).required(),
   }),
-  sub1: joiSubSchema,
-  sub2: joiSubSchema,
 });
 
 exports.FeaturedModel = FeaturedModel;
-exports.joiSchema = joiFeaturedSchema;
+exports.joiFeaturedSchema = joiFeaturedSchema;
+exports.joiSubsidiarySchema = joiSubsidiarySchema;
+exports.joiPrimarySchema = joiPrimarySchema;
