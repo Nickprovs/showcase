@@ -6,7 +6,12 @@ import CommonPageHeaderControls from "../components/common/commonPageHeaderContr
 import CommonPageArticleSection from "../components/common/commonPageArticleSection";
 import Router from "next/router";
 import { getBlogsAsync, deleteBlogAsync, getBlogCategoriesAsync, deleteBlogCategoryAsync } from "../services/blogService";
-import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../services/featuredService";
+import {
+  getFeaturedSubsidiariesAsync,
+  createFeaturedSubsidiaryAsync,
+  deleteFeaturedSubsidiaryAsync,
+  deleteFeaturedSubsidiariesAsync,
+} from "../services/featuredService";
 const pageSize = 6;
 
 class Blog extends Component {
@@ -41,15 +46,13 @@ class Blog extends Component {
     const featuredRes = await getFeaturedSubsidiariesAsync({ scope: "verbatim" });
     const featured = await featuredRes.json();
 
-    console.log(featured);
-
     let res = await getBlogCategoriesAsync();
     let categories = await res.json();
     categories.items = [{ _id: "", slug: "", name: "All" }, ...categories.items];
 
     return {
       previews: blogs.items,
-      featured: blogs.featured,
+      featured: featured,
       currentPage: page,
       totalBlogsCount: blogs.total,
       initialSearchProp: search,
@@ -206,17 +209,22 @@ class Blog extends Component {
 
   async handleToggleFeaturedArticle(article) {
     const { featured: originalFeatured } = this.state;
-
-    //Try to update the featured article... update ui right away for responsiveness... revert back if issue.
     let res = null;
     try {
-      if (originalFeatured && originalFeatured._id === article._id) {
-        res = await deleteFeaturedBlogAsync();
-        this.setState({ featured: null });
+      let sameItemAlreadyFeatured = originalFeatured.subsidiaries.items.find((item) => item.id === article._id);
+      if (sameItemAlreadyFeatured) {
+        res = await deleteFeaturedSubsidiaryAsync(article._id);
+        let originalFeaturedWithRemovedItem = { ...originalFeatured };
+        originalFeaturedWithRemovedItem.subsidiaries.items.splice(originalFeatured.subsidiaries.items.indexOf(sameItemAlreadyFeatured), 1);
+        console.log(originalFeaturedWithRemovedItem);
+        this.setState({ featured: originalFeaturedWithRemovedItem });
       } else {
-        res = await updateFeaturedBlogAsync({ articleId: article._id });
+        res = await createFeaturedSubsidiaryAsync({ id: article._id, type: "blog" });
         let featuredArticleRes = await res.json();
-        this.setState({ featured: featuredArticleRes.article });
+        console.log("res", featuredArticleRes);
+        let originalFeaturedWithAddedItem = { ...originalFeatured };
+        originalFeaturedWithAddedItem.subsidiaries.items.push(featuredArticleRes);
+        this.setState({ featured: originalFeaturedWithAddedItem });
       }
     } catch (ex) {
       let errorMessage = `Error: ${ex}`;

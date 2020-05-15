@@ -61,7 +61,9 @@ class CommonPageArticleSection extends Component {
               {user && user.isAdmin && (
                 <div className={articleSectionStyles.adminOptions}>
                   <TransparentButton onClick={async () => await onToggleFeaturedArticleAsync(preview)} style={{ color: "var(--f1)" }}>
-                    <Icon className={featured && preview._id === featured._id ? "fas fa-star" : "far fa-star"}></Icon>
+                    <Icon
+                      className={featured.subsidiaries.items.some((item) => item.id === preview._id) ? "fas fa-star" : "far fa-star"}
+                    ></Icon>
                   </TransparentButton>
                   {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
                   <a href={`/${mainPagePath}/edit/article/${preview._id}`}>

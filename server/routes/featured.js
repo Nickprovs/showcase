@@ -120,7 +120,7 @@ module.exports = function () {
     featured.subsidiaries.dateLastModified = moment().toJSON();
 
     await featured.save();
-    res.send({ subsidiary: newFeaturedSubsidiary });
+    res.send(newFeaturedSubsidiary);
   });
 
   router.patch("/subsidiaries/:id", [auth, admin], validateQuery(patchSubsidiaryQuerySchema), async (req, res) => {
@@ -129,12 +129,32 @@ module.exports = function () {
     let itemToUpdate = featured.subsidiaries.items.find((item) => item.id.toString() === req.params.id);
     if (!itemToUpdate) return res.status(400).send("An item with the specified id doesn't exist in featured subsidiaries.");
 
-    switch (req.query.operation) {
-      case "bump":
-        featured.subsidiaries.items.splice(featured.subsidiaries.items.indexOf(itemToUpdate), 1);
-        featured.subsidiaries.items.unshift(itemToUpdate);
-        featured.subsidiaries.dateLastModified = moment().toJSON();
+    let oldIndex = 0;
+    let newIndex = 0;
+    let newIndexExists = false;
 
+    switch (req.query.operation) {
+      case "raise":
+        //Get the old index and calculate the new index
+        oldIndex = featured.subsidiaries.items.indexOf(itemToUpdate);
+        featured.subsidiaries.items.splice(oldIndex, 1);
+        newIndex = oldIndex - 1;
+        newIndexExists = featured.subsidiaries.items[newIndex] !== undefined;
+        if (!newIndexExists) return res.status(400).send("Cannot raise this item anymore. It's already at the top.");
+        featured.subsidiaries.items.splice(newIndex, 0, itemToUpdate);
+        featured.subsidiaries.dateLastModified = moment().toJSON();
+        await featured.save();
+        res.send({ subsidiaries: featured.subsidiaries });
+        break;
+      case "lower":
+        //Get the old index and calculate the new index
+        oldIndex = featured.subsidiaries.items.indexOf(itemToUpdate);
+        newIndex = oldIndex + 1;
+        newIndexExists = featured.subsidiaries.items[newIndex] !== undefined;
+        if (!newIndexExists) return res.status(400).send("Cannot lower this item anymore. It's already at the bottom.");
+        featured.subsidiaries.items.splice(oldIndex, 1);
+        featured.subsidiaries.items.splice(newIndex, 0, itemToUpdate);
+        featured.subsidiaries.dateLastModified = moment().toJSON();
         await featured.save();
         res.send({ subsidiaries: featured.subsidiaries });
         break;

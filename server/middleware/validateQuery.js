@@ -1,6 +1,6 @@
 const winston = require("winston");
 
-module.exports = schema => {
+module.exports = (schema) => {
   return (req, res, next) => {
     const { error } = schema.validate(req.query);
     if (error) {

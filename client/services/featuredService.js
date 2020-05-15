@@ -62,8 +62,8 @@ export async function patchFeaturedSubsidiaryAsync(subsidiaryId, options) {
     if (options.operation) query += query ? `&operation=${options.operation}` : `?operation=${options.operation}`;
   }
 
-  const res = await fetch(FEATUREDSUBSIDIARIESAPIURL + "/" + subsidiaryId, {
-    method: "patch",
+  const res = await fetch(FEATUREDSUBSIDIARIESAPIURL + "/" + subsidiaryId + query, {
+    method: "PATCH",
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
