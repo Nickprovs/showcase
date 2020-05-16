@@ -143,8 +143,6 @@ module.exports = function () {
         if (!newIndexExists) return res.status(400).send("Cannot raise this item anymore. It's already at the top.");
         featured.subsidiaries.items.splice(newIndex, 0, itemToUpdate);
         featured.subsidiaries.dateLastModified = moment().toJSON();
-        await featured.save();
-        res.send({ subsidiaries: featured.subsidiaries });
         break;
       case "lower":
         //Get the old index and calculate the new index
@@ -155,12 +153,23 @@ module.exports = function () {
         featured.subsidiaries.items.splice(oldIndex, 1);
         featured.subsidiaries.items.splice(newIndex, 0, itemToUpdate);
         featured.subsidiaries.dateLastModified = moment().toJSON();
-        await featured.save();
-        res.send({ subsidiaries: featured.subsidiaries });
         break;
       default:
         return res.status(400).send("Invalid patch operation specified. Add operation to query.");
     }
+
+    await featured.save();
+
+    //Returned the detailed subsidiaries so that the client doesn't need to re-order
+    featured = featured.toObject();
+    let detailedSubsidiaryItems = [];
+    for (let item of featured.subsidiaries.items)
+      detailedSubsidiaryItems.push({
+        ...item,
+        data: await getContentByTypeAndId(item.type, item.id),
+      });
+    featured.subsidiaries.items = detailedSubsidiaryItems;
+    res.send(featured.subsidiaries);
   });
 
   router.delete("/subsidiaries/:id", [auth, admin], async (req, res) => {

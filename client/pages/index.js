@@ -75,7 +75,12 @@ class Index extends Component {
     let res = null;
     try {
       res = await patchFeaturedSubsidiaryAsync(subsidiary.id, { operation: direction });
-      //TODO: Actually move the item without refreshing
+      if (res.ok) {
+        let data = await res.json();
+        let updatedFeatured = { ...originalFeatured };
+        updatedFeatured.subsidiaries = data;
+        this.setState({ featured: updatedFeatured });
+      }
     } catch (ex) {
       let errorMessage = `Error: ${ex}`;
       console.log(errorMessage);
