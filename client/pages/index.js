@@ -11,6 +11,22 @@ import Icon from "../components/common/icon";
 import { deleteFeaturedSubsidiaryAsync, patchFeaturedSubsidiaryAsync } from "../services/featuredService";
 import { toast } from "react-toastify";
 
+const SubsidiaryAdminOptions = ({ subsidiary, onMoveSubsidiaryAsync, onRemoveSubsidiaryAsync }) => {
+  return (
+    <div className={indexStyles.adminOptions}>
+      <TransparentButton onClick={async () => await onMoveSubsidiaryAsync(subsidiary, "raise")} style={{ color: "var(--f1)" }}>
+        <Icon className={"fas fa-arrow-up"}></Icon>
+      </TransparentButton>
+      <TransparentButton onClick={async () => await onMoveSubsidiaryAsync(subsidiary, "lower")} style={{ color: "var(--f1)" }}>
+        <Icon className={"fas fa-arrow-down"}></Icon>
+      </TransparentButton>
+      <TransparentButton onClick={async () => await onRemoveSubsidiaryAsync(subsidiary)} style={{ color: "var(--f1)" }}>
+        <Icon className={"fas fa-star"}></Icon>
+      </TransparentButton>
+    </div>
+  );
+};
+
 class Index extends Component {
   static async getInitialProps(context) {
     return await Index.getIndexDataAsync();
@@ -28,6 +44,13 @@ class Index extends Component {
     featured: null,
   };
 
+  constructor(props) {
+    super(props);
+
+    this.handleMoveSubsidiaryAsync = this.handleMoveSubsidiaryAsync.bind(this);
+    this.handleRemoveSubsidiaryAsync = this.handleRemoveSubsidiaryAsync.bind(this);
+  }
+
   componentDidMount() {
     const { featured } = this.props;
     this.setState({ featured: featured });
@@ -40,7 +63,7 @@ class Index extends Component {
     if (prevProps.featured !== featured) this.setState({ featured });
   }
 
-  async handleRemoveFeaturedSubsidiary(subsidiary) {
+  async handleRemoveSubsidiaryAsync(subsidiary) {
     const { featured: originalFeatured } = this.state;
     let res = null;
     try {
@@ -144,19 +167,16 @@ class Index extends Component {
 
   getFeaturedBlogMarkup(subsidiary) {
     const blog = subsidiary.data;
+    const { user } = this.props;
     return (
       <div key={blog._id} className={indexStyles.item}>
-        <div className={indexStyles.adminOptions}>
-          <TransparentButton onClick={async () => await this.handleMoveSubsidiaryAsync(subsidiary, "raise")} style={{ color: "var(--f1)" }}>
-            <Icon className={"fas fa-arrow-up"}></Icon>
-          </TransparentButton>
-          <TransparentButton onClick={async () => await this.handleMoveSubsidiaryAsync(subsidiary, "lower")} style={{ color: "var(--f1)" }}>
-            <Icon className={"fas fa-arrow-down"}></Icon>
-          </TransparentButton>
-          <TransparentButton onClick={async () => await this.handleRemoveFeaturedSubsidiary(subsidiary)} style={{ color: "var(--f1)" }}>
-            <Icon className={"fas fa-star"}></Icon>
-          </TransparentButton>
-        </div>
+        {user && (
+          <SubsidiaryAdminOptions
+            subsidiary={subsidiary}
+            onMoveSubsidiaryAsync={this.handleMoveSubsidiaryAsync}
+            onRemoveSubsidiaryAsync={this.handleRemoveSubsidiaryAsync}
+          />
+        )}
         <div className={indexStyles.previewType}>
           <Link href={`/blog/[slug]`} as={`/blog/${blog.slug}`}>
             <a style={{ width: "100%", padding: "0px", textAlign: "center" }} className="clickableHeading">
