@@ -101,7 +101,7 @@ module.exports = function () {
     featured.primary.dateLastModified = moment().toJSON();
 
     await featured.save();
-    res.send({ primary: featured.primary });
+    res.send(featured.primary);
   });
 
   router.post("/subsidiaries", [auth, admin, validateBody(joiSubsidiarySchema)], async (req, res) => {

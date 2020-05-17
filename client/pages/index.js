@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 
 const SubsidiaryAdminOptions = ({ subsidiary, onMoveSubsidiaryAsync, onRemoveSubsidiaryAsync }) => {
   return (
-    <div className={indexStyles.adminOptions}>
+    <div className={indexStyles.subsidiaryAdminOptions}>
       <TransparentButton onClick={async () => await onMoveSubsidiaryAsync(subsidiary, "raise")} style={{ color: "var(--f1)" }}>
         <Icon className={"fas fa-arrow-up"}></Icon>
       </TransparentButton>
@@ -281,12 +281,25 @@ class Index extends Component {
     if (!featured) return <p>oops</p>;
     return (
       <Layout user={user}>
-        <div
-          dangerouslySetInnerHTML={{
-            __html: featured.primary.markup,
-          }}
-        />
+        {/*Primary Featured Content*/}
+        <div class={indexStyles.primaryContainer}>
+          {user && user.isAdmin && (
+            <div className={indexStyles.primaryAdminOptions}>
+              <a href={`/index/edit/primary`}>
+                <TransparentButton>
+                  <Icon className={"fas fa-edit"}></Icon>
+                </TransparentButton>
+              </a>
+            </div>
+          )}
+          <div
+            dangerouslySetInnerHTML={{
+              __html: featured.primary.markup,
+            }}
+          />
+        </div>
 
+        {/*Subsidiary Featured Content*/}
         <div className={indexStyles.container}>{featured.subsidiaries.items.map((item) => this.getFeaturedSubsidiaryMarkup(item))}</div>
       </Layout>
     );

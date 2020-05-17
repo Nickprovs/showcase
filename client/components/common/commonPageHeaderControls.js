@@ -42,8 +42,6 @@ class CommonPageHeaderControls extends Component {
 
   internalOnSearchKeyPressed(e) {
     const { onSearch } = this.props;
-    console.log("what is on search", onSearch);
-
     if (e.key != "Enter") return;
 
     // Unfocuses search box if desired
