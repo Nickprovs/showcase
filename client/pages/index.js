@@ -129,14 +129,24 @@ class Index extends Component {
       case "software":
         return this.getFeaturedSoftwareMarkup(subsidiary);
       case "photo":
+        return this.getFeaturedPhotoMarkup(subsidiary);
       case "media":
+        return this.getFeaturedMediaMarkup(subsidiary);
     }
   }
 
   getFeaturedSoftwareMarkup(subsidiary) {
     const software = subsidiary.data;
+    const { user } = this.props;
     return (
       <div className={indexStyles.item}>
+        {user && user.isAdmin && (
+          <SubsidiaryAdminOptions
+            subsidiary={subsidiary}
+            onMoveSubsidiaryAsync={this.handleMoveSubsidiaryAsync}
+            onRemoveSubsidiaryAsync={this.handleRemoveSubsidiaryAsync}
+          />
+        )}
         <div className={indexStyles.previewType}>
           <Link href={`/showcase/software/[slug]`} as={`/showcase/software/${software.slug}`}>
             <a style={{ width: "100%", padding: "0px", textAlign: "center" }} className="clickableHeading">
@@ -170,7 +180,7 @@ class Index extends Component {
     const { user } = this.props;
     return (
       <div key={blog._id} className={indexStyles.item}>
-        {user && (
+        {user && user.isAdmin && (
           <SubsidiaryAdminOptions
             subsidiary={subsidiary}
             onMoveSubsidiaryAsync={this.handleMoveSubsidiaryAsync}
@@ -205,11 +215,70 @@ class Index extends Component {
     );
   }
 
+  getFeaturedMediaMarkup(subsidiary) {
+    const video = subsidiary.data;
+    const { user } = this.props;
+    return (
+      <div className={indexStyles.item}>
+        {user && user.isAdmin && (
+          <SubsidiaryAdminOptions
+            subsidiary={subsidiary}
+            onMoveSubsidiaryAsync={this.handleMoveSubsidiaryAsync}
+            onRemoveSubsidiaryAsync={this.handleRemoveSubsidiaryAsync}
+          />
+        )}
+        <div className={indexStyles.previewType}>
+          <h2>Featured Video</h2>
+        </div>
+        <div className={indexStyles.previewTitle}>
+          <h2>{video.title}</h2>
+        </div>
+        <DangerousInnerHtmlWithScript className={indexStyles.videoContainer} html={video.markup} />
+        <div className={indexStyles.descriptionContainer}>
+          <label style={{ cursor: "text" }} className={indexStyles.description}>
+            This is a test 123
+          </label>
+        </div>
+      </div>
+    );
+  }
+
+  getFeaturedPhotoMarkup(subsidiary) {
+    const photo = subsidiary.data;
+    const { user } = this.props;
+    return (
+      <div className={indexStyles.item}>
+        {user && user.isAdmin && (
+          <SubsidiaryAdminOptions
+            subsidiary={subsidiary}
+            onMoveSubsidiaryAsync={this.handleMoveSubsidiaryAsync}
+            onRemoveSubsidiaryAsync={this.handleRemoveSubsidiaryAsync}
+          />
+        )}
+        <div className={indexStyles.previewType}>
+          <h2>Featured Photo</h2>
+        </div>
+        <div className={indexStyles.previewTitle}>
+          <h2>{photo.title}</h2>
+        </div>
+        <div className={indexStyles.photoContainer}>
+          <a>
+            <img className={indexStyles.preservedAspectRatioPhoto} src={photo.source} />
+          </a>
+        </div>
+        <div className={indexStyles.descriptionContainer}>
+          <label style={{ cursor: "text" }} className={indexStyles.description}>
+            {photo.description}
+          </label>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const { user } = this.props;
     const { featured } = this.state;
     if (!featured) return <p>oops</p>;
-
     return (
       <Layout user={user}>
         <div
@@ -219,43 +288,6 @@ class Index extends Component {
         />
 
         <div className={indexStyles.container}>{featured.subsidiaries.items.map((item) => this.getFeaturedSubsidiaryMarkup(item))}</div>
-
-        {/* Featured Photo */}
-        {/* <div className={indexStyles.item}>
-            <div className={indexStyles.previewType}>
-              <h2>Featured Photo</h2>
-            </div>
-            <div className={indexStyles.previewTitle}>
-              <h2>{featured.photo.title}</h2>
-            </div>
-            <div className={indexStyles.previewImage}>
-              <a>
-                <img className={indexStyles.containerFitImage} src={featured.photo.source} />
-              </a>
-            </div>
-            <div className={indexStyles.descriptionContainer}>
-              <label style={{ cursor: "text" }} className={indexStyles.description}>
-                {featured.photo.description}
-              </label>
-            </div>
-          </div> */}
-
-        {/* Featured Video */}
-        {/* <div className={indexStyles.item}>
-            <div className={indexStyles.previewType}>
-              <h2>Featured Video</h2>
-            </div>
-            <div className={indexStyles.previewTitle}>
-              <h2>{featured.video.title}</h2>
-            </div>
-            <DangerousInnerHtmlWithScript className={indexStyles.videoContainer} html={featured.video.markup} />
-            <div className={indexStyles.descriptionContainer}>
-              <label style={{ cursor: "text" }} className={indexStyles.description}>
-                This is a test 123
-              </label>
-            </div>
-          </div>
-        </div>  */}
       </Layout>
     );
   }

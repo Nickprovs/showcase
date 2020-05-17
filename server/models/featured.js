@@ -48,7 +48,7 @@ const FeaturedModel = mongoose.model("Featured", mongoFeaturedSchema);
 //Joi Schema
 const joiSubsidiarySchema = Joi.object({
   id: Joi.objectId(),
-  type: Joi.string().valid("software", "blog", "photo", "medium"),
+  type: Joi.string().valid("software", "blog", "photo", "media"),
 });
 
 const joiPrimarySchema = Joi.object({

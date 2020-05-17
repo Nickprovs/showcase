@@ -3,14 +3,8 @@ import Layout from "../../components/layout";
 import photoStyles from "../../styles/photo.module.css";
 import FullscreenPhoto from "../../components/common/fullscreenPhoto";
 import withAuthAsync from "../../components/common/withAuthAsync";
-import {
-  getPhotosAsync,
-  deletePhotoAsync,
-  getPhotoCategoriesAsync,
-  deletePhotoCategoryAsync,
-  deleteFeaturedPhotoAsync,
-  updateFeaturedPhotoAsync,
-} from "../../services/photoService";
+import { getPhotosAsync, deletePhotoAsync, getPhotoCategoriesAsync, deletePhotoCategoryAsync } from "../../services/photoService";
+import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../../services/featuredService";
 import Router from "next/router";
 import CommonPageHeaderControls from "../../components/common/commonPageHeaderControls";
 import Link from "next/link";
@@ -71,13 +65,16 @@ class Photo extends Component {
     const photosRes = await getPhotosAsync(getQueryParams);
     const photos = await photosRes.json();
 
+    const featuredRes = await getFeaturedSubsidiariesAsync({ scope: "verbatim" });
+    const featured = await featuredRes.json();
+
     let res = await getPhotoCategoriesAsync();
     let categories = await res.json();
     categories.items = [{ _id: "", slug: "", name: "All" }, ...categories.items];
 
     return {
       photos: photos.items,
-      featured: photos.featured,
+      featured: featured,
       currentPage: page,
       totalPhotosCount: photos.total,
       initialSearchProp: search,
@@ -222,17 +219,22 @@ class Photo extends Component {
 
   async handleToggleFeaturedPhoto(photo) {
     const { featured: originalFeatured } = this.state;
-
-    //Try to update the featured photo... update ui right away for responsiveness... revert back if issue.
     let res = null;
     try {
-      if (originalFeatured && originalFeatured._id === photo._id) {
-        res = await deleteFeaturedPhotoAsync();
-        this.setState({ featured: null });
+      let sameItemAlreadyFeatured = originalFeatured.subsidiaries.items.find((item) => item.id === photo._id);
+      if (sameItemAlreadyFeatured) {
+        res = await deleteFeaturedSubsidiaryAsync(photo._id);
+        let originalFeaturedWithRemovedItem = { ...originalFeatured };
+        originalFeaturedWithRemovedItem.subsidiaries.items.splice(originalFeatured.subsidiaries.items.indexOf(sameItemAlreadyFeatured), 1);
+        console.log(originalFeaturedWithRemovedItem);
+        this.setState({ featured: originalFeaturedWithRemovedItem });
       } else {
-        res = await updateFeaturedPhotoAsync({ photoId: photo._id });
+        res = await createFeaturedSubsidiaryAsync({ id: photo._id, type: "photo" });
         let featuredPhotoRes = await res.json();
-        this.setState({ featured: featuredPhotoRes.photo });
+        console.log("res", featuredPhotoRes);
+        let originalFeaturedWithAddedItem = { ...originalFeatured };
+        originalFeaturedWithAddedItem.subsidiaries.items.push(featuredPhotoRes);
+        this.setState({ featured: originalFeaturedWithAddedItem });
       }
     } catch (ex) {
       let errorMessage = `Error: ${ex}`;
@@ -318,7 +320,9 @@ class Photo extends Component {
                     <div id="test" className={photoStyles.adminOptions}>
                       <div style={{ backgroundColor: "white" }}>
                         <TransparentButton onClick={async () => await this.handleToggleFeaturedPhoto(photo)} style={{ color: "var(--f1)" }}>
-                          <Icon className={featured && photo._id === featured._id ? "fas fa-star" : "far fa-star"}></Icon>
+                          <Icon
+                            className={featured.subsidiaries.items.some((item) => item.id === photo._id) ? "fas fa-star" : "far fa-star"}
+                          ></Icon>
                         </TransparentButton>
                         <Link href={`/showcase/photo/edit/photo/[id]`} as={`/showcase/photo/edit/photo/${photo._id}`}>
                           <TransparentButton>

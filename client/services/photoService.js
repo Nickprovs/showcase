@@ -116,37 +116,3 @@ export async function deletePhotoCategoryAsync(photoCategoryId) {
   });
   return res;
 }
-
-export async function getFeaturedPhotoAsync() {
-  const res = await fetch(`${FEATUREDPHOTOSAPIURL}`, {
-    method: "get",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  return res;
-}
-
-export async function updateFeaturedPhotoAsync(updated) {
-  const res = await fetch(`${FEATUREDPHOTOSAPIURL}`, {
-    method: "put",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(updated),
-  });
-  return res;
-}
-
-export async function deleteFeaturedPhotoAsync() {
-  const res = await fetch(`${FEATUREDPHOTOSAPIURL}`, {
-    method: "delete",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  return res;
-}

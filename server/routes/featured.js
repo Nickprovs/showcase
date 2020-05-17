@@ -23,7 +23,7 @@ async function getContentByTypeAndId(type, id) {
       return await SoftwareModel.findOne({ _id: id });
     case "photo":
       return await PhotoModel.findOne({ _id: id });
-    case "video":
+    case "media":
       return await VideoModel.findOne({ _id: id });
     default:
       return null;

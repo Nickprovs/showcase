@@ -6,12 +6,7 @@ import CommonPageHeaderControls from "../components/common/commonPageHeaderContr
 import CommonPageArticleSection from "../components/common/commonPageArticleSection";
 import Router from "next/router";
 import { getBlogsAsync, deleteBlogAsync, getBlogCategoriesAsync, deleteBlogCategoryAsync } from "../services/blogService";
-import {
-  getFeaturedSubsidiariesAsync,
-  createFeaturedSubsidiaryAsync,
-  deleteFeaturedSubsidiaryAsync,
-  deleteFeaturedSubsidiariesAsync,
-} from "../services/featuredService";
+import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../services/featuredService";
 const pageSize = 6;
 
 class Blog extends Component {

@@ -2,17 +2,10 @@ import Layout from "../../components/layout";
 import videoStyles from "../../styles/video.module.css";
 import withAuthAsync from "../../components/common/withAuthAsync";
 import { Component } from "react";
-import {
-  getVideosAsync,
-  deleteVideoAsync,
-  getVideoCategoriesAsync,
-  deleteVideoCategoryAsync,
-  deleteFeaturedVideoAsync,
-  updateFeaturedVideoAsync,
-} from "../../services/videoService";
+import { getVideosAsync, deleteVideoAsync, getVideoCategoriesAsync } from "../../services/videoService";
+import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../../services/featuredService";
 import CommonPageHeaderControls from "../../components/common/commonPageHeaderControls";
 import Router from "next/router";
-import Link from "next/link";
 import Icon from "../../components/common/icon";
 import TransparentButton from "../../components/common/transparentButton";
 import BasicButton from "../../components/common/basicButton";
@@ -62,13 +55,16 @@ class Video extends Component {
     const videosRes = await getVideosAsync(getQueryParams);
     const videos = await videosRes.json();
 
+    const featuredRes = await getFeaturedSubsidiariesAsync({ scope: "verbatim" });
+    const featured = await featuredRes.json();
+
     let res = await getVideoCategoriesAsync();
     let categories = await res.json();
     categories.items = [{ _id: "", slug: "", name: "All" }, ...categories.items];
 
     return {
       videos: videos.items,
-      featured: videos.featured,
+      featured: featured,
       currentPage: page,
       totalVideosCount: videos.total,
       initialSearchProp: search,
@@ -224,17 +220,22 @@ class Video extends Component {
 
   async handleToggleFeaturedVideo(video) {
     const { featured: originalFeatured } = this.state;
-
-    //Try to update the featured video... update ui right away for responsiveness... revert back if issue.
     let res = null;
     try {
-      if (originalFeatured && originalFeatured._id === video._id) {
-        res = await deleteFeaturedVideoAsync();
-        this.setState({ featured: null });
+      let sameItemAlreadyFeatured = originalFeatured.subsidiaries.items.find((item) => item.id === video._id);
+      if (sameItemAlreadyFeatured) {
+        res = await deleteFeaturedSubsidiaryAsync(video._id);
+        let originalFeaturedWithRemovedItem = { ...originalFeatured };
+        originalFeaturedWithRemovedItem.subsidiaries.items.splice(originalFeatured.subsidiaries.items.indexOf(sameItemAlreadyFeatured), 1);
+        console.log(originalFeaturedWithRemovedItem);
+        this.setState({ featured: originalFeaturedWithRemovedItem });
       } else {
-        res = await updateFeaturedVideoAsync({ videoId: video._id });
+        res = await createFeaturedSubsidiaryAsync({ id: video._id, type: "media" });
         let featuredVideoRes = await res.json();
-        this.setState({ featured: featuredVideoRes.video });
+        console.log("res", featuredVideoRes);
+        let originalFeaturedWithAddedItem = { ...originalFeatured };
+        originalFeaturedWithAddedItem.subsidiaries.items.push(featuredVideoRes);
+        this.setState({ featured: originalFeaturedWithAddedItem });
       }
     } catch (ex) {
       let errorMessage = `Error: ${ex}`;
@@ -281,7 +282,9 @@ class Video extends Component {
               {user && user.isAdmin && (
                 <div className={videoStyles.adminOptions}>
                   <TransparentButton onClick={async () => await this.handleToggleFeaturedVideo(video)} style={{ color: "var(--f1)" }}>
-                    <Icon className={featured && video._id === featured._id ? "fas fa-star" : "far fa-star"}></Icon>
+                    <Icon
+                      className={featured.subsidiaries.items.some((item) => item.id === video._id) ? "fas fa-star" : "far fa-star"}
+                    ></Icon>
                   </TransparentButton>
                   {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
                   <a href={`video/edit/video/${video._id}`}>

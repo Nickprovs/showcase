@@ -116,37 +116,3 @@ export async function deleteVideoCategoryAsync(videoCategoryId) {
   });
   return res;
 }
-
-export async function getFeaturedVideoAsync() {
-  const res = await fetch(`${FEATUREDVIDEOSAPIURL}`, {
-    method: "get",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  return res;
-}
-
-export async function updateFeaturedVideoAsync(updated) {
-  const res = await fetch(`${FEATUREDVIDEOSAPIURL}`, {
-    method: "put",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(updated),
-  });
-  return res;
-}
-
-export async function deleteFeaturedVideoAsync() {
-  const res = await fetch(`${FEATUREDVIDEOSAPIURL}`, {
-    method: "delete",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  return res;
-}

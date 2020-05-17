@@ -10,9 +10,8 @@ import {
   deleteSoftwareAsync,
   getSoftwareCategoriesAsync,
   deleteSoftwareCategoryAsync,
-  updateFeaturedSoftwareAsync,
-  deleteFeaturedSoftwareAsync,
 } from "../../services/softwareService";
+import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../../services/featuredService";
 
 const pageSize = 6;
 
@@ -46,13 +45,16 @@ class Software extends Component {
     const softwareRes = await getSoftwaresAsync(getQueryParams);
     const software = await softwareRes.json();
 
+    const featuredRes = await getFeaturedSubsidiariesAsync({ scope: "verbatim" });
+    const featured = await featuredRes.json();
+
     let res = await getSoftwareCategoriesAsync();
     let categories = await res.json();
     categories.items = [{ _id: "", slug: "", name: "All" }, ...categories.items];
 
     return {
       previews: software.items,
-      featured: software.featured,
+      featured: featured,
       currentPage: page,
       totalSoftwaresCount: software.total,
       initialSearchProp: search,
@@ -209,17 +211,22 @@ class Software extends Component {
 
   async handleToggleFeaturedArticle(article) {
     const { featured: originalFeatured } = this.state;
-
-    //Try to update the featured article... update ui right away for responsiveness... revert back if issue.
     let res = null;
     try {
-      if (originalFeatured && originalFeatured._id === article._id) {
-        res = await deleteFeaturedSoftwareAsync();
-        this.setState({ featured: null });
+      let sameItemAlreadyFeatured = originalFeatured.subsidiaries.items.find((item) => item.id === article._id);
+      if (sameItemAlreadyFeatured) {
+        res = await deleteFeaturedSubsidiaryAsync(article._id);
+        let originalFeaturedWithRemovedItem = { ...originalFeatured };
+        originalFeaturedWithRemovedItem.subsidiaries.items.splice(originalFeatured.subsidiaries.items.indexOf(sameItemAlreadyFeatured), 1);
+        console.log(originalFeaturedWithRemovedItem);
+        this.setState({ featured: originalFeaturedWithRemovedItem });
       } else {
-        res = await updateFeaturedSoftwareAsync({ softwareId: article._id });
+        res = await createFeaturedSubsidiaryAsync({ id: article._id, type: "software" });
         let featuredArticleRes = await res.json();
-        this.setState({ featured: featuredArticleRes.software });
+        console.log("res", featuredArticleRes);
+        let originalFeaturedWithAddedItem = { ...originalFeatured };
+        originalFeaturedWithAddedItem.subsidiaries.items.push(featuredArticleRes);
+        this.setState({ featured: originalFeaturedWithAddedItem });
       }
     } catch (ex) {
       let errorMessage = `Error: ${ex}`;
