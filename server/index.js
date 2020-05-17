@@ -18,6 +18,7 @@ require("./startup/config")();
 require("./startup/prod")(app);
 require("./startup/validation")();
 require("./startup/setupAdmin")();
+require("./startup/setupGeneral")();
 require("./startup/setupFeatured")();
 require("./startup/routes")(app);
 
