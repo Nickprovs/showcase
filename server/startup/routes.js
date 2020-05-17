@@ -1,6 +1,7 @@
 const auth = require("../routes/auth");
 const me = require("../routes/me");
 const contact = require("../routes/contact");
+const general = require("../routes/general");
 const featured = require("../routes/featured");
 const categories = require("../routes/common/categories");
 const articles = require("../routes/common/articles");
@@ -16,10 +17,11 @@ const { PhotoCategoryModel, joiSchema: joiPhotoCategorySchema } = require("../mo
 const { VideoCategoryModel, joiSchema: joiVideoCategorySchema } = require("../models/videoCategory");
 
 module.exports = function (app) {
+  app.use("/general", general());
+  app.use("/featured", featured());
+  app.use("/contact", contact);
   app.use("/auth", auth);
   app.use("/me", me);
-  app.use("/contact", contact);
-  app.use("/featured", featured());
 
   app.use("/articles", articles(Article, joiArticleSchema, ArticleCategory, "article"));
   app.use("/articleCategories", categories(ArticleCategory, joiArticleCategorySchema));

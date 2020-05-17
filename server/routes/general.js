@@ -11,7 +11,7 @@ const winston = require("winston");
 module.exports = function () {
   const router = express.Router();
 
-  router.get("/", validateQuery(getAllQuerySchema), async (req, res) => {
+  router.get("/", async (req, res) => {
     let general = await GeneralModel.findOne();
     res.send(general);
   });
@@ -22,10 +22,10 @@ module.exports = function () {
     const updatedGeneral = await GeneralModel.findByIdAndUpdate(
       general._id,
       {
-        title = req.body.title,
-        footnote = req.body.footnote,
-        socialLinks = req.body.socialLinks,
-        dateLastModified = moment().toJSON()
+        title: req.body.title,
+        footnote: req.body.footnote,
+        socialLinks: req.body.socialLinks,
+        dateLastModified: moment().toJSON(),
       },
       { new: true }
     );
