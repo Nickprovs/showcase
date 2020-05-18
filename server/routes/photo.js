@@ -9,7 +9,6 @@ const getAllQuerySchema = require("./schemas/queries/photo/getAllQuery");
 const { PhotoModel, joiSchema: joiPhotoSchema } = require("../models/photo");
 const { PhotoCategoryModel } = require("../models/photoCategory");
 const ValidationUtilities = require("../util/validationUtilities");
-const { FeaturedModel } = require("../models/featured");
 
 const winston = require("winston");
 
@@ -55,11 +54,6 @@ module.exports = function () {
       .limit(limit)
       .collation({ locale: "en", strength: 2 });
 
-    //Check for a featured photo
-    let featuredPhoto = null;
-    const featured = await FeaturedModel.findOne();
-    if (featured.photoId) featuredPhoto = await PhotoModel.findOne({ _id: featured.photoId });
-
     const data = {
       offset: offset,
       limit: limit,
@@ -67,7 +61,6 @@ module.exports = function () {
       total: total,
       search: search,
       items: photos,
-      featured: featuredPhoto,
     };
 
     res.send(data);

@@ -9,7 +9,6 @@ const ValidationUtilities = require("../../util/validationUtilities");
 const validateVariableId = require("../../middleware/validateVariableId");
 const getAllQuerySchema = require("../schemas/queries/articles/getAllQuery");
 const winston = require("winston");
-const { FeaturedModel } = require("../../models/featured");
 
 module.exports = function (ArticleModel, articleJoiSchema, ArticleCategoryModel, typeName) {
   const router = express.Router();
@@ -53,12 +52,6 @@ module.exports = function (ArticleModel, articleJoiSchema, ArticleCategoryModel,
       .limit(limit)
       .collation({ locale: "en", strength: 2 });
 
-    //Check for a featured article
-    let featuredArticle = null;
-    const featured = await FeaturedModel.findOne();
-    let featuredArticleId = featured[`${typeName}Id`];
-    if (featuredArticleId) featuredArticle = await ArticleModel.findOne({ _id: featuredArticleId });
-
     const data = {
       offset: offset,
       limit: limit,
@@ -66,7 +59,6 @@ module.exports = function (ArticleModel, articleJoiSchema, ArticleCategoryModel,
       total: total,
       search: search,
       items: articles,
-      featured: featuredArticle,
     };
     res.send(data);
   });
