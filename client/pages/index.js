@@ -1,5 +1,7 @@
 import Layout from "../components/layout";
 import withAuthAsync from "../components/common/withAuthAsync";
+import withLayoutAsync from "../components/common/withLayoutAsync";
+
 import { Component } from "react";
 import { getFeaturedAsync } from "../services/featuredService";
 import indexStyles from "../styles/index.module.css";
@@ -280,7 +282,7 @@ class Index extends Component {
     const { featured } = this.state;
     if (!featured) return <p>oops</p>;
     return (
-      <Layout user={user}>
+      <div>
         {/*Primary Featured Content*/}
         <div class={indexStyles.primaryContainer}>
           {user && user.isAdmin && (
@@ -301,9 +303,9 @@ class Index extends Component {
 
         {/*Subsidiary Featured Content*/}
         <div className={indexStyles.container}>{featured.subsidiaries.items.map((item) => this.getFeaturedSubsidiaryMarkup(item))}</div>
-      </Layout>
+      </div>
     );
   }
 }
 
-export default withAuthAsync(Index);
+export default withAuthAsync(withLayoutAsync(Index));

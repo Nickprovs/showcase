@@ -8,6 +8,9 @@ import Dimmer from "./dimmer";
 import layout from "../styles/layout.module.css";
 import { logoutAsync } from "../services/authService";
 import Router from "next/router";
+import getConfig from "next/config";
+
+const { publicRuntimeConfig } = getConfig();
 
 const contentStyle = {
   zIndex: 3,
@@ -122,8 +125,12 @@ export default class Layout extends Component {
   }
 
   render() {
-    const { children } = this.props;
+    const { children, general } = this.props;
     const { isSidebarOpen, internalPages, externalPages } = this.state;
+
+    let title = general ? general.title : "SHOWCASE";
+    let footnote = general ? general.footnote : "";
+
     return (
       <Theme variables={Theme.Light}>
         <div style={containerStyle}>
@@ -136,10 +143,10 @@ export default class Layout extends Component {
           />
           <Dimmer on={isSidebarOpen} />
           <div className={layout.layoutStyle}>
-            <NamePlate />
+            <NamePlate title={title} />
             <Header internalPages={internalPages} externalPages={externalPages} />
             <div style={contentStyle}>{children}</div>
-            <Footer externalPages={externalPages} />
+            <Footer externalPages={externalPages} footnote={footnote} />
           </div>
         </div>
       </Theme>

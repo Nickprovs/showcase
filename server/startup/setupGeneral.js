@@ -7,7 +7,7 @@ module.exports = async function () {
   if (!existingGeneral) {
     const general = new GeneralModel({
       title: "SHOWCASE",
-      footnote: "© NICHOLAS PROVOST | BUILT BY NICHOLAS PROVOST | INSPIRED BY @AJLKN",
+      footnote: "© SOME BODY | BUILT BY SOME BODY | INSPIRED BY SOME BODY",
       socialLinks: {
         linkedin: "https://www.linkedin.com/feed/",
         github: "https://github.com/",

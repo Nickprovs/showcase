@@ -1,6 +1,8 @@
 import namePlate from "../styles/nameplate.module.css";
 import RouterUtilities from "../util/routerUtilities";
 export default function NamePlate(props) {
+  let title = props.title ? props.title : "PLACEHOLDER";
+
   return (
     <div className={namePlate.namePlateContainer}>
       <a>
@@ -8,7 +10,7 @@ export default function NamePlate(props) {
           className={namePlate.namePlateButton}
           onClick={async () => await RouterUtilities.routeInternalWithDelayAsync("/index", 300)}
         >
-          NICHOLAS PROVOST
+          {title}
         </button>
       </a>
     </div>

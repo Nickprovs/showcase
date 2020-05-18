@@ -19,7 +19,6 @@ const withAuthAsync = (WrappedComponent, redirect = false, redirectUri = "/login
       }
 
       const innerProps = WrappedComponent.getInitialProps && (await WrappedComponent.getInitialProps(ctx));
-
       if (authIssue) {
         if (redirect) RedirectUtilities.Redirect(ctx, redirectUri);
         return { ...innerProps, user };
