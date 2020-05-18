@@ -4,9 +4,8 @@ import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
 
 const APIURL = `${publicRuntimeConfig.apiProtocol}://${publicRuntimeConfig.apiAddress}:${publicRuntimeConfig.apiPort}`;
-const BLOGSAPIURL = `${APIURL}/articles`;
-const BLOGGENRESAPIURL = `${APIURL}/articleCategories`;
-const FEATUREDBLOGSAPIURL = `${APIURL}/featured/article`;
+const BLOGSAPIURL = `${APIURL}/blogs`;
+const BLOGGENRESAPIURL = `${APIURL}/blogCategories`;
 
 export async function getBlogsAsync(options) {
   let query = "";

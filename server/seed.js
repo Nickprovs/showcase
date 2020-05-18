@@ -1,5 +1,5 @@
-const { Article } = require("./models/article");
-const { ArticleCategory } = require("./models/articleCategory");
+const { Blog } = require("./models/blog");
+const { BlogCategory } = require("./models/blogCategory");
 const { Software } = require("./models/software");
 const { SoftwareCategory } = require("./models/softwareCategory");
 const { PhotoModel } = require("./models/photo");
@@ -13,7 +13,7 @@ const config = require("config");
 const moment = require("moment");
 
 const data = {
-  articles: [
+  blogs: [
     {
       category: { name: "Science and Technology", slug: "science-and-technology" },
       items: [
@@ -379,7 +379,7 @@ async function seed() {
   try {
     const connection = await mongoose.connect(config.get("db"), { useNewUrlParser: true, useUnifiedTopology: true });
     await connection.connection.db.dropDatabase();
-    await saveCollection(data.articles, Article, ArticleCategory);
+    await saveCollection(data.blogs, Blog, BlogCategory);
     await saveCollection(data.software, Software, SoftwareCategory);
     await saveCollection(data.photos, PhotoModel, PhotoCategoryModel);
     await saveCollection(data.medias, VideoModel, VideoCategoryModel);

@@ -1,8 +1,8 @@
 const { mongoSchema, joiSchema } = require("./common/article");
 const mongoose = require("mongoose");
 
-const Article = mongoose.model("Article", mongoSchema);
+const Blog = mongoose.model("Blog", mongoSchema);
 
-exports.Article = Article;
+exports.Blog = Blog;
 exports.joiSchema = joiSchema;
 exports.mongoSchema = mongoSchema;

@@ -5,7 +5,7 @@ const admin = require("../middleware/admin");
 const validateBody = require("../middleware/validateBody");
 const validateQuery = require("../middleware/validateQuery");
 const { FeaturedModel, joiFeaturedSchema, joiPrimarySchema, joiSubsidiarySchema } = require("../models/featured");
-const { Article: ArticleModel } = require("../models/article");
+const { Blog: BlogModel } = require("../models/blog");
 const { Software: SoftwareModel } = require("../models/software");
 const { PhotoModel } = require("../models/photo");
 const { VideoModel } = require("../models/media");
@@ -18,7 +18,7 @@ const winston = require("winston");
 async function getContentByTypeAndId(type, id) {
   switch (type) {
     case "blog":
-      return await ArticleModel.findOne({ _id: id });
+      return await BlogModel.findOne({ _id: id });
     case "software":
       return await SoftwareModel.findOne({ _id: id });
     case "photo":
