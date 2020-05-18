@@ -1,10 +1,10 @@
 {
-  "clientProtocol": "nickprovs_clientProtocol",
-  "clientAddress": "nickprovs_clientAddress",
-  "clientPort": "nickprovs_clientPort",
-  "jwtPrivateKey": "nickprovs_jwtPrivateKey",
-  "captchaPrivateKey": "nickprovs_captchaPrivateKey",
-  "db": "nickprovs_db",
-  "adminUsername": "nickprovs_adminUsername",
-  "adminPassword": "nickprovs_adminPassword"
+  "clientProtocol": "showcase_clientProtocol",
+  "clientAddress": "showcase_clientAddress",
+  "clientPort": "showcase_clientPort",
+  "jwtPrivateKey": "showcase_jwtPrivateKey",
+  "captchaPrivateKey": "showcase_captchaPrivateKey",
+  "db": "showcase_db",
+  "adminUsername": "showcase_adminUsername",
+  "adminPassword": "showcase_adminPassword"
 }

@@ -6,7 +6,6 @@ const withLayoutAsync = (WrappedComponent) => {
     static async getInitialProps(ctx) {
       const generalRes = await getGeneralAsync();
       const general = await generalRes.json();
-      console.log(general);
 
       const innerProps = WrappedComponent.getInitialProps && (await WrappedComponent.getInitialProps(ctx));
       return { ...innerProps, general };

@@ -36,10 +36,10 @@ function getPublicRuntimeConfig(phase) {
 
   //Configuration will usually come from environment -- but also potentially a config file for convenience
   publicRuntimeConfig = {
-    apiProtocol: process.env.nickprovs_apiProtocol || (configFile && configFile.apiProtocol),
-    apiAddress: process.env.nickprovs_apiAddress || (configFile && configFile.apiAddress),
-    apiPort: process.env.nickprovs_apiPort || (configFile && configFile.apiPort),
-    recaptchaSiteKey: process.env.nickprovs_recaptchaSiteKey || (configFile && configFile.recaptchaSiteKey),
+    apiProtocol: process.env.showcase_apiProtocol || (configFile && configFile.apiProtocol),
+    apiAddress: process.env.showcase_apiAddress || (configFile && configFile.apiAddress),
+    apiPort: process.env.showcase_apiPort || (configFile && configFile.apiPort),
+    recaptchaSiteKey: process.env.showcase_recaptchaSiteKey || (configFile && configFile.recaptchaSiteKey),
   };
 
   validatePublicRuntimeConfig(publicRuntimeConfig);
@@ -47,8 +47,8 @@ function getPublicRuntimeConfig(phase) {
 }
 
 function validatePublicRuntimeConfig(publicRuntimeConfig) {
-  if (!publicRuntimeConfig.apiProtocol) throw new Error("Must set nickprovs_apiProtocol environment variable (http or https)");
-  if (!publicRuntimeConfig.apiAddress) throw new Error("Must set nickprovs_apiAddress environment variable");
-  if (!publicRuntimeConfig.apiPort) throw new Error("Must set nickprovs_apiPort environment variable");
-  if (!publicRuntimeConfig.recaptchaSiteKey) throw new Error("Must set nickprovs_recaptchaSiteKey environment variable");
+  if (!publicRuntimeConfig.apiProtocol) throw new Error("Must set showcase_apiProtocol environment variable (http or https)");
+  if (!publicRuntimeConfig.apiAddress) throw new Error("Must set showcase_apiAddress environment variable");
+  if (!publicRuntimeConfig.apiPort) throw new Error("Must set showcase_apiPort environment variable");
+  if (!publicRuntimeConfig.recaptchaSiteKey) throw new Error("Must set showcase_recaptchaSiteKey environment variable");
 }

@@ -17,17 +17,16 @@ router.post("/", validateBody(joiSchema), async (req, res) => {
 
   let cookieOptions = { sameSite: "lax", httpOnly: false };
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
-  res.cookie("nickprovs_accessToken", accessToken, cookieOptions);
+  res.cookie("showcase_accessToken", accessToken, cookieOptions);
 
   res.send({ accessToken });
 });
 
 router.delete("/", auth, async (req, res) => {
-  let cookieOptions = { sameSite: "lax", httpOnly: false, expires: new Date(Date.now())};
+  let cookieOptions = { sameSite: "lax", httpOnly: false, expires: new Date(Date.now()) };
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
-  res.cookie("nickprovs_accessToken", "logged out", cookieOptions);
+  res.cookie("showcase_accessToken", "logged out", cookieOptions);
   res.send();
 });
-
 
 module.exports = router;
