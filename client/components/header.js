@@ -18,7 +18,7 @@ const menuItemStyle = {
 };
 
 export default function Header(props) {
-  const { internalPages, externalPages } = props;
+  const { internalPages, externalPages, user } = props;
 
   const externalPageListStyle = {
     display: "flex",
@@ -82,6 +82,15 @@ export default function Header(props) {
       {/* External Links*/}
       <div className={header.rightContent}>
         <ul style={externalPageListStyle}>
+          {user && user.isAdmin && (
+            <li style={externalPageListItemStyle} key="editGeneral">
+              <Link href="/edit/general" key="editGeneral">
+                <TransparentButton style={{ color: "var(--s1)" }}>
+                  <Icon className="fas fa-edit"></Icon>
+                </TransparentButton>
+              </Link>
+            </li>
+          )}
           {externalPages.map((item) => (
             <li style={externalPageListItemStyle} key={item.label}>
               <a href={item.href}>

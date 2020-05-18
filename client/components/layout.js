@@ -64,23 +64,7 @@ export default class Layout extends Component {
         iconClasses: "",
       },
     ],
-    externalPages: [
-      {
-        href: "http://www.instagram.com/nickprovs/",
-        iconClasses: "fab fa-instagram",
-        label: "Instagram",
-      },
-      {
-        href: "http://www.github.com/Nickprovs",
-        iconClasses: "fab fa-github",
-        label: "Github",
-      },
-      {
-        href: "http://www.linkedin.com/in/nickprovs/",
-        iconClasses: "fab fa-linkedin-in",
-        label: "LinkedIn",
-      },
-    ],
+    externalPages: this.getExternalPages(),
   };
 
   handleToggleSidebar(openStatus) {
@@ -124,8 +108,38 @@ export default class Layout extends Component {
     this.setState({ internalPages: newInternalPages });
   }
 
+  getExternalPages() {
+    const { general } = this.props;
+    let externalPages = [];
+
+    if (!general) return externalPages;
+
+    if (general.socialLinks.instagram)
+      externalPages.push({
+        href: general.socialLinks.instagram,
+        iconClasses: "fab fa-instagram",
+        label: "Instagram",
+      });
+
+    if (general.socialLinks.github)
+      externalPages.push({
+        href: general.socialLinks.github,
+        iconClasses: "fab fa-github",
+        label: "Github",
+      });
+
+    if (general.socialLinks.linkedin)
+      externalPages.push({
+        href: general.socialLinks.linkedin,
+        iconClasses: "fab fa-linkedin-in",
+        label: "LinkedIn",
+      });
+
+    return externalPages;
+  }
+
   render() {
-    const { children, general } = this.props;
+    const { children, general, user } = this.props;
     const { isSidebarOpen, internalPages, externalPages } = this.state;
 
     let title = general ? general.title : "SHOWCASE";
@@ -136,6 +150,7 @@ export default class Layout extends Component {
         <div style={containerStyle}>
           <div className={layout.background} />
           <Sidebar
+            user={user}
             onSetSidebarOpen={(openStatus) => this.handleToggleSidebar(openStatus)}
             isSidebarOpen={isSidebarOpen}
             internalPages={internalPages}
@@ -144,7 +159,7 @@ export default class Layout extends Component {
           <Dimmer on={isSidebarOpen} />
           <div className={layout.layoutStyle}>
             <NamePlate title={title} />
-            <Header internalPages={internalPages} externalPages={externalPages} />
+            <Header user={user} internalPages={internalPages} externalPages={externalPages} />
             <div style={contentStyle}>{children}</div>
             <Footer externalPages={externalPages} footnote={footnote} />
           </div>

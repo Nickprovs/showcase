@@ -1,6 +1,7 @@
 import { Component } from "react";
 import Icon from "./common/icon";
 import TransparentButton from "./common/transparentButton";
+import Link from "next/link";
 import MenuButton from "./menuButton";
 import RouterUtilities from "../util/routerUtilities";
 import sidebar from "../styles/sidebar.module.css";
@@ -13,7 +14,7 @@ export default class Sidebar extends Component {
     this.handleToggleExpanded = this.handleToggleExpanded.bind(this);
 
     this.sidebar = null;
-    this.setSidebarRef = element => {
+    this.setSidebarRef = (element) => {
       this.sidebar = element;
     };
   }
@@ -60,11 +61,11 @@ export default class Sidebar extends Component {
           <label style={{ padding: "5px" }} className="prominentLabel">
             {item.label}
           </label>
-          {item.subPages.map(item => (
+          {item.subPages.map((item) => (
             <button
               key={item.label}
               style={{ fontSize: "10pt", paddingLeft: "20px" }}
-              onClick = {item.onClick ? item.onClick : async () => await this.handleInternalLinkableThingClicked(item.href)}
+              onClick={item.onClick ? item.onClick : async () => await this.handleInternalLinkableThingClicked(item.href)}
               className="textButton"
             >
               {item.label}
@@ -95,7 +96,7 @@ export default class Sidebar extends Component {
   render() {
     const internalPageListStyle = {
       listStyleType: "none",
-      paddingLeft: "10px"
+      paddingLeft: "10px",
     };
 
     const internalPageListItemStyle = {};
@@ -104,15 +105,15 @@ export default class Sidebar extends Component {
       marginLeft: "14px",
       marginTop: "14px",
       listStyleType: "none",
-      paddingLeft: "0px"
+      paddingLeft: "0px",
     };
 
     const externalPageListItemStyle = {
       marginRight: "25px",
-      display: "inline"
+      display: "inline",
     };
 
-    const { internalPages, externalPages, isSidebarOpen } = this.props;
+    const { internalPages, externalPages, isSidebarOpen, user } = this.props;
 
     const sidebarClass = isSidebarOpen ? sidebar.sidebarExpanded : sidebar.sidebarCollapsed;
     return (
@@ -124,7 +125,7 @@ export default class Sidebar extends Component {
 
           {/* Internal Links*/}
           <ul style={internalPageListStyle}>
-            {internalPages.map(item => (
+            {internalPages.map((item) => (
               <li key={item.label} style={internalPageListItemStyle}>
                 {this.renderInternalItem(item)}
               </li>
@@ -133,7 +134,16 @@ export default class Sidebar extends Component {
 
           {/* External Links*/}
           <ul style={externalPageListStyle}>
-            {externalPages.map(item => (
+            {user && user.isAdmin && (
+              <li style={externalPageListItemStyle} key="editGeneral">
+                <Link href="/edit/general" key="editGeneral">
+                  <TransparentButton>
+                    <Icon className="fas fa-edit"></Icon>
+                  </TransparentButton>
+                </Link>
+              </li>
+            )}
+            {externalPages.map((item) => (
               <li key={item.label} style={externalPageListItemStyle}>
                 <TransparentButton onClick={async () => await this.handleExternalLinkableThingClicked(item.href)}>
                   <Icon className={item.iconClasses}></Icon>
