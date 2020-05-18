@@ -55,9 +55,9 @@ class Primary extends Form {
   schema = CustomJoi.object({
     title: CustomJoi.string().min(2).max(64).required(),
     footnote: CustomJoi.string().min(5).max(256).required(),
-    github: CustomJoi.string().min(5).max(256).required(),
-    linkedin: CustomJoi.string().min(5).max(256).required(),
-    instagram: CustomJoi.string().min(5).max(256).required(),
+    github: CustomJoi.string().optional().allow("").max(256),
+    linkedin: CustomJoi.string().optional().allow("").max(256),
+    instagram: CustomJoi.string().optional().allow("").max(256),
   });
 
   getGeneralFromPassingState() {

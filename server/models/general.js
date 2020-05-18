@@ -51,7 +51,7 @@ const GeneralModel = mongoose.model("General", mongoGeneralSchema);
 const joiGeneralSchema = Joi.object({
   title: Joi.string().min(2).max(64).required(),
   footnote: Joi.string().min(2).max(256).required(),
-  socialLinks: Joi.object().pattern(Joi.string(), Joi.string()),
+  socialLinks: Joi.object().pattern(Joi.string(), Joi.string().optional().allow("").max(256)),
 });
 
 exports.GeneralModel = GeneralModel;
