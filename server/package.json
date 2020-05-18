@@ -1,7 +1,7 @@
 {
-  "name": "nickprovs-api",
+  "name": "showcase-api",
   "version": "1.0.0",
-  "description": "The nickprovs api.",
+  "description": "The showcase api.",
   "main": "index.js",
   "jest": {
     "testEnvironment": "node"
