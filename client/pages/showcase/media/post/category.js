@@ -2,7 +2,7 @@ import withAuthAsync from "../../../../components/common/withAuthAsync";
 import withLayoutAsync from "../../../../components/common/withLayoutAsync";
 import Form from "../../../../components/common/form";
 import CustomJoi from "../../../../misc/customJoi";
-import { createVideoCategoryAsync } from "../../../../services/videoService";
+import { createVideoCategoryAsync } from "../../../../services/mediaService";
 import { toast } from "react-toastify";
 import Router from "next/router";
 
@@ -47,7 +47,7 @@ class Category extends Form {
     }
 
     //TODO: Disallow posting duplicate category at server level.
-    Router.push("/showcase/video");
+    Router.push("/showcase/media");
   };
 
   render() {

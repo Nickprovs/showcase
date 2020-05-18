@@ -38,7 +38,7 @@
   order: 2;
 }
 
-.videoContainer {
+.mediaContainer {
   order: 3;
   flex: 65;
   height: 100%;
@@ -50,7 +50,7 @@
   align-items: center;
 }
 
-.videoContainer iframe {
+.mediaContainer iframe {
   max-width: 100%;
   max-height: 100%;
 }

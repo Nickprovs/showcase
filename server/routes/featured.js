@@ -8,7 +8,7 @@ const { FeaturedModel, joiFeaturedSchema, joiPrimarySchema, joiSubsidiarySchema 
 const { Article: ArticleModel } = require("../models/article");
 const { Software: SoftwareModel } = require("../models/software");
 const { PhotoModel } = require("../models/photo");
-const { VideoModel } = require("../models/video");
+const { VideoModel } = require("../models/media");
 const getAllQuerySchema = require("./schemas/queries/featured/getAllQuery");
 const getSubsidiariesQuerySchema = require("./schemas/queries/featured/getSubsidiariesQuery");
 const patchSubsidiaryQuerySchema = require("./schemas/queries/featured/patchSubsidiaryQuery");

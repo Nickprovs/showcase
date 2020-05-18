@@ -5,9 +5,9 @@ const admin = require("../middleware/admin");
 const validateBody = require("../middleware/validateBody");
 const validateQuery = require("../middleware/validateQuery");
 const validateObjectId = require("../middleware/validateObjectId");
-const getAllQuerySchema = require("./schemas/queries/video/getAllQuery");
-const { VideoModel, joiSchema: joiVideoSchema } = require("../models/video");
-const { VideoCategoryModel } = require("../models/videoCategory");
+const getAllQuerySchema = require("./schemas/queries/media/getAllQuery");
+const { VideoModel, joiSchema: joiVideoSchema } = require("../models/media");
+const { VideoCategoryModel } = require("../models/mediaCategory");
 const ValidationUtilities = require("../util/validationUtilities");
 
 const winston = require("winston");
@@ -26,14 +26,14 @@ module.exports = function () {
     const filterObject = {};
 
     if (categoryId) {
-      let videoCategory;
+      let mediaCategory;
       const { isIdSlug } = ValidationUtilities.isVariableId(categoryId);
 
-      if (isIdSlug) videoCategory = await VideoCategoryModel.findOne({ slug: categoryId }).select("-__v");
-      else videoCategory = await VideoCategoryModel.findById(categoryId);
+      if (isIdSlug) mediaCategory = await VideoCategoryModel.findOne({ slug: categoryId }).select("-__v");
+      else mediaCategory = await VideoCategoryModel.findById(categoryId);
 
-      if (!videoCategory) return res.status(400).send("Invalid video category in query.");
-      filterObject["category._id"] = videoCategory._id;
+      if (!mediaCategory) return res.status(400).send("Invalid media category in query.");
+      filterObject["category._id"] = mediaCategory._id;
     }
 
     if (search) {
@@ -45,8 +45,8 @@ module.exports = function () {
     //Get the total count that matches the filter object without pagination skipping / limiting
     const total = await VideoModel.countDocuments(filterObject);
 
-    //Get the paginated videos
-    const videos = await VideoModel.find(filterObject, { score: { $meta: "textScore" } })
+    //Get the paginated medias
+    const medias = await VideoModel.find(filterObject, { score: { $meta: "textScore" } })
       .select("-__v -body")
       .sort({ score: { $meta: "textScore" } })
       .sort({ datePosted: dateOrder })
@@ -60,26 +60,26 @@ module.exports = function () {
       dateOrder: dateOrder,
       total: total,
       search: search,
-      items: videos,
+      items: medias,
     };
 
     res.send(data);
   });
 
   router.get("/:id", validateObjectId, async (req, res) => {
-    const video = await VideoModel.findById(req.params.id).select("-__v");
-    if (!video) return res.status(404).send("The video with the given ID was not found.");
+    const media = await VideoModel.findById(req.params.id).select("-__v");
+    if (!media) return res.status(404).send("The media with the given ID was not found.");
 
-    res.send(video);
+    res.send(media);
   });
 
   router.post("/", [auth, admin, validateBody(joiVideoSchema)], async (req, res) => {
-    const videoCategory = await VideoCategoryModel.findById(req.body.categoryId);
-    if (!videoCategory) return res.status(400).send("Invalid video category.");
+    const mediaCategory = await VideoCategoryModel.findById(req.body.categoryId);
+    if (!mediaCategory) return res.status(400).send("Invalid media category.");
 
-    let video = new VideoModel({
+    let media = new VideoModel({
       title: req.body.title,
-      category: videoCategory,
+      category: mediaCategory,
       datePosted: moment().toJSON(),
       dateLastModified: moment().toJSON(),
       description: req.body.description,
@@ -87,20 +87,20 @@ module.exports = function () {
       tags: req.body.tags,
     });
 
-    video = await video.save();
+    media = await media.save();
 
-    res.send(video);
+    res.send(media);
   });
 
   router.put("/:id", [auth, admin, validateObjectId, validateBody(joiVideoSchema)], async (req, res) => {
-    const videoCategory = await VideoCategoryModel.findById(req.body.categoryId);
-    if (!videoCategory) return res.status(400).send("Invalid video category.");
+    const mediaCategory = await VideoCategoryModel.findById(req.body.categoryId);
+    if (!mediaCategory) return res.status(400).send("Invalid media category.");
 
     const updatedVideo = await VideoModel.findByIdAndUpdate(
       req.params.id,
       {
         title: req.body.title,
-        category: videoCategory,
+        category: mediaCategory,
         dateLastModified: moment().toJSON(),
         description: req.body.description,
         markup: req.body.markup,
@@ -115,10 +115,10 @@ module.exports = function () {
   });
 
   router.delete("/:id", [auth, admin, validateObjectId], async (req, res) => {
-    const video = await VideoModel.findByIdAndRemove(req.params.id);
-    if (!video) return res.status(404).send("The video with the given ID was not found.");
+    const media = await VideoModel.findByIdAndRemove(req.params.id);
+    if (!media) return res.status(404).send("The media with the given ID was not found.");
 
-    res.send(video);
+    res.send(media);
   });
 
   return router;

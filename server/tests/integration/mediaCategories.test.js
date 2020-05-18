@@ -1,11 +1,11 @@
 const request = require("supertest");
-const { VideoCategory } = require("../../models/videoCategory");
+const { VideoCategory } = require("../../models/mediaCategory");
 const { User } = require("../../models/user");
 const mongoose = require("mongoose");
 const moment = require("moment");
 
 let server;
-describe("/videoCategories", () => {
+describe("/mediaCategories", () => {
   beforeEach(() => {
     server = require("../../index");
   });
@@ -15,64 +15,61 @@ describe("/videoCategories", () => {
   });
 
   describe("GET /", () => {
-    let videoCategory1;
-    let videoCategory2;
+    let mediaCategory1;
+    let mediaCategory2;
 
     beforeEach(async () => {
-      videoCategory1 = new VideoCategory({ name: "Fiction", slug: "fiction" });
-      videoCategory1 = await videoCategory1.save();
+      mediaCategory1 = new VideoCategory({ name: "Fiction", slug: "fiction" });
+      mediaCategory1 = await mediaCategory1.save();
 
-      videoCategory2 = new VideoCategory({ name: "Non-Fiction", slug: "non-fiction" });
-      videoCategory2 = await videoCategory2.save();
+      mediaCategory2 = new VideoCategory({ name: "Non-Fiction", slug: "non-fiction" });
+      mediaCategory2 = await mediaCategory2.save();
     });
 
-    it("Should return all the video categories", async () => {
-      const res = await request(server).get("/videoCategories");
+    it("Should return all the media categories", async () => {
+      const res = await request(server).get("/mediaCategories");
 
       expect(res.status).toBe(200);
       expect(res.body.items.length).toBe(2);
-      expect(res.body.items.some(g => g.name === videoCategory1.name)).toBeTruthy();
-      expect(res.body.items.some(g => g.name === videoCategory2.name)).toBeTruthy();
+      expect(res.body.items.some((g) => g.name === mediaCategory1.name)).toBeTruthy();
+      expect(res.body.items.some((g) => g.name === mediaCategory2.name)).toBeTruthy();
     });
   });
 
   describe("GET /:id", () => {
-    it("should return an video category if valid id is passed", async () => {
-      let videoCategory = new VideoCategory({ name: "Horror", slug: "horror" });
-      videoCategory = await videoCategory.save();
+    it("should return an media category if valid id is passed", async () => {
+      let mediaCategory = new VideoCategory({ name: "Horror", slug: "horror" });
+      mediaCategory = await mediaCategory.save();
 
-      const res = await request(server).get("/videoCategories/" + videoCategory._id);
+      const res = await request(server).get("/mediaCategories/" + mediaCategory._id);
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("name", videoCategory.name);
+      expect(res.body).toHaveProperty("name", mediaCategory.name);
     });
 
     it("should return 400 if invalid id is passed", async () => {
-      const res = await request(server).get("/videoCategories/1");
+      const res = await request(server).get("/mediaCategories/1");
       expect(res.status).toBe(400);
     });
 
-    it("should return 404 if no video with the given id exists", async () => {
+    it("should return 404 if no media with the given id exists", async () => {
       const id = mongoose.Types.ObjectId();
-      const res = await request(server).get("/videoCategories/" + id);
+      const res = await request(server).get("/mediaCategories/" + id);
 
       expect(res.status).toBe(404);
     });
   });
 
   describe("POST /", () => {
-    let videoCategory;
+    let mediaCategory;
     let token;
 
     const exec = () => {
-      return request(server)
-        .post("/videoCategories")
-        .set("x-auth-token", token)
-        .send(videoCategory);
+      return request(server).post("/mediaCategories").set("x-auth-token", token).send(mediaCategory);
     };
 
     beforeEach(async () => {
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
-      videoCategory = { name: "Fiction", slug: "fiction" };
+      mediaCategory = { name: "Fiction", slug: "fiction" };
     });
 
     it("should return 401 if client is not logged in", async () => {
@@ -83,14 +80,14 @@ describe("/videoCategories", () => {
     });
 
     it("should return 400 if category name is less than 2 characters", async () => {
-      videoCategory.name = "t";
+      mediaCategory.name = "t";
 
       const res = await exec();
       expect(res.status).toBe(400);
     });
 
     it("should return 400 if title is more than 50 characters", async () => {
-      videoCategory.name = new Array(52).join("a");
+      mediaCategory.name = new Array(52).join("a");
       const res = await exec();
       expect(res.status).toBe(400);
     });
@@ -103,28 +100,28 @@ describe("/videoCategories", () => {
     it("should save if it is valid", async () => {
       await exec();
 
-      const savedVideoCategory = await VideoCategory.find({ name: videoCategory.name });
+      const savedVideoCategory = await VideoCategory.find({ name: mediaCategory.name });
       expect(savedVideoCategory).not.toBeNull();
     });
 
     it("should return it if it is valid", async () => {
       const res = await exec();
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("name", videoCategory.name);
+      expect(res.body).toHaveProperty("name", mediaCategory.name);
     });
   });
 
   describe("PUT /", () => {
     let existingVideoCategory;
-    let videoCategory;
+    let mediaCategory;
     let token;
     let id;
 
     const exec = () => {
       return request(server)
-        .put("/videoCategories/" + id)
+        .put("/mediaCategories/" + id)
         .set("x-auth-token", token)
-        .send(videoCategory);
+        .send(mediaCategory);
     };
 
     beforeEach(async () => {
@@ -133,9 +130,9 @@ describe("/videoCategories", () => {
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
       id = existingVideoCategory._id;
 
-      videoCategory = {
+      mediaCategory = {
         name: "Fantasy",
-        slug: "fantasy"
+        slug: "fantasy",
       };
     });
 
@@ -153,7 +150,7 @@ describe("/videoCategories", () => {
       expect(res.status).toBe(400);
     });
 
-    it("should return 404 if an existing video category with the provided id is not found", async () => {
+    it("should return 404 if an existing media category with the provided id is not found", async () => {
       id = mongoose.Types.ObjectId();
       const res = await exec();
 
@@ -161,14 +158,14 @@ describe("/videoCategories", () => {
     });
 
     it("should return 400 if title is less than 2 characters", async () => {
-      videoCategory.title = "t";
+      mediaCategory.title = "t";
       const res = await exec();
 
       expect(res.status).toBe(400);
     });
 
     it("should return 400 if title is more than 50 characters", async () => {
-      videoCategory.title = new Array(52).join("a");
+      mediaCategory.title = new Array(52).join("a");
       const res = await exec();
       expect(res.status).toBe(400);
     });
@@ -181,7 +178,7 @@ describe("/videoCategories", () => {
     it("should save it if it is valid", async () => {
       await exec();
 
-      const savedVideoCategory = await VideoCategory.find({ name: videoCategory.name });
+      const savedVideoCategory = await VideoCategory.find({ name: mediaCategory.name });
       expect(savedVideoCategory).not.toBeNull();
     });
 
@@ -190,33 +187,33 @@ describe("/videoCategories", () => {
 
       const updatedVideoCategory = await VideoCategory.findById(existingVideoCategory._id);
 
-      expect(updatedVideoCategory.name).toBe(videoCategory.name);
+      expect(updatedVideoCategory.name).toBe(mediaCategory.name);
     });
 
     it("should return it if it is valid", async () => {
       const res = await exec();
 
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("name", videoCategory.name);
+      expect(res.body).toHaveProperty("name", mediaCategory.name);
     });
   });
 
   describe("DELETE /", () => {
     let token;
-    let videoCategory;
+    let mediaCategory;
     let id;
 
     const exec = async () => {
       return await request(server)
-        .delete("/videoCategories/" + id)
+        .delete("/mediaCategories/" + id)
         .set("x-auth-token", token)
         .send();
     };
 
     beforeEach(async () => {
-      videoCategory = new VideoCategory({ name: "Folk", slug: "folk" });
-      videoCategory = await videoCategory.save();
-      id = videoCategory._id;
+      mediaCategory = new VideoCategory({ name: "Folk", slug: "folk" });
+      mediaCategory = await mediaCategory.save();
+      id = mediaCategory._id;
       token = new User({ isAdmin: true }).generateAuthToken();
     });
 
@@ -244,7 +241,7 @@ describe("/videoCategories", () => {
       expect(res.status).toBe(400);
     });
 
-    it("should return 404 if no video with the given id was found", async () => {
+    it("should return 404 if no media with the given id was found", async () => {
       id = mongoose.Types.ObjectId();
 
       const res = await exec();
@@ -252,18 +249,18 @@ describe("/videoCategories", () => {
       expect(res.status).toBe(404);
     });
 
-    it("should delete the video if input is valid", async () => {
+    it("should delete the media if input is valid", async () => {
       await exec();
 
       const savedVideoCategory = await VideoCategory.findById(id);
       expect(savedVideoCategory).toBeNull();
     });
 
-    it("should return the removed video", async () => {
+    it("should return the removed media", async () => {
       const res = await exec();
 
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("name", videoCategory.name);
+      expect(res.body).toHaveProperty("name", mediaCategory.name);
     });
   });
 });

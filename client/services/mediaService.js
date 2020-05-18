@@ -4,9 +4,9 @@ import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
 const APIURL = `${publicRuntimeConfig.apiProtocol}://${publicRuntimeConfig.apiAddress}:${publicRuntimeConfig.apiPort}`;
 
-const PHOTOSAPIURL = `${APIURL}/videos`;
-const PHOTOCATEGORIESURL = `${APIURL}/videoCategories`;
-const FEATUREDVIDEOSAPIURL = `${APIURL}/featured/video`;
+const PHOTOSAPIURL = `${APIURL}/medias`;
+const PHOTOCATEGORIESURL = `${APIURL}/mediaCategories`;
+const FEATUREDMEDIASAPIURL = `${APIURL}/featured/media`;
 
 export async function getVideosAsync(options) {
   let query = "";
@@ -23,29 +23,29 @@ export async function getVideosAsync(options) {
   return res;
 }
 
-export async function getVideoAsync(videoId) {
-  const requestUrl = PHOTOSAPIURL + "/" + videoId;
+export async function getVideoAsync(mediaId) {
+  const requestUrl = PHOTOSAPIURL + "/" + mediaId;
   const res = await fetch(requestUrl);
   return res;
 }
 
-export async function createVideoAsync(video) {
+export async function createVideoAsync(media) {
   const res = await fetch(PHOTOSAPIURL, {
     method: "post",
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(video),
+    body: JSON.stringify(media),
   });
   return res;
 }
 
-export async function updateVideoAsync(video) {
-  const body = { ...video };
+export async function updateVideoAsync(media) {
+  const body = { ...media };
   delete body._id;
 
-  const res = await fetch(`${PHOTOSAPIURL}/${video._id}`, {
+  const res = await fetch(`${PHOTOSAPIURL}/${media._id}`, {
     method: "put",
     credentials: "include",
     headers: {
@@ -56,8 +56,8 @@ export async function updateVideoAsync(video) {
   return res;
 }
 
-export async function deleteVideoAsync(videoId) {
-  const res = await fetch(`${PHOTOSAPIURL}/${videoId}`, {
+export async function deleteVideoAsync(mediaId) {
+  const res = await fetch(`${PHOTOSAPIURL}/${mediaId}`, {
     method: "delete",
     credentials: "include",
     headers: {
@@ -105,9 +105,9 @@ export async function updateVideoCategoryAsync(category) {
   return res;
 }
 
-export async function deleteVideoCategoryAsync(videoCategoryId) {
-  console.log("Making request to", `${PHOTOCATEGORIESURL}/${videoCategoryId}`);
-  const res = await fetch(`${PHOTOCATEGORIESURL}/${videoCategoryId}`, {
+export async function deleteVideoCategoryAsync(mediaCategoryId) {
+  console.log("Making request to", `${PHOTOCATEGORIESURL}/${mediaCategoryId}`);
+  const res = await fetch(`${PHOTOCATEGORIESURL}/${mediaCategoryId}`, {
     method: "delete",
     credentials: "include",
     headers: {

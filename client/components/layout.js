@@ -47,8 +47,8 @@ export default class Layout extends Component {
             iconClasses: "",
           },
           {
-            href: "/showcase/video",
-            label: "VIDEO",
+            href: "/showcase/media",
+            label: "MEDIA",
             iconClasses: "",
           },
         ],

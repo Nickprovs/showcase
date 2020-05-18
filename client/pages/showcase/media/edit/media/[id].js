@@ -2,7 +2,7 @@ import withAuthAsync from "../../../../../components/common/withAuthAsync";
 import withLayoutAsync from "../../../../../components/common/withLayoutAsync";
 import Form from "../../../../../components/common/form";
 import CustomJoi from "../../../../../misc/customJoi";
-import { getVideoAsync, getVideoCategoriesAsync, updateVideoAsync } from "../../../../../services/videoService";
+import { getVideoAsync, getVideoCategoriesAsync, updateVideoAsync } from "../../../../../services/mediaService";
 import Head from "next/head";
 import { toast, cssTransition } from "react-toastify";
 import Router from "next/router";
@@ -13,13 +13,13 @@ class Video extends Form {
   static async getInitialProps(context) {
     const { id } = context.query;
 
-    //Get the video
-    let video = null;
+    //Get the media
+    let media = null;
     try {
-      const videoRes = await getVideoAsync(id);
-      video = await videoRes.json();
+      const mediaRes = await getVideoAsync(id);
+      media = await mediaRes.json();
     } catch (ex) {
-      video = null;
+      media = null;
     }
 
     //Get categories for form
@@ -31,7 +31,7 @@ class Video extends Form {
       categories = null;
     }
 
-    return { video: video, categories: categories };
+    return { media: media, categories: categories };
   }
 
   constructor() {
@@ -42,30 +42,30 @@ class Video extends Form {
   }
 
   async componentDidMount() {
-    const { video, categories } = this.props;
-    if (!video) {
-      toast.error("Couldn't get video. Redirecting back.", { autoClose: 1500 });
-      await RouterUtilities.routeInternalWithDelayAsync("/showcase/video", 2000);
+    const { media, categories } = this.props;
+    if (!media) {
+      toast.error("Couldn't get media. Redirecting back.", { autoClose: 1500 });
+      await RouterUtilities.routeInternalWithDelayAsync("/showcase/media", 2000);
       return;
     }
 
     if (!categories) {
       toast.error("Couldn't get categories. Redirecting back.", { autoClose: 1500 });
-      await RouterUtilities.routeInternalWithDelayAsync("/showcase/video", 2000);
+      await RouterUtilities.routeInternalWithDelayAsync("/showcase/media", 2000);
       return;
     }
 
-    this.getStateDataFromVideo(video);
+    this.getStateDataFromVideo(media);
   }
 
-  getStateDataFromVideo(video) {
+  getStateDataFromVideo(media) {
     this.setState({
       data: {
-        title: video.title,
-        category: video.category.name,
-        description: video.description,
-        markup: video.markup,
-        tags: StringUtilities.getCsvStringFromArray(video.tags),
+        title: media.title,
+        category: media.category.name,
+        description: media.description,
+        markup: media.markup,
+        tags: StringUtilities.getCsvStringFromArray(media.tags),
       },
     });
   }
@@ -80,30 +80,30 @@ class Video extends Form {
 
   getVideoFromPassingState() {
     const { categories } = this.props;
-    let video = { ...this.state.data };
+    let media = { ...this.state.data };
 
-    let category = video.category;
-    delete video.category;
-    video.categoryId = categories.items.filter((c) => c.name == category)[0]._id;
+    let category = media.category;
+    delete media.category;
+    media.categoryId = categories.items.filter((c) => c.name == category)[0]._id;
 
-    let tagsString = video.tags;
-    delete video.tags;
+    let tagsString = media.tags;
+    delete media.tags;
     let tagsArray = tagsString.replace(/^,+|,+$/gm, "").split(",");
     tagsArray = tagsArray.map((str) => str.trim());
-    video.tags = tagsArray;
+    media.tags = tagsArray;
 
-    return video;
+    return media;
   }
 
   doSubmit = async () => {
-    let originalVideo = this.props.video;
-    let video = this.getVideoFromPassingState();
-    video._id = originalVideo._id;
+    let originalVideo = this.props.media;
+    let media = this.getVideoFromPassingState();
+    media._id = originalVideo._id;
 
     let res = null;
     //Try and post the new category
     try {
-      res = await updateVideoAsync(video);
+      res = await updateVideoAsync(media);
     } catch (ex) {
       let errorMessage = `Error: ${ex}`;
       console.log(errorMessage);
@@ -121,7 +121,7 @@ class Video extends Form {
     }
 
     //TODO: Disallow posting duplicate category at server level.
-    Router.push("/showcase/video");
+    Router.push("/showcase/media");
   };
 
   render() {

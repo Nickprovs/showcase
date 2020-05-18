@@ -6,7 +6,7 @@ const featured = require("../routes/featured");
 const categories = require("../routes/common/categories");
 const articles = require("../routes/common/articles");
 const photos = require("../routes/photo");
-const videos = require("../routes/video");
+const medias = require("../routes/media");
 
 const { Article, joiSchema: joiArticleSchema } = require("../models/article");
 const { Software, joiSchema: joiSoftwareSchema } = require("../models/software");
@@ -14,7 +14,7 @@ const { Software, joiSchema: joiSoftwareSchema } = require("../models/software")
 const { ArticleCategory, joiSchema: joiArticleCategorySchema } = require("../models/articleCategory");
 const { SoftwareCategory, joiSchema: joiSoftwareCategorySchema } = require("../models/softwareCategory");
 const { PhotoCategoryModel, joiSchema: joiPhotoCategorySchema } = require("../models/photoCategory");
-const { VideoCategoryModel, joiSchema: joiVideoCategorySchema } = require("../models/videoCategory");
+const { VideoCategoryModel, joiSchema: joiVideoCategorySchema } = require("../models/mediaCategory");
 
 module.exports = function (app) {
   app.use("/general", general());
@@ -32,6 +32,6 @@ module.exports = function (app) {
   app.use("/photos", photos());
   app.use("/photoCategories", categories(PhotoCategoryModel, joiPhotoCategorySchema));
 
-  app.use("/videos", videos());
-  app.use("/videoCategories", categories(VideoCategoryModel, joiVideoCategorySchema));
+  app.use("/medias", medias());
+  app.use("/mediaCategories", categories(VideoCategoryModel, joiVideoCategorySchema));
 };

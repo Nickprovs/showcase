@@ -17,7 +17,7 @@ const RemoveArticleToast = ({ closeToast, article, onRemoveArticleAsync }) => (
 // Contract:
 // General
 // 1.) user - to render user-specific controls
-// 2.) mainPagePath - for rendering links - "blog", "software", "photo", or "video"
+// 2.) mainPagePath - for rendering links - "blog", "software", "photo", or "media"
 // 3.) mainContentType - for displaying "No [mainContentType]s found"
 // 4.) previews
 // Commands

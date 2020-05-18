@@ -18,8 +18,8 @@ const RemoveCategoryToast = ({ closeToast, category, onRemoveCategory }) => (
 // Contract:
 // General
 // 1.) user - to render user-specific controls
-// 2.) mainPagePath - for rendering links - "blog", "software", "photo", or "video"
-// 3.) mainContentType - for rendering links - "article", "photo", "video"
+// 2.) mainPagePath - for rendering links - "blog", "software", "photo", or "media"
+// 3.) mainContentType - for rendering links - "article", "photo", "media"
 // Search
 // 1.) searchText
 // 2.) onSearchTextChanged

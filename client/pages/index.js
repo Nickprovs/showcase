@@ -216,7 +216,7 @@ class Index extends Component {
   }
 
   getFeaturedMediaMarkup(subsidiary) {
-    const video = subsidiary.data;
+    const media = subsidiary.data;
     const { user } = this.props;
     return (
       <div className={indexStyles.item}>
@@ -231,9 +231,9 @@ class Index extends Component {
           <h2>Featured Video</h2>
         </div>
         <div className={indexStyles.previewTitle}>
-          <h2>{video.title}</h2>
+          <h2>{media.title}</h2>
         </div>
-        <DangerousInnerHtmlWithScript className={indexStyles.videoContainer} html={video.markup} />
+        <DangerousInnerHtmlWithScript className={indexStyles.mediaContainer} html={media.markup} />
         <div className={indexStyles.descriptionContainer}>
           <label style={{ cursor: "text" }} className={indexStyles.description}>
             This is a test 123

@@ -4,8 +4,8 @@ const { Software } = require("./models/software");
 const { SoftwareCategory } = require("./models/softwareCategory");
 const { PhotoModel } = require("./models/photo");
 const { PhotoCategoryModel } = require("./models/photoCategory");
-const { VideoModel } = require("./models/video");
-const { VideoCategoryModel } = require("./models/videoCategory");
+const { VideoModel } = require("./models/media");
+const { VideoCategoryModel } = require("./models/mediaCategory");
 
 const mongoose = require("mongoose");
 mongoose.set("useCreateIndex", true);
@@ -294,40 +294,38 @@ const data = {
       ],
     },
   ],
-  videos: [
+  medias: [
     {
       category: { name: "Life", slug: "life" },
       items: [
         {
           title: "Tree Fiddy",
-          description: "A film by the incredible Drew Network.",
-          markup: `<iframe src="https://player.vimeo.com/video/138343914" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`,
+          description: "A film by nickprovs.",
+          markup: `<iframe title="vimeo-player" src="https://player.vimeo.com/video/138343914" width="640" height="360" frameborder="0" allowfullscreen></iframe>`,
           tags: ["tree", "fiddy", "life"],
         },
         {
           title: "Kittens",
-          description: "A video that took about tree fiddy to make.",
+          description: "A media that took about tree fiddy to make.",
           markup: `<iframe width="560" height="315" src="https://www.youtube.com/embed/OE2snz8_BnE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
           tags: ["drew", "network", "kittens"],
         },
         {
           title: "Sicily",
-          description: "A video by Lorenz Hideyoshi",
+          description: "A media by Lorenz Hideyoshi",
           markup: `<iframe width="560" height="315" src="https://www.youtube.com/embed/MIuD7B8ys2o" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
           tags: ["sicily", "lorenz", "hideyoshi"],
         },
         {
           title: "A Drop in the Ocean",
           description: "A film by the incredible Kendy Ty.",
-          markup: `<iframe src="https://player.vimeo.com/video/94390460" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
-          <p><a href="https://vimeo.com/94390460">A Drop In The Ocean - Shortfilm</a> from <a href="https://vimeo.com/kendyty">Kendy</a> on <a href="https://vimeo.com">Vimeo</a>.</p>`,
+          markup: `<iframe src="https://player.vimeo.com/video/94390460" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`,
           tags: ["drop", "in", "ocean", "kendy", "ty"],
         },
         {
           title: "NYC",
           description: "A film by Paul Tkachenko.",
-          markup: `<iframe src="https://player.vimeo.com/video/276083030" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
-          <p><a href="https://vimeo.com/276083030">NYC (Panasonic GH5)</a> from <a href="https://vimeo.com/paultkachenko">Paul Tkachenko</a> on <a href="https://vimeo.com">Vimeo</a>.</p>`,
+          markup: `<iframe title="vimeo-player" src="https://player.vimeo.com/video/276083030" width="640" height="360" frameborder="0" allowfullscreen></iframe>`,
           tags: ["nyc", "paul", "tkachenko"],
         },
         {
@@ -358,7 +356,7 @@ const data = {
         {
           title: "Coming Home",
           description: "A film by dooster.",
-          markup: `<iframe src="https://player.vimeo.com/video/406878212?title=0&byline=0&portrait=0" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`,
+          markup: `<iframe title="vimeo-player" src="https://player.vimeo.com/video/406878212" width="640" height="360" frameborder="0" allowfullscreen></iframe>`,
           tags: ["coming", "home", "dooster"],
         },
       ],
@@ -384,7 +382,7 @@ async function seed() {
     await saveCollection(data.articles, Article, ArticleCategory);
     await saveCollection(data.software, Software, SoftwareCategory);
     await saveCollection(data.photos, PhotoModel, PhotoCategoryModel);
-    await saveCollection(data.videos, VideoModel, VideoCategoryModel);
+    await saveCollection(data.medias, VideoModel, VideoCategoryModel);
   } catch (ex) {
     console.log(ex);
   } finally {

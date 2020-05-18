@@ -2,7 +2,7 @@ import withAuthAsync from "../../../../components/common/withAuthAsync";
 import withLayoutAsync from "../../../../components/common/withLayoutAsync";
 import Form from "../../../../components/common/form";
 import CustomJoi from "../../../../misc/customJoi";
-import { getVideoCategoriesAsync, createVideoAsync } from "../../../../services/videoService";
+import { getVideoCategoriesAsync, createVideoAsync } from "../../../../services/mediaService";
 import Head from "next/head";
 import { toast } from "react-toastify";
 import Router from "next/router";
@@ -31,27 +31,27 @@ class Video extends Form {
 
   getVideoFromPassingState() {
     const { categories } = this.props;
-    let video = { ...this.state.data };
+    let media = { ...this.state.data };
 
-    let category = video.category;
-    delete video.category;
-    video.categoryId = categories.items.filter((c) => c.name == category)[0]._id;
+    let category = media.category;
+    delete media.category;
+    media.categoryId = categories.items.filter((c) => c.name == category)[0]._id;
 
-    let tagsString = video.tags;
-    delete video.tags;
+    let tagsString = media.tags;
+    delete media.tags;
     let tagsArray = tagsString.replace(/^,+|,+$/gm, "").split(",");
     tagsArray = tagsArray.map((str) => str.trim());
-    video.tags = tagsArray;
+    media.tags = tagsArray;
 
-    return video;
+    return media;
   }
 
   doSubmit = async () => {
-    const video = this.getVideoFromPassingState();
+    const media = this.getVideoFromPassingState();
     let res = null;
     //Try and post the new category
     try {
-      res = await createVideoAsync(video);
+      res = await createVideoAsync(media);
     } catch (ex) {
       let errorMessage = `Error: ${ex}`;
       console.log(errorMessage);
@@ -68,7 +68,7 @@ class Video extends Form {
       return;
     }
 
-    Router.push("/showcase/video");
+    Router.push("/showcase/media");
   };
 
   render() {

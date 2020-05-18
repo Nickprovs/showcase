@@ -1,12 +1,12 @@
 const request = require("supertest");
-const { Video } = require("../../models/video");
-const { VideoCategory } = require("../../models/videoCategory");
+const { Video } = require("../../models/media");
+const { VideoCategory } = require("../../models/mediaCategory");
 const { User } = require("../../models/user");
 const mongoose = require("mongoose");
 const moment = require("moment");
 
 let server;
-describe("/videos", () => {
+describe("/medias", () => {
   beforeEach(() => {
     server = require("../../index");
   });
@@ -17,82 +17,82 @@ describe("/videos", () => {
   });
 
   describe("GET /", () => {
-    let videoCategory1;
-    let videoCategory2;
-    let video1;
-    let video2;
-    let video3;
+    let mediaCategory1;
+    let mediaCategory2;
+    let media1;
+    let media2;
+    let media3;
 
     beforeEach(async () => {
-      videoCategory1 = new VideoCategory({ name: "Mammal", slug: "mammal" });
-      videoCategory1 = await videoCategory1.save();
+      mediaCategory1 = new VideoCategory({ name: "Mammal", slug: "mammal" });
+      mediaCategory1 = await mediaCategory1.save();
 
-      videoCategory2 = new VideoCategory({ name: "Reptile", slug: "reptile" });
-      videoCategory2 = await videoCategory2.save();
+      mediaCategory2 = new VideoCategory({ name: "Reptile", slug: "reptile" });
+      mediaCategory2 = await mediaCategory2.save();
 
-      video1 = new Video({
+      media1 = new Video({
         title: "Dog Video",
-        category: videoCategory1,
-        description: "A video of a dog.",
+        category: mediaCategory1,
+        description: "A media of a dog.",
         orientation: "landscape",
         displaySize: "medium",
         source: "https://i.imgur.com/xyPtn4m.jpg",
-        tags: ["cute", "dog", "doggo", "common1", "common2"]
+        tags: ["cute", "dog", "doggo", "common1", "common2"],
       });
-      await video1.save();
+      await media1.save();
 
-      video2 = new Video({
+      media2 = new Video({
         title: "Cat Video",
-        category: videoCategory1,
-        description: "A video of a cat.",
+        category: mediaCategory1,
+        description: "A media of a cat.",
         orientation: "portrait",
         displaySize: "large",
         source: "https://i.imgur.com/ILv82mN.jpeg",
-        tags: ["cute", "cat", "kitten", "common1", "common2"]
+        tags: ["cute", "cat", "kitten", "common1", "common2"],
       });
-      await video2.save();
+      await media2.save();
 
-      video3 = new Video({
+      media3 = new Video({
         title: "Lizard Video",
-        category: videoCategory2,
-        description: "A video of a lizard.",
+        category: mediaCategory2,
+        description: "A media of a lizard.",
         orientation: "portrait",
         displaySize: "large",
         source: "https://i.imgur.com/ILv82mN.jpeg",
-        tags: ["cute", "lizard", "lizards"]
+        tags: ["cute", "lizard", "lizards"],
       });
-      await video3.save();
+      await media3.save();
     });
 
-    it("Should return all the videos when no query filter is provided", async () => {
-      const res = await request(server).get("/videos");
+    it("Should return all the medias when no query filter is provided", async () => {
+      const res = await request(server).get("/medias");
 
       expect(res.status).toBe(200);
       expect(res.body.items.length).toBe(3);
-      expect(res.body.items.some(g => g.title === video1.title)).toBeTruthy();
-      expect(res.body.items.some(g => g.title === video2.title)).toBeTruthy();
-      expect(res.body.items.some(g => g.title === video3.title)).toBeTruthy();
+      expect(res.body.items.some((g) => g.title === media1.title)).toBeTruthy();
+      expect(res.body.items.some((g) => g.title === media2.title)).toBeTruthy();
+      expect(res.body.items.some((g) => g.title === media3.title)).toBeTruthy();
     });
 
     it("Should return the correct metadata when no query filter is provided", async () => {
-      const res = await request(server).get("/videos");
+      const res = await request(server).get("/medias");
 
       expect(res.body.total === 3);
       expect(res.body.offset === 0);
       expect(res.body.limit === 10);
     });
 
-    it("Should return only the videos that match the category id filter", async () => {
-      const res = await request(server).get(`/videos?categoryId=${videoCategory1._id}`);
+    it("Should return only the medias that match the category id filter", async () => {
+      const res = await request(server).get(`/medias?categoryId=${mediaCategory1._id}`);
 
       expect(res.status).toBe(200);
       expect(res.body.items.length).toBe(2);
-      expect(res.body.items.some(g => g.title === video1.title)).toBeTruthy();
-      expect(res.body.items.some(g => g.title === video2.title)).toBeTruthy();
+      expect(res.body.items.some((g) => g.title === media1.title)).toBeTruthy();
+      expect(res.body.items.some((g) => g.title === media2.title)).toBeTruthy();
     });
 
     it("Should return the correct metadata that matches the category id filter", async () => {
-      const res = await request(server).get(`/videos?categoryId=${videoCategory1._id}`);
+      const res = await request(server).get(`/medias?categoryId=${mediaCategory1._id}`);
 
       expect(res.body.items.length).toBe(2);
       expect(res.body.total === 2);
@@ -101,7 +101,7 @@ describe("/videos", () => {
     });
 
     it("Should return the correct metadata when providing an offset", async () => {
-      const res = await request(server).get(`/videos?offset=1`);
+      const res = await request(server).get(`/medias?offset=1`);
 
       expect(res.body.items.length).toBe(2);
       expect(res.body.total === 3);
@@ -110,7 +110,7 @@ describe("/videos", () => {
     });
 
     it("Should return the correct metadata that matches offset and the category id filter", async () => {
-      const res = await request(server).get(`/videos?categoryId=${videoCategory1._id}&offset=1`);
+      const res = await request(server).get(`/medias?categoryId=${mediaCategory1._id}&offset=1`);
 
       expect(res.body.items.length).toBe(1);
       expect(res.body.total === 2);
@@ -118,103 +118,100 @@ describe("/videos", () => {
       expect(res.body.limit === 10);
     });
 
-    it("Should return the multiple of videos that match the description search", async () => {
-      const res = await request(server).get(`/videos?search=a video of a`);
+    it("Should return the multiple of medias that match the description search", async () => {
+      const res = await request(server).get(`/medias?search=a media of a`);
 
       //The items returned should nor have any results whose tags don't include "common1" or "common2"
       expect(res.body.items.length).toBe(3);
       expect(res.body.total === 3);
     });
 
-    it("Should return the singular video that matches the tag search", async () => {
-      const res = await request(server).get(`/videos?search=cat`);
+    it("Should return the singular media that matches the tag search", async () => {
+      const res = await request(server).get(`/medias?search=cat`);
 
       expect(res.body.items.length).toBe(1);
       expect(res.body.total === 1);
     });
 
-    it("Should return the singular video that matches the title search", async () => {
-      const res = await request(server).get(`/videos?search=cat`);
+    it("Should return the singular media that matches the title search", async () => {
+      const res = await request(server).get(`/medias?search=cat`);
 
       expect(res.body.items.length).toBe(1);
       expect(res.body.total === 1);
     });
 
-    it("Should return the multiple videos that matches the category search", async () => {
-      const res = await request(server).get(`/videos?search=mammal`);
+    it("Should return the multiple medias that matches the category search", async () => {
+      const res = await request(server).get(`/medias?search=mammal`);
       expect(res.body.items.length).toBe(2);
       expect(res.body.total === 2);
     });
   });
 
   describe("GET /:id", () => {
-    it("should return a video if valid id is passed", async () => {
-      let videoCategory = new VideoCategory({ name: "Portrait", slug: "portrait" });
-      videoCategory = await videoCategory.save();
+    it("should return a media if valid id is passed", async () => {
+      let mediaCategory = new VideoCategory({ name: "Portrait", slug: "portrait" });
+      mediaCategory = await mediaCategory.save();
 
-      const video = new Video({
+      const media = new Video({
         title: "Dog Video 1",
-        category: videoCategory,
-        description: "A video of a dog 1.",
+        category: mediaCategory,
+        description: "A media of a dog 1.",
         orientation: "landscape",
         displaySize: "medium",
         source: "https://i.imgur.com/xyPtn4m.jpg",
-        tags: ["one", "dog", "doggo"]
+        tags: ["one", "dog", "doggo"],
       });
-      await video.save();
-      const res = await request(server).get("/videos/" + video._id);
+      await media.save();
+      const res = await request(server).get("/medias/" + media._id);
 
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("title", video.title);
+      expect(res.body).toHaveProperty("title", media.title);
       expect(res.body).toHaveProperty("datePosted");
-      expect(new Date(res.body.datePosted).getTime() === video.datePosted.getTime()).toBeTruthy();
+      expect(new Date(res.body.datePosted).getTime() === media.datePosted.getTime()).toBeTruthy();
       expect(res.body).toHaveProperty("dateLastModified");
-      expect(new Date(res.body.dateLastModified).getTime() === video.dateLastModified.getTime()).toBeTruthy();
-      expect(res.body).toHaveProperty("description", video.description);
-      expect(res.body).toHaveProperty("orientation", video.orientation);
-      expect(res.body).toHaveProperty("displaySize", video.displaySize);
-      expect(res.body).toHaveProperty("source", video.source);
+      expect(new Date(res.body.dateLastModified).getTime() === media.dateLastModified.getTime()).toBeTruthy();
+      expect(res.body).toHaveProperty("description", media.description);
+      expect(res.body).toHaveProperty("orientation", media.orientation);
+      expect(res.body).toHaveProperty("displaySize", media.displaySize);
+      expect(res.body).toHaveProperty("source", media.source);
       expect(res.body).toHaveProperty("tags");
     });
 
     it("should return 400 if invalid id is passed", async () => {
-      const res = await request(server).get("/videos/-1");
+      const res = await request(server).get("/medias/-1");
       expect(res.status).toBe(400);
     });
 
-    it("should return 404 if no video with the given id exists", async () => {
+    it("should return 404 if no media with the given id exists", async () => {
       const id = mongoose.Types.ObjectId();
-      const res = await request(server).get("/videos/" + id);
+      const res = await request(server).get("/medias/" + id);
 
       expect(res.status).toBe(404);
     });
   });
 
   describe("POST /", () => {
-    let video;
+    let media;
     let token;
 
     const exec = () => {
-      return request(server)
-        .post("/videos")
-        .set("x-auth-token", token)
-        .send(video);
+      return request(server).post("/medias").set("x-auth-token", token).send(media);
     };
 
     beforeEach(async () => {
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
 
-      let videoCategory = new VideoCategory({ name: "Panorama", slug: "panorama" });
-      videoCategory = await videoCategory.save();
+      let mediaCategory = new VideoCategory({ name: "Panorama", slug: "panorama" });
+      mediaCategory = await mediaCategory.save();
 
-      video = {
+      media = {
         title: "Dog Video 2",
-        categoryId: videoCategory._id,
-        description: "A video of a dog 2.",
+        categoryId: mediaCategory._id,
+        description: "A media of a dog 2.",
         orientation: "landscape",
         displaySize: "medium",
         source: "https://i.imgur.com/xyPtn4m.jpg",
-        tags: ["Two", "dog", "doggo"]
+        tags: ["Two", "dog", "doggo"],
       };
     });
 
@@ -227,14 +224,14 @@ describe("/videos", () => {
     });
 
     it("should return 400 if title is less than 5 characters", async () => {
-      video.title = "t";
+      media.title = "t";
       const res = await exec();
 
       expect(res.status).toBe(400);
     });
 
     it("should return 400 if title is more than 64 characters", async () => {
-      video.title = new Array(66).join("a");
+      media.title = new Array(66).join("a");
       const res = await exec();
       expect(res.status).toBe(400);
     });
@@ -244,67 +241,67 @@ describe("/videos", () => {
       expect(res.status).toBe(200);
     });
 
-    it("should save the video if it is valid", async () => {
+    it("should save the media if it is valid", async () => {
       await exec();
 
-      const postedAndSavedVideo = await Video.find({ title: video.title });
+      const postedAndSavedVideo = await Video.find({ title: media.title });
 
       expect(postedAndSavedVideo).not.toBeNull();
     });
 
-    it("should return the video if it is valid", async () => {
+    it("should return the media if it is valid", async () => {
       const res = await exec();
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("title", video.title);
+      expect(res.body).toHaveProperty("title", media.title);
       expect(res.body).toHaveProperty("datePosted");
       expect(res.body).toHaveProperty("dateLastModified");
-      expect(res.body).toHaveProperty("description", video.description);
-      expect(res.body).toHaveProperty("orientation", video.orientation);
-      expect(res.body).toHaveProperty("displaySize", video.displaySize);
-      expect(res.body).toHaveProperty("source", video.source);
+      expect(res.body).toHaveProperty("description", media.description);
+      expect(res.body).toHaveProperty("orientation", media.orientation);
+      expect(res.body).toHaveProperty("displaySize", media.displaySize);
+      expect(res.body).toHaveProperty("source", media.source);
       expect(res.body).toHaveProperty("tags");
     });
   });
 
   describe("PUT /", () => {
     let existingVideo;
-    let video;
+    let media;
     let token;
     let id;
-    let videoCategory;
+    let mediaCategory;
 
     const exec = () => {
       return request(server)
-        .put("/videos/" + id)
+        .put("/medias/" + id)
         .set("x-auth-token", token)
-        .send(video);
+        .send(media);
     };
 
     beforeEach(async () => {
-      videoCategory = new VideoCategory({ name: "Fiction", slug: "fiction" });
-      videoCategory = await videoCategory.save();
+      mediaCategory = new VideoCategory({ name: "Fiction", slug: "fiction" });
+      mediaCategory = await mediaCategory.save();
 
       existingVideo = new Video({
         title: "Bunny Video",
-        category: videoCategory,
-        description: "A video of a bunny.",
+        category: mediaCategory,
+        description: "A media of a bunny.",
         orientation: "portrait",
         displaySize: "small",
         source: "https://i.imgur.com/ILv82mN.jpeg",
-        tags: ["cute", "bunny", "rabbit"]
+        tags: ["cute", "bunny", "rabbit"],
       });
       await existingVideo.save();
 
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
       id = existingVideo._id;
-      video = {
+      media = {
         title: "Big Bunny Video",
-        categoryId: videoCategory._id,
-        description: "A video of a big bunny.",
+        categoryId: mediaCategory._id,
+        description: "A media of a big bunny.",
         orientation: "landscape",
         displaySize: "medium",
         source: "https://i.imgur.com/8vr8jT8.jpeg",
-        tags: ["cute", "bunny", "rabbit"]
+        tags: ["cute", "bunny", "rabbit"],
       };
     });
 
@@ -322,7 +319,7 @@ describe("/videos", () => {
       expect(res.status).toBe(400);
     });
 
-    it("should return 404 if an existing video with the provided id is not found", async () => {
+    it("should return 404 if an existing media with the provided id is not found", async () => {
       id = mongoose.Types.ObjectId();
       const res = await exec();
 
@@ -330,14 +327,14 @@ describe("/videos", () => {
     });
 
     it("should return 400 if title is less than 5 characters", async () => {
-      video.title = "t";
+      media.title = "t";
       const res = await exec();
 
       expect(res.status).toBe(400);
     });
 
     it("should return 400 if title is more than 64 characters", async () => {
-      video.title = new Array(66).join("a");
+      media.title = new Array(66).join("a");
       const res = await exec();
       expect(res.status).toBe(400);
     });
@@ -347,71 +344,71 @@ describe("/videos", () => {
       expect(res.status).toBe(200);
     });
 
-    it("should save the video if it is valid", async () => {
+    it("should save the media if it is valid", async () => {
       await exec();
 
-      const video = await Video.find({ title: "testtt1" });
+      const media = await Video.find({ title: "testtt1" });
 
-      expect(video).not.toBeNull();
+      expect(media).not.toBeNull();
     });
 
-    it("should update the video if input is valid", async () => {
+    it("should update the media if input is valid", async () => {
       await exec();
 
       const updatedVideo = await Video.findById(existingVideo._id);
 
-      expect(updatedVideo.title).toBe(video.title);
-      expect(updatedVideo.description).toBe(video.description);
-      expect(updatedVideo.orientation).toBe(video.orientation);
-      expect(updatedVideo.displaySize).toBe(video.displaySize);
+      expect(updatedVideo.title).toBe(media.title);
+      expect(updatedVideo.description).toBe(media.description);
+      expect(updatedVideo.orientation).toBe(media.orientation);
+      expect(updatedVideo.displaySize).toBe(media.displaySize);
     });
 
-    it("should return the updated video if it is valid", async () => {
+    it("should return the updated media if it is valid", async () => {
       const res = await exec();
 
       expect(res.status).toBe(200);
       expect(res.body).toHaveProperty("_id");
-      expect(res.body).toHaveProperty("title", video.title);
+      expect(res.body).toHaveProperty("title", media.title);
       expect(res.body).toHaveProperty("category");
       expect(res.body).toHaveProperty("datePosted");
       expect(new Date(res.body.datePosted).getTime() === existingVideo.datePosted.getTime()).toBeTruthy();
       expect(res.body).toHaveProperty("dateLastModified");
       expect(new Date(res.body.dateLastModified).getTime() === existingVideo.dateLastModified.getTime()).toBeFalsy();
-      expect(res.body).toHaveProperty("description", video.description);
-      expect(res.body).toHaveProperty("orientation", video.orientation);
-      expect(res.body).toHaveProperty("displaySize", video.displaySize);
-      expect(res.body).toHaveProperty("source", video.source);
-      expect(res.body).toHaveProperty("tags", video.tags);
+      expect(res.body).toHaveProperty("description", media.description);
+      expect(res.body).toHaveProperty("orientation", media.orientation);
+      expect(res.body).toHaveProperty("displaySize", media.displaySize);
+      expect(res.body).toHaveProperty("source", media.source);
+      expect(res.body).toHaveProperty("tags", media.tags);
     });
   });
 
   describe("DELETE /", () => {
     let token;
-    let video;
+    let media;
     let id;
 
     const exec = async () => {
       return await request(server)
-        .delete("/videos/" + id)
+        .delete("/medias/" + id)
         .set("x-auth-token", token)
         .send();
     };
 
     beforeEach(async () => {
-      videoCategory = new VideoCategory({ name: "Candid", slug: "candid" });
-      videoCategory = await videoCategory.save();
+      mediaCategory = new VideoCategory({ name: "Candid", slug: "candid" });
+      mediaCategory = await mediaCategory.save();
 
-      video = new Video({
+      media = new Video({
         title: "Smol Bunny Video",
-        category: videoCategory,
-        description: "A video of a smol bunny.",
+        category: mediaCategory,
+        description: "A media of a smol bunny.",
         orientation: "panorama",
         displaySize: "medium",
         source: "https://i.imgur.com/ILv82mN.jpeg",
-        tags: ["smol", "bunny", "rabbit"]
+        tags: ["smol", "bunny", "rabbit"],
       });
-      await video.save();
-      id = video._id;
+      await media.save();
+      id = media._id;
       token = new User({ isAdmin: true }).generateAuthToken();
     });
 
@@ -439,7 +436,7 @@ describe("/videos", () => {
       expect(res.status).toBe(400);
     });
 
-    it("should return 404 if no video with the given id was found", async () => {
+    it("should return 404 if no media with the given id was found", async () => {
       id = mongoose.Types.ObjectId();
 
       const res = await exec();
@@ -447,25 +444,25 @@ describe("/videos", () => {
       expect(res.status).toBe(404);
     });
 
-    it("should delete the video if input is valid", async () => {
+    it("should delete the media if input is valid", async () => {
       await exec();
 
-      const videoInDb = await Video.findById(id);
+      const mediaInDb = await Video.findById(id);
 
-      expect(videoInDb).toBeNull();
+      expect(mediaInDb).toBeNull();
     });
 
-    it("should return the removed video", async () => {
+    it("should return the removed media", async () => {
       const res = await exec();
 
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("title", video.title);
+      expect(res.body).toHaveProperty("title", media.title);
       expect(res.body).toHaveProperty("datePosted");
       expect(res.body).toHaveProperty("dateLastModified");
-      expect(res.body).toHaveProperty("description", video.description);
-      expect(res.body).toHaveProperty("orientation", video.orientation);
-      expect(res.body).toHaveProperty("displaySize", video.displaySize);
-      expect(res.body).toHaveProperty("source", video.source);
+      expect(res.body).toHaveProperty("description", media.description);
+      expect(res.body).toHaveProperty("orientation", media.orientation);
+      expect(res.body).toHaveProperty("displaySize", media.displaySize);
+      expect(res.body).toHaveProperty("source", media.source);
       expect(res.body).toHaveProperty("tags");
     });
   });

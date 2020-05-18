@@ -2,7 +2,7 @@ import withAuthAsync from "../../../../../components/common/withAuthAsync";
 import withLayoutAsync from "../../../../../components/common/withLayoutAsync";
 import Form from "../../../../../components/common/form";
 import CustomJoi from "../../../../../misc/customJoi";
-import { getVideoCategoryAsync, updateVideoCategoryAsync } from "../../../../../services/videoService";
+import { getVideoCategoryAsync, updateVideoCategoryAsync } from "../../../../../services/mediaService";
 import { toast, cssTransition } from "react-toastify";
 import Router from "next/router";
 import RouterUtilities from "../../../../../util/routerUtilities";
@@ -34,7 +34,7 @@ class Category extends Form {
     const { category } = this.props;
     if (!category) {
       toast.error("Couldn't get category. Redirecting back.", { autoClose: 1500 });
-      await RouterUtilities.routeInternalWithDelayAsync("/showcase/video", 2000);
+      await RouterUtilities.routeInternalWithDelayAsync("/showcase/media", 2000);
       return;
     }
 
@@ -85,7 +85,7 @@ class Category extends Form {
     }
 
     //TODO: Disallow posting duplicate category at server level.
-    Router.push("/showcase/video");
+    Router.push("/showcase/media");
   };
 
   render() {
