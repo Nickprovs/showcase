@@ -158,7 +158,7 @@ export default class Layout extends Component {
           />
           <Dimmer on={isSidebarOpen} />
           <div className={layout.layoutStyle}>
-            <NamePlate title={title} />
+            <NamePlate user={user} title={title} />
             <Header user={user} internalPages={internalPages} externalPages={externalPages} />
             <div style={contentStyle}>{children}</div>
             <Footer externalPages={externalPages} footnote={footnote} />
