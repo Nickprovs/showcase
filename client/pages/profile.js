@@ -1,16 +1,17 @@
 import Layout from "../components/layout";
 import withAuthAsync from "../components/common/withAuthAsync";
+import withLayoutAsync from "../components/common/withLayoutAsync";
 
-const Profile = props => {
+const Profile = (props) => {
   let user = props.user;
   console.log(user);
   return (
-    <Layout user={user}>
+    <div>
       <h1 className="mainContentTitle">Profile</h1>
       <p>Username: {user.username}</p>
       <p>Role: {user.isAdmin ? "Administrator" : "Regular"}</p>
-    </Layout>
+    </div>
   );
-}
+};
 
-export default withAuthAsync(Profile, true);
+export default withAuthAsync(withLayoutAsync(Profile), true);

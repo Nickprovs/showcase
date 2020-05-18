@@ -3,6 +3,8 @@ import Form from "../components/common/form";
 import Layout from "../components/layout";
 import { loginAsync } from "../services/authService";
 import Router from "next/router";
+import withAuthAsync from "../components/common/withAuthAsync";
+import withLayoutAsync from "../components/common/withLayoutAsync";
 
 class LoginForm extends Form {
   constructor() {
@@ -13,31 +15,23 @@ class LoginForm extends Form {
   }
 
   schema = Joi.object({
-    username: Joi.string()
-      .min(1)
-      .required()
-      .label("Username"),
-    password: Joi.string()
-      .min(1)
-      .required()
-      .label("Password")
+    username: Joi.string().min(1).required().label("Username"),
+    password: Joi.string().min(1).required().label("Password"),
   });
 
   doSubmit = async () => {
     const { username, password } = this.state.data;
-    try{
+    try {
       const res = await loginAsync(username, password);
-      if(res.status === 200)
-        Router.push("/");
-    }
-    catch(ex){
+      if (res.status === 200) Router.push("/");
+    } catch (ex) {
       console.log(ex);
     }
   };
 
   render() {
     return (
-      <Layout>
+      <div>
         <div className="standardPadding">
           <form onSubmit={this.handleSubmit}>
             {this.renderTextInput("username", "NAME")}
@@ -45,9 +39,9 @@ class LoginForm extends Form {
             {this.renderButton("LOGIN")}
           </form>
         </div>
-      </Layout>
+      </div>
     );
   }
 }
 
-export default LoginForm;
+export default withAuthAsync(withLayoutAsync(LoginForm));

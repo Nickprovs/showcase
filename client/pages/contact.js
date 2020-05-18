@@ -1,5 +1,6 @@
 import Layout from "../components/layout";
 import withAuthAsync from "../components/common/withAuthAsync";
+import withLayoutAsync from "../components/common/withLayoutAsync";
 import Joi from "@hapi/joi";
 import Form from "../components/common/form";
 import { contactAsync } from "../services/contactService";
@@ -91,11 +92,11 @@ class Contact extends Form {
     const { contactComplete } = this.state;
 
     return (
-      <Layout user={user}>
+      <div>
         <div className="standardPadding">{!contactComplete ? this.getContactNotCompleteMarkup() : this.getContactCompleteMarkup()}</div>
-      </Layout>
+      </div>
     );
   }
 }
 
-export default withAuthAsync(Contact, false);
+export default withAuthAsync(withLayoutAsync(Contact), false);

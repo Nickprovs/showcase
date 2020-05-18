@@ -1,6 +1,7 @@
 import { Component } from "react";
 import { toast } from "react-toastify";
 import withAuthAsync from "../components/common/withAuthAsync";
+import withLayoutAsync from "../components/common/withLayoutAsync";
 import Layout from "../components/layout";
 import CommonPageHeaderControls from "../components/common/commonPageHeaderControls";
 import CommonPageArticleSection from "../components/common/commonPageArticleSection";
@@ -244,7 +245,7 @@ class Blog extends Component {
     const { user } = this.props;
 
     return (
-      <Layout user={user}>
+      <div>
         <CommonPageHeaderControls
           user={user}
           mainPagePath="blog"
@@ -269,9 +270,9 @@ class Blog extends Component {
           totalBlogsCount={totalBlogsCount}
           pageSize={pageSize}
         />
-      </Layout>
+      </div>
     );
   }
 }
 
-export default withAuthAsync(Blog);
+export default withAuthAsync(withLayoutAsync(Blog));

@@ -1,8 +1,9 @@
-import Layout from "../components/layout";
+import withAuthAsync from "../components/common/withAuthAsync";
+import withLayoutAsync from "../components/common/withLayoutAsync";
 
 function Error({ statusCode }) {
   return (
-    <Layout>
+    <div>
       <h1 className="mainContentTitle">{statusCode ? `${statusCode} Error` : "Error"}</h1>
       <p>{statusCode ? `An error occurred on the server.` : "An error occurred on client."}</p>
       <div style={{ textAlign: "center" }}>
@@ -10,7 +11,7 @@ function Error({ statusCode }) {
           <object style={{ display: "block", width: "35%", overflow: "none" }} type="image/svg+xml" data="director_sad.svg"></object>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 }
 
@@ -19,4 +20,4 @@ Error.getInitialProps = ({ res, err }) => {
   return { statusCode };
 };
 
-export default Error;
+export default withAuthAsync(withLayoutAsync(Error));
