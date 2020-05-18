@@ -1,8 +1,8 @@
 import { Component } from "react";
-import Layout from "../../components/layout";
 import photoStyles from "../../styles/photo.module.css";
 import FullscreenPhoto from "../../components/common/fullscreenPhoto";
 import withAuthAsync from "../../components/common/withAuthAsync";
+import withLayoutAsync from "../../components/common/withLayoutAsync";
 import { getPhotosAsync, deletePhotoAsync, getPhotoCategoriesAsync, deletePhotoCategoryAsync } from "../../services/photoService";
 import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../../services/featuredService";
 import Router from "next/router";
@@ -362,7 +362,7 @@ class Photo extends Component {
       );
 
     return (
-      <Layout user={user}>
+      <div>
         <CommonPageHeaderControls
           user={user}
           mainPagePath="showcase/photo"
@@ -379,9 +379,9 @@ class Photo extends Component {
         <div className={photoStyles.paginationContainer}>
           <Pagination itemsCount={totalPhotosCount} pageSize={pageSize} currentPage={currentPage} />
         </div>
-      </Layout>
+      </div>
     );
   }
 }
 
-export default withAuthAsync(Photo);
+export default withAuthAsync(withLayoutAsync(Photo));

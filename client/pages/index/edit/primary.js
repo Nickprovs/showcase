@@ -1,12 +1,11 @@
-import Layout from "../../../components/layout";
 import withAuthAsync from "../../../components/common/withAuthAsync";
+import withLayoutAsync from "../../../components/common/withLayoutAsync";
 import Form from "../../../components/common/form";
 import CustomJoi from "../../../misc/customJoi";
 import Head from "next/head";
 import { toast, cssTransition } from "react-toastify";
 import Router from "next/router";
 import RouterUtilities from "../../../util/routerUtilities";
-import StringUtilities from "../../../util/stringUtilities";
 import { updateFeaturedPrimaryAsync, getFeaturedPrimaryAsync } from "../../../services/featuredService";
 
 class Primary extends Form {
@@ -88,23 +87,20 @@ class Primary extends Form {
   };
 
   render() {
-    let { user } = this.props;
     return (
       <div>
         <Head>
           <script key="tinyMCE" type="text/javascript" src="/static/scripts/tinymce/tinymce.min.js"></script>
         </Head>
-        <Layout user={user}>
-          <div className="standardPadding">
-            <form onSubmit={this.handleSubmit}>
-              {this.renderHtmlEditor("markup", "MARKUP")}
-              {this.renderButton("UPDATE")}
-            </form>
-          </div>
-        </Layout>
+        <div className="standardPadding">
+          <form onSubmit={this.handleSubmit}>
+            {this.renderHtmlEditor("markup", "MARKUP")}
+            {this.renderButton("UPDATE")}
+          </form>
+        </div>
       </div>
     );
   }
 }
 
-export default withAuthAsync(Primary, true);
+export default withAuthAsync(withLayoutAsync(Primary), true);

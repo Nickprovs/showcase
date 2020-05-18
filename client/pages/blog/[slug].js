@@ -1,6 +1,6 @@
-import Layout from "../../components/layout";
 import { getBlogAsync } from "../../services/blogService";
 import withAuthAsync from "../../components/common/withAuthAsync";
+import withLayoutAsync from "../../components/common/withLayoutAsync";
 
 Blog.getInitialProps = async function (context) {
   const { slug } = context.query;
@@ -11,14 +11,13 @@ Blog.getInitialProps = async function (context) {
   };
 };
 
-function Blog({ blog, user }) {
-  console.log(blog.body);
+function Blog({ blog }) {
   return (
-    <Layout user={user}>
+    <div>
       <h1>{blog.title}</h1>
       <div dangerouslySetInnerHTML={{ __html: blog.body }} />
-    </Layout>
+    </div>
   );
 }
 
-export default withAuthAsync(Blog);
+export default withAuthAsync(withLayoutAsync(Blog));

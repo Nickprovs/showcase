@@ -1,7 +1,7 @@
 import { Component } from "react";
 import { toast } from "react-toastify";
 import withAuthAsync from "../../components/common/withAuthAsync";
-import Layout from "../../components/layout";
+import withLayoutAsync from "../../components/common/withLayoutAsync";
 import CommonPageHeaderControls from "../../components/common/commonPageHeaderControls";
 import CommonPageArticleSection from "../../components/common/commonPageArticleSection";
 import Router from "next/router";
@@ -251,7 +251,7 @@ class Software extends Component {
     const { user } = this.props;
 
     return (
-      <Layout user={user}>
+      <div>
         <CommonPageHeaderControls
           user={user}
           mainPagePath="showcase/software"
@@ -276,9 +276,9 @@ class Software extends Component {
           totalSoftwaresCount={totalSoftwaresCount}
           pageSize={pageSize}
         />
-      </Layout>
+      </div>
     );
   }
 }
 
-export default withAuthAsync(Software);
+export default withAuthAsync(withLayoutAsync(Software));

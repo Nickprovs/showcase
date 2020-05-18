@@ -1,6 +1,6 @@
-import Layout from "../../../components/layout";
 import { getSoftwareAsync } from "../../../services/softwareService";
 import withAuthAsync from "../../../components/common/withAuthAsync";
+import withLayoutAsync from "../../../components/common/withLayoutAsync";
 
 Software.getInitialProps = async function (context) {
   const { slug } = context.query;
@@ -11,14 +11,14 @@ Software.getInitialProps = async function (context) {
   };
 };
 
-function Software({ software, user }) {
+function Software({ software }) {
   console.log(software.body);
   return (
-    <Layout user={user}>
+    <div>
       <h1>{software.title}</h1>
       <div dangerouslySetInnerHTML={{ __html: software.body }} />
-    </Layout>
+    </div>
   );
 }
 
-export default withAuthAsync(Software);
+export default withAuthAsync(withLayoutAsync(Software));

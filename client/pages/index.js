@@ -1,7 +1,5 @@
-import Layout from "../components/layout";
 import withAuthAsync from "../components/common/withAuthAsync";
 import withLayoutAsync from "../components/common/withLayoutAsync";
-
 import { Component } from "react";
 import { getFeaturedAsync } from "../services/featuredService";
 import indexStyles from "../styles/index.module.css";

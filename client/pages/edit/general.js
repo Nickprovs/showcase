@@ -1,12 +1,10 @@
-import Layout from "../../components/layout";
 import withAuthAsync from "../../components/common/withAuthAsync";
+import withLayoutAsync from "../../components/common/withLayoutAsync";
 import Form from "../../components/common/form";
 import CustomJoi from "../../misc/customJoi";
-import Head from "next/head";
 import { toast, cssTransition } from "react-toastify";
 import Router from "next/router";
 import RouterUtilities from "../../util/routerUtilities";
-import StringUtilities from "../../util/stringUtilities";
 import { updateGeneralAsync, getGeneralAsync } from "../../services/generalService";
 
 class Primary extends Form {
@@ -104,24 +102,21 @@ class Primary extends Form {
   };
 
   render() {
-    let { user } = this.props;
     return (
       <div>
-        <Layout user={user}>
-          <div className="standardPadding">
-            <form onSubmit={this.handleSubmit}>
-              {this.renderTextInput("title", "TITLE")}
-              {this.renderTextInput("footnote", "FOOTNOTE")}
-              {this.renderTextInput("github", "GITHUB")}
-              {this.renderTextInput("linkedin", "LINKEDIN")}
-              {this.renderTextInput("instagram", "INSTAGRAM")}
-              {this.renderButton("UPDATE")}
-            </form>
-          </div>
-        </Layout>
+        <div className="standardPadding">
+          <form onSubmit={this.handleSubmit}>
+            {this.renderTextInput("title", "TITLE")}
+            {this.renderTextInput("footnote", "FOOTNOTE")}
+            {this.renderTextInput("github", "GITHUB")}
+            {this.renderTextInput("linkedin", "LINKEDIN")}
+            {this.renderTextInput("instagram", "INSTAGRAM")}
+            {this.renderButton("UPDATE")}
+          </form>
+        </div>
       </div>
     );
   }
 }
 
-export default withAuthAsync(Primary, true);
+export default withAuthAsync(withLayoutAsync(Primary), true);

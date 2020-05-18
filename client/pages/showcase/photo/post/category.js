@@ -1,5 +1,5 @@
-import Layout from "../../../../components/layout";
 import withAuthAsync from "../../../../components/common/withAuthAsync";
+import withLayoutAsync from "../../../../components/common/withLayoutAsync";
 import Form from "../../../../components/common/form";
 import CustomJoi from "../../../../misc/customJoi";
 import { createPhotoCategoryAsync } from "../../../../services/photoService";
@@ -51,19 +51,16 @@ class Category extends Form {
   };
 
   render() {
-    const { user } = this.props;
     return (
-      <Layout user={user}>
-        <div className="standardPadding">
-          <form onSubmit={this.handleSubmit}>
-            {this.renderTextInput("name", "NAME")}
-            {this.renderTextInput("slug", "SLUG")}
-            {this.renderButton("POST")}
-          </form>
-        </div>
-      </Layout>
+      <div className="standardPadding">
+        <form onSubmit={this.handleSubmit}>
+          {this.renderTextInput("name", "NAME")}
+          {this.renderTextInput("slug", "SLUG")}
+          {this.renderButton("POST")}
+        </form>
+      </div>
     );
   }
 }
 
-export default withAuthAsync(Category, true);
+export default withAuthAsync(withLayoutAsync(Category), true);

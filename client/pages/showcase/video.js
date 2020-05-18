@@ -1,6 +1,6 @@
-import Layout from "../../components/layout";
 import videoStyles from "../../styles/video.module.css";
 import withAuthAsync from "../../components/common/withAuthAsync";
+import withLayoutAsync from "../../components/common/withLayoutAsync";
 import { Component } from "react";
 import { getVideosAsync, deleteVideoAsync, getVideoCategoriesAsync } from "../../services/videoService";
 import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../../services/featuredService";
@@ -321,7 +321,7 @@ class Video extends Component {
     }
 
     return (
-      <Layout user={user}>
+      <div>
         <CommonPageHeaderControls
           user={user}
           mainPagePath="showcase/video"
@@ -338,9 +338,9 @@ class Video extends Component {
         <div className={videoStyles.paginationContainer}>
           <Pagination itemsCount={totalVideosCount} pageSize={pageSize} currentPage={currentPage} />
         </div>
-      </Layout>
+      </div>
     );
   }
 }
 
-export default withAuthAsync(Video);
+export default withAuthAsync(withLayoutAsync(Video));

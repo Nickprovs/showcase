@@ -1,5 +1,5 @@
-import Layout from "../../../../components/layout";
 import withAuthAsync from "../../../../components/common/withAuthAsync";
+import withLayoutAsync from "../../../../components/common/withLayoutAsync";
 import Form from "../../../../components/common/form";
 import CustomJoi from "../../../../misc/customJoi";
 import { getPhotoCategoriesAsync, createPhotoAsync } from "../../../../services/photoService";
@@ -75,30 +75,28 @@ class Photo extends Form {
   };
 
   render() {
-    let { categories, user } = this.props;
+    let { categories } = this.props;
     categories = categories ? categories : [];
     return (
       <div>
         <Head>
           <script key="tinyMCE" type="text/javascript" src="/static/scripts/tinymce/tinymce.min.js"></script>
         </Head>
-        <Layout user={user}>
-          <div className="standardPadding">
-            <form onSubmit={this.handleSubmit}>
-              {this.renderTextInput("title", "TITLE")}
-              {this.renderSelect("category", "CATEGORY", "", categories.items, "name")}
-              {this.renderTextArea("description", "DESCRIPTION")}
-              {this.renderTextInput("orientation", "ORIENTATION")}
-              {this.renderTextInput("displaySize", "DISPLAY SIZE")}
-              {this.renderTextInput("tags", "TAGS")}
-              {this.renderTextInput("source", "SOURCE")}
-              {this.renderButton("POST")}
-            </form>
-          </div>
-        </Layout>
+        <div className="standardPadding">
+          <form onSubmit={this.handleSubmit}>
+            {this.renderTextInput("title", "TITLE")}
+            {this.renderSelect("category", "CATEGORY", "", categories.items, "name")}
+            {this.renderTextArea("description", "DESCRIPTION")}
+            {this.renderTextInput("orientation", "ORIENTATION")}
+            {this.renderTextInput("displaySize", "DISPLAY SIZE")}
+            {this.renderTextInput("tags", "TAGS")}
+            {this.renderTextInput("source", "SOURCE")}
+            {this.renderButton("POST")}
+          </form>
+        </div>
       </div>
     );
   }
 }
 
-export default withAuthAsync(Photo, true);
+export default withAuthAsync(withLayoutAsync(Photo), true);

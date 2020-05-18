@@ -1,4 +1,3 @@
-import Layout from "../components/layout";
 import withAuthAsync from "../components/common/withAuthAsync";
 import withLayoutAsync from "../components/common/withLayoutAsync";
 

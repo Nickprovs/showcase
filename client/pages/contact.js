@@ -1,4 +1,3 @@
-import Layout from "../components/layout";
 import withAuthAsync from "../components/common/withAuthAsync";
 import withLayoutAsync from "../components/common/withLayoutAsync";
 import Joi from "@hapi/joi";
@@ -88,7 +87,6 @@ class Contact extends Form {
   }
 
   render() {
-    const { user } = this.props;
     const { contactComplete } = this.state;
 
     return (

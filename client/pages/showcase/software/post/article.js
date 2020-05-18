@@ -1,5 +1,5 @@
-import Layout from "../../../../components/layout";
 import withAuthAsync from "../../../../components/common/withAuthAsync";
+import withLayoutAsync from "../../../../components/common/withLayoutAsync";
 import Form from "../../../../components/common/form";
 import CustomJoi from "../../../../misc/customJoi";
 import { getSoftwareCategoriesAsync, createSoftwareAsync } from "../../../../services/softwareService";
@@ -79,30 +79,28 @@ class Article extends Form {
   };
 
   render() {
-    let { categories, user } = this.props;
+    let { categories } = this.props;
     categories = categories ? categories : [];
     return (
       <div>
         <Head>
           <script key="tinyMCE" type="text/javascript" src="/static/scripts/tinymce/tinymce.min.js"></script>
         </Head>
-        <Layout user={user}>
-          <div className="standardPadding">
-            <form onSubmit={this.handleSubmit}>
-              {this.renderTextInput("title", "TITLE")}
-              {this.renderTextInput("slug", "SLUG")}
-              {this.renderSelect("category", "CATEGORY", "", categories.items, "name")}
-              {this.renderTextInput("image", "IMAGE")}
-              {this.renderTextArea("description", "DESCRIPTION")}
-              {this.renderHtmlEditor("body", "BODY")}
-              {this.renderTextInput("tags", "TAGS")}
-              {this.renderButton("POST")}
-            </form>
-          </div>
-        </Layout>
+        <div className="standardPadding">
+          <form onSubmit={this.handleSubmit}>
+            {this.renderTextInput("title", "TITLE")}
+            {this.renderTextInput("slug", "SLUG")}
+            {this.renderSelect("category", "CATEGORY", "", categories.items, "name")}
+            {this.renderTextInput("image", "IMAGE")}
+            {this.renderTextArea("description", "DESCRIPTION")}
+            {this.renderHtmlEditor("body", "BODY")}
+            {this.renderTextInput("tags", "TAGS")}
+            {this.renderButton("POST")}
+          </form>
+        </div>
       </div>
     );
   }
 }
 
-export default withAuthAsync(Article, true);
+export default withAuthAsync(withLayoutAsync(Article), true);

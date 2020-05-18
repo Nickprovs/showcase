@@ -1,4 +1,3 @@
-import Layout from "../components/layout";
 import Select, { components } from "react-select";
 import Icon from "../components/common/icon";
 import TransparentButton from "../components/common/transparentButton";

@@ -1,5 +1,5 @@
-import Layout from "../../../../../components/layout";
 import withAuthAsync from "../../../../../components/common/withAuthAsync";
+import withLayoutAsync from "../../../../../components/common/withLayoutAsync";
 import Form from "../../../../../components/common/form";
 import CustomJoi from "../../../../../misc/customJoi";
 import { getVideoCategoryAsync, updateVideoCategoryAsync } from "../../../../../services/videoService";
@@ -89,21 +89,18 @@ class Category extends Form {
   };
 
   render() {
-    let { user } = this.props;
     return (
       <div>
-        <Layout user={user}>
-          <div className="standardPadding">
-            <form onSubmit={this.handleSubmit}>
-              {this.renderTextInput("name", "NAME")}
-              {this.renderTextInput("slug", "SLUG")}
-              {this.renderButton("UPDATE")}
-            </form>
-          </div>
-        </Layout>
+        <div className="standardPadding">
+          <form onSubmit={this.handleSubmit}>
+            {this.renderTextInput("name", "NAME")}
+            {this.renderTextInput("slug", "SLUG")}
+            {this.renderButton("UPDATE")}
+          </form>
+        </div>
       </div>
     );
   }
 }
 
-export default withAuthAsync(Category, true);
+export default withAuthAsync(withLayoutAsync(Category), true);
