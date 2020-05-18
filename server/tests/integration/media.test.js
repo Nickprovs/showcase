@@ -1,6 +1,6 @@
 const request = require("supertest");
-const { Video } = require("../../models/media");
-const { VideoCategory } = require("../../models/mediaCategory");
+const { Media } = require("../../models/media");
+const { MediaCategory } = require("../../models/mediaCategory");
 const { User } = require("../../models/user");
 const mongoose = require("mongoose");
 const moment = require("moment");
@@ -12,8 +12,8 @@ describe("/medias", () => {
   });
   afterEach(async () => {
     await server.close();
-    await Video.deleteMany({});
-    await VideoCategory.deleteMany({});
+    await Media.deleteMany({});
+    await MediaCategory.deleteMany({});
   });
 
   describe("GET /", () => {
@@ -24,14 +24,14 @@ describe("/medias", () => {
     let media3;
 
     beforeEach(async () => {
-      mediaCategory1 = new VideoCategory({ name: "Mammal", slug: "mammal" });
+      mediaCategory1 = new MediaCategory({ name: "Mammal", slug: "mammal" });
       mediaCategory1 = await mediaCategory1.save();
 
-      mediaCategory2 = new VideoCategory({ name: "Reptile", slug: "reptile" });
+      mediaCategory2 = new MediaCategory({ name: "Reptile", slug: "reptile" });
       mediaCategory2 = await mediaCategory2.save();
 
-      media1 = new Video({
-        title: "Dog Video",
+      media1 = new Media({
+        title: "Dog Media",
         category: mediaCategory1,
         description: "A media of a dog.",
         orientation: "landscape",
@@ -41,8 +41,8 @@ describe("/medias", () => {
       });
       await media1.save();
 
-      media2 = new Video({
-        title: "Cat Video",
+      media2 = new Media({
+        title: "Cat Media",
         category: mediaCategory1,
         description: "A media of a cat.",
         orientation: "portrait",
@@ -52,8 +52,8 @@ describe("/medias", () => {
       });
       await media2.save();
 
-      media3 = new Video({
-        title: "Lizard Video",
+      media3 = new Media({
+        title: "Lizard Media",
         category: mediaCategory2,
         description: "A media of a lizard.",
         orientation: "portrait",
@@ -149,11 +149,11 @@ describe("/medias", () => {
 
   describe("GET /:id", () => {
     it("should return a media if valid id is passed", async () => {
-      let mediaCategory = new VideoCategory({ name: "Portrait", slug: "portrait" });
+      let mediaCategory = new MediaCategory({ name: "Portrait", slug: "portrait" });
       mediaCategory = await mediaCategory.save();
 
-      const media = new Video({
-        title: "Dog Video 1",
+      const media = new Media({
+        title: "Dog Media 1",
         category: mediaCategory,
         description: "A media of a dog 1.",
         orientation: "landscape",
@@ -201,11 +201,11 @@ describe("/medias", () => {
     beforeEach(async () => {
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
 
-      let mediaCategory = new VideoCategory({ name: "Panorama", slug: "panorama" });
+      let mediaCategory = new MediaCategory({ name: "Panorama", slug: "panorama" });
       mediaCategory = await mediaCategory.save();
 
       media = {
-        title: "Dog Video 2",
+        title: "Dog Media 2",
         categoryId: mediaCategory._id,
         description: "A media of a dog 2.",
         orientation: "landscape",
@@ -244,9 +244,9 @@ describe("/medias", () => {
     it("should save the media if it is valid", async () => {
       await exec();
 
-      const postedAndSavedVideo = await Video.find({ title: media.title });
+      const postedAndSavedMedia = await Media.find({ title: media.title });
 
-      expect(postedAndSavedVideo).not.toBeNull();
+      expect(postedAndSavedMedia).not.toBeNull();
     });
 
     it("should return the media if it is valid", async () => {
@@ -264,7 +264,7 @@ describe("/medias", () => {
   });
 
   describe("PUT /", () => {
-    let existingVideo;
+    let existingMedia;
     let media;
     let token;
     let id;
@@ -278,11 +278,11 @@ describe("/medias", () => {
     };
 
     beforeEach(async () => {
-      mediaCategory = new VideoCategory({ name: "Fiction", slug: "fiction" });
+      mediaCategory = new MediaCategory({ name: "Fiction", slug: "fiction" });
       mediaCategory = await mediaCategory.save();
 
-      existingVideo = new Video({
-        title: "Bunny Video",
+      existingMedia = new Media({
+        title: "Bunny Media",
         category: mediaCategory,
         description: "A media of a bunny.",
         orientation: "portrait",
@@ -290,12 +290,12 @@ describe("/medias", () => {
         source: "https://i.imgur.com/ILv82mN.jpeg",
         tags: ["cute", "bunny", "rabbit"],
       });
-      await existingVideo.save();
+      await existingMedia.save();
 
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
-      id = existingVideo._id;
+      id = existingMedia._id;
       media = {
-        title: "Big Bunny Video",
+        title: "Big Bunny Media",
         categoryId: mediaCategory._id,
         description: "A media of a big bunny.",
         orientation: "landscape",
@@ -347,7 +347,7 @@ describe("/medias", () => {
     it("should save the media if it is valid", async () => {
       await exec();
 
-      const media = await Video.find({ title: "testtt1" });
+      const media = await Media.find({ title: "testtt1" });
 
       expect(media).not.toBeNull();
     });
@@ -355,12 +355,12 @@ describe("/medias", () => {
     it("should update the media if input is valid", async () => {
       await exec();
 
-      const updatedVideo = await Video.findById(existingVideo._id);
+      const updatedMedia = await Media.findById(existingMedia._id);
 
-      expect(updatedVideo.title).toBe(media.title);
-      expect(updatedVideo.description).toBe(media.description);
-      expect(updatedVideo.orientation).toBe(media.orientation);
-      expect(updatedVideo.displaySize).toBe(media.displaySize);
+      expect(updatedMedia.title).toBe(media.title);
+      expect(updatedMedia.description).toBe(media.description);
+      expect(updatedMedia.orientation).toBe(media.orientation);
+      expect(updatedMedia.displaySize).toBe(media.displaySize);
     });
 
     it("should return the updated media if it is valid", async () => {
@@ -371,9 +371,9 @@ describe("/medias", () => {
       expect(res.body).toHaveProperty("title", media.title);
       expect(res.body).toHaveProperty("category");
       expect(res.body).toHaveProperty("datePosted");
-      expect(new Date(res.body.datePosted).getTime() === existingVideo.datePosted.getTime()).toBeTruthy();
+      expect(new Date(res.body.datePosted).getTime() === existingMedia.datePosted.getTime()).toBeTruthy();
       expect(res.body).toHaveProperty("dateLastModified");
-      expect(new Date(res.body.dateLastModified).getTime() === existingVideo.dateLastModified.getTime()).toBeFalsy();
+      expect(new Date(res.body.dateLastModified).getTime() === existingMedia.dateLastModified.getTime()).toBeFalsy();
       expect(res.body).toHaveProperty("description", media.description);
       expect(res.body).toHaveProperty("orientation", media.orientation);
       expect(res.body).toHaveProperty("displaySize", media.displaySize);
@@ -395,11 +395,11 @@ describe("/medias", () => {
     };
 
     beforeEach(async () => {
-      mediaCategory = new VideoCategory({ name: "Candid", slug: "candid" });
+      mediaCategory = new MediaCategory({ name: "Candid", slug: "candid" });
       mediaCategory = await mediaCategory.save();
 
-      media = new Video({
-        title: "Smol Bunny Video",
+      media = new Media({
+        title: "Smol Bunny Media",
         category: mediaCategory,
         description: "A media of a smol bunny.",
         orientation: "panorama",
@@ -447,7 +447,7 @@ describe("/medias", () => {
     it("should delete the media if input is valid", async () => {
       await exec();
 
-      const mediaInDb = await Video.findById(id);
+      const mediaInDb = await Media.findById(id);
 
       expect(mediaInDb).toBeNull();
     });

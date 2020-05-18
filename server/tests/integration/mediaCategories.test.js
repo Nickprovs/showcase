@@ -1,5 +1,5 @@
 const request = require("supertest");
-const { VideoCategory } = require("../../models/mediaCategory");
+const { MediaCategory } = require("../../models/mediaCategory");
 const { User } = require("../../models/user");
 const mongoose = require("mongoose");
 const moment = require("moment");
@@ -11,7 +11,7 @@ describe("/mediaCategories", () => {
   });
   afterEach(async () => {
     await server.close();
-    await VideoCategory.deleteMany({});
+    await MediaCategory.deleteMany({});
   });
 
   describe("GET /", () => {
@@ -19,10 +19,10 @@ describe("/mediaCategories", () => {
     let mediaCategory2;
 
     beforeEach(async () => {
-      mediaCategory1 = new VideoCategory({ name: "Fiction", slug: "fiction" });
+      mediaCategory1 = new MediaCategory({ name: "Fiction", slug: "fiction" });
       mediaCategory1 = await mediaCategory1.save();
 
-      mediaCategory2 = new VideoCategory({ name: "Non-Fiction", slug: "non-fiction" });
+      mediaCategory2 = new MediaCategory({ name: "Non-Fiction", slug: "non-fiction" });
       mediaCategory2 = await mediaCategory2.save();
     });
 
@@ -38,7 +38,7 @@ describe("/mediaCategories", () => {
 
   describe("GET /:id", () => {
     it("should return an media category if valid id is passed", async () => {
-      let mediaCategory = new VideoCategory({ name: "Horror", slug: "horror" });
+      let mediaCategory = new MediaCategory({ name: "Horror", slug: "horror" });
       mediaCategory = await mediaCategory.save();
 
       const res = await request(server).get("/mediaCategories/" + mediaCategory._id);
@@ -100,8 +100,8 @@ describe("/mediaCategories", () => {
     it("should save if it is valid", async () => {
       await exec();
 
-      const savedVideoCategory = await VideoCategory.find({ name: mediaCategory.name });
-      expect(savedVideoCategory).not.toBeNull();
+      const savedMediaCategory = await MediaCategory.find({ name: mediaCategory.name });
+      expect(savedMediaCategory).not.toBeNull();
     });
 
     it("should return it if it is valid", async () => {
@@ -112,7 +112,7 @@ describe("/mediaCategories", () => {
   });
 
   describe("PUT /", () => {
-    let existingVideoCategory;
+    let existingMediaCategory;
     let mediaCategory;
     let token;
     let id;
@@ -125,10 +125,10 @@ describe("/mediaCategories", () => {
     };
 
     beforeEach(async () => {
-      existingVideoCategory = new VideoCategory({ name: "Fiction", slug: "fiction" });
-      existingVideoCategory = await existingVideoCategory.save();
+      existingMediaCategory = new MediaCategory({ name: "Fiction", slug: "fiction" });
+      existingMediaCategory = await existingMediaCategory.save();
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
-      id = existingVideoCategory._id;
+      id = existingMediaCategory._id;
 
       mediaCategory = {
         name: "Fantasy",
@@ -178,16 +178,16 @@ describe("/mediaCategories", () => {
     it("should save it if it is valid", async () => {
       await exec();
 
-      const savedVideoCategory = await VideoCategory.find({ name: mediaCategory.name });
-      expect(savedVideoCategory).not.toBeNull();
+      const savedMediaCategory = await MediaCategory.find({ name: mediaCategory.name });
+      expect(savedMediaCategory).not.toBeNull();
     });
 
     it("should update it if input is valid", async () => {
       await exec();
 
-      const updatedVideoCategory = await VideoCategory.findById(existingVideoCategory._id);
+      const updatedMediaCategory = await MediaCategory.findById(existingMediaCategory._id);
 
-      expect(updatedVideoCategory.name).toBe(mediaCategory.name);
+      expect(updatedMediaCategory.name).toBe(mediaCategory.name);
     });
 
     it("should return it if it is valid", async () => {
@@ -211,7 +211,7 @@ describe("/mediaCategories", () => {
     };
 
     beforeEach(async () => {
-      mediaCategory = new VideoCategory({ name: "Folk", slug: "folk" });
+      mediaCategory = new MediaCategory({ name: "Folk", slug: "folk" });
       mediaCategory = await mediaCategory.save();
       id = mediaCategory._id;
       token = new User({ isAdmin: true }).generateAuthToken();
@@ -252,8 +252,8 @@ describe("/mediaCategories", () => {
     it("should delete the media if input is valid", async () => {
       await exec();
 
-      const savedVideoCategory = await VideoCategory.findById(id);
-      expect(savedVideoCategory).toBeNull();
+      const savedMediaCategory = await MediaCategory.findById(id);
+      expect(savedMediaCategory).toBeNull();
     });
 
     it("should return the removed media", async () => {

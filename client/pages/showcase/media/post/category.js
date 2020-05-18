@@ -2,7 +2,7 @@ import withAuthAsync from "../../../../components/common/withAuthAsync";
 import withLayoutAsync from "../../../../components/common/withLayoutAsync";
 import Form from "../../../../components/common/form";
 import CustomJoi from "../../../../misc/customJoi";
-import { createVideoCategoryAsync } from "../../../../services/mediaService";
+import { createMediaCategoryAsync } from "../../../../services/mediaService";
 import { toast } from "react-toastify";
 import Router from "next/router";
 
@@ -29,7 +29,7 @@ class Category extends Form {
 
     //Try and post the new category
     try {
-      res = await createVideoCategoryAsync(name, slug);
+      res = await createMediaCategoryAsync(name, slug);
     } catch (ex) {
       let errorMessage = `Error: ${ex}`;
       console.log(errorMessage);

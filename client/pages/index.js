@@ -228,7 +228,7 @@ class Index extends Component {
           />
         )}
         <div className={indexStyles.previewType}>
-          <h2>Featured Video</h2>
+          <h2>Featured Media</h2>
         </div>
         <div className={indexStyles.previewTitle}>
           <h2>{media.title}</h2>

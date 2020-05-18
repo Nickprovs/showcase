@@ -2,21 +2,21 @@ import withAuthAsync from "../../../../../components/common/withAuthAsync";
 import withLayoutAsync from "../../../../../components/common/withLayoutAsync";
 import Form from "../../../../../components/common/form";
 import CustomJoi from "../../../../../misc/customJoi";
-import { getVideoAsync, getVideoCategoriesAsync, updateVideoAsync } from "../../../../../services/mediaService";
+import { getMediaAsync, getMediaCategoriesAsync, updateMediaAsync } from "../../../../../services/mediaService";
 import Head from "next/head";
 import { toast, cssTransition } from "react-toastify";
 import Router from "next/router";
 import RouterUtilities from "../../../../../util/routerUtilities";
 import StringUtilities from "../../../../../util/stringUtilities";
 
-class Video extends Form {
+class Media extends Form {
   static async getInitialProps(context) {
     const { id } = context.query;
 
     //Get the media
     let media = null;
     try {
-      const mediaRes = await getVideoAsync(id);
+      const mediaRes = await getMediaAsync(id);
       media = await mediaRes.json();
     } catch (ex) {
       media = null;
@@ -25,7 +25,7 @@ class Video extends Form {
     //Get categories for form
     let categories = null;
     try {
-      let categoriesRes = await getVideoCategoriesAsync();
+      let categoriesRes = await getMediaCategoriesAsync();
       categories = await categoriesRes.json();
     } catch (ex) {
       categories = null;
@@ -55,10 +55,10 @@ class Video extends Form {
       return;
     }
 
-    this.getStateDataFromVideo(media);
+    this.getStateDataFromMedia(media);
   }
 
-  getStateDataFromVideo(media) {
+  getStateDataFromMedia(media) {
     this.setState({
       data: {
         title: media.title,
@@ -78,7 +78,7 @@ class Video extends Form {
     tags: CustomJoi.csvString().required().min(3).max(10),
   });
 
-  getVideoFromPassingState() {
+  getMediaFromPassingState() {
     const { categories } = this.props;
     let media = { ...this.state.data };
 
@@ -96,14 +96,14 @@ class Video extends Form {
   }
 
   doSubmit = async () => {
-    let originalVideo = this.props.media;
-    let media = this.getVideoFromPassingState();
-    media._id = originalVideo._id;
+    let originalMedia = this.props.media;
+    let media = this.getMediaFromPassingState();
+    media._id = originalMedia._id;
 
     let res = null;
     //Try and post the new category
     try {
-      res = await updateVideoAsync(media);
+      res = await updateMediaAsync(media);
     } catch (ex) {
       let errorMessage = `Error: ${ex}`;
       console.log(errorMessage);
@@ -147,4 +147,4 @@ class Video extends Form {
   }
 }
 
-export default withAuthAsync(withLayoutAsync(Video), true);
+export default withAuthAsync(withLayoutAsync(Media), true);

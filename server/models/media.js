@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const { mongoSchema: categorySchema } = require("./common/category");
 
 //Mongo Schema
-const mongoVideoSchema = new mongoose.Schema({
+const mongoMediaSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -43,19 +43,19 @@ const mongoVideoSchema = new mongoose.Schema({
     validate: validateTags,
   },
 });
-mongoVideoSchema.index({ title: "text", description: "text", tags: "text", "category.name": "text" });
+mongoMediaSchema.index({ title: "text", description: "text", tags: "text", "category.name": "text" });
 
 function validateTags(val) {
   if (val.length >= 3 && val.length <= 10) return true;
   else throw new Error("Tags must contain between 3 and 10 entries.");
 }
 
-mongoVideoSchema.set("toJSON", { virtuals: false });
+mongoMediaSchema.set("toJSON", { virtuals: false });
 
-const VideoModel = mongoose.model("Video", mongoVideoSchema);
+const MediaModel = mongoose.model("Media", mongoMediaSchema);
 
 //Joi Schema
-const joiVideoSchema = Joi.object({
+const joiMediaSchema = Joi.object({
   title: Joi.string().min(2).max(64).required(),
   categoryId: Joi.objectId().required(),
   description: Joi.string().min(2).max(128).required(),
@@ -63,5 +63,5 @@ const joiVideoSchema = Joi.object({
   tags: Joi.array().items(Joi.string()).min(3).max(10),
 });
 
-exports.VideoModel = VideoModel;
-exports.joiSchema = joiVideoSchema;
+exports.MediaModel = MediaModel;
+exports.joiSchema = joiMediaSchema;

@@ -2,7 +2,7 @@ import mediaStyles from "../../styles/media.module.css";
 import withAuthAsync from "../../components/common/withAuthAsync";
 import withLayoutAsync from "../../components/common/withLayoutAsync";
 import { Component } from "react";
-import { getVideosAsync, deleteVideoAsync, getVideoCategoriesAsync } from "../../services/mediaService";
+import { getMediasAsync, deleteMediaAsync, getMediaCategoriesAsync } from "../../services/mediaService";
 import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../../services/featuredService";
 import CommonPageHeaderControls from "../../components/common/commonPageHeaderControls";
 import Router from "next/router";
@@ -18,14 +18,14 @@ import reframe from "reframe.js";
 
 const pageSize = 5;
 
-const RemoveVideoToast = ({ closeToast, media, onRemoveVideoAsync }) => (
+const RemoveMediaToast = ({ closeToast, media, onRemoveMediaAsync }) => (
   <div>
     Are you sure you want to remove?
-    <BasicButton onClick={async () => await onRemoveVideoAsync(media)}>Remove</BasicButton>
+    <BasicButton onClick={async () => await onRemoveMediaAsync(media)}>Remove</BasicButton>
   </div>
 );
 
-class Video extends Component {
+class Media extends Component {
   static async getInitialProps(context) {
     let pageQueryParam = context.query.page ? parseInt(context.query.page) : 1;
     let searchQueryParam = context.query.search ? context.query.search : "";
@@ -37,10 +37,10 @@ class Video extends Component {
       category: categoryQueryParam,
     };
 
-    return await Video.getVideoData(options);
+    return await Media.getMediaData(options);
   }
 
-  static async getVideoData(options) {
+  static async getMediaData(options) {
     let page = options.page ? options.page : 1;
     let search = options.search ? options.search : "";
     let category = options.category ? options.category : "";
@@ -52,13 +52,13 @@ class Video extends Component {
       category: category,
     };
 
-    const mediasRes = await getVideosAsync(getQueryParams);
+    const mediasRes = await getMediasAsync(getQueryParams);
     const medias = await mediasRes.json();
 
     const featuredRes = await getFeaturedSubsidiariesAsync({ scope: "verbatim" });
     const featured = await featuredRes.json();
 
-    let res = await getVideoCategoriesAsync();
+    let res = await getMediaCategoriesAsync();
     let categories = await res.json();
     categories.items = [{ _id: "", slug: "", name: "All" }, ...categories.items];
 
@@ -66,7 +66,7 @@ class Video extends Component {
       medias: medias.items,
       featured: featured,
       currentPage: page,
-      totalVideosCount: medias.total,
+      totalMediasCount: medias.total,
       initialSearchProp: search,
       categories: categories.items,
     };
@@ -82,14 +82,14 @@ class Video extends Component {
     searchText: "",
     medias: [],
     featured: null,
-    totalVideosCount: 0,
+    totalMediasCount: 0,
     currentPage: 1,
     categories: [],
     currentCategory: null,
   };
 
   componentDidMount() {
-    const { medias, featured, categories, currentPage, totalVideosCount, initialSearchProp } = this.props;
+    const { medias, featured, categories, currentPage, totalMediasCount, initialSearchProp } = this.props;
 
     //Get the current category
     let currentCategory = categories.filter((c) => c.slug === Router.query.category)[0];
@@ -99,19 +99,19 @@ class Video extends Component {
     this.setState({ medias: medias });
     this.setState({ featured: featured });
     this.setState({ currentPage: currentPage });
-    this.setState({ totalVideosCount: totalVideosCount });
+    this.setState({ totalMediasCount: totalMediasCount });
     this.setState({ initialSearchProp: initialSearchProp });
     this.setState({ categories: categories });
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { medias, featured, currentPage, categories, totalVideosCount } = this.props;
+    const { medias, featured, currentPage, categories, totalMediasCount } = this.props;
     const { currentCategory } = this.state;
 
     if (prevProps.featured !== featured) this.setState({ featured });
     if (prevProps.medias !== medias) this.setState({ medias });
     if (prevProps.currentPage !== currentPage) this.setState({ currentPage });
-    if (prevProps.totalVideosCount !== totalVideosCount) this.setState({ totalVideosCount });
+    if (prevProps.totalMediasCount !== totalMediasCount) this.setState({ totalMediasCount });
 
     //If there's a category in the query and it's different than the current category
     if (Router.query.category != currentCategory.slug) {
@@ -125,7 +125,7 @@ class Video extends Component {
     EmbedUtilities.loadAllAvailableEmbedHelpers();
   }
 
-  setVideoContainerRefs = (ref) => {
+  setMediaContainerRefs = (ref) => {
     this.mediaContainerRefs.push(ref);
   };
 
@@ -166,12 +166,12 @@ class Video extends Component {
     Router.push(url, url, { shallow: false });
   }
 
-  async handleRemoveVideo(media) {
-    let { medias: originalVideos, totalVideosCount } = this.state;
+  async handleRemoveMedia(media) {
+    let { medias: originalMedias, totalMediasCount } = this.state;
 
     let res = null;
     try {
-      res = await deleteVideoAsync(media._id);
+      res = await deleteMediaAsync(media._id);
     } catch (ex) {
       let errorMessage = `Error: ${ex}`;
       console.log(errorMessage);
@@ -188,15 +188,15 @@ class Video extends Component {
       return;
     }
 
-    const medias = originalVideos.filter((p) => p._id !== media._id);
+    const medias = originalMedias.filter((p) => p._id !== media._id);
     this.setState({ medias });
-    this.setState({ totalVideosCount: totalVideosCount-- });
+    this.setState({ totalMediasCount: totalMediasCount-- });
   }
 
   async handleRemoveCategory(category) {
     let res = null;
     try {
-      res = await deleteVideoCategoryAsync(category._id);
+      res = await deleteMediaCategoryAsync(category._id);
     } catch (ex) {
       let errorMessage = `Error: ${ex}`;
       console.log(errorMessage);
@@ -218,7 +218,7 @@ class Video extends Component {
     this.setState({ categories });
   }
 
-  async handleToggleFeaturedVideo(media) {
+  async handleToggleFeaturedMedia(media) {
     const { featured: originalFeatured } = this.state;
     let res = null;
     try {
@@ -231,10 +231,10 @@ class Video extends Component {
         this.setState({ featured: originalFeaturedWithRemovedItem });
       } else {
         res = await createFeaturedSubsidiaryAsync({ id: media._id, type: "media" });
-        let featuredVideoRes = await res.json();
-        console.log("res", featuredVideoRes);
+        let featuredMediaRes = await res.json();
+        console.log("res", featuredMediaRes);
         let originalFeaturedWithAddedItem = { ...originalFeatured };
-        originalFeaturedWithAddedItem.subsidiaries.items.push(featuredVideoRes);
+        originalFeaturedWithAddedItem.subsidiaries.items.push(featuredMediaRes);
         this.setState({ featured: originalFeaturedWithAddedItem });
       }
     } catch (ex) {
@@ -255,7 +255,7 @@ class Video extends Component {
     }
   }
 
-  getEmptyVideoSectionMarkup() {
+  getEmptyMediaSectionMarkup() {
     return (
       <div style={{ textAlign: "center" }}>
         <h1>{`No medias found.`}</h1>
@@ -268,11 +268,11 @@ class Video extends Component {
 
   render() {
     const { user } = this.props;
-    const { medias, featured, totalVideosCount, currentPage, searchText, categories, currentCategory } = this.state;
+    const { medias, featured, totalMediasCount, currentPage, searchText, categories, currentCategory } = this.state;
 
     //If we have no medias to display for this route...
     let markupBody;
-    if (!medias || medias.length === 0) markupBody = this.getEmptyVideoSectionMarkup();
+    if (!medias || medias.length === 0) markupBody = this.getEmptyMediaSectionMarkup();
     else {
       markupBody = (
         <div className={mediaStyles.container}>
@@ -281,7 +281,7 @@ class Video extends Component {
               {/*Admin Controls*/}
               {user && user.isAdmin && (
                 <div className={mediaStyles.adminOptions}>
-                  <TransparentButton onClick={async () => await this.handleToggleFeaturedVideo(media)} style={{ color: "var(--f1)" }}>
+                  <TransparentButton onClick={async () => await this.handleToggleFeaturedMedia(media)} style={{ color: "var(--f1)" }}>
                     <Icon
                       className={featured.subsidiaries.items.some((item) => item.id === media._id) ? "fas fa-star" : "far fa-star"}
                     ></Icon>
@@ -296,7 +296,7 @@ class Video extends Component {
                   <TransparentButton
                     onClick={() =>
                       toast.info(
-                        <RemoveVideoToast media={media} onRemoveVideoAsync={async (media) => await this.handleRemoveVideo(media)} />
+                        <RemoveMediaToast media={media} onRemoveMediaAsync={async (media) => await this.handleRemoveMedia(media)} />
                       )
                     }
                     style={{ color: "var(--f1)" }}
@@ -309,7 +309,7 @@ class Video extends Component {
               <div className={mediaStyles.title}>
                 <h2>{media.title.toUpperCase()}</h2>
               </div>
-              {/*TODO: Changed to iFrame or Video Tag*/}
+              {/*TODO: Changed to iFrame or Media Tag*/}
               <DangerousInnerHtmlWithScript className={mediaStyles.mediaContainer} html={media.markup} />
               <div className={mediaStyles.descriptionContainer}>
                 <label>{media.description}</label>
@@ -336,11 +336,11 @@ class Video extends Component {
         />
         {markupBody}
         <div className={mediaStyles.paginationContainer}>
-          <Pagination itemsCount={totalVideosCount} pageSize={pageSize} currentPage={currentPage} />
+          <Pagination itemsCount={totalMediasCount} pageSize={pageSize} currentPage={currentPage} />
         </div>
       </div>
     );
   }
 }
 
-export default withAuthAsync(withLayoutAsync(Video));
+export default withAuthAsync(withLayoutAsync(Media));

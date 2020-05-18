@@ -4,8 +4,8 @@ const { Software } = require("./models/software");
 const { SoftwareCategory } = require("./models/softwareCategory");
 const { PhotoModel } = require("./models/photo");
 const { PhotoCategoryModel } = require("./models/photoCategory");
-const { VideoModel } = require("./models/media");
-const { VideoCategoryModel } = require("./models/mediaCategory");
+const { MediaModel } = require("./models/media");
+const { MediaCategoryModel } = require("./models/mediaCategory");
 
 const mongoose = require("mongoose");
 mongoose.set("useCreateIndex", true);
@@ -301,7 +301,7 @@ const data = {
         {
           title: "Tree Fiddy",
           description: "A film by nickprovs.",
-          markup: `<iframe title="vimeo-player" src="https://player.vimeo.com/video/138343914" width="640" height="360" frameborder="0" allowfullscreen></iframe>`,
+          markup: `<iframe title="vimeo-player" src="https://player.vimeo.com/media/138343914" width="640" height="360" frameborder="0" allowfullscreen></iframe>`,
           tags: ["tree", "fiddy", "life"],
         },
         {
@@ -319,13 +319,13 @@ const data = {
         {
           title: "A Drop in the Ocean",
           description: "A film by the incredible Kendy Ty.",
-          markup: `<iframe src="https://player.vimeo.com/video/94390460" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`,
+          markup: `<iframe src="https://player.vimeo.com/media/94390460" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`,
           tags: ["drop", "in", "ocean", "kendy", "ty"],
         },
         {
           title: "NYC",
           description: "A film by Paul Tkachenko.",
-          markup: `<iframe title="vimeo-player" src="https://player.vimeo.com/video/276083030" width="640" height="360" frameborder="0" allowfullscreen></iframe>`,
+          markup: `<iframe title="vimeo-player" src="https://player.vimeo.com/media/276083030" width="640" height="360" frameborder="0" allowfullscreen></iframe>`,
           tags: ["nyc", "paul", "tkachenko"],
         },
         {
@@ -356,7 +356,7 @@ const data = {
         {
           title: "Coming Home",
           description: "A film by dooster.",
-          markup: `<iframe title="vimeo-player" src="https://player.vimeo.com/video/406878212" width="640" height="360" frameborder="0" allowfullscreen></iframe>`,
+          markup: `<iframe title="vimeo-player" src="https://player.vimeo.com/media/406878212" width="640" height="360" frameborder="0" allowfullscreen></iframe>`,
           tags: ["coming", "home", "dooster"],
         },
       ],
@@ -382,7 +382,7 @@ async function seed() {
     await saveCollection(data.blogs, Blog, BlogCategory);
     await saveCollection(data.software, Software, SoftwareCategory);
     await saveCollection(data.photos, PhotoModel, PhotoCategoryModel);
-    await saveCollection(data.medias, VideoModel, VideoCategoryModel);
+    await saveCollection(data.medias, MediaModel, MediaCategoryModel);
   } catch (ex) {
     console.log(ex);
   } finally {

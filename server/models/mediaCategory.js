@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const { joiSchema, mongoSchema } = require("./common/category");
 
-const VideoCategoryModel = mongoose.model("VideoCategory", mongoSchema);
+const MediaCategoryModel = mongoose.model("MediaCategory", mongoSchema);
 
-exports.VideoCategoryModel = VideoCategoryModel;
+exports.MediaCategoryModel = MediaCategoryModel;
 exports.joiSchema = joiSchema;
 exports.mongoSchema = mongoSchema;

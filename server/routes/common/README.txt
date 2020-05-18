@@ -5,7 +5,7 @@ Since the Model defines the name of the collection, this route code can be reuse
 In our case, we have a few common route modules.
 
 1.) Categories
-    Categories are just a named category. Articles, Software Projects, Photos, and Videos can all have categories.
+    Categories are just a named category. Articles, Software Projects, Photos, and Medias can all have categories.
     That said, the articleCategory endpoint works exactly the same as the photoCategory endpoint.
 
 2.) Articles 

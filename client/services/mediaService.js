@@ -8,7 +8,7 @@ const PHOTOSAPIURL = `${APIURL}/medias`;
 const PHOTOCATEGORIESURL = `${APIURL}/mediaCategories`;
 const FEATUREDMEDIASAPIURL = `${APIURL}/featured/media`;
 
-export async function getVideosAsync(options) {
+export async function getMediasAsync(options) {
   let query = "";
 
   if (options) {
@@ -23,13 +23,13 @@ export async function getVideosAsync(options) {
   return res;
 }
 
-export async function getVideoAsync(mediaId) {
+export async function getMediaAsync(mediaId) {
   const requestUrl = PHOTOSAPIURL + "/" + mediaId;
   const res = await fetch(requestUrl);
   return res;
 }
 
-export async function createVideoAsync(media) {
+export async function createMediaAsync(media) {
   const res = await fetch(PHOTOSAPIURL, {
     method: "post",
     credentials: "include",
@@ -41,7 +41,7 @@ export async function createVideoAsync(media) {
   return res;
 }
 
-export async function updateVideoAsync(media) {
+export async function updateMediaAsync(media) {
   const body = { ...media };
   delete body._id;
 
@@ -56,7 +56,7 @@ export async function updateVideoAsync(media) {
   return res;
 }
 
-export async function deleteVideoAsync(mediaId) {
+export async function deleteMediaAsync(mediaId) {
   const res = await fetch(`${PHOTOSAPIURL}/${mediaId}`, {
     method: "delete",
     credentials: "include",
@@ -67,18 +67,18 @@ export async function deleteVideoAsync(mediaId) {
   return res;
 }
 
-export async function getVideoCategoryAsync(categoryId) {
+export async function getMediaCategoryAsync(categoryId) {
   const requestUrl = PHOTOCATEGORIESURL + "/" + categoryId;
   const res = await fetch(requestUrl);
   return res;
 }
 
-export async function getVideoCategoriesAsync() {
+export async function getMediaCategoriesAsync() {
   const res = await fetch(PHOTOCATEGORIESURL);
   return res;
 }
 
-export async function createVideoCategoryAsync(name, slug) {
+export async function createMediaCategoryAsync(name, slug) {
   const res = await fetch(PHOTOCATEGORIESURL, {
     method: "post",
     credentials: "include",
@@ -90,7 +90,7 @@ export async function createVideoCategoryAsync(name, slug) {
   return res;
 }
 
-export async function updateVideoCategoryAsync(category) {
+export async function updateMediaCategoryAsync(category) {
   const body = { ...category };
   delete body._id;
 
@@ -105,7 +105,7 @@ export async function updateVideoCategoryAsync(category) {
   return res;
 }
 
-export async function deleteVideoCategoryAsync(mediaCategoryId) {
+export async function deleteMediaCategoryAsync(mediaCategoryId) {
   console.log("Making request to", `${PHOTOCATEGORIESURL}/${mediaCategoryId}`);
   const res = await fetch(`${PHOTOCATEGORIESURL}/${mediaCategoryId}`, {
     method: "delete",

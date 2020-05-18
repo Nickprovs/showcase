@@ -8,7 +8,7 @@ const { FeaturedModel, joiFeaturedSchema, joiPrimarySchema, joiSubsidiarySchema 
 const { Blog: BlogModel } = require("../models/blog");
 const { Software: SoftwareModel } = require("../models/software");
 const { PhotoModel } = require("../models/photo");
-const { VideoModel } = require("../models/media");
+const { MediaModel } = require("../models/media");
 const getAllQuerySchema = require("./schemas/queries/featured/getAllQuery");
 const getSubsidiariesQuerySchema = require("./schemas/queries/featured/getSubsidiariesQuery");
 const patchSubsidiaryQuerySchema = require("./schemas/queries/featured/patchSubsidiaryQuery");
@@ -24,7 +24,7 @@ async function getContentByTypeAndId(type, id) {
     case "photo":
       return await PhotoModel.findOne({ _id: id });
     case "media":
-      return await VideoModel.findOne({ _id: id });
+      return await MediaModel.findOne({ _id: id });
     default:
       return null;
   }

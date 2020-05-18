@@ -2,7 +2,7 @@ import withAuthAsync from "../../../../../components/common/withAuthAsync";
 import withLayoutAsync from "../../../../../components/common/withLayoutAsync";
 import Form from "../../../../../components/common/form";
 import CustomJoi from "../../../../../misc/customJoi";
-import { getVideoCategoryAsync, updateVideoCategoryAsync } from "../../../../../services/mediaService";
+import { getMediaCategoryAsync, updateMediaCategoryAsync } from "../../../../../services/mediaService";
 import { toast, cssTransition } from "react-toastify";
 import Router from "next/router";
 import RouterUtilities from "../../../../../util/routerUtilities";
@@ -14,7 +14,7 @@ class Category extends Form {
     //Get the category
     let category = null;
     try {
-      let categoryRes = await getVideoCategoryAsync(id);
+      let categoryRes = await getMediaCategoryAsync(id);
       category = await categoryRes.json();
     } catch (ex) {
       category = null;
@@ -67,7 +67,7 @@ class Category extends Form {
     let res = null;
     //Try and post the new category
     try {
-      res = await updateVideoCategoryAsync(category);
+      res = await updateMediaCategoryAsync(category);
     } catch (ex) {
       let errorMessage = `Error: ${ex}`;
       console.log(errorMessage);

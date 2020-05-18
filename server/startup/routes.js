@@ -14,7 +14,7 @@ const { Software, joiSchema: joiSoftwareSchema } = require("../models/software")
 const { BlogCategory, joiSchema: joiBlogCategorySchema } = require("../models/blogCategory");
 const { SoftwareCategory, joiSchema: joiSoftwareCategorySchema } = require("../models/softwareCategory");
 const { PhotoCategoryModel, joiSchema: joiPhotoCategorySchema } = require("../models/photoCategory");
-const { VideoCategoryModel, joiSchema: joiVideoCategorySchema } = require("../models/mediaCategory");
+const { MediaCategoryModel, joiSchema: joiMediaCategorySchema } = require("../models/mediaCategory");
 
 module.exports = function (app) {
   app.use("/general", general());
@@ -33,5 +33,5 @@ module.exports = function (app) {
   app.use("/photoCategories", categories(PhotoCategoryModel, joiPhotoCategorySchema));
 
   app.use("/medias", medias());
-  app.use("/mediaCategories", categories(VideoCategoryModel, joiVideoCategorySchema));
+  app.use("/mediaCategories", categories(MediaCategoryModel, joiMediaCategorySchema));
 };

@@ -2,14 +2,14 @@ import withAuthAsync from "../../../../components/common/withAuthAsync";
 import withLayoutAsync from "../../../../components/common/withLayoutAsync";
 import Form from "../../../../components/common/form";
 import CustomJoi from "../../../../misc/customJoi";
-import { getVideoCategoriesAsync, createVideoAsync } from "../../../../services/mediaService";
+import { getMediaCategoriesAsync, createMediaAsync } from "../../../../services/mediaService";
 import Head from "next/head";
 import { toast } from "react-toastify";
 import Router from "next/router";
 
-class Video extends Form {
+class Media extends Form {
   static async getInitialProps(context) {
-    let res = await getVideoCategoriesAsync();
+    let res = await getMediaCategoriesAsync();
     let categories = await res.json();
     return { categories: categories };
   }
@@ -29,7 +29,7 @@ class Video extends Form {
     tags: CustomJoi.csvString().required().min(3).max(10),
   });
 
-  getVideoFromPassingState() {
+  getMediaFromPassingState() {
     const { categories } = this.props;
     let media = { ...this.state.data };
 
@@ -47,11 +47,11 @@ class Video extends Form {
   }
 
   doSubmit = async () => {
-    const media = this.getVideoFromPassingState();
+    const media = this.getMediaFromPassingState();
     let res = null;
     //Try and post the new category
     try {
-      res = await createVideoAsync(media);
+      res = await createMediaAsync(media);
     } catch (ex) {
       let errorMessage = `Error: ${ex}`;
       console.log(errorMessage);
@@ -94,4 +94,4 @@ class Video extends Form {
   }
 }
 
-export default withAuthAsync(withLayoutAsync(Video), true);
+export default withAuthAsync(withLayoutAsync(Media), true);

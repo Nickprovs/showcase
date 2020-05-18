@@ -6,8 +6,8 @@ const validateBody = require("../middleware/validateBody");
 const validateQuery = require("../middleware/validateQuery");
 const validateObjectId = require("../middleware/validateObjectId");
 const getAllQuerySchema = require("./schemas/queries/media/getAllQuery");
-const { VideoModel, joiSchema: joiVideoSchema } = require("../models/media");
-const { VideoCategoryModel } = require("../models/mediaCategory");
+const { MediaModel, joiSchema: joiMediaSchema } = require("../models/media");
+const { MediaCategoryModel } = require("../models/mediaCategory");
 const ValidationUtilities = require("../util/validationUtilities");
 
 const winston = require("winston");
@@ -29,8 +29,8 @@ module.exports = function () {
       let mediaCategory;
       const { isIdSlug } = ValidationUtilities.isVariableId(categoryId);
 
-      if (isIdSlug) mediaCategory = await VideoCategoryModel.findOne({ slug: categoryId }).select("-__v");
-      else mediaCategory = await VideoCategoryModel.findById(categoryId);
+      if (isIdSlug) mediaCategory = await MediaCategoryModel.findOne({ slug: categoryId }).select("-__v");
+      else mediaCategory = await MediaCategoryModel.findById(categoryId);
 
       if (!mediaCategory) return res.status(400).send("Invalid media category in query.");
       filterObject["category._id"] = mediaCategory._id;
@@ -43,10 +43,10 @@ module.exports = function () {
     }
 
     //Get the total count that matches the filter object without pagination skipping / limiting
-    const total = await VideoModel.countDocuments(filterObject);
+    const total = await MediaModel.countDocuments(filterObject);
 
     //Get the paginated medias
-    const medias = await VideoModel.find(filterObject, { score: { $meta: "textScore" } })
+    const medias = await MediaModel.find(filterObject, { score: { $meta: "textScore" } })
       .select("-__v -body")
       .sort({ score: { $meta: "textScore" } })
       .sort({ datePosted: dateOrder })
@@ -67,17 +67,17 @@ module.exports = function () {
   });
 
   router.get("/:id", validateObjectId, async (req, res) => {
-    const media = await VideoModel.findById(req.params.id).select("-__v");
+    const media = await MediaModel.findById(req.params.id).select("-__v");
     if (!media) return res.status(404).send("The media with the given ID was not found.");
 
     res.send(media);
   });
 
-  router.post("/", [auth, admin, validateBody(joiVideoSchema)], async (req, res) => {
-    const mediaCategory = await VideoCategoryModel.findById(req.body.categoryId);
+  router.post("/", [auth, admin, validateBody(joiMediaSchema)], async (req, res) => {
+    const mediaCategory = await MediaCategoryModel.findById(req.body.categoryId);
     if (!mediaCategory) return res.status(400).send("Invalid media category.");
 
-    let media = new VideoModel({
+    let media = new MediaModel({
       title: req.body.title,
       category: mediaCategory,
       datePosted: moment().toJSON(),
@@ -92,11 +92,11 @@ module.exports = function () {
     res.send(media);
   });
 
-  router.put("/:id", [auth, admin, validateObjectId, validateBody(joiVideoSchema)], async (req, res) => {
-    const mediaCategory = await VideoCategoryModel.findById(req.body.categoryId);
+  router.put("/:id", [auth, admin, validateObjectId, validateBody(joiMediaSchema)], async (req, res) => {
+    const mediaCategory = await MediaCategoryModel.findById(req.body.categoryId);
     if (!mediaCategory) return res.status(400).send("Invalid media category.");
 
-    const updatedVideo = await VideoModel.findByIdAndUpdate(
+    const updatedMedia = await MediaModel.findByIdAndUpdate(
       req.params.id,
       {
         title: req.body.title,
@@ -109,13 +109,13 @@ module.exports = function () {
       { new: true }
     );
 
-    if (!updatedVideo) return res.status(404).send("Video not found.");
+    if (!updatedMedia) return res.status(404).send("Media not found.");
 
-    res.send(updatedVideo);
+    res.send(updatedMedia);
   });
 
   router.delete("/:id", [auth, admin, validateObjectId], async (req, res) => {
-    const media = await VideoModel.findByIdAndRemove(req.params.id);
+    const media = await MediaModel.findByIdAndRemove(req.params.id);
     if (!media) return res.status(404).send("The media with the given ID was not found.");
 
     res.send(media);
