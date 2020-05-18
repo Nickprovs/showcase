@@ -301,7 +301,7 @@ const data = {
         {
           title: "Tree Fiddy",
           description: "A film by nickprovs.",
-          markup: `<iframe title="vimeo-player" src="https://player.vimeo.com/media/138343914" width="640" height="360" frameborder="0" allowfullscreen></iframe>`,
+          markup: `<iframe src="https://player.vimeo.com/video/138343914" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`,
           tags: ["tree", "fiddy", "life"],
         },
         {
@@ -319,13 +319,13 @@ const data = {
         {
           title: "A Drop in the Ocean",
           description: "A film by the incredible Kendy Ty.",
-          markup: `<iframe src="https://player.vimeo.com/media/94390460" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`,
+          markup: `<iframe src="https://player.vimeo.com/video/94390460?color=ef8600" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`,
           tags: ["drop", "in", "ocean", "kendy", "ty"],
         },
         {
           title: "NYC",
           description: "A film by Paul Tkachenko.",
-          markup: `<iframe title="vimeo-player" src="https://player.vimeo.com/media/276083030" width="640" height="360" frameborder="0" allowfullscreen></iframe>`,
+          markup: `<iframe title="vimeo-player" src="https://player.vimeo.com/video/276083030" width="640" height="360" frameborder="0" allowfullscreen></iframe>`,
           tags: ["nyc", "paul", "tkachenko"],
         },
         {
@@ -356,7 +356,7 @@ const data = {
         {
           title: "Coming Home",
           description: "A film by dooster.",
-          markup: `<iframe title="vimeo-player" src="https://player.vimeo.com/media/406878212" width="640" height="360" frameborder="0" allowfullscreen></iframe>`,
+          markup: `<iframe title="vimeo-player" src="https://player.vimeo.com/video/406878212" width="640" height="360" frameborder="0" allowfullscreen></iframe>`,
           tags: ["coming", "home", "dooster"],
         },
       ],
