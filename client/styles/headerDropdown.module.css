@@ -75,10 +75,13 @@
   display: block;
 }
 
-.dropdownContent button{
+.dropdownContent button {
+  font-family: SourceSansPro, Sans-Serif !important;
+  font-size: 12pt;
   cursor: pointer;
   font-weight: bolder;
   width: 100%;
+  height: 70px;
   text-align: center;
   color: black;
   padding: 12px 16px;
@@ -90,8 +93,14 @@
 }
 
 /* Change color of dropdown links on hover */
-.dropdownContent a:hover {
+.dropdownContent a:hover,
+.dropdownContent button:hover {
   background-color: var(--b2);
+  color: var(--s5);
+}
+.dropdownContent a:active,
+.dropdownContent button:active {
+  color: var(--s6);
 }
 
 /* Show the dropdown menu on hover */
