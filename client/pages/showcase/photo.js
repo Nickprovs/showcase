@@ -270,7 +270,7 @@ class Photo extends Component {
     this.setState({ fullScreenPhotoVisible: true });
   }
 
-  handleCloseFullScreenPhoto(source) {
+  handleCloseFullScreenPhoto() {
     this.setState({ fullScreenPhotoSource: "" });
     this.setState({ fullScreenPhotoVisible: false });
   }

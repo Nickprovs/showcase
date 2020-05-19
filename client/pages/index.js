@@ -1,5 +1,7 @@
 import withAuthAsync from "../components/common/withAuthAsync";
 import withLayoutAsync from "../components/common/withLayoutAsync";
+import FullscreenPhoto from "../components/common/fullscreenPhoto";
+
 import { Component } from "react";
 import { getFeaturedAsync } from "../services/featuredService";
 import indexStyles from "../styles/index.module.css";
@@ -42,6 +44,8 @@ class Index extends Component {
 
   state = {
     featured: null,
+    fullScreenPhotoVisible: false,
+    fullScreenPhotoSource: "",
   };
 
   constructor(props) {
@@ -263,7 +267,11 @@ class Index extends Component {
         </div>
         <div className={indexStyles.photoContainer}>
           <a>
-            <img className={indexStyles.preservedAspectRatioPhoto} src={photo.source} />
+            <img
+              onClick={() => this.handleOpenFullScreenPhoto(photo.source)}
+              className={indexStyles.preservedAspectRatioPhoto}
+              src={photo.source}
+            />
           </a>
         </div>
         <div className={indexStyles.descriptionContainer}>
@@ -275,9 +283,19 @@ class Index extends Component {
     );
   }
 
+  handleOpenFullScreenPhoto(source) {
+    this.setState({ fullScreenPhotoSource: source });
+    this.setState({ fullScreenPhotoVisible: true });
+  }
+
+  handleCloseFullScreenPhoto(source) {
+    this.setState({ fullScreenPhotoSource: "" });
+    this.setState({ fullScreenPhotoVisible: false });
+  }
+
   render() {
     const { user } = this.props;
-    const { featured } = this.state;
+    const { featured, fullScreenPhotoSource, fullScreenPhotoVisible } = this.state;
     if (!featured) return <p>oops</p>;
     return (
       <div>
@@ -303,6 +321,12 @@ class Index extends Component {
         {featured.subsidiaries && featured.subsidiaries.items.length > 0 && (
           <div className={indexStyles.container}>{featured.subsidiaries.items.map((item) => this.getFeaturedSubsidiaryMarkup(item))}</div>
         )}
+
+        <FullscreenPhoto
+          onCloseRequested={() => this.handleCloseFullScreenPhoto()}
+          visible={fullScreenPhotoVisible}
+          src={fullScreenPhotoSource}
+        />
       </div>
     );
   }

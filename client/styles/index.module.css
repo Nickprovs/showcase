@@ -136,6 +136,8 @@
   flex: 70;
   order: 3;
   overflow: hidden;
+  text-align: center;
+  width: 80%;
 }
 
 .preservedAspectRatioPhoto {
@@ -150,10 +152,10 @@
 
 .previewImage:hover .containerFitImage,
 .previewImage:focus .containerFitImage {
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
 
 .photoContainer:hover .preservedAspectRatioPhoto,
 .photoContainer:focus .preservedAspectRatioPhoto {
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
