@@ -5,6 +5,7 @@ import BasicButton from "./basicButton";
 import Icon from "./icon";
 import TransparentButton from "./transparentButton";
 import Select, { components } from "react-select";
+import StringUtilities from "../../util/stringUtilities";
 import Link from "next/link";
 import { styles as customReactSelectStyles, theme as customReactSelectTheme } from "../..//misc/customReactSelectStyles";
 
@@ -142,7 +143,9 @@ class CommonPageHeaderControls extends Component {
           <div className={pageHeaderStyles.headerControl}>
             {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
             <a href={`/${mainPagePath}/post/${mainContentType}`}>
-              <BasicButton style={{ width: "100%" }}>{`New ${mainContentType}`}</BasicButton>
+              <BasicButton style={{ width: "100%" }}>{`New ${StringUtilities.capitalizeFirstLetterIfPossible(
+                mainContentType
+              )}`}</BasicButton>
             </a>
           </div>
         )}
