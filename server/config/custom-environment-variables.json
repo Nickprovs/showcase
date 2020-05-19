@@ -6,5 +6,6 @@
   "captchaPrivateKey": "showcase_captchaPrivateKey",
   "db": "showcase_db",
   "adminUsername": "showcase_adminUsername",
-  "adminPassword": "showcase_adminPassword"
+  "adminPassword": "showcase_adminPassword",
+  "captchaSecret": "showcase_captchaSecret"
 }

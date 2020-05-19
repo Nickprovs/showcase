@@ -5,7 +5,7 @@ const { publicRuntimeConfig } = getConfig();
 const APIURL = `${publicRuntimeConfig.apiProtocol}://${publicRuntimeConfig.apiAddress}:${publicRuntimeConfig.apiPort}`;
 const AUTHURL = `${APIURL}/auth`;
 
-export async function loginAsync(username, password) {
+export async function loginAsync(username, password, captcha) {
   console.log(AUTHURL);
   const res = await fetch(AUTHURL, {
     method: "post",
@@ -13,7 +13,7 @@ export async function loginAsync(username, password) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ username: username, password: password }),
+    body: JSON.stringify({ username: username, password: password, captcha: captcha }),
   });
   return res;
 }

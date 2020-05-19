@@ -8,9 +8,11 @@ const fetch = require("node-fetch");
 const config = require("config");
 
 const smtpInfo = config.get("smtp");
+const captchaSecret = config.get("captchaSecret");
+
 if (!smtpInfo.host || !smtpInfo.port || !smtpInfo.authUsername || !smtpInfo.authPassword)
   throw new Error("SMTP Info not all set in configuration.");
-if (!smtpInfo.captchaSecret) throw new Error("Captcha Secret also needs to be set as part of smtpInfo");
+if (!captchaSecret) throw new Error("captchaSecret also needs to be set in config file or as env variable showcase_captchaSecret");
 
 // create reusable transporter object using the default SMTP transport
 const transporter = nodemailer.createTransport({
@@ -27,7 +29,7 @@ router.post("/", validateBody(contactSchema), async (req, res) => {
   //Validate the captcha
   try {
     let captchaValidationRes = await fetch(
-      `https://www.google.com/recaptcha/api/siteverify?secret=${smtpInfo.captchaSecret}&response=${req.body.captcha}`,
+      `https://www.google.com/recaptcha/api/siteverify?secret=${captchaSecret}&response=${req.body.captcha}`,
       {
         method: "post",
         headers: { "Content-Type": "application/json" },

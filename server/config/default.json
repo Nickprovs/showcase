@@ -9,13 +9,13 @@
   "requiresAuth": true,
   "adminUsername": "admin",
   "adminPassword": "password",
+  "captchaSecret": "",
   "smtp": {
     "host": "",
     "port": "",
     "displayUsername": "",
     "authUsername": "",
     "authPassword": "",
-    "captchaSecret": "",
     "receiver": ""
   }
 }
