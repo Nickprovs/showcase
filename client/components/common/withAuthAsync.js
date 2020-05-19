@@ -1,6 +1,7 @@
 import { getCurrentUserAsync } from "../../services/userService";
 import RedirectUtilities from "../../util/redirectUtilities";
 import { Component } from "react";
+import Router from "next/router";
 
 const withAuthAsync = (WrappedComponent, redirect = false, redirectUri = "/login") => {
   return class AuthComponent extends Component {
