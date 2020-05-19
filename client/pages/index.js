@@ -300,7 +300,9 @@ class Index extends Component {
         </div>
 
         {/*Subsidiary Featured Content*/}
-        <div className={indexStyles.container}>{featured.subsidiaries.items.map((item) => this.getFeaturedSubsidiaryMarkup(item))}</div>
+        {featured.subsidiaries && featured.subsidiaries.items.length > 0 && (
+          <div className={indexStyles.container}>{featured.subsidiaries.items.map((item) => this.getFeaturedSubsidiaryMarkup(item))}</div>
+        )}
       </div>
     );
   }
