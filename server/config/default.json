@@ -6,7 +6,6 @@
   "captchaPrivateKey": "unsecureKey",
   "db": "mongodb://localhost/showcase",
   "port": "8080",
-  "requiresAuth": true,
   "adminUsername": "admin",
   "adminPassword": "password",
   "captchaSecret": "",
