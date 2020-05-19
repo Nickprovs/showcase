@@ -6,7 +6,7 @@ const router = express.Router();
 const validateBody = require("../middleware/validateBody");
 const auth = require("../middleware/auth");
 const config = require("config");
-const captchaSecret = config.get("captchaSecret");
+const captchaSecret = config.get("captchaPrivateKey");
 const fetch = require("node-fetch");
 const authBodyJoiSchema = require("./schemas/body/auth/post");
 

@@ -8,25 +8,25 @@ const mongoSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 2,
-    maxlength: 50
+    maxlength: 50,
   },
   password: {
     type: String,
     required: true,
     minlength: 5,
-    maxlength: 1024
+    maxlength: 1024,
   },
-  isAdmin: Boolean
+  isAdmin: Boolean,
 });
 
-mongoSchema.methods.generateAuthToken = function() {
+mongoSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
     {
       _id: this._id,
       username: this.username,
-      isAdmin: this.isAdmin
+      isAdmin: this.isAdmin,
     },
-    config.get("jwtPrivateKey"),
+    config.get("tokenPrivateKey"),
     { expiresIn: "1h" }
   );
   return token;
@@ -35,14 +35,8 @@ mongoSchema.methods.generateAuthToken = function() {
 const User = mongoose.model("User", mongoSchema);
 
 const joiSchema = Joi.object({
-  username: Joi.string()
-    .min(2)
-    .max(50)
-    .required(),
-  password: Joi.string()
-    .min(5)
-    .max(255)
-    .required()
+  username: Joi.string().min(2).max(50).required(),
+  password: Joi.string().min(5).max(255).required(),
 });
 
 exports.User = User;

@@ -1,11 +1,19 @@
 {
-  "clientProtocol": "showcase_clientProtocol",
-  "clientAddress": "showcase_clientAddress",
-  "clientPort": "showcase_clientPort",
-  "jwtPrivateKey": "showcase_jwtPrivateKey",
-  "captchaPrivateKey": "showcase_captchaPrivateKey",
-  "db": "showcase_db",
-  "adminUsername": "showcase_adminUsername",
-  "adminPassword": "showcase_adminPassword",
-  "captchaSecret": "showcase_captchaSecret"
+  "clientProtocol": "CLIENT_PROTOCOL",
+  "clientAddress": "CLIENT_ADDRESS",
+  "clientPort": "CLIENT_PORT",
+  "adminUsername": "ADMIN_USERNAME",
+  "adminPassword": "ADMIN_PASSWORD",
+  "adminEmail": "ADMIN_EMAIL",
+  "smtpHost": "SMTP_HOST",
+  "smtpPort": "SMTP_PORT",
+  "smtpDisplayUsername": "SMTP_DISPLAY_USERNAME",
+  "smtpAuthUsername": "SMTP_AUTH_USERNAME",
+  "smtpAuthPassword": "SMTP_AUTH_PASSWORD",
+  "smtpReceiverEmail": "SMTP_RECEIVER_EMAIL",
+  "port": "PORT",
+  "tokenPrivateKey": "TOKEN_PRIVATE_KEY",
+  "captchaPrivateKey": "CAPTCHA_PRIVATE_KEY",
+  "dbConnectionString": "DB_CONNECTION_STRING",
+  "authType": "AUTH_TYPE"
 }

@@ -377,7 +377,7 @@ async function saveCollection(data, MainModel, CategoryModel) {
 
 async function seed() {
   try {
-    const connection = await mongoose.connect(config.get("db"), { useNewUrlParser: true, useUnifiedTopology: true });
+    const connection = await mongoose.connect(config.get("dbConnectionString"), { useNewUrlParser: true, useUnifiedTopology: true });
     await connection.connection.db.dropDatabase();
     await saveCollection(data.blogs, Blog, BlogCategory);
     await saveCollection(data.software, Software, SoftwareCategory);

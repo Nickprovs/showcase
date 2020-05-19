@@ -14,7 +14,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(error);
 require("./startup/db")();
-require("./startup/config")();
 require("./startup/prod")(app);
 require("./startup/validation")();
 require("./startup/setupAdmin")();

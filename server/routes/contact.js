@@ -7,8 +7,19 @@ const nodemailer = require("nodemailer");
 const fetch = require("node-fetch");
 const config = require("config");
 
-const smtpInfo = config.get("smtp");
-const captchaSecret = config.get("captchaSecret");
+const getSmtpInfoFromConfig = () => {
+  return {
+    host: config.get("smtpHost"),
+    port: config.get("smtpPort"),
+    displayUsername: config.get("smtpDisplayUsername"),
+    authUsername: config.get("smtpAuthUsername"),
+    authPassword: config.get("smtpAuthPassword"),
+    receiverEmail: config.get("smtpReceiverEmail"),
+  };
+};
+
+const smtpInfo = getSmtpInfoFromConfig();
+const captchaSecret = config.get("captchaPrivateKey");
 
 if (!smtpInfo.host || !smtpInfo.port || !smtpInfo.authUsername || !smtpInfo.authPassword)
   throw new Error("SMTP Info not all set in configuration.");
@@ -53,7 +64,7 @@ router.post("/", validateBody(contactSchema), async (req, res) => {
     // send mail with defined transport object
     await transporter.sendMail({
       from: `"${smtpInfo.displayUsername}" <${smtpInfo.authUsername}>`, // sender address
-      to: `${smtpInfo.receiver}`, // list of receivers
+      to: `${smtpInfo.receiverEmail}`, // list of receivers
       subject: `Showcase Site Mail - ${req.body.name}`, // Subject line
       text: `${req.body.message} \n\n - Reply To ${req.body.email}`, // plain text body
     });

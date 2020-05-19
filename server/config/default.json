@@ -2,19 +2,18 @@
   "clientProtocol": "http",
   "clientAddress": "localhost",
   "clientPort": "3000",
-  "jwtPrivateKey": "unsecureKey",
-  "captchaPrivateKey": "unsecureKey",
-  "db": "mongodb://localhost/showcase",
-  "port": "8080",
   "adminUsername": "admin",
   "adminPassword": "password",
-  "captchaSecret": "",
-  "smtp": {
-    "host": "",
-    "port": "",
-    "displayUsername": "",
-    "authUsername": "",
-    "authPassword": "",
-    "receiver": ""
-  }
+  "adminEmail": "",
+  "smtpHost": "",
+  "smtpPort": "",
+  "smtpDisplayUsername": "",
+  "smtpAuthUsername": "",
+  "smtpAuthPassword": "",
+  "smtpReceiverEmail": "",
+  "port": "8080",
+  "tokenPrivateKey": "unsecureKey",
+  "captchaPrivateKey": "unsecureKey",
+  "dbConnectionString": "mongodb://localhost/showcase",
+  "authType": "SFA"
 }
