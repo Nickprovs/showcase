@@ -39,7 +39,7 @@ router.post("/", validateBody(authBodyJoiSchema), async (req, res) => {
 
   const accessToken = user.generateAuthToken();
 
-  let cookieOptions = { sameSite: "lax", httpOnly: false };
+  let cookieOptions = { sameSite: "strict", httpOnly: true };
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
   res.cookie("showcase_accessToken", accessToken, cookieOptions);
 
@@ -47,7 +47,7 @@ router.post("/", validateBody(authBodyJoiSchema), async (req, res) => {
 });
 
 router.delete("/", auth, async (req, res) => {
-  let cookieOptions = { sameSite: "lax", httpOnly: false, expires: new Date(Date.now()) };
+  let cookieOptions = { sameSite: "strict", httpOnly: true, expires: new Date(Date.now()) };
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
   res.cookie("showcase_accessToken", "logged out", cookieOptions);
   res.send();
