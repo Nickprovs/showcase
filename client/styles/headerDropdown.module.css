@@ -97,6 +97,11 @@
 .dropdownContent button:hover {
   background-color: var(--b2);
   color: var(--s5);
+
+  -moz-transition: border-color 0.2s ease-in-out, color 0.2s;
+  -o-transition: border-color 0.2s ease-in-out, color 0.2s;
+  -webkit-transition: border-color 0.2s ease-in-out, color 0.2s;
+  transition: border-color 0.2s ease-in-out, color 0.2s;
 }
 .dropdownContent a:active,
 .dropdownContent button:active {
