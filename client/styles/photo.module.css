@@ -162,9 +162,9 @@
   pointer-events: all;
 }
 
-.portrait:hover .containerFitImage,
-.landscape:hover .containerFitImage {
-  transform: scale(1.15);
+.cellContainer:hover img,
+.cellContainer:hover img {
+  transform: scale(1.05);
 }
 
 .cellContainer {
