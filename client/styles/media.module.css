@@ -3,7 +3,6 @@
   padding: 5px;
   grid-gap: 5px;
   grid-template-columns: 1fr;
-  grid-auto-flow: dense;
 }
 
 .item {
@@ -41,7 +40,6 @@
 .mediaContainer {
   order: 3;
   flex: 65;
-  background-color: green;
   height: 100%;
   width: 100%;
   max-width: 1200px;

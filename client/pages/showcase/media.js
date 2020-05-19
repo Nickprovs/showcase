@@ -74,7 +74,6 @@ class Media extends Component {
 
   constructor(props) {
     super(props);
-    this.mediaContainerRefs = [];
     this.state.searchText = this.props.initialSearchProp;
   }
 
@@ -102,6 +101,8 @@ class Media extends Component {
     this.setState({ totalMediasCount: totalMediasCount });
     this.setState({ initialSearchProp: initialSearchProp });
     this.setState({ categories: categories });
+
+    setTimeout(() => reframe("iframe"), 0);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -121,13 +122,9 @@ class Media extends Component {
     }
 
     //Adjusts iframes in the page to fit based on aspect ration
-    reframe("iframe");
+    setTimeout(() => reframe("iframe"), 0);
     EmbedUtilities.loadAllAvailableEmbedHelpers();
   }
-
-  setMediaContainerRefs = (ref) => {
-    this.mediaContainerRefs.push(ref);
-  };
 
   handleSearch() {
     const { searchText } = this.state;
