@@ -33,8 +33,8 @@ class LoginForm extends Form {
       <div>
         <div className="standardPadding">
           <form onSubmit={this.handleSubmit}>
-            {this.renderTextInput("username", "NAME")}
-            {this.renderTextInput("password", "Password", "", "password")}
+            {this.renderTextInput("username", "USERNAME")}
+            {this.renderTextInput("password", "PASSWORD", "", "password")}
             {this.renderButton("LOGIN")}
           </form>
         </div>
