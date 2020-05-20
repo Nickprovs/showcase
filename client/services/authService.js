@@ -4,16 +4,29 @@ import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
 const APIURL = `${publicRuntimeConfig.apiProtocol}://${publicRuntimeConfig.apiAddress}:${publicRuntimeConfig.apiPort}`;
 const AUTHURL = `${APIURL}/auth`;
+const AUTHCREDENTIALSURL = `${AUTHURL}/credentials`;
+const AUTHEMAILMFAURL = `${AUTHURL}/emailMfa`;
 
-export async function loginAsync(username, password, captcha) {
-  console.log(AUTHURL);
-  const res = await fetch(AUTHURL, {
+export async function authenticateCredentialsAsync(username, password, captcha) {
+  const res = await fetch(AUTHCREDENTIALSURL, {
     method: "post",
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ username: username, password: password, captcha: captcha }),
+  });
+  return res;
+}
+
+export async function authenticateEmailMfaAsync(emailCode) {
+  const res = await fetch(AUTHEMAILMFAURL, {
+    method: "post",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ emailCode: emailCode }),
   });
   return res;
 }

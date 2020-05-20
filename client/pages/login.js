@@ -1,76 +1,42 @@
+import { Component } from "react";
 import Joi from "@hapi/joi";
 import Form from "../components/common/form";
-import { loginAsync } from "../services/authService";
+import { authenticateCredentialsAsync } from "../services/authService";
 import Router from "next/router";
 import withAuthAsync from "../components/common/withAuthAsync";
 import withLayoutAsync from "../components/common/withLayoutAsync";
 import getConfig from "next/config";
 import NProgress from "nprogress";
 import { toast } from "react-toastify";
+import LoginCredentialsForm from "../components/loginCredentialsForm";
+import LoginEmailMfaForm from "../components/loginEmailMfaForm";
 
 const { publicRuntimeConfig } = getConfig();
 const recaptchaSiteKey = publicRuntimeConfig.recaptchaSiteKey;
 
-class LoginForm extends Form {
+class Login extends Component {
   constructor() {
     super();
-
-    this.state.data = { username: "", password: "" };
-    this.state.errors = {};
+    this.state = { showEmailCodeAuth: false };
   }
 
-  schema = Joi.object({
-    username: Joi.string().min(1).required().label("Username"),
-    password: Joi.string().min(1).required().label("Password"),
-    captcha: Joi.string().required().label("Captcha"),
-  });
+  async handleCredentialsAuthCompletedAsync(result) {
+    if (result.authComplete) Router.push("/");
+    else this.setState({ showEmailCodeAuth: true });
+  }
 
-  doSubmit = async () => {
-    const { username, password, captcha } = this.state.data;
-
-    console.log(captcha);
-
-    let res = null;
-    //Try and post the new category
-    try {
-      NProgress.start();
-      res = await loginAsync(username, password, captcha);
-    } catch (ex) {
-      let errorMessage = `Error: ${ex}`;
-      console.log(errorMessage);
-      toast.error(errorMessage);
-      return;
-    } finally {
-      NProgress.done();
-    }
-
-    if (!res.ok) {
-      let body = "";
-      //TODO: Parse Text OR JSON
-      body = await res.text();
-      let errorMessage = `Error: ${res.status} - ${body}`;
-      console.log(errorMessage);
-      toast.error(errorMessage);
-      return;
-    } else {
-      Router.push("/");
-    }
-  };
+  async handleEmailMfaAuthCompletedAsync(result) {
+    Router.push("/");
+  }
 
   render() {
-    return (
-      <div>
-        <div className="standardPadding">
-          <form onSubmit={this.handleSubmit}>
-            {this.renderTextInput("username", "USERNAME")}
-            {this.renderTextInput("password", "PASSWORD", "", "password")}
-            {this.renderRecaptcha("captcha", "CAPTCHA", recaptchaSiteKey)}
-            {this.renderButton("LOGIN")}
-          </form>
-        </div>
-      </div>
+    const { showEmailCodeAuth } = this.state;
+    return showEmailCodeAuth ? (
+      <LoginEmailMfaForm onEmailMfaAuthCompleteAsync={async (result) => await this.handleEmailMfaAuthCompletedAsync(result)} />
+    ) : (
+      <LoginCredentialsForm onCredentialsAuthCompletedAsync={async (result) => await this.handleCredentialsAuthCompletedAsync(result)} />
     );
   }
 }
 
-export default withAuthAsync(withLayoutAsync(LoginForm));
+export default withAuthAsync(withLayoutAsync(Login));
