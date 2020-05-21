@@ -5,18 +5,16 @@ const validateBody = require("../../middleware/validateBody");
 const validateObjectId = require("../../middleware/validateObjectId");
 const winston = require("winston");
 
-module.exports = function(CategoryModel, categoryJoiSchema) {
+module.exports = function (CategoryModel, categoryJoiSchema) {
   const router = express.Router();
 
   router.get("/", async (req, res) => {
-    const categories = await CategoryModel.find()
-      .select("-__v")
-      .sort({ name: "asc" });
+    const categories = await CategoryModel.find().select("-__v").sort({ name: "asc" });
 
     const total = await CategoryModel.countDocuments({});
     const data = {
       total: total,
-      items: categories
+      items: categories,
     };
 
     res.send(data);
@@ -29,10 +27,10 @@ module.exports = function(CategoryModel, categoryJoiSchema) {
     res.send(category);
   });
 
-  router.post("/", [auth, admin, validateBody(categoryJoiSchema)], async (req, res) => {
+  router.post("/", [auth(), admin, validateBody(categoryJoiSchema)], async (req, res) => {
     let category = new CategoryModel({
       name: req.body.name,
-      slug: req.body.slug
+      slug: req.body.slug,
     });
 
     category = await category.save();
@@ -40,12 +38,12 @@ module.exports = function(CategoryModel, categoryJoiSchema) {
     res.send(category);
   });
 
-  router.put("/:id", [auth, admin, validateObjectId, validateBody(categoryJoiSchema)], async (req, res) => {
+  router.put("/:id", [auth(), admin, validateObjectId, validateBody(categoryJoiSchema)], async (req, res) => {
     const updatedCategoryModel = await CategoryModel.findByIdAndUpdate(
       req.params.id,
       {
         name: req.body.name,
-        slug: req.body.slug
+        slug: req.body.slug,
       },
       { new: true }
     );
@@ -55,7 +53,7 @@ module.exports = function(CategoryModel, categoryJoiSchema) {
     res.send(updatedCategoryModel);
   });
 
-  router.delete("/:id", [auth, admin, validateObjectId], async (req, res) => {
+  router.delete("/:id", [auth(), admin, validateObjectId], async (req, res) => {
     const category = await CategoryModel.findByIdAndRemove(req.params.id);
     if (!category) return res.status(404).send("The article category with the given ID was not found.");
 

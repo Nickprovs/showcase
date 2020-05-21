@@ -95,7 +95,7 @@ module.exports = function () {
     });
   });
 
-  router.put("/primary", [auth, admin, validateBody(joiPrimarySchema)], async (req, res) => {
+  router.put("/primary", [auth(), admin, validateBody(joiPrimarySchema)], async (req, res) => {
     let featured = await FeaturedModel.findOne();
     featured.primary.markup = req.body.markup;
     featured.primary.dateLastModified = moment().toJSON();
@@ -104,13 +104,12 @@ module.exports = function () {
     res.send(featured.primary);
   });
 
-  router.post("/subsidiaries", [auth, admin, validateBody(joiSubsidiarySchema)], async (req, res) => {
+  router.post("/subsidiaries", [auth(), admin, validateBody(joiSubsidiarySchema)], async (req, res) => {
     let featured = await FeaturedModel.findOne();
     const contentToSave = await getContentByTypeAndId(req.body.type, req.body.id);
     if (!contentToSave) return res.status(400).send("The specified content was not found. Cannot save in featured.");
 
-    if (featured.subsidiaries.items.some((item) => item.id.toString() === req.body.id))
-      return res.status(400).send("Cannot feature the same content twice.");
+    if (featured.subsidiaries.items.some((item) => item.id.toString() === req.body.id)) return res.status(400).send("Cannot feature the same content twice.");
 
     let newFeaturedSubsidiary = {
       id: req.body.id,
@@ -123,7 +122,7 @@ module.exports = function () {
     res.send(newFeaturedSubsidiary);
   });
 
-  router.patch("/subsidiaries/:id", [auth, admin], validateQuery(patchSubsidiaryQuerySchema), async (req, res) => {
+  router.patch("/subsidiaries/:id", [auth(), admin], validateQuery(patchSubsidiaryQuerySchema), async (req, res) => {
     let featured = await FeaturedModel.findOne();
 
     let itemToUpdate = featured.subsidiaries.items.find((item) => item.id.toString() === req.params.id);
@@ -172,7 +171,7 @@ module.exports = function () {
     res.send(featured.subsidiaries);
   });
 
-  router.delete("/subsidiaries/:id", [auth, admin], async (req, res) => {
+  router.delete("/subsidiaries/:id", [auth(), admin], async (req, res) => {
     let featured = await FeaturedModel.findOne();
 
     let itemToDelete = featured.subsidiaries.items.find((item) => item.id.toString() === req.params.id);
@@ -185,7 +184,7 @@ module.exports = function () {
     res.send({ subsidiary: itemToDelete });
   });
 
-  router.delete("/subsidiaries", [auth, admin], async (req, res) => {
+  router.delete("/subsidiaries", [auth(), admin], async (req, res) => {
     let featured = await FeaturedModel.findOne();
     featured.subsidiaries.items = [];
     featured.subsidiaries.dateLastModified = moment().toJSON();

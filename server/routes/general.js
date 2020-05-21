@@ -16,7 +16,7 @@ module.exports = function () {
     res.send(general);
   });
 
-  router.put("/", [auth, admin, validateBody(joiGeneralSchema)], async (req, res) => {
+  router.put("/", [auth(), admin, validateBody(joiGeneralSchema)], async (req, res) => {
     let general = await GeneralModel.findOne();
 
     const updatedGeneral = await GeneralModel.findByIdAndUpdate(

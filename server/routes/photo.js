@@ -73,7 +73,7 @@ module.exports = function () {
     res.send(photo);
   });
 
-  router.post("/", [auth, admin, validateBody(joiPhotoSchema)], async (req, res) => {
+  router.post("/", [auth(), admin, validateBody(joiPhotoSchema)], async (req, res) => {
     const photoCategory = await PhotoCategoryModel.findById(req.body.categoryId);
     if (!photoCategory) return res.status(400).send("Invalid photo category.");
 
@@ -94,7 +94,7 @@ module.exports = function () {
     res.send(photo);
   });
 
-  router.put("/:id", [auth, admin, validateObjectId, validateBody(joiPhotoSchema)], async (req, res) => {
+  router.put("/:id", [auth(), admin, validateObjectId, validateBody(joiPhotoSchema)], async (req, res) => {
     const photoCategory = await PhotoCategoryModel.findById(req.body.categoryId);
     if (!photoCategory) return res.status(400).send("Invalid photo category.");
 
@@ -118,7 +118,7 @@ module.exports = function () {
     res.send(updatedPhoto);
   });
 
-  router.delete("/:id", [auth, admin, validateObjectId], async (req, res) => {
+  router.delete("/:id", [auth(), admin, validateObjectId], async (req, res) => {
     const photo = await PhotoModel.findByIdAndRemove(req.params.id);
     if (!photo) return res.status(404).send("The photo with the given ID was not found.");
 

@@ -73,7 +73,7 @@ module.exports = function () {
     res.send(media);
   });
 
-  router.post("/", [auth, admin, validateBody(joiMediaSchema)], async (req, res) => {
+  router.post("/", [auth(), admin, validateBody(joiMediaSchema)], async (req, res) => {
     const mediaCategory = await MediaCategoryModel.findById(req.body.categoryId);
     if (!mediaCategory) return res.status(400).send("Invalid media category.");
 
@@ -92,7 +92,7 @@ module.exports = function () {
     res.send(media);
   });
 
-  router.put("/:id", [auth, admin, validateObjectId, validateBody(joiMediaSchema)], async (req, res) => {
+  router.put("/:id", [auth(), admin, validateObjectId, validateBody(joiMediaSchema)], async (req, res) => {
     const mediaCategory = await MediaCategoryModel.findById(req.body.categoryId);
     if (!mediaCategory) return res.status(400).send("Invalid media category.");
 
@@ -114,7 +114,7 @@ module.exports = function () {
     res.send(updatedMedia);
   });
 
-  router.delete("/:id", [auth, admin, validateObjectId], async (req, res) => {
+  router.delete("/:id", [auth(), admin, validateObjectId], async (req, res) => {
     const media = await MediaModel.findByIdAndRemove(req.params.id);
     if (!media) return res.status(404).send("The media with the given ID was not found.");
 

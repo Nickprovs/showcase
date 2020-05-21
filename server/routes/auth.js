@@ -31,10 +31,11 @@ router.post("/credentials", validateBody(authCredentialsBodyJoiSchema), validate
   if (config.get("authType") === "SFA") return res.send({ token: accessToken, authComplete: true });
 
   //Otherwise -- continue with multi-factor auth and send the user a code to their email
-  user.mfaCode = AuthUtilities.getMfaCode();
+  let mfaCodeObj = AuthUtilities.getMfaCodeObject();
+  user.mfaCode = mfaCodeObj;
   await user.save();
   try {
-    MailUtilities.sendMailOrThrow(config.get("adminEmail"), "Showcase Auth", `Your auth code is: ${mfaCode}.`);
+    MailUtilities.sendMailOrThrow(config.get("adminEmail"), "Showcase Auth", `Your auth code is: ${mfaCodeObj.code}.`);
   } catch (ex) {
     console.log("ERROR SENDING MAIL", ex);
     return res.send(ex.message);
@@ -42,26 +43,22 @@ router.post("/credentials", validateBody(authCredentialsBodyJoiSchema), validate
   res.send({ token: accessToken, authComplete: false });
 });
 
-router.post("/emailMfa", validateBody(authEmailMfaBodyJoiSchema), async (req, res) => {
-  const token = req.header("x-auth-token") ? req.header("x-auth-token") : req.cookies.showcase_accessToken;
-  if (!token) return res.status(401).send("Access denied. No token provided.");
-  let decoded = null;
-  try {
-    decoded = jwt.verify(token, config.get("tokenPrivateKey"));
-  } catch (ex) {
-    console.log(ex);
-    return res.status(400).send("Invalid token.");
-  }
+router.post("/emailMfa", auth("SFA"), validateBody(authEmailMfaBodyJoiSchema), async (req, res) => {
+  //Existing decoded token validated from SFA Auth.
+  const decoded = req.user;
 
+  //Get the db user associated with the token and validate their mfa code
   let user = await User.findOne({ _id: decoded._id });
   if (!user) return res.status(400).send("Invalid token.");
   if (!user.mfaCode) return res.status(400).send("Invalid token.");
   if (moment().isAfter(user.mfaCode.expiresAt)) return res.status(400).send("Email Code Expired.");
   if (req.body.emailCode.toUpperCase() !== user.mfaCode.code.toUpperCase()) return res.status(400).send("Invalid Email Code.");
 
+  //Reset their mfa code
   user.mfaCode = null;
   await user.save();
 
+  //Add email to their completed challenges in a refreshed token.
   decoded.completedChallenges.push("emailMfa");
   const accessToken = user.generateAuthToken({ completedChallenges: decoded.completedChallenges });
   let cookieOptions = { sameSite: "strict", httpOnly: true };
@@ -70,7 +67,7 @@ router.post("/emailMfa", validateBody(authEmailMfaBodyJoiSchema), async (req, re
   res.send({ token: accessToken, authComplete: true });
 });
 
-router.delete("/", auth, async (req, res) => {
+router.delete("/", auth(), async (req, res) => {
   let cookieOptions = { sameSite: "strict", httpOnly: true, expires: new Date(Date.now()) };
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
   res.cookie("showcase_accessToken", "logged out", cookieOptions);

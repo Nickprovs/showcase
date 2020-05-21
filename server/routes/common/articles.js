@@ -72,7 +72,7 @@ module.exports = function (ArticleModel, articleJoiSchema, ArticleCategoryModel,
     res.send(article);
   });
 
-  router.post("/", [auth, admin, validateBody(articleJoiSchema)], async (req, res) => {
+  router.post("/", [auth(), admin, validateBody(articleJoiSchema)], async (req, res) => {
     const articleCategory = await ArticleCategoryModel.findById(req.body.categoryId);
     if (!articleCategory) return res.status(400).send("Invalid article category.");
 
@@ -95,7 +95,7 @@ module.exports = function (ArticleModel, articleJoiSchema, ArticleCategoryModel,
     res.send(article);
   });
 
-  router.put("/:id", [auth, admin, validateVariableId, validateBody(articleJoiSchema)], async (req, res) => {
+  router.put("/:id", [auth(), admin, validateVariableId, validateBody(articleJoiSchema)], async (req, res) => {
     const articleCategory = await ArticleCategoryModel.findById(req.body.categoryId);
     if (!articleCategory) return res.status(400).send("Invalid article category.");
 
@@ -127,7 +127,7 @@ module.exports = function (ArticleModel, articleJoiSchema, ArticleCategoryModel,
     res.send(updatedArticleModel);
   });
 
-  router.delete("/:id", [auth, admin, validateVariableId], async (req, res) => {
+  router.delete("/:id", [auth(), admin, validateVariableId], async (req, res) => {
     let filter;
     if (req.isIdSlug) filter = { slug: req.params.id };
     else filter = { _id: req.params.id };
