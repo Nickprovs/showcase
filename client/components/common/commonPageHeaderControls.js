@@ -83,12 +83,7 @@ class CommonPageHeaderControls extends Component {
               {/* Delete */}
               <TransparentButton
                 onClick={() =>
-                  toast.info(
-                    <RemoveCategoryToast
-                      category={props.data.value}
-                      onRemoveCategory={async () => await onDeleteCategoryAsync(props.data.value)}
-                    />
-                  )
+                  toast.info(<RemoveCategoryToast category={props.data.value} onRemoveCategory={async () => await onDeleteCategoryAsync(props.data.value)} />)
                 }
                 style={{ marginLeft: "auto", marginRight: "0", color: "var(--f1)" }}
               >
@@ -134,7 +129,7 @@ class CommonPageHeaderControls extends Component {
             isSearchable={false}
             components={{ Option: this.getCustomCategoryDropdownEntries }}
             theme={customReactSelectTheme}
-            styles={customReactSelectStyles}
+            styles={customReactSelectStyles("100%", 45)}
           />
         </div>
 
@@ -143,9 +138,7 @@ class CommonPageHeaderControls extends Component {
           <div className={pageHeaderStyles.headerControl}>
             {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
             <a href={`/${mainPagePath}/post/${mainContentType}`}>
-              <BasicButton style={{ width: "100%" }}>{`New ${StringUtilities.capitalizeFirstLetterIfPossible(
-                mainContentType
-              )}`}</BasicButton>
+              <BasicButton style={{ width: "100%" }}>{`New ${StringUtilities.capitalizeFirstLetterIfPossible(mainContentType)}`}</BasicButton>
             </a>
           </div>
         )}

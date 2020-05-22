@@ -37,7 +37,7 @@ class Article extends Form {
   constructor() {
     super();
 
-    this.state.data = { title: "", slug: "", category: "", image: "", description: "", body: "", tags: "" };
+    this.state.data = { title: "", slug: "", category: null, image: "", description: "", body: "", tags: "" };
     this.state.errors = {};
   }
 
@@ -63,7 +63,7 @@ class Article extends Form {
       data: {
         title: blog.title,
         slug: blog.slug,
-        category: blog.category.name,
+        category: blog.category,
         image: blog.image,
         description: blog.description,
         body: blog.body,
@@ -79,7 +79,11 @@ class Article extends Form {
       .max(128)
       .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
       .required(),
-    category: CustomJoi.string().min(1).required().label("Category"),
+    category: CustomJoi.object({
+      _id: CustomJoi.string().min(1).required(),
+      name: CustomJoi.string().min(1).required(),
+      slug: CustomJoi.string().min(1).required(),
+    }),
     description: CustomJoi.string().min(1).required().label("Description"),
     image: CustomJoi.string().min(2).max(1000).required(),
     body: CustomJoi.string().min(10).required(),
@@ -92,7 +96,7 @@ class Article extends Form {
 
     let category = blog.category;
     delete blog.category;
-    blog.categoryId = categories.items.filter((c) => c.name == category)[0]._id;
+    blog.categoryId = category._id;
 
     let tagsString = blog.tags;
     delete blog.tags;
@@ -144,7 +148,7 @@ class Article extends Form {
           <form onSubmit={this.handleSubmit}>
             {this.renderTextInput("title", "TITLE")}
             {this.renderTextInput("slug", "SLUG")}
-            {this.renderSelect("category", "CATEGORY", "", categories.items, "name")}
+            {this.renderSelect("category", "CATEGORY", "Select Category", categories.items, "name")}
             {this.renderTextInput("image", "IMAGE")}
             {this.renderTextArea("description", "DESCRIPTION")}
             {this.renderHtmlEditor("body", "BODY")}

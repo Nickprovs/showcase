@@ -1,12 +1,23 @@
-import Select from "./select";
-const FormSelectInput = ({ children, name, label, error, ...rest }) => {
+import Select from "react-select";
+import { styles as customReactSelectStyles, theme as customReactSelectTheme } from "../../misc/customReactSelectStyles";
+
+const FormSelectInput = ({ options, name, label, error, ...rest }) => {
   return (
     <div>
       <label className="form-label" htmlFor={name}>
         {label}
       </label>
       <br />
-      <Select {...rest} children={children} name={name} id={name} aria-describedby={name} style={{width: "95%"}}/>
+      <Select
+        {...rest}
+        options={options}
+        name={name}
+        id={name}
+        aria-describedby={name}
+        isSearchable={false}
+        theme={customReactSelectTheme}
+        styles={customReactSelectStyles("95%", 45)}
+      />
       {error && (
         <div>
           <label className="form-label-error" htmlFor={name}>

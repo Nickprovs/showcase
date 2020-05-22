@@ -160,11 +160,7 @@
   transition: all 0.3s;
   cursor: pointer;
   pointer-events: all;
-}
-
-.cellContainer:hover img,
-.cellContainer:hover img {
-  transform: scale(1.05);
+  z-index: 1;
 }
 
 .cellContainer {
@@ -174,7 +170,11 @@
 }
 
 .cellContainer:hover .adminOptions {
-  opacity: 1;
+  opacity: 1 !important;
+}
+
+.cellContainer:hover .containerFitImage {
+  transform: scale(1.05);
 }
 
 .adminOptions {
@@ -184,6 +184,7 @@
   right: 0;
   justify-content: flex-end;
   opacity: 0;
+  z-index: 2;
 }
 
 .paginationContainer {

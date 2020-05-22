@@ -17,13 +17,17 @@ class Photo extends Form {
   constructor() {
     super();
 
-    this.state.data = { title: "", category: "", description: "", orientation: "", displaySize: "", source: "", tags: "" };
+    this.state.data = { title: "", category: null, description: "", orientation: "", displaySize: "", source: "", tags: "" };
     this.state.errors = {};
   }
 
   schema = CustomJoi.object({
     title: CustomJoi.string().min(2).max(64).required(),
-    category: CustomJoi.string().min(1).required().label("Category"),
+    category: CustomJoi.object({
+      _id: CustomJoi.string().min(1).required(),
+      name: CustomJoi.string().min(1).required(),
+      slug: CustomJoi.string().min(1).required(),
+    }),
     description: CustomJoi.string().min(2).max(128).required(),
     orientation: CustomJoi.string().valid("square", "landscape", "panorama", "portrait", "vertorama").required(),
     displaySize: CustomJoi.string().valid("small", "medium", "large").required(),
@@ -37,7 +41,7 @@ class Photo extends Form {
 
     let category = photo.category;
     delete photo.category;
-    photo.categoryId = categories.items.filter((c) => c.name == category)[0]._id;
+    photo.categoryId = category._id;
 
     let tagsString = photo.tags;
     delete photo.tags;
@@ -85,7 +89,7 @@ class Photo extends Form {
         <div className="standardPadding">
           <form onSubmit={this.handleSubmit}>
             {this.renderTextInput("title", "TITLE")}
-            {this.renderSelect("category", "CATEGORY", "", categories.items, "name")}
+            {this.renderSelect("category", "CATEGORY", "Select Category", categories.items, "name")}
             {this.renderTextArea("description", "DESCRIPTION")}
             {this.renderTextInput("orientation", "ORIENTATION")}
             {this.renderTextInput("displaySize", "DISPLAY SIZE")}

@@ -99,17 +99,19 @@ class Form extends Component {
     );
   }
 
-  renderSelect(name, label, placeholder = "", children, path) {
+  renderSelect(name, label, placeholder = "", options, path) {
+    const optionsFormattedForSelect = options ? options.map((o) => ({ value: o, label: o[path] })) : null;
+    const currentValueFormattedForSelect = this.state.data[name] ? { value: this.state.data[name], label: this.state.data[name][path] } : null;
+
     return (
       <FormSelectInput
         name={name}
         label={label}
         placeholder={placeholder}
-        value={this.state.data[name]}
-        onChange={(e) => this.handleChange(e.currentTarget.name, e.currentTarget.value, e.currentTarget.type)}
+        value={currentValueFormattedForSelect}
+        onChange={(selected) => this.handleChange(name, selected.value, "select")}
         error={this.state.errors[name]}
-        children={children}
-        path={path}
+        options={optionsFormattedForSelect}
       />
     );
   }
@@ -154,13 +156,7 @@ class Form extends Component {
 
   renderRecaptcha(name, label, sitekey) {
     return (
-      <FormRecaptcha
-        ref={this.recaptchaRef}
-        name={name}
-        label={label}
-        onChange={(value) => this.handleChange(name, value, "captcha")}
-        sitekey={sitekey}
-      />
+      <FormRecaptcha ref={this.recaptchaRef} name={name} label={label} onChange={(value) => this.handleChange(name, value, "captcha")} sitekey={sitekey} />
     );
   }
 

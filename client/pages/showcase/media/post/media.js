@@ -17,13 +17,17 @@ class Media extends Form {
   constructor() {
     super();
 
-    this.state.data = { title: "", category: "", description: "", markup: "", tags: "" };
+    this.state.data = { title: "", category: null, description: "", markup: "", tags: "" };
     this.state.errors = {};
   }
 
   schema = CustomJoi.object({
     title: CustomJoi.string().min(2).max(64).required(),
-    category: CustomJoi.string().min(1).required().label("Category"),
+    category: CustomJoi.object({
+      _id: CustomJoi.string().min(1).required(),
+      name: CustomJoi.string().min(1).required(),
+      slug: CustomJoi.string().min(1).required(),
+    }),
     description: CustomJoi.string().min(2).max(128).required(),
     markup: CustomJoi.string().min(2).required(),
     tags: CustomJoi.csvString().required().min(3).max(10),
@@ -35,7 +39,7 @@ class Media extends Form {
 
     let category = media.category;
     delete media.category;
-    media.categoryId = categories.items.filter((c) => c.name == category)[0]._id;
+    media.categoryId = category._id;
 
     let tagsString = media.tags;
     delete media.tags;
@@ -82,7 +86,7 @@ class Media extends Form {
         <div className="standardPadding">
           <form onSubmit={this.handleSubmit}>
             {this.renderTextInput("title", "TITLE")}
-            {this.renderSelect("category", "CATEGORY", "", categories.items, "name")}
+            {this.renderSelect("category", "CATEGORY", "Select Category", categories.items, "name")}
             {this.renderTextArea("description", "DESCRIPTION")}
             {this.renderTextArea("markup", "MARKUP (EMBED CODE)")}
             {this.renderTextInput("tags", "TAGS")}

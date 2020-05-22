@@ -300,6 +300,8 @@ class Photo extends Component {
     } = this.state;
     const { user } = this.props;
 
+    console.log("user", user, user.isAdmin);
+
     //If we have no photos to display for this route...
     let markupBody;
     if (!photos || photos.length === 0) markupBody = this.getEmptyPhotoSectionMarkup();
@@ -320,9 +322,7 @@ class Photo extends Component {
                     <div id="test" className={photoStyles.adminOptions}>
                       <div style={{ backgroundColor: "white" }}>
                         <TransparentButton onClick={async () => await this.handleToggleFeaturedPhoto(photo)} style={{ color: "var(--f1)" }}>
-                          <Icon
-                            className={featured.subsidiaries.items.some((item) => item.id === photo._id) ? "fas fa-star" : "far fa-star"}
-                          ></Icon>
+                          <Icon className={featured.subsidiaries.items.some((item) => item.id === photo._id) ? "fas fa-star" : "far fa-star"}></Icon>
                         </TransparentButton>
                         <Link href={`/showcase/photo/edit/photo/[id]`} as={`/showcase/photo/edit/photo/${photo._id}`}>
                           <TransparentButton>
@@ -332,9 +332,7 @@ class Photo extends Component {
 
                         <TransparentButton
                           onClick={() =>
-                            toast.info(
-                              <RemovePhotoToast photo={photo} onRemovePhotoAsync={async (photo) => await this.handleRemovePhoto(photo)} />
-                            )
+                            toast.info(<RemovePhotoToast photo={photo} onRemovePhotoAsync={async (photo) => await this.handleRemovePhoto(photo)} />)
                           }
                           style={{ color: "var(--f1)" }}
                         >
@@ -344,19 +342,11 @@ class Photo extends Component {
                     </div>
                   )}
 
-                  <img
-                    className={photoStyles.containerFitImage}
-                    onClick={() => this.handleOpenFullScreenPhoto(photo.source)}
-                    src={photo.source}
-                  />
+                  <img className={photoStyles.containerFitImage} onClick={() => this.handleOpenFullScreenPhoto(photo.source)} src={photo.source} />
                 </div>
               </div>
             ))}
-            <FullscreenPhoto
-              onCloseRequested={() => this.handleCloseFullScreenPhoto()}
-              visible={fullScreenPhotoVisible}
-              src={fullScreenPhotoSource}
-            />
+            <FullscreenPhoto onCloseRequested={() => this.handleCloseFullScreenPhoto()} visible={fullScreenPhotoVisible} src={fullScreenPhotoSource} />
           </div>
         </div>
       );
