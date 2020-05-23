@@ -91,8 +91,8 @@ class Photo extends Form {
             {this.renderTextInput("title", "TITLE")}
             {this.renderSelect("category", "CATEGORY", "Select Category", categories.items, "name")}
             {this.renderTextArea("description", "DESCRIPTION")}
-            {this.renderTextInput("orientation", "ORIENTATION")}
-            {this.renderTextInput("displaySize", "DISPLAY SIZE")}
+            {this.renderSelect("orientation", "ORIENTATION", "Select Orientation", ["square", "landscape", "panorama", "portrait", "vertorama"], null)}
+            {this.renderSelect("displaySize", "Display Size", "Select Display Size", ["small", "medium", "large"], null)}
             {this.renderTextInput("tags", "TAGS")}
             {this.renderTextInput("source", "SOURCE")}
             {this.renderButton("POST")}

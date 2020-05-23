@@ -28,6 +28,7 @@ class Form extends Component {
   }
 
   validate() {
+    console.log("validate", this.state.data);
     const options = { abortEarly: false };
     const { error } = this.schema.validate(this.state.data, options);
 
@@ -35,6 +36,8 @@ class Form extends Component {
     if (error) {
       for (let item of error.details) errors[item.path[0]] = item.message;
     }
+
+    console.log("validation errors", errors);
 
     const isValid = Object.entries(errors).length === 0;
     return { isValid: isValid, errors: errors };
@@ -50,6 +53,7 @@ class Form extends Component {
 
   //Needs... "name" of input, "value" of input, "type" of input
   handleChange = (inputName, inputValue, inputType) => {
+    console.log("change", inputName, inputValue, inputType);
     const errors = { ...this.state.errors };
     const errorMessage = this.validateProperty(inputName, inputValue);
     if (errorMessage) {
@@ -100,8 +104,10 @@ class Form extends Component {
   }
 
   renderSelect(name, label, placeholder = "", options, path) {
-    const optionsFormattedForSelect = options ? options.map((o) => ({ value: o, label: o[path] })) : null;
-    const currentValueFormattedForSelect = this.state.data[name] ? { value: this.state.data[name], label: this.state.data[name][path] } : null;
+    const optionsFormattedForSelect = options ? options.map((o) => ({ value: o, label: path ? o[path] : o })) : null;
+    const currentValueFormattedForSelect = this.state.data[name]
+      ? { value: this.state.data[name], label: path ? this.state.data[name][path] : this.state.data[name] }
+      : null;
 
     return (
       <FormSelectInput
