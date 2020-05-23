@@ -69,8 +69,14 @@ class CommonPageHeaderControls extends Component {
       <components.Option {...props}>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           {props.data.label}
-          {user && user.isAdmin && (
-            <div>
+          {user && user.isAdmin && props.data.label.toLowerCase() !== "all" && (
+            <div
+              onClick={(e) => {
+                console.log("hello BUDDY");
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+            >
               {/* Edit */}
               <Link href={`/${mainPagePath}/edit/category/[id]`} as={`/${mainPagePath}/edit/category/${props.data.value._id}`}>
                 <a>
