@@ -6,6 +6,7 @@ import { getMediasAsync, deleteMediaAsync, getMediaCategoriesAsync } from "../..
 import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../../services/featuredService";
 import CommonPageHeaderControls from "../../components/common/commonPageHeaderControls";
 import Router from "next/router";
+import DatePresenter from "../../components/common/datePresenter";
 import Icon from "../../components/common/icon";
 import TransparentButton from "../../components/common/transparentButton";
 import BasicButton from "../../components/common/basicButton";
@@ -279,9 +280,7 @@ class Media extends Component {
               {user && user.isAdmin && (
                 <div className={mediaStyles.adminOptions}>
                   <TransparentButton onClick={async () => await this.handleToggleFeaturedMedia(media)} style={{ color: "var(--f1)" }}>
-                    <Icon
-                      className={featured.subsidiaries.items.some((item) => item.id === media._id) ? "fas fa-star" : "far fa-star"}
-                    ></Icon>
+                    <Icon className={featured.subsidiaries.items.some((item) => item.id === media._id) ? "fas fa-star" : "far fa-star"}></Icon>
                   </TransparentButton>
                   {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
                   <a href={`media/edit/media/${media._id}`}>
@@ -291,11 +290,7 @@ class Media extends Component {
                   </a>
 
                   <TransparentButton
-                    onClick={() =>
-                      toast.info(
-                        <RemoveMediaToast media={media} onRemoveMediaAsync={async (media) => await this.handleRemoveMedia(media)} />
-                      )
-                    }
+                    onClick={() => toast.info(<RemoveMediaToast media={media} onRemoveMediaAsync={async (media) => await this.handleRemoveMedia(media)} />)}
                     style={{ color: "var(--f1)" }}
                   >
                     <Icon className="fas fa-trash"></Icon>
@@ -305,6 +300,9 @@ class Media extends Component {
 
               <div className={mediaStyles.title}>
                 <h2>{media.title.toUpperCase()}</h2>
+              </div>
+              <div className={mediaStyles.date}>
+                <DatePresenter date={media.datePosted} />
               </div>
               {/*TODO: Changed to iFrame or Media Tag*/}
               <DangerousInnerHtmlWithScript className={mediaStyles.mediaContainer} html={media.markup} />

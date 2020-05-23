@@ -54,16 +54,22 @@
   order: 2;
 }
 
+.previewDate {
+  flex: 15;
+  order: 3;
+  width: 100%;
+}
+
 .previewImage {
   flex: 60;
-  order: 3;
+  order: 4;
   overflow: hidden;
   width: 80%;
 }
 
 .descriptionContainer {
   flex: 15;
-  order: 4;
+  order: 5;
   display: flex;
   align-items: center;
 }
@@ -75,7 +81,7 @@
 
 .previewButtons {
   flex: 20;
-  order: 5;
+  order: 6;
   display: flex;
   justify-content: space-between;
   align-items: center;

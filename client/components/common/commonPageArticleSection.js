@@ -6,6 +6,7 @@ import TransparentButton from "./transparentButton";
 import BasicButton from "./basicButton";
 import Link from "next/link";
 import Pagination from "./pagination";
+import DatePresenter from "./datePresenter";
 
 const RemoveArticleToast = ({ closeToast, article, onRemoveArticleAsync }) => (
   <div>
@@ -61,9 +62,7 @@ class CommonPageArticleSection extends Component {
               {user && user.isAdmin && (
                 <div className={articleSectionStyles.adminOptions}>
                   <TransparentButton onClick={async () => await onToggleFeaturedArticleAsync(preview)} style={{ color: "var(--f1)" }}>
-                    <Icon
-                      className={featured.subsidiaries.items.some((item) => item.id === preview._id) ? "fas fa-star" : "far fa-star"}
-                    ></Icon>
+                    <Icon className={featured.subsidiaries.items.some((item) => item.id === preview._id) ? "fas fa-star" : "far fa-star"}></Icon>
                   </TransparentButton>
                   {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
                   <a href={`/${mainPagePath}/edit/article/${preview._id}`}>
@@ -73,12 +72,7 @@ class CommonPageArticleSection extends Component {
                   </a>
                   <TransparentButton
                     onClick={() =>
-                      toast.info(
-                        <RemoveArticleToast
-                          article={preview}
-                          onRemoveArticleAsync={async (article) => await onRemoveArticleAsync(article)}
-                        />
-                      )
+                      toast.info(<RemoveArticleToast article={preview} onRemoveArticleAsync={async (article) => await onRemoveArticleAsync(article)} />)
                     }
                     style={{ color: "var(--f1)" }}
                   >
@@ -91,6 +85,9 @@ class CommonPageArticleSection extends Component {
                 <Link href={`/${mainPagePath}/[slug]`} as={`/${mainPagePath}/${preview.slug}`}>
                   <a className="clickableHeading">{preview.title}</a>
                 </Link>
+              </div>
+              <div className={articleSectionStyles.previewDate}>
+                <DatePresenter date={preview.datePosted} />
               </div>
               <div className={articleSectionStyles.previewImage}>
                 <Link href={`/${mainPagePath}/[slug]`} as={`/${mainPagePath}/${preview.slug}`}>
