@@ -53,6 +53,15 @@ mongoSchema.methods.generateAuthToken = function (customClaims) {
 
 const User = mongoose.model("User", mongoSchema);
 
+// transform for sending as json
+function omitPrivate(doc, obj) {
+  delete obj.__v;
+  delete obj.password;
+  delete obj.mfaCode;
+  return obj;
+}
+mongoSchema.set("toJSON", { virtuals: false, transform: omitPrivate });
+
 const joiSchema = Joi.object({
   username: Joi.string().min(2).max(50).required(),
   password: Joi.string().min(5).max(255).required(),
