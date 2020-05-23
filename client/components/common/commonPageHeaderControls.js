@@ -72,7 +72,6 @@ class CommonPageHeaderControls extends Component {
           {user && user.isAdmin && props.data.label.toLowerCase() !== "all" && (
             <div
               onClick={(e) => {
-                console.log("hello BUDDY");
                 e.preventDefault();
                 e.stopPropagation();
               }}
