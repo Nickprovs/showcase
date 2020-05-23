@@ -44,7 +44,13 @@ function validateSocialLinks(map) {
   return true;
 }
 
-mongoGeneralSchema.set("toJSON", { virtuals: false });
+// transform for sending as json
+function omitPrivate(doc, obj) {
+  delete obj.__v;
+  return obj;
+}
+mongoGeneralSchema.set("toJSON", { virtuals: false, transform: omitPrivate });
+
 const GeneralModel = mongoose.model("General", mongoGeneralSchema);
 
 //Joi Schema

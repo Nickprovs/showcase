@@ -50,7 +50,12 @@ function validateTags(val) {
   else throw new Error("Tags must contain between 3 and 10 entries.");
 }
 
-mongoMediaSchema.set("toJSON", { virtuals: false });
+// transform for sending as json
+function omitPrivate(doc, obj) {
+  delete obj.__v;
+  return obj;
+}
+mongoMediaSchema.set("toJSON", { virtuals: false, transform: omitPrivate });
 
 const MediaModel = mongoose.model("Media", mongoMediaSchema);
 

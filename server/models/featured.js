@@ -45,6 +45,14 @@ const mongoFeaturedSchema = new mongoose.Schema({
 });
 const FeaturedModel = mongoose.model("Featured", mongoFeaturedSchema);
 
+// transform for sending as json
+function omitPrivate(doc, obj) {
+  delete obj.__v;
+  return obj;
+}
+
+mongoFeaturedSchema.set("toJSON", { virtuals: false, transform: omitPrivate });
+
 //Joi Schema
 const joiSubsidiarySchema = Joi.object({
   id: Joi.objectId(),

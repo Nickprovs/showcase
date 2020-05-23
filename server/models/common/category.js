@@ -8,16 +8,24 @@ const mongoCategorySchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 2,
-    maxlength: 50
+    maxlength: 50,
   },
   slug: {
     type: String,
     required: true,
     minlength: 2,
     maxlength: 64,
-    validate: validateSlug
-  }
+    validate: validateSlug,
+  },
 });
+
+// transform for sending as json
+function omitPrivate(doc, obj) {
+  delete obj.__v;
+  return obj;
+}
+
+mongoCategorySchema.set("toJSON", { virtuals: false, transform: omitPrivate });
 
 function validateSlug(slug) {
   if (ValidationUtilities.isSlug(slug)) return true;
@@ -26,15 +34,12 @@ function validateSlug(slug) {
 
 //Public Schema - Joi
 const joiCategorySchema = Joi.object({
-  name: Joi.string()
-    .min(2)
-    .max(50)
-    .required(),
+  name: Joi.string().min(2).max(50).required(),
   slug: Joi.string()
     .min(2)
     .max(64)
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
-    .required()
+    .required(),
 });
 
 exports.joiSchema = joiCategorySchema;

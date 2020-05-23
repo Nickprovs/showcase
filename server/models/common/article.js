@@ -10,14 +10,14 @@ const addressableHighlightSchema = new mongoose.Schema(
       type: String,
       required: true,
       minlength: 2,
-      maxlength: 24
+      maxlength: 24,
     },
     address: {
       type: String,
       required: true,
       minlength: 2,
-      maxlength: 1024
-    }
+      maxlength: 1024,
+    },
   },
   { _id: false }
 );
@@ -31,62 +31,62 @@ const mongoArticleSchema = new mongoose.Schema(
       required: true,
       minlength: 2,
       maxlength: 128,
-      validate: validateSlug
+      validate: validateSlug,
     },
     title: {
       unique: true,
       type: String,
       required: true,
       minlength: 2,
-      maxlength: 64
+      maxlength: 64,
     },
     category: {
       type: categorySchema,
 
-      required: true
+      required: true,
     },
     description: {
       type: String,
       required: true,
       minlength: 2,
-      maxlength: 128
+      maxlength: 128,
     },
     datePosted: {
       type: Date,
       required: true,
-      default: Date.now
+      default: Date.now,
     },
     dateLastModified: {
       type: Date,
       required: true,
-      default: Date.now
+      default: Date.now,
     },
     image: {
       type: String,
       required: true,
       minlength: 2,
-      maxlength: 1000
+      maxlength: 1000,
     },
     body: {
       type: String,
       minlength: 2,
-      required: true
+      required: true,
     },
     addressableHighlight: {
       type: addressableHighlightSchema,
-      required: false
+      required: false,
     },
     tags: {
       type: [String],
       required: true,
-      validate: validateTags
+      validate: validateTags,
     },
     contingency: {
       type: Map,
       of: String,
       default: {},
-      validate: validateContingency
-    }
+      validate: validateContingency,
+    },
   },
   { collation: { locale: "en", strength: 2 } }
 );
@@ -118,7 +118,13 @@ function validateSlug(slug) {
   else throw new Error("Slug must be a valid web-slug");
 }
 
-mongoArticleSchema.set("toJSON", { virtuals: false });
+// transform for sending as json
+function omitPrivate(doc, obj) {
+  delete obj.__v;
+  return obj;
+}
+
+mongoArticleSchema.set("toJSON", { virtuals: false, transform: omitPrivate });
 
 //Public Schema - Joi
 const joiArticleSchema = Joi.object({
@@ -127,38 +133,17 @@ const joiArticleSchema = Joi.object({
     .max(128)
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
     .required(),
-  title: Joi.string()
-    .min(2)
-    .max(64)
-    .required(),
+  title: Joi.string().min(2).max(64).required(),
   categoryId: Joi.objectId().required(),
-  description: Joi.string()
-    .min(2)
-    .max(128)
-    .required(),
-  image: Joi.string()
-    .min(2)
-    .max(1000)
-    .required(),
-  body: Joi.string()
-    .min(2)
-    .required(),
+  description: Joi.string().min(2).max(128).required(),
+  image: Joi.string().min(2).max(1000).required(),
+  body: Joi.string().min(2).required(),
   addressableHighlight: Joi.object().keys({
-    label: Joi.string()
-      .required()
-      .min(2)
-      .max(24),
-    address: Joi.string()
-      .required()
-      .min(2)
-      .max(1024)
+    label: Joi.string().required().min(2).max(24),
+    address: Joi.string().required().min(2).max(1024),
   }),
-  tags: Joi.array()
-    .items(Joi.string())
-    .min(3)
-    .max(10)
-    .required(),
-  contingency: Joi.object().pattern(Joi.string(), Joi.string())
+  tags: Joi.array().items(Joi.string()).min(3).max(10).required(),
+  contingency: Joi.object().pattern(Joi.string(), Joi.string()),
 });
 
 exports.joiSchema = joiArticleSchema;
