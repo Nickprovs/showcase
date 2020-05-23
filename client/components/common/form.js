@@ -107,6 +107,7 @@ class Form extends Component {
 
     return (
       <FormSelectInput
+        instanceId={`select_${name}`}
         name={name}
         label={label}
         placeholder={placeholder}
