@@ -52,60 +52,63 @@ class CommonPageArticleSection extends Component {
     const { currentPage, totalBlogsCount, pageSize } = this.props;
 
     //If we have no articles to display for this route...
-    if (!previews || previews.length === 0) return this.getEmptyArticleSectionMarkup();
 
     return (
       <div>
-        <div className={articleSectionStyles.container}>
-          {previews.map((preview) => (
-            <div key={preview._id} className={articleSectionStyles.item}>
-              {/*Admin Controls*/}
-              {user && user.isAdmin && (
-                <div className={articleSectionStyles.adminOptions}>
-                  <TransparentButton onClick={async () => await onToggleFeaturedArticleAsync(preview)} style={{ color: "var(--f1)" }}>
-                    <Icon className={featured.subsidiaries.items.some((item) => item.id === preview._id) ? "fas fa-star" : "far fa-star"}></Icon>
-                  </TransparentButton>
-                  {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
-                  <a href={`/${mainPagePath}/edit/article/${preview._id}`}>
-                    <TransparentButton style={{ color: "var(--f1)" }}>
-                      <Icon className="fas fa-edit"></Icon>
+        {!previews || previews.length === 0 ? (
+          this.getEmptyArticleSectionMarkup()
+        ) : (
+          <div className={articleSectionStyles.container}>
+            {previews.map((preview) => (
+              <div key={preview._id} className={articleSectionStyles.item}>
+                {/*Admin Controls*/}
+                {user && user.isAdmin && (
+                  <div className={articleSectionStyles.adminOptions}>
+                    <TransparentButton onClick={async () => await onToggleFeaturedArticleAsync(preview)} style={{ color: "var(--f1)" }}>
+                      <Icon className={featured.subsidiaries.items.some((item) => item.id === preview._id) ? "fas fa-star" : "far fa-star"}></Icon>
                     </TransparentButton>
-                  </a>
-                  <TransparentButton
-                    onClick={() =>
-                      toast.info(<RemoveArticleToast article={preview} onRemoveArticleAsync={async (article) => await onRemoveArticleAsync(article)} />)
-                    }
-                    style={{ color: "var(--f1)" }}
-                  >
-                    <Icon className="fas fa-trash"></Icon>
-                  </TransparentButton>
-                </div>
-              )}
+                    {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
+                    <a href={`/${mainPagePath}/edit/article/${preview._id}`}>
+                      <TransparentButton style={{ color: "var(--f1)" }}>
+                        <Icon className="fas fa-edit"></Icon>
+                      </TransparentButton>
+                    </a>
+                    <TransparentButton
+                      onClick={() =>
+                        toast.info(<RemoveArticleToast article={preview} onRemoveArticleAsync={async (article) => await onRemoveArticleAsync(article)} />)
+                      }
+                      style={{ color: "var(--f1)" }}
+                    >
+                      <Icon className="fas fa-trash"></Icon>
+                    </TransparentButton>
+                  </div>
+                )}
 
-              <div className={articleSectionStyles.previewTitle}>
-                <Link href={`/${mainPagePath}/[slug]`} as={`/${mainPagePath}/${preview.slug}`}>
-                  <a className="clickableHeading">{preview.title}</a>
-                </Link>
+                <div className={articleSectionStyles.previewTitle}>
+                  <Link href={`/${mainPagePath}/[slug]`} as={`/${mainPagePath}/${preview.slug}`}>
+                    <a className="clickableHeading">{preview.title}</a>
+                  </Link>
+                </div>
+                <div className={articleSectionStyles.previewDate}>
+                  <DatePresenter date={preview.datePosted} />
+                </div>
+                <div className={articleSectionStyles.previewImage}>
+                  <Link href={`/${mainPagePath}/[slug]`} as={`/${mainPagePath}/${preview.slug}`}>
+                    <a>
+                      <img className={articleSectionStyles.containerFitImage} src={preview.image} />
+                    </a>
+                  </Link>
+                </div>
+                <div className={articleSectionStyles.descriptionContainer}>
+                  <label className={articleSectionStyles.description}>{preview.description}</label>
+                </div>
+                <div className={articleSectionStyles.tags}>
+                  <TagPresenter tags={preview.tags} />
+                </div>
               </div>
-              <div className={articleSectionStyles.previewDate}>
-                <DatePresenter date={preview.datePosted} />
-              </div>
-              <div className={articleSectionStyles.previewImage}>
-                <Link href={`/${mainPagePath}/[slug]`} as={`/${mainPagePath}/${preview.slug}`}>
-                  <a>
-                    <img className={articleSectionStyles.containerFitImage} src={preview.image} />
-                  </a>
-                </Link>
-              </div>
-              <div className={articleSectionStyles.descriptionContainer}>
-                <label className={articleSectionStyles.description}>{preview.description}</label>
-              </div>
-              <div className={articleSectionStyles.tags}>
-                <TagPresenter tags={preview.tags} />
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
         <div className={articleSectionStyles.paginationContainer}>
           <Pagination itemsCount={totalBlogsCount} pageSize={pageSize} currentPage={currentPage} />
         </div>

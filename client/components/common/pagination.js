@@ -34,6 +34,8 @@ export default function Pagination({ itemsCount, pageSize, currentPage }) {
     return null;
   }
 
+  console.log(itemsCount, pageSize, currentPage);
+
   let paginationButtonClasses = paginationStyles.paginationButton + " ";
 
   return (
@@ -48,20 +50,21 @@ export default function Pagination({ itemsCount, pageSize, currentPage }) {
             </a>
           </Link>
         </li>
-
-        {pages.map((page) => (
-          <li key={page} className={paginationStyles.paginationItem}>
-            <Link href={{ pathname: router.pathname, query: { ...router.query, page: page } }}>
-              <a>
-                <TransparentButton
-                  className={paginationButtonClasses + (currentPage === page ? paginationStyles.activePaginationButton : "")}
-                >
-                  {page}
-                </TransparentButton>
-              </a>
-            </Link>
-          </li>
-        ))}
+        {(currentPage - 1) * pageSize <= itemsCount ? (
+          pages.map((page) => (
+            <li key={page} className={paginationStyles.paginationItem}>
+              <Link href={{ pathname: router.pathname, query: { ...router.query, page: page } }}>
+                <a>
+                  <TransparentButton className={paginationButtonClasses + (currentPage === page ? paginationStyles.activePaginationButton : "")}>
+                    {page}
+                  </TransparentButton>
+                </a>
+              </Link>
+            </li>
+          ))
+        ) : (
+          <TransparentButton className={paginationButtonClasses + paginationStyles.activePaginationButton}>{currentPage}</TransparentButton>
+        )}
 
         <li key="last" className={paginationStyles.paginationItem}>
           <Link href={{ pathname: router.pathname, query: { ...router.query, page: pagesCount } }}>
