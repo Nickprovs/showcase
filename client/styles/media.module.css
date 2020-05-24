@@ -81,6 +81,11 @@
   align-items: center;
 }
 
+.tags {
+  flex: 15;
+  order: 7;
+}
+
 .postButton {
   margin: 4px;
 }

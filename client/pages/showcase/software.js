@@ -5,12 +5,7 @@ import withLayoutAsync from "../../components/common/withLayoutAsync";
 import CommonPageHeaderControls from "../../components/common/commonPageHeaderControls";
 import CommonPageArticleSection from "../../components/common/commonPageArticleSection";
 import Router from "next/router";
-import {
-  getSoftwaresAsync,
-  deleteSoftwareAsync,
-  getSoftwareCategoriesAsync,
-  deleteSoftwareCategoryAsync,
-} from "../../services/softwareService";
+import { getSoftwaresAsync, deleteSoftwareAsync, getSoftwareCategoriesAsync, deleteSoftwareCategoryAsync } from "../../services/softwareService";
 import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../../services/featuredService";
 
 const pageSize = 6;
@@ -104,14 +99,17 @@ class Software extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { previews, featured, currentPage, categories, totalSoftwaresCount } = this.props;
+    const { previews, featured, currentPage, categories, totalSoftwaresCount, initialSearchProp } = this.props;
     const { currentCategory } = this.state;
 
     if (prevProps.featured !== featured) this.setState({ featured });
     if (prevProps.previews !== previews) this.setState({ previews });
     if (prevProps.currentPage !== currentPage) this.setState({ currentPage });
     if (prevProps.totalSoftwaresCount !== totalSoftwaresCount) this.setState({ totalSoftwaresCount });
-
+    if (prevProps.initialSearchProp !== initialSearchProp) {
+      this.setState({ searchText: initialSearchProp });
+      this.setState({ initialSearchProp });
+    }
     //If there's a category in the query and it's different than the current category
     if (Router.query.category != currentCategory.slug) {
       let matchingCategory = categories.filter((c) => c.slug === Router.query.category)[0];

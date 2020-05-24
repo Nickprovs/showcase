@@ -111,13 +111,17 @@ class Photo extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { photos, featured, currentPage, categories, totalPhotosCount } = this.props;
+    const { photos, featured, currentPage, categories, totalPhotosCount, initialSearchProp } = this.props;
     const { currentCategory } = this.state;
 
     if (prevProps.featured !== featured) this.setState({ featured });
     if (prevProps.photos !== photos) this.setState({ photos });
     if (prevProps.currentPage !== currentPage) this.setState({ currentPage });
     if (prevProps.totalPhotosCount !== totalPhotosCount) this.setState({ totalPhotosCount });
+    if (prevProps.initialSearchProp !== initialSearchProp) {
+      this.setState({ searchText: initialSearchProp });
+      this.setState({ initialSearchProp });
+    }
 
     //If there's a category in the query and it's different than the current category
     if (Router.query.category != currentCategory.slug) {

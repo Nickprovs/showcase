@@ -7,6 +7,7 @@ import BasicButton from "./basicButton";
 import Link from "next/link";
 import Pagination from "./pagination";
 import DatePresenter from "./datePresenter";
+import TagPresenter from "./tagPresenter";
 
 const RemoveArticleToast = ({ closeToast, article, onRemoveArticleAsync }) => (
   <div>
@@ -98,6 +99,9 @@ class CommonPageArticleSection extends Component {
               </div>
               <div className={articleSectionStyles.descriptionContainer}>
                 <label className={articleSectionStyles.description}>{preview.description}</label>
+              </div>
+              <div className={articleSectionStyles.tags}>
+                <TagPresenter tags={preview.tags} />
               </div>
             </div>
           ))}

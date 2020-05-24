@@ -21,8 +21,7 @@ const data = {
           slug: "is-google-taking-over",
           title: "Is Google Taking Over?",
           description: "What's the deal with google?.",
-          image:
-            "https://storage.googleapis.com/gd-wagtail-prod-assets/images/evolving_google_identity_2x.max-4000x2000.jpegquality-90.jpg",
+          image: "https://storage.googleapis.com/gd-wagtail-prod-assets/images/evolving_google_identity_2x.max-4000x2000.jpegquality-90.jpg",
           body: "I think google is taking over and it's so crazy. Wow.",
           tags: ["is", "google", "taking", "over", "alphabet"],
         },
@@ -115,7 +114,7 @@ const data = {
           slug: "mf-doom-comes-out-with-new-album-about-cats",
           title: "MF DOOM Comes Out With New Album About Cats",
           description: "MEOWEMDOOM",
-          image: "https://swordsswords.com/blog/wp-content/uploads/2018/10/masks-swordsswords.png",
+          image: "https://thesource.com/wp-content/uploads/2017/12/MF-Doom-Mourns-the-Death-of-14-Year-Old-Son.jpg",
           body: "Best get ready for it. MEOW ATTACK.",
           tags: ["mf", "doom", "cat", "album"],
         },
@@ -244,8 +243,7 @@ const data = {
           description: "A photo of a swiss landscape.",
           orientation: "landscape",
           displaySize: "small",
-          source:
-            "https://www.presetpro.com/wp-content/uploads/2019/05/Landscape-Photography-Velley-Road-in-Luaterbrunnen-Switzerland-1024x683.jpg",
+          source: "https://www.presetpro.com/wp-content/uploads/2019/05/Landscape-Photography-Velley-Road-in-Luaterbrunnen-Switzerland-1024x683.jpg",
           tags: ["swiss", "switzerland", "landscape", "nature"],
         },
         {
@@ -253,8 +251,7 @@ const data = {
           description: "A photo of a swiss landscape.",
           orientation: "landscape",
           displaySize: "small",
-          source:
-            "https://www.presetpro.com/wp-content/uploads/2019/05/Landscape-Photography-Velley-Road-in-Luaterbrunnen-Switzerland-1024x683.jpg",
+          source: "https://www.presetpro.com/wp-content/uploads/2019/05/Landscape-Photography-Velley-Road-in-Luaterbrunnen-Switzerland-1024x683.jpg",
           tags: ["swiss", "switzerland", "landscape", "nature"],
         },
         {
@@ -270,8 +267,7 @@ const data = {
           description: "A photo of a swiss landscape.",
           orientation: "landscape",
           displaySize: "small",
-          source:
-            "https://www.build-green.fr/wp-content/uploads/2017/02/Vue-densemble-illumin%C3%A9-Grange-par-Savioz-Fabrizzi-Praz-de-fort-Suisse.jpg",
+          source: "https://www.build-green.fr/wp-content/uploads/2017/02/Vue-densemble-illumin%C3%A9-Grange-par-Savioz-Fabrizzi-Praz-de-fort-Suisse.jpg",
           tags: ["swiss", "switzerland", "landscape", "nature"],
         },
         {
@@ -287,8 +283,7 @@ const data = {
           description: "A photo of a swiss landscape.",
           orientation: "panorama",
           displaySize: "medium",
-          source:
-            "https://previews.123rf.com/images/somatuscani/somatuscani1110/somatuscani111000170/11064849-grindelwald-village-panorama-switzerland.jpg",
+          source: "https://previews.123rf.com/images/somatuscani/somatuscani1110/somatuscani111000170/11064849-grindelwald-village-panorama-switzerland.jpg",
           tags: ["swiss", "switzerland", "landscape", "nature"],
         },
       ],

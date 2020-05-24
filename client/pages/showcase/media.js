@@ -13,6 +13,7 @@ import BasicButton from "../../components/common/basicButton";
 import Pagination from "../../components/common/pagination";
 import DangerousInnerHtmlWithScript from "../../components/common/dangerousInnerHtmlWithScript";
 import EmbedUtilities from "../../util/embedUtilities";
+import TagsPresenter from "../../components/common/tagPresenter";
 
 import { toast } from "react-toastify";
 import reframe from "reframe.js";
@@ -107,13 +108,17 @@ class Media extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { medias, featured, currentPage, categories, totalMediasCount } = this.props;
+    const { medias, featured, currentPage, categories, totalMediasCount, initialSearchProp } = this.props;
     const { currentCategory } = this.state;
 
     if (prevProps.featured !== featured) this.setState({ featured });
     if (prevProps.medias !== medias) this.setState({ medias });
     if (prevProps.currentPage !== currentPage) this.setState({ currentPage });
     if (prevProps.totalMediasCount !== totalMediasCount) this.setState({ totalMediasCount });
+    if (prevProps.initialSearchProp !== initialSearchProp) {
+      this.setState({ searchText: initialSearchProp });
+      this.setState({ initialSearchProp });
+    }
 
     //If there's a category in the query and it's different than the current category
     if (Router.query.category != currentCategory.slug) {
@@ -308,6 +313,9 @@ class Media extends Component {
               <DangerousInnerHtmlWithScript className={mediaStyles.mediaContainer} html={media.markup} />
               <div className={mediaStyles.descriptionContainer}>
                 <label>{media.description}</label>
+              </div>
+              <div className={mediaStyles.tags}>
+                <TagsPresenter tags={media.tags} />
               </div>
             </div>
           ))}

@@ -97,13 +97,17 @@ class Blog extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { previews, featured, currentPage, categories, totalBlogsCount } = this.props;
+    const { previews, featured, currentPage, categories, totalBlogsCount, initialSearchProp } = this.props;
     const { currentCategory } = this.state;
 
     if (prevProps.featured !== featured) this.setState({ featured });
     if (prevProps.previews !== previews) this.setState({ previews });
     if (prevProps.currentPage !== currentPage) this.setState({ currentPage });
     if (prevProps.totalBlogsCount !== totalBlogsCount) this.setState({ totalBlogsCount });
+    if (prevProps.initialSearchProp !== initialSearchProp) {
+      this.setState({ searchText: initialSearchProp });
+      this.setState({ initialSearchProp });
+    }
 
     //If there's a category in the query and it's different than the current category
     if (Router.query.category != currentCategory.slug) {
