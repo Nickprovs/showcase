@@ -12,7 +12,7 @@ import LoginCredentialsForm from "../components/loginCredentialsForm";
 import LoginEmailMfaForm from "../components/loginEmailMfaForm";
 
 const { publicRuntimeConfig } = getConfig();
-const recaptchaSiteKey = publicRuntimeConfig.recaptchaSiteKey;
+const captchaPublicKey = publicRuntimeConfig.captchaPublicKey;
 
 class Login extends Component {
   constructor() {

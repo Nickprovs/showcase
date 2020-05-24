@@ -8,7 +8,7 @@ import getConfig from "next/config";
 import NProgress from "nprogress";
 
 const { publicRuntimeConfig } = getConfig();
-const recaptchaSiteKey = publicRuntimeConfig.recaptchaSiteKey;
+const captchaPublicKey = publicRuntimeConfig.captchaPublicKey;
 
 class Contact extends Form {
   constructor() {
@@ -80,7 +80,7 @@ class Contact extends Form {
         {this.renderTextInput("name", "NAME")}
         {this.renderTextInput("email", "EMAIL")}
         {this.renderTextArea("message", "MESSAGE")}
-        {this.renderRecaptcha("captcha", "CAPTCHA", recaptchaSiteKey)}
+        {this.renderRecaptcha("captcha", "CAPTCHA", captchaPublicKey)}
         {this.renderButton("SEND MESSAGE")}
       </form>
     );

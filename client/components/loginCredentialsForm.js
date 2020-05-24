@@ -6,7 +6,7 @@ import NProgress from "nprogress";
 import { toast } from "react-toastify";
 
 const { publicRuntimeConfig } = getConfig();
-const recaptchaSiteKey = publicRuntimeConfig.recaptchaSiteKey;
+const captchaPublicKey = publicRuntimeConfig.captchaPublicKey;
 
 class LoginCredentialsForm extends Form {
   constructor() {
@@ -61,7 +61,7 @@ class LoginCredentialsForm extends Form {
           <form onSubmit={this.handleSubmit}>
             {this.renderTextInput("username", "USERNAME")}
             {this.renderTextInput("password", "PASSWORD", "", "password")}
-            {this.renderRecaptcha("captcha", "CAPTCHA", recaptchaSiteKey)}
+            {this.renderRecaptcha("captcha", "CAPTCHA", captchaPublicKey)}
             {this.renderButton("LOGIN")}
           </form>
         </div>
