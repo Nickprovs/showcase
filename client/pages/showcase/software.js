@@ -26,7 +26,7 @@ class Software extends Component {
   }
 
   static async getSoftwareData(options) {
-    let page = options.page ? options.page : 1;
+    let page = parseInt(options.page) && parseInt(options.page) >= 1 ? parseInt(options.page) : 1;
     let search = options.search ? options.search : "";
     let category = options.category ? options.category : "";
 
