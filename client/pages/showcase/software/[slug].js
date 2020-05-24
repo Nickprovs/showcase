@@ -17,7 +17,7 @@ function Software({ software }) {
   return (
     <div>
       <h1>{software.title}</h1>
-      <DatePresenter date={software.datePosted} />
+      <DatePresenter withLines={false} date={software.datePosted} />
       <div dangerouslySetInnerHTML={{ __html: software.body }} />
     </div>
   );

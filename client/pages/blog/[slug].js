@@ -17,7 +17,7 @@ function Blog({ blog }) {
   return (
     <div>
       <h1>{blog.title}</h1>
-      <DatePresenter date={blog.datePosted} />
+      <DatePresenter withLines={false} date={blog.datePosted} />
       <div dangerouslySetInnerHTML={{ __html: blog.body }} />
     </div>
   );

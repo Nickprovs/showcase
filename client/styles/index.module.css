@@ -73,8 +73,7 @@
 .previewType {
   flex: 4;
   order: 1;
-  width: 60%;
-  border-bottom: 2px solid var(--s8);
+  width: 100%;
 }
 
 .previewType h2 {
