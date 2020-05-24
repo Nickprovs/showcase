@@ -10,7 +10,7 @@ export default function TagPresenter(props) {
       {tags.map((tag) => (
         <Link href={`?search=${tag}`} key={tag}>
           <a>
-            <BasicButton style={{ height: "25px", margin: "5px" }}>{tag}</BasicButton>
+            <BasicButton style={{ height: "25px", margin: "5px" }}>{tag.toUpperCase()}</BasicButton>
           </a>
         </Link>
       ))}
