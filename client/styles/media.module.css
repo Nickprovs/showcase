@@ -1,25 +1,19 @@
 .container {
   display: grid;
-  padding: 5px;
-  grid-gap: 5px;
   grid-template-columns: 1fr;
+  background-color: var(--s8);
+  grid-gap: 2px;
 }
 
 .item {
   grid-row: span 1;
   grid-column: span 1;
-
+  padding: 10px;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
-  padding: 10px;
-  border-bottom: 2px solid var(--s8);
-}
-/* Remove border bottom from last item & from second last if its odd */
-.item:last-child,
-.item:nth-last-child(2):nth-child(odd) {
-  border-bottom: none;
+  background-color: var(--b1);
 }
 .item:hover .adminOptions {
   opacity: 1;
