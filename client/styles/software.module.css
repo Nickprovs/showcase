@@ -4,7 +4,6 @@
   grid-auto-rows: 400px;
   grid-auto-flow: dense;
   overflow: hidden;
-  border-left: 2px solid var(--s8);
 }
 
 @media screen and (min-width: 550px) {
