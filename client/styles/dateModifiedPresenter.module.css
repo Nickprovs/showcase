@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.label {
+  font-family: SourceSansPro, Sans-Serif !important;
+  font-weight: bold;
+  text-align: center;
+  font-size: 18px;
+  color: var(--s8);
+  margin-right: 10px;
+  margin-left: 10px;
+}

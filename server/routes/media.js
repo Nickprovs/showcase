@@ -77,11 +77,12 @@ module.exports = function () {
     const mediaCategory = await MediaCategoryModel.findById(req.body.categoryId);
     if (!mediaCategory) return res.status(400).send("Invalid media category.");
 
+    let now = moment().toJSON();
     let media = new MediaModel({
       title: req.body.title,
       category: mediaCategory,
-      datePosted: moment().toJSON(),
-      dateLastModified: moment().toJSON(),
+      datePosted: now,
+      dateLastModified: now,
       description: req.body.description,
       markup: req.body.markup,
       tags: req.body.tags,

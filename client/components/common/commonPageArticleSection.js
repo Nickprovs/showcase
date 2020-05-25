@@ -6,7 +6,7 @@ import TransparentButton from "./transparentButton";
 import BasicButton from "./basicButton";
 import Link from "next/link";
 import Pagination from "./pagination";
-import DatePresenter from "./datePresenter";
+import DatePostedPresenter from "./datePostedPresenter";
 import TagPresenter from "./tagPresenter";
 
 const RemoveArticleToast = ({ closeToast, article, onRemoveArticleAsync }) => (
@@ -90,7 +90,7 @@ class CommonPageArticleSection extends Component {
                   </Link>
                 </div>
                 <div className={articleSectionStyles.previewDate}>
-                  <DatePresenter date={preview.datePosted} />
+                  <DatePostedPresenter date={preview.datePosted} />
                 </div>
                 <div className={articleSectionStyles.previewImage}>
                   <Link href={`/${mainPagePath}/[slug]`} as={`/${mainPagePath}/${preview.slug}`}>

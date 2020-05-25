@@ -1,7 +1,9 @@
 import { getSoftwareAsync } from "../../../services/softwareService";
 import withAuthAsync from "../../../components/common/withAuthAsync";
 import withLayoutAsync from "../../../components/common/withLayoutAsync";
-import DatePresenter from "../../../components/common/datePresenter";
+import DatePostedPresenter from "../../../components/common/datePostedPresenter";
+import DateModifiedPresenter from "../../../components/common/dateModifiedPresenter";
+import TagsPresenter from "../../../components/common/tagPresenter";
 
 Software.getInitialProps = async function (context) {
   const { slug } = context.query;
@@ -17,8 +19,17 @@ function Software({ software }) {
   return (
     <div>
       <h1>{software.title}</h1>
-      <DatePresenter withLines={false} date={software.datePosted} />
+      <DatePostedPresenter withLines={false} date={software.datePosted} />
       <div dangerouslySetInnerHTML={{ __html: software.body }} />
+
+      {/* Article Footer Stuff */}
+      <div>
+        <br />
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <TagsPresenter optionalUrl={"/showcase/software"} tags={software.tags} />
+        </div>
+        <DateModifiedPresenter postedDate={software.datePosted} modifiedDate={software.dateLastModified} />
+      </div>
     </div>
   );
 }

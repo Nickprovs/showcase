@@ -77,11 +77,12 @@ module.exports = function () {
     const photoCategory = await PhotoCategoryModel.findById(req.body.categoryId);
     if (!photoCategory) return res.status(400).send("Invalid photo category.");
 
+    let now = moment().toJSON();
     let photo = new PhotoModel({
       title: req.body.title,
       category: photoCategory,
-      datePosted: moment().toJSON(),
-      dateLastModified: moment().toJSON(),
+      datePosted: now,
+      dateLastModified: now,
       description: req.body.description,
       orientation: req.body.orientation,
       displaySize: req.body.displaySize,

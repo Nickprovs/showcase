@@ -6,7 +6,7 @@ import { getMediasAsync, deleteMediaAsync, getMediaCategoriesAsync } from "../..
 import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../../services/featuredService";
 import CommonPageHeaderControls from "../../components/common/commonPageHeaderControls";
 import Router from "next/router";
-import DatePresenter from "../../components/common/datePresenter";
+import DatePostedPresenter from "../../components/common/datePostedPresenter";
 import Icon from "../../components/common/icon";
 import TransparentButton from "../../components/common/transparentButton";
 import BasicButton from "../../components/common/basicButton";
@@ -307,7 +307,7 @@ class Media extends Component {
                 <h2>{media.title.toUpperCase()}</h2>
               </div>
               <div className={mediaStyles.date}>
-                <DatePresenter date={media.datePosted} />
+                <DatePostedPresenter date={media.datePosted} />
               </div>
               {/*TODO: Changed to iFrame or Media Tag*/}
               <DangerousInnerHtmlWithScript className={mediaStyles.mediaContainer} html={media.markup} />

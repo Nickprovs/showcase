@@ -76,12 +76,13 @@ module.exports = function (ArticleModel, articleJoiSchema, ArticleCategoryModel,
     const articleCategory = await ArticleCategoryModel.findById(req.body.categoryId);
     if (!articleCategory) return res.status(400).send("Invalid article category.");
 
+    let now = moment().toJSON();
     let article = new ArticleModel({
       slug: req.body.slug,
       title: req.body.title,
       category: articleCategory,
-      datePosted: moment().toJSON(),
-      dateLastModified: moment().toJSON(),
+      datePosted: now,
+      dateLastModified: now,
       description: req.body.description,
       image: req.body.image,
       body: req.body.body,

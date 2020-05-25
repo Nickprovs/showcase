@@ -5,7 +5,7 @@ import { Component } from "react";
 import { getFeaturedAsync } from "../services/featuredService";
 import indexStyles from "../styles/index.module.css";
 import DangerousInnerHtmlWithScript from "../components/common/dangerousInnerHtmlWithScript";
-import DatePresenter from "../components/common/datePresenter";
+import DatePostedPresenter from "../components/common/datePostedPresenter";
 import reframe from "reframe.js";
 import Link from "next/link";
 import TransparentButton from "../components/common/transparentButton";
@@ -157,7 +157,7 @@ class Index extends Component {
               Featured Software
             </a>
           </Link>
-          <DatePresenter date={software.datePosted} />
+          <DatePostedPresenter date={software.datePosted} />
         </div>
         <div className={indexStyles.previewTitle}>
           <Link href={`/showcase/software/[slug]`} as={`/showcase/software/${software.slug}`}>
@@ -198,7 +198,7 @@ class Index extends Component {
               Featured Blog
             </a>
           </Link>
-          <DatePresenter date={blog.datePosted} />
+          <DatePostedPresenter date={blog.datePosted} />
         </div>
         <div className={indexStyles.previewTitle}>
           <Link href={`/blog/[slug]`} as={`/blog/${blog.slug}`}>
@@ -235,7 +235,7 @@ class Index extends Component {
         )}
         <div className={indexStyles.previewType}>
           <h2>Featured Media</h2>
-          <DatePresenter date={media.datePosted} />
+          <DatePostedPresenter date={media.datePosted} />
         </div>
         <div className={indexStyles.previewTitle}>
           <h2>{media.title}</h2>
@@ -264,7 +264,7 @@ class Index extends Component {
         )}
         <div className={indexStyles.previewType}>
           <h2>Featured Photo</h2>
-          <DatePresenter date={photo.datePosted} />
+          <DatePostedPresenter date={photo.datePosted} />
         </div>
         <div className={indexStyles.previewTitle}>
           <h2>{photo.title}</h2>
