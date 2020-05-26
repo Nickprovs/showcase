@@ -45,7 +45,7 @@ class Index extends Component {
   state = {
     featured: null,
     fullScreenPhotoVisible: false,
-    fullScreenPhotoSource: "",
+    fullScreenPhoto: null,
   };
 
   constructor(props) {
@@ -271,7 +271,7 @@ class Index extends Component {
         </div>
         <div className={indexStyles.photoContainer}>
           <a>
-            <img onClick={() => this.handleOpenFullScreenPhoto(photo.source)} className={indexStyles.preservedAspectRatioPhoto} src={photo.source} />
+            <img onClick={() => this.handleOpenFullScreenPhoto(photo)} className={indexStyles.preservedAspectRatioPhoto} src={photo.source} />
           </a>
         </div>
         <div className={indexStyles.descriptionContainer}>
@@ -283,19 +283,19 @@ class Index extends Component {
     );
   }
 
-  handleOpenFullScreenPhoto(source) {
-    this.setState({ fullScreenPhotoSource: source });
+  handleOpenFullScreenPhoto(photo) {
+    this.setState({ fullScreenPhoto: photo });
     this.setState({ fullScreenPhotoVisible: true });
   }
 
-  handleCloseFullScreenPhoto(source) {
-    this.setState({ fullScreenPhotoSource: "" });
+  handleCloseFullScreenPhoto() {
+    this.setState({ fullScreenPhoto: null });
     this.setState({ fullScreenPhotoVisible: false });
   }
 
   render() {
     const { user } = this.props;
-    const { featured, fullScreenPhotoSource, fullScreenPhotoVisible } = this.state;
+    const { featured, fullScreenPhoto, fullScreenPhotoVisible } = this.state;
     if (!featured) return <p>oops</p>;
     return (
       <div>
@@ -322,7 +322,12 @@ class Index extends Component {
           <div className={indexStyles.container}>{featured.subsidiaries.items.map((item) => this.getFeaturedSubsidiaryMarkup(item))}</div>
         )}
 
-        <FullscreenPhoto onCloseRequested={() => this.handleCloseFullScreenPhoto()} visible={fullScreenPhotoVisible} src={fullScreenPhotoSource} />
+        <FullscreenPhoto
+          onCloseRequested={() => this.handleCloseFullScreenPhoto()}
+          visible={fullScreenPhotoVisible}
+          src={fullScreenPhoto ? fullScreenPhoto.source : ""}
+          metadata={fullScreenPhoto}
+        />
       </div>
     );
   }

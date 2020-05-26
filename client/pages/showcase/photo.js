@@ -91,7 +91,7 @@ class Photo extends Component {
     categories: [],
     currentCategory: null,
     fullScreenPhotoVisible: false,
-    fullScreenPhotoSource: "",
+    fullScreenPhoto: null,
   };
 
   componentDidMount() {
@@ -269,13 +269,13 @@ class Photo extends Component {
     }
   }
 
-  handleOpenFullScreenPhoto(source) {
-    this.setState({ fullScreenPhotoSource: source });
+  handleOpenFullScreenPhoto(photo) {
+    this.setState({ fullScreenPhoto: photo });
     this.setState({ fullScreenPhotoVisible: true });
   }
 
   handleCloseFullScreenPhoto() {
-    this.setState({ fullScreenPhotoSource: "" });
+    this.setState({ fullScreenPhoto: "" });
     this.setState({ fullScreenPhotoVisible: false });
   }
 
@@ -291,17 +291,7 @@ class Photo extends Component {
   }
 
   render() {
-    const {
-      photos,
-      featured,
-      totalPhotosCount,
-      fullScreenPhotoVisible,
-      fullScreenPhotoSource,
-      searchText,
-      categories,
-      currentCategory,
-      currentPage,
-    } = this.state;
+    const { photos, featured, totalPhotosCount, fullScreenPhotoVisible, fullScreenPhoto, searchText, categories, currentCategory, currentPage } = this.state;
     const { user } = this.props;
 
     //If we have no photos to display for this route...
@@ -344,11 +334,16 @@ class Photo extends Component {
                     </div>
                   )}
 
-                  <img className={photoStyles.containerFitImage} onClick={() => this.handleOpenFullScreenPhoto(photo.source)} src={photo.source} />
+                  <img className={photoStyles.containerFitImage} onClick={() => this.handleOpenFullScreenPhoto(photo)} src={photo.source} />
                 </div>
               </div>
             ))}
-            <FullscreenPhoto onCloseRequested={() => this.handleCloseFullScreenPhoto()} visible={fullScreenPhotoVisible} src={fullScreenPhotoSource} />
+            <FullscreenPhoto
+              onCloseRequested={() => this.handleCloseFullScreenPhoto()}
+              visible={fullScreenPhotoVisible}
+              src={fullScreenPhoto ? fullScreenPhoto.source : ""}
+              metadata={fullScreenPhoto}
+            />
           </div>
         </div>
       );

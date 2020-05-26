@@ -25,7 +25,7 @@ export default class FullscreenPhoto extends Component {
   }
 
   render() {
-    const { src, visible, onCloseRequested } = this.props;
+    const { src, visible, onCloseRequested, metadata = null } = this.props;
     let containerClasses = fullscreenPhotoStyles.container + " ";
     if (visible === true) containerClasses += fullscreenPhotoStyles.containerVisible + " ";
 
@@ -34,6 +34,26 @@ export default class FullscreenPhoto extends Component {
         <div className={fullscreenPhotoStyles.imageContainer}>
           <img className={fullscreenPhotoStyles.image} src={src} />
         </div>
+        {metadata && (
+          <div
+            style={{
+              display: "flex",
+              alignContent: "flex-start",
+              alignItems: "flex-end",
+              flexFlow: "column",
+              position: "absolute",
+              bottom: "0px",
+              right: "0px",
+              marginBottom: "10px",
+              marginRight: "10px",
+            }}
+          >
+            {metadata.title && <label style={{ color: "white", fontSize: "2vmin" }}>Title: {metadata.title}</label>}
+            {metadata.description && <label style={{ color: "white", fontSize: "2vmin" }}>Description: {metadata.description}</label>}
+            {metadata.tags && <label style={{ color: "white", fontSize: "2vmin" }}>Tags: {metadata.tags}</label>}
+          </div>
+        )}
+
         <TransparentButton onClick={() => onCloseRequested()} style={{ color: "var(--s1)" }} className={fullscreenPhotoStyles.closeButton}>
           <Icon className="fas fa-times" />
         </TransparentButton>
