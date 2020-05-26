@@ -1,14 +1,16 @@
-import "../styles.css";
-import "@fortawesome/fontawesome-free/css/all.min.css";
+import App from "next/app";
 import Router from "next/router";
 import NProgress from "nprogress";
 import Head from "next/head";
 import { ToastContainer } from "react-toastify";
+import BrowserSupportUtilities from "../util/browserSupportUtilities";
+import RedirectUtilities from "../util/redirectUtilities";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import "react-toastify/dist/ReactToastify.css";
-
-// This default export is required in a new `pages/_app.js` file.
+import "../styles.css";
 
 export default function MyApp({ Component, pageProps }) {
+  //Route change events
   Router.events.on("routeChangeStart", (url) => {
     NProgress.start();
   });
@@ -19,6 +21,7 @@ export default function MyApp({ Component, pageProps }) {
   });
   Router.events.on("routeChangeError", () => NProgress.done());
 
+  //A fix for a regex issue I was having with Edge
   if (RegExp.prototype.flags === undefined) {
     Object.defineProperty(RegExp.prototype, "flags", {
       configurable: true,
@@ -39,3 +42,15 @@ export default function MyApp({ Component, pageProps }) {
     </div>
   );
 }
+
+//getInitialProps at the app level blocks auto static optimization
+//However, since practically every page of this website requires data from the server -- this is fine.
+MyApp.getInitialProps = async (appContext) => {
+  const appProps = await App.getInitialProps(appContext);
+
+  //Check for browser compatability and redirect if necessary
+  if (appContext.ctx.pathname !== "/incompatible" && !BrowserSupportUtilities.isBrowserSupported(appContext.ctx))
+    RedirectUtilities.Redirect(appContext.ctx, "/incompatible");
+
+  return { ...appProps };
+};
