@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  align-items: flex-end;
+  flex-flow: column;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  background-color: red;
+}
+
+.entry {
+  color: var(--s1);
+  font-size: min(4vmin, 14pt);
+}
