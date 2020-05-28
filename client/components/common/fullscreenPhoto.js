@@ -59,7 +59,7 @@ export default class FullscreenPhoto extends Component {
 
         <div className={fullscreenPhotoStyles.buttonContainer}>
           <TransparentButton onClick={() => this.handleCloseRequest()} style={{ color: "var(--s1)" }}>
-            <Icon className="fas fa-times" />
+            <Icon className="fas fa-times fa-2x" />
           </TransparentButton>
           <TransparentButton
             onClick={(e) => {
@@ -68,7 +68,7 @@ export default class FullscreenPhoto extends Component {
             }}
             style={{ color: "var(--s1)" }}
           >
-            <Icon className="fas fa-info-circle" />
+            <Icon className="fas fa-info-circle fa-2x" />
           </TransparentButton>
         </div>
       </div>
