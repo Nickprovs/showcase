@@ -2,7 +2,6 @@
   display: none;
   z-index: 100000;
   align-items: center;
-  justify-content: center;
   left: 0;
   top: 0;
   position: fixed;
@@ -25,13 +24,17 @@
   pointer-events: none;
   background-color: green;
   flex: 1;
+  margin: auto;
+
+  max-height: 90%;
+  min-height: 60%;
 }
 
 .image {
   pointer-events: auto;
   object-fit: contain;
-  max-width: 90%;
   max-height: 90%;
+  max-width: 90%;
   pointer-events: all;
 }
 
@@ -39,6 +42,7 @@
   background-color: purple;
   margin-top: auto;
   flex: 0 0 auto;
+  min-height: 400px;
 }
 
 .buttonContainer {
