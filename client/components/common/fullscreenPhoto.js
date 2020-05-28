@@ -53,7 +53,7 @@ export default class FullscreenPhoto extends Component {
         </div>
         {metadata && showMetadata && (
           <div className={fullscreenPhotoStyles.metadataContainer}>
-            <PhotoMetadataPresenter metadata={metadata} />
+            <PhotoMetadataPresenter classes={{ tags: fullscreenPhotoStyles.metadataTags }} metadata={metadata} />
           </div>
         )}
 
