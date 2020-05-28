@@ -13,7 +13,6 @@
 .containerVisible {
   display: flex;
   flex-flow: column;
-  background-color: orange;
 }
 
 .imageContainer {
@@ -22,27 +21,23 @@
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  background-color: green;
   flex: 1;
   margin: auto;
-
   max-height: 90%;
-  min-height: 60%;
+  min-height: 30%;
 }
 
 .image {
   pointer-events: auto;
   object-fit: contain;
-  max-height: 90%;
-  max-width: 90%;
+  max-height: 94%;
+  max-width: 94%;
   pointer-events: all;
 }
 
 .metadataContainer {
-  background-color: purple;
   margin-top: auto;
   flex: 0 0 auto;
-  min-height: 400px;
 }
 
 .buttonContainer {
