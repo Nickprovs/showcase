@@ -34,8 +34,6 @@ export default function Pagination({ itemsCount, pageSize, currentPage }) {
     return null;
   }
 
-  console.log(itemsCount, pageSize, currentPage);
-
   let paginationButtonClasses = paginationStyles.paginationButton + " ";
 
   return (
