@@ -1,18 +1,9 @@
 import { Component } from "react";
-import Joi from "@hapi/joi";
-import Form from "../components/common/form";
-import { authenticateCredentialsAsync } from "../services/authService";
 import Router from "next/router";
 import withAuthAsync from "../components/common/withAuthAsync";
 import withLayoutAsync from "../components/common/withLayoutAsync";
-import getConfig from "next/config";
-import NProgress from "nprogress";
-import { toast } from "react-toastify";
 import LoginCredentialsForm from "../components/loginCredentialsForm";
 import LoginEmailMfaForm from "../components/loginEmailMfaForm";
-
-const { publicRuntimeConfig } = getConfig();
-const captchaPublicKey = publicRuntimeConfig.captchaPublicKey;
 
 class Login extends Component {
   constructor() {
