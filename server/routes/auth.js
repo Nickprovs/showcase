@@ -23,7 +23,7 @@ router.post("/credentials", validateBody(authCredentialsBodyJoiSchema), validate
 
   //Generate an access token and set as cookie
   const accessToken = user.generateAuthToken({ completedChallenges: ["credentials"] });
-  let cookieOptions = { sameSite: "strict", httpOnly: true };
+  let cookieOptions = { sameSite: "lax", httpOnly: true, expires: false, maxAge: 2 * 60 * 1000 };
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
   res.cookie("showcase_accessToken", accessToken, cookieOptions);
 
@@ -61,14 +61,14 @@ router.post("/emailMfa", auth("SFA"), validateBody(authEmailMfaBodyJoiSchema), a
   //Add email to their completed challenges in a refreshed token.
   decoded.completedChallenges.push("emailMfa");
   const accessToken = user.generateAuthToken({ completedChallenges: decoded.completedChallenges });
-  let cookieOptions = { sameSite: "strict", httpOnly: true };
+  let cookieOptions = { sameSite: "lax", httpOnly: true, expires: false, maxAge: 2 * 60 * 1000 };
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
   res.cookie("showcase_accessToken", accessToken, cookieOptions);
   res.send({ token: accessToken, authComplete: true });
 });
 
 router.delete("/", auth(), async (req, res) => {
-  let cookieOptions = { sameSite: "strict", httpOnly: true, expires: new Date(Date.now()) };
+  let cookieOptions = { sameSite: "lax", httpOnly: true, expires: false, maxAge: 2 * 60 * 1000 };
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
   res.cookie("showcase_accessToken", "logged out", cookieOptions);
   res.send();
