@@ -8,9 +8,6 @@ import Dimmer from "./dimmer";
 import layout from "../styles/layout.module.css";
 import { logoutAsync } from "../services/authService";
 import Router from "next/router";
-import getConfig from "next/config";
-
-const { publicRuntimeConfig } = getConfig();
 
 const contentStyle = {
   zIndex: 3,
@@ -27,7 +24,16 @@ const containerStyle = {
 export default class Layout extends Component {
   state = {
     isSidebarOpen: false,
-    internalPages: [
+  };
+
+  handleToggleSidebar(openStatus) {
+    this.setState({ isSidebarOpen: openStatus });
+  }
+
+  getInternalPages() {
+    const { user } = this.props;
+
+    let internalPages = [
       {
         href: "/index",
         label: "HOME",
@@ -63,49 +69,37 @@ export default class Layout extends Component {
         label: "CONTACT",
         iconClasses: "",
       },
-    ],
-    externalPages: this.getExternalPages(),
-  };
+    ];
 
-  handleToggleSidebar(openStatus) {
-    this.setState({ isSidebarOpen: openStatus });
-  }
-
-  componentDidMount() {
-    if (this.props.user) {
-      this.addUserPages(this.props.user);
-    }
-  }
-
-  addUserPages(user) {
-    const newInternalPages = this.state.internalPages.slice();
-    newInternalPages.unshift({
-      label: user.username.toUpperCase(),
-      iconClasses: "",
-      subPages: [
-        {
-          href: "/profile",
-          label: "PROFILE",
-          iconClasses: "",
-        },
-        {
-          label: "LOGOUT",
-          iconClasses: "",
-          onClick: async () => {
-            try {
-              await logoutAsync();
-              window.localStorage.setItem("logout", Date.now());
-              console.log("test");
-              Router.push("/login");
-            } catch (ex) {
-              console.log(ex);
-            }
+    if (user) {
+      internalPages.unshift({
+        label: user.username.toUpperCase(),
+        iconClasses: "",
+        subPages: [
+          {
+            href: "/profile",
+            label: "PROFILE",
+            iconClasses: "",
           },
-        },
-      ],
-    });
+          {
+            label: "LOGOUT",
+            iconClasses: "",
+            onClick: async () => {
+              try {
+                await logoutAsync();
+                window.localStorage.setItem("logout", Date.now());
+                console.log("test");
+                Router.push("/login");
+              } catch (ex) {
+                console.log(ex);
+              }
+            },
+          },
+        ],
+      });
+    }
 
-    this.setState({ internalPages: newInternalPages });
+    return internalPages;
   }
 
   getExternalPages() {
@@ -140,7 +134,9 @@ export default class Layout extends Component {
 
   render() {
     const { children, general, user } = this.props;
-    const { isSidebarOpen, internalPages, externalPages } = this.state;
+    const { isSidebarOpen } = this.state;
+    const internalPages = this.getInternalPages();
+    const externalPages = this.getExternalPages();
 
     let title = general ? general.title : "SHOWCASE";
     let footnote = general ? general.footnote : "";
