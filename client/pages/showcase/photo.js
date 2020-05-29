@@ -62,7 +62,11 @@ class Photo extends Component {
       category: category,
     };
 
-    const photosRes = await getPhotosAsync(getQueryParams);
+    let photosRes = await getPhotosAsync(getQueryParams);
+    if (!photosRes.ok) {
+      (getQueryParams.category = ""), (getQueryParams.search = "");
+      photosRes = await getPhotosAsync(getQueryParams);
+    }
     const photos = await photosRes.json();
 
     const featuredRes = await getFeaturedSubsidiariesAsync({ scope: "verbatim" });

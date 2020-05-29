@@ -36,7 +36,11 @@ class Blog extends Component {
       category: category,
     };
 
-    const blogsRes = await getBlogsAsync(getQueryParams);
+    let blogsRes = await getBlogsAsync(getQueryParams);
+    if (!blogsRes.ok) {
+      (getQueryParams.category = ""), (getQueryParams.search = "");
+      blogsRes = await getBlogsAsync(getQueryParams);
+    }
     const blogs = await blogsRes.json();
     const featuredRes = await getFeaturedSubsidiariesAsync({ scope: "verbatim" });
     const featured = await featuredRes.json();

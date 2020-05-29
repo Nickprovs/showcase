@@ -54,7 +54,12 @@ class Media extends Component {
       category: category,
     };
 
-    const mediasRes = await getMediasAsync(getQueryParams);
+    let mediasRes = await getMediasAsync(getQueryParams);
+    if (!mediasRes.ok) {
+      (getQueryParams.category = ""), (getQueryParams.search = "");
+      mediasRes = await getMediasAsync(getQueryParams);
+    }
+
     const medias = await mediasRes.json();
 
     const featuredRes = await getFeaturedSubsidiariesAsync({ scope: "verbatim" });

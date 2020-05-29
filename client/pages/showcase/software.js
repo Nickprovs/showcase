@@ -37,7 +37,11 @@ class Software extends Component {
       category: category,
     };
 
-    const softwareRes = await getSoftwaresAsync(getQueryParams);
+    let softwareRes = await getSoftwaresAsync(getQueryParams);
+    if (!softwareRes.ok) {
+      (getQueryParams.category = ""), (getQueryParams.search = "");
+      softwareRes = await getSoftwaresAsync(getQueryParams);
+    }
     const software = await softwareRes.json();
 
     const featuredRes = await getFeaturedSubsidiariesAsync({ scope: "verbatim" });
