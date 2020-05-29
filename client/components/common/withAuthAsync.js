@@ -2,6 +2,7 @@ import { getCurrentUserAsync } from "../../services/userService";
 import RedirectUtilities from "../../util/redirectUtilities";
 import { Component } from "react";
 import Router from "next/router";
+import { setCookie, destroyCookie } from "nookies";
 
 const withAuthAsync = (WrappedComponent, redirect = false, redirectUri = "/login") => {
   return class AuthComponent extends Component {
@@ -21,9 +22,18 @@ const withAuthAsync = (WrappedComponent, redirect = false, redirectUri = "/login
 
       const innerProps = WrappedComponent.getInitialProps && (await WrappedComponent.getInitialProps(ctx));
       if (authIssue) {
-        if (redirect) RedirectUtilities.Redirect(ctx, redirectUri);
+        if (redirect) {
+          setCookie(ctx, "lastAuthRedirectFromPathname", ctx.pathname, {
+            maxAge: 30 * 24 * 60 * 60,
+            path: "/",
+            httpOnly: false,
+            sameSite: "lax",
+          });
+          RedirectUtilities.Redirect(ctx, redirectUri);
+        }
         return { ...innerProps, user };
       } else {
+        destroyCookie(ctx, "lastAuthRedirectFromPathname");
         return { ...innerProps, user };
       }
     }

@@ -4,6 +4,7 @@ import withAuthAsync from "../components/common/withAuthAsync";
 import withLayoutAsync from "../components/common/withLayoutAsync";
 import LoginCredentialsForm from "../components/loginCredentialsForm";
 import LoginEmailMfaForm from "../components/loginEmailMfaForm";
+import { parseCookies, setCookie } from "nookies";
 
 class Login extends Component {
   constructor() {
@@ -12,12 +13,19 @@ class Login extends Component {
   }
 
   async handleCredentialsAuthCompletedAsync(result) {
-    if (result.authComplete) Router.push("/");
+    let routeToRedirectTo = this.getRedirectionPath();
+    if (result.authComplete) Router.push(routeToRedirectTo);
     else this.setState({ showEmailCodeAuth: true });
   }
 
   async handleEmailMfaAuthCompletedAsync(result) {
-    Router.push("/");
+    Router.push(this.getRedirectionPath());
+  }
+
+  getRedirectionPath() {
+    let cookies = parseCookies();
+    let routeToRedirectTo = cookies && cookies.lastAuthRedirectFromPathname ? cookies.lastAuthRedirectFromPathname : "/";
+    return routeToRedirectTo;
   }
 
   render() {
