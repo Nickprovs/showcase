@@ -49,7 +49,7 @@ mongoSchema.methods.generateAuthToken = function (customClaims, expiryTimeInMill
       ...customClaims,
     },
     config.get("tokenPrivateKey"),
-    { expiresIn: expiryTimeInMillis }
+    { expiresIn: `${expiryTimeInMillis}ms` }
   );
   return token;
 };
