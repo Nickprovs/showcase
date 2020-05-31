@@ -9,7 +9,7 @@ import Router from "next/router";
 import DatePostedPresenter from "../../components/common/datePostedPresenter";
 import Icon from "../../components/common/icon";
 import TransparentButton from "../../components/common/transparentButton";
-import BasicButton from "../../components/common/basicButton";
+import BasicButton from "../../components/common/button/basicButton";
 import Pagination from "../../components/common/pagination";
 import DangerousInnerHtmlWithScript from "../../components/common/dangerousInnerHtmlWithScript";
 import EmbedUtilities from "../../util/embedUtilities";

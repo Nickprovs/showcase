@@ -5,7 +5,7 @@ import FormSelectInput from "./formSelectInput";
 import FormDatalist from "./formDatalist";
 import FormHtmlEditor from "./formHtmlEditor";
 import CustomJoi from "../../../misc/customJoi";
-import BasicButton from "../basicButton";
+import BasicButton from "../button/basicButton";
 import FormRecaptcha from "./formRecaptcha";
 
 class Form extends Component {

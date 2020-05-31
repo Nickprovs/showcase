@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import articleSectionStyles from "../../styles/articleSection.module.css";
 import Icon from "./icon";
 import TransparentButton from "./transparentButton";
-import BasicButton from "./basicButton";
+import BasicButton from "./button/basicButton";
 import Link from "next/link";
 import Pagination from "./pagination";
 import DatePostedPresenter from "./datePostedPresenter";

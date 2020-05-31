@@ -1,7 +1,7 @@
 import { Component } from "react";
 import { toast } from "react-toastify";
 import pageHeaderStyles from "../../styles/pageHeader.module.css";
-import BasicButton from "./basicButton";
+import BasicButton from "./button/basicButton";
 import Icon from "./icon";
 import TransparentButton from "./transparentButton";
 import Select, { components } from "react-select";
