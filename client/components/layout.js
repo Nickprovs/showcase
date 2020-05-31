@@ -16,11 +16,6 @@ const contentStyle = {
   padding: "0px",
 };
 
-const containerStyle = {
-  width: "100%",
-  height: "100vh",
-};
-
 export default class Layout extends Component {
   state = {
     isSidebarOpen: false,
@@ -143,7 +138,7 @@ export default class Layout extends Component {
 
     return (
       <Theme variables={Theme.Light}>
-        <div style={containerStyle}>
+        <div className={layout.containerStyle}>
           <div className={layout.background} />
           <Sidebar
             user={user}
