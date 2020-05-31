@@ -14,6 +14,11 @@ const validateBodyCaptchaAsync = require("../middleware/validateBodyCaptchaAsync
 const MailUtilities = require("../util/mailUtilities");
 const AuthUtilities = require("../util/authUtilities");
 
+//From back to front:
+const hourInMillis = 60 * 60 * 1000;
+const sfaTokenExpiryTime = 2 * hourInMillis;
+const mfaTokenExpiryTime = 4 * hourInMillis;
+
 router.post("/credentials", validateBody(authCredentialsBodyJoiSchema), validateBodyCaptchaAsync(config.get("captchaPrivateKey")), async (req, res) => {
   //Validate the user's credentials
   let user = await User.findOne({ username: req.body.username });
@@ -22,8 +27,8 @@ router.post("/credentials", validateBody(authCredentialsBodyJoiSchema), validate
   if (!validPassword) return res.status(400).send("Invalid username or password.");
 
   //Generate an access token and set as cookie
-  const accessToken = user.generateAuthToken({ completedChallenges: ["credentials"] });
-  let cookieOptions = { sameSite: "lax", httpOnly: true, expires: false, maxAge: 2 * 60 * 1000 };
+  const accessToken = user.generateAuthToken({ completedChallenges: ["credentials"] }, sfaTokenExpiryTime);
+  let cookieOptions = { sameSite: "lax", httpOnly: true, expires: false, maxAge: sfaTokenExpiryTime };
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
   res.cookie("showcase_accessToken", accessToken, cookieOptions);
 
@@ -60,15 +65,15 @@ router.post("/emailMfa", auth("SFA"), validateBody(authEmailMfaBodyJoiSchema), a
 
   //Add email to their completed challenges in a refreshed token.
   decoded.completedChallenges.push("emailMfa");
-  const accessToken = user.generateAuthToken({ completedChallenges: decoded.completedChallenges });
-  let cookieOptions = { sameSite: "lax", httpOnly: true, expires: false, maxAge: 2 * 60 * 1000 };
+  const accessToken = user.generateAuthToken({ completedChallenges: decoded.completedChallenges }, mfaTokenExpiryTime);
+  let cookieOptions = { sameSite: "lax", httpOnly: true, expires: false, maxAge: mfaTokenExpiryTime };
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
   res.cookie("showcase_accessToken", accessToken, cookieOptions);
   res.send({ token: accessToken, authComplete: true });
 });
 
 router.delete("/", auth(), async (req, res) => {
-  let cookieOptions = { sameSite: "lax", httpOnly: true, expires: false, maxAge: 2 * 60 * 1000 };
+  let cookieOptions = { sameSite: "lax", httpOnly: true, expires: false, maxAge: 0 };
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
   res.cookie("showcase_accessToken", "logged out", cookieOptions);
   res.send();

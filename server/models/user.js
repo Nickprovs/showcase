@@ -3,6 +3,9 @@ const jwt = require("jsonwebtoken");
 const Joi = require("@hapi/joi");
 const mongoose = require("mongoose");
 
+//From back to front:
+const hourInMillis = 60 * 60 * 1000;
+
 const mfaCodeSchema = {
   code: {
     type: String,
@@ -37,7 +40,7 @@ const mongoSchema = new mongoose.Schema({
   isAdmin: Boolean,
 });
 
-mongoSchema.methods.generateAuthToken = function (customClaims) {
+mongoSchema.methods.generateAuthToken = function (customClaims, expiryTimeInMillis = 2 * hourInMillis) {
   const token = jwt.sign(
     {
       _id: this._id,
@@ -46,7 +49,7 @@ mongoSchema.methods.generateAuthToken = function (customClaims) {
       ...customClaims,
     },
     config.get("tokenPrivateKey"),
-    { expiresIn: "1h" }
+    { expiresIn: expiryTimeInMillis }
   );
   return token;
 };
