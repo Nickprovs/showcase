@@ -40,7 +40,7 @@
 }
 
 .background {
-  background-image: url("../public/bg5.jpg");
+  background-image: url("../public/background.jpg");
   background-position: center;
   position: fixed;
   background-size: cover;
