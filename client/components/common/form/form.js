@@ -4,9 +4,8 @@ import FormTextArea from "./formTextArea";
 import FormSelectInput from "./formSelectInput";
 import FormDatalist from "./formDatalist";
 import FormHtmlEditor from "./formHtmlEditor";
-import CustomJoi from "../../misc/customJoi";
-import ReCAPTCHA from "react-google-recaptcha";
-import BasicButton from "./basicButton";
+import CustomJoi from "../../../misc/customJoi";
+import BasicButton from "../basicButton";
 import FormRecaptcha from "./formRecaptcha";
 
 class Form extends Component {

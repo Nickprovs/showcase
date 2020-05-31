@@ -1,4 +1,4 @@
-import Datalist from "./datalist";
+import Datalist from "../datalist";
 
 const FormDatalist = ({ children, name, label, error, ...rest }) => {
   return (

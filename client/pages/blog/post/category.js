@@ -1,6 +1,6 @@
 import withAuthAsync from "../../../components/common/withAuthAsync";
 import withLayoutAsync from "../../../components/common/withLayoutAsync";
-import Form from "../../../components/common/form";
+import Form from "../../../components/common/form/form";
 import CustomJoi from "../../../misc/customJoi";
 import { createBlogCategoryAsync } from "../../../services/blogService";
 import { toast } from "react-toastify";

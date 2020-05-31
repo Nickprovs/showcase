@@ -1,5 +1,5 @@
 import Select from "react-select";
-import { styles as customReactSelectStyles, theme as customReactSelectTheme } from "../../misc/customReactSelectStyles";
+import { styles as customReactSelectStyles, theme as customReactSelectTheme } from "../../../misc/customReactSelectStyles";
 
 const FormSelectInput = ({ options, name, label, error, ...rest }) => {
   return (

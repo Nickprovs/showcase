@@ -1,5 +1,5 @@
 import Joi from "@hapi/joi";
-import Form from "./common/form";
+import Form from "./common/form/form";
 import { authenticateCredentialsAsync } from "../services/authService";
 import getConfig from "next/config";
 import NProgress from "nprogress";

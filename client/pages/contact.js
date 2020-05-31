@@ -1,7 +1,7 @@
 import withAuthAsync from "../components/common/withAuthAsync";
 import withLayoutAsync from "../components/common/withLayoutAsync";
 import Joi from "@hapi/joi";
-import Form from "../components/common/form";
+import Form from "../components/common/form/form";
 import { contactAsync } from "../services/contactService";
 import { toast } from "react-toastify";
 import getConfig from "next/config";
