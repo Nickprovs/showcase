@@ -1,6 +1,6 @@
 import mediaStyles from "../../styles/media.module.css";
-import withAuthAsync from "../../components/common/withAuthAsync";
-import withLayoutAsync from "../../components/common/withLayoutAsync";
+import withAuthAsync from "../../components/common/hoc/withAuthAsync";
+import withLayoutAsync from "../../components/common/hoc/withLayoutAsync";
 import { Component } from "react";
 import { getMediasAsync, deleteMediaAsync, getMediaCategoriesAsync } from "../../services/mediaService";
 import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../../services/featuredService";

@@ -1,6 +1,6 @@
-import Layout from "../layout.js";
+import Layout from "../../layout.js";
 import { Component } from "react";
-import { getGeneralAsync } from "../../services/generalService";
+import { getGeneralAsync } from "../../../services/generalService";
 const withLayoutAsync = (WrappedComponent) => {
   return class LayoutWrapperComponent extends Component {
     static async getInitialProps(ctx) {

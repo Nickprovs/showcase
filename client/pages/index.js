@@ -1,5 +1,5 @@
-import withAuthAsync from "../components/common/withAuthAsync";
-import withLayoutAsync from "../components/common/withLayoutAsync";
+import withAuthAsync from "../components/common/hoc/withAuthAsync";
+import withLayoutAsync from "../components/common/hoc/withLayoutAsync";
 import FullscreenPhoto from "../components/common/fullscreenPhoto";
 import { Component } from "react";
 import { getFeaturedAsync } from "../services/featuredService";

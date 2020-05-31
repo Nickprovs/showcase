@@ -1,5 +1,5 @@
-import { getCurrentUserAsync } from "../../services/userService";
-import RedirectUtilities from "../../util/redirectUtilities";
+import { getCurrentUserAsync } from "../../../services/userService";
+import RedirectUtilities from "../../../util/redirectUtilities";
 import { Component } from "react";
 import Router from "next/router";
 import { setCookie, destroyCookie } from "nookies";

@@ -1,7 +1,7 @@
 import { Component } from "react";
 import { toast } from "react-toastify";
-import withAuthAsync from "../../components/common/withAuthAsync";
-import withLayoutAsync from "../../components/common/withLayoutAsync";
+import withAuthAsync from "../../components/common/hoc/withAuthAsync";
+import withLayoutAsync from "../../components/common/hoc/withLayoutAsync";
 import CommonPageHeaderControls from "../../components/common/commonPageHeaderControls";
 import CommonPageArticleSection from "../../components/common/commonPageArticleSection";
 import Router from "next/router";

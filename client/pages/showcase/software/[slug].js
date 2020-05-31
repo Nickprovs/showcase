@@ -1,6 +1,6 @@
 import { getSoftwareAsync } from "../../../services/softwareService";
-import withAuthAsync from "../../../components/common/withAuthAsync";
-import withLayoutAsync from "../../../components/common/withLayoutAsync";
+import withAuthAsync from "../../../components/common/hoc/withAuthAsync";
+import withLayoutAsync from "../../../components/common/hoc/withLayoutAsync";
 import DatePostedPresenter from "../../../components/common/datePostedPresenter";
 import DateModifiedPresenter from "../../../components/common/dateModifiedPresenter";
 import TagsPresenter from "../../../components/common/tagPresenter";

@@ -1,5 +1,5 @@
-import withAuthAsync from "../../../components/common/withAuthAsync";
-import withLayoutAsync from "../../../components/common/withLayoutAsync";
+import withAuthAsync from "../../../components/common/hoc/withAuthAsync";
+import withLayoutAsync from "../../../components/common/hoc/withLayoutAsync";
 import Form from "../../../components/common/form/form";
 import CustomJoi from "../../../misc/customJoi";
 import { getBlogCategoriesAsync, createBlogAsync } from "../../../services/blogService";

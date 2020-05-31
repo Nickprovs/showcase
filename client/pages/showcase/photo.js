@@ -1,8 +1,8 @@
 import { Component } from "react";
 import photoStyles from "../../styles/photo.module.css";
 import FullscreenPhoto from "../../components/common/fullscreenPhoto";
-import withAuthAsync from "../../components/common/withAuthAsync";
-import withLayoutAsync from "../../components/common/withLayoutAsync";
+import withAuthAsync from "../../components/common/hoc/withAuthAsync";
+import withLayoutAsync from "../../components/common/hoc/withLayoutAsync";
 import { getPhotosAsync, deletePhotoAsync, getPhotoCategoriesAsync, deletePhotoCategoryAsync } from "../../services/photoService";
 import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../../services/featuredService";
 import Router from "next/router";

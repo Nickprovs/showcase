@@ -1,8 +1,8 @@
 import Select, { components } from "react-select";
 import Icon from "../components/common/icon";
 import TransparentButton from "../components/common/transparentButton";
-import withAuthAsync from "../components/common/withAuthAsync";
-import withLayoutAsync from "../components/common/withLayoutAsync";
+import withAuthAsync from "../components/common/hoc/withAuthAsync";
+import withLayoutAsync from "../components/common/hoc/withLayoutAsync";
 
 const options = [
   {
@@ -36,10 +36,7 @@ const Option = (props) => {
           <TransparentButton onClick={(e) => e.preventDefault()} style={{ marginLeft: "auto", marginRight: "0", color: "var(--f1)" }}>
             <Icon className="fas fa-edit"></Icon>
           </TransparentButton>
-          <TransparentButton
-            onClick={() => console.log("delete clicked")}
-            style={{ marginLeft: "auto", marginRight: "0", color: "var(--f1)" }}
-          >
+          <TransparentButton onClick={() => console.log("delete clicked")} style={{ marginLeft: "auto", marginRight: "0", color: "var(--f1)" }}>
             <Icon className="fas fa-trash"></Icon>
           </TransparentButton>
         </div>

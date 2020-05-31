@@ -1,5 +1,5 @@
-import withAuthAsync from "../components/common/withAuthAsync";
-import withLayoutAsync from "../components/common/withLayoutAsync";
+import withAuthAsync from "../components/common/hoc/withAuthAsync";
+import withLayoutAsync from "../components/common/hoc/withLayoutAsync";
 
 function Error({ statusCode }) {
   return (
