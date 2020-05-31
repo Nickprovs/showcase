@@ -8,6 +8,7 @@
 .layoutStyle {
   background-color: transparent;
   color: var(--f1);
+  width: 100%;
   max-width: 2000px;
 }
 
