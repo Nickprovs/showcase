@@ -1,7 +1,7 @@
 import namePlate from "../styles/nameplate.module.css";
 import RouterUtilities from "../util/routerUtilities";
 import Icon from "./common/icon";
-import TransparentButton from "./common/transparentButton";
+import TransparentButton from "./common/button/transparentButton";
 import Link from "next/link";
 
 export default function NamePlate(props) {
@@ -10,10 +10,7 @@ export default function NamePlate(props) {
   return (
     <div className={namePlate.namePlateContainer}>
       <a>
-        <button
-          className={namePlate.namePlateButton}
-          onClick={async () => await RouterUtilities.routeInternalWithDelayAsync("/index", 300)}
-        >
+        <button className={namePlate.namePlateButton} onClick={async () => await RouterUtilities.routeInternalWithDelayAsync("/index", 300)}>
           {title}
         </button>
       </a>

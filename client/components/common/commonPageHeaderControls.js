@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import pageHeaderStyles from "../../styles/pageHeader.module.css";
 import BasicButton from "./button/basicButton";
 import Icon from "./icon";
-import TransparentButton from "./transparentButton";
+import TransparentButton from "./button/transparentButton";
 import Select, { components } from "react-select";
 import StringUtilities from "../../util/stringUtilities";
 import Link from "next/link";

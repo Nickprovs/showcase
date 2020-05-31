@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Icon from "./common/icon";
-import TransparentButton from "./common/transparentButton";
+import TransparentButton from "./common/button/transparentButton";
 import HeaderButton from "./headerButton";
 import HeaderDropdown from "./headerDropdown";
 

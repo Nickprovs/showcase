@@ -1,5 +1,5 @@
 import Icon from "./common/icon";
-import TransparentButton from "./common/transparentButton";
+import TransparentButton from "./common/button/transparentButton";
 import footer from "../styles/footer.module.css";
 
 export default function Footer(props) {

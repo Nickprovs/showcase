@@ -1,6 +1,6 @@
 import { Component } from "react";
 import Icon from "./common/icon";
-import TransparentButton from "./common/transparentButton";
+import TransparentButton from "./common/button/transparentButton";
 import Link from "next/link";
 import MenuButton from "./menuButton";
 import RouterUtilities from "../util/routerUtilities";
@@ -79,11 +79,7 @@ export default class Sidebar extends Component {
       return (
         <div>
           <a>
-            <button
-              style={{ padding: "5px" }}
-              onClick={async () => await this.handleInternalLinkableThingClicked(item.href)}
-              className="textButton"
-            >
+            <button style={{ padding: "5px" }} onClick={async () => await this.handleInternalLinkableThingClicked(item.href)} className="textButton">
               {item.label}
             </button>
           </a>

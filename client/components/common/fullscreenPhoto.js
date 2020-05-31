@@ -1,5 +1,5 @@
 import fullscreenPhotoStyles from "../../styles/fullscreenPhoto.module.css";
-import TransparentButton from "./transparentButton";
+import TransparentButton from "./button/transparentButton";
 import Icon from "./icon";
 import PhotoMetadataPresenter from "./photoMetadataPresenter";
 import { Component } from "react";
