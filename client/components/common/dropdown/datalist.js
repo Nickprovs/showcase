@@ -1,4 +1,4 @@
-import datalist from "../../../styles/datalist.module.css";
+import datalist from "../../../styles/common/dropdown/datalist.module.css";
 import GuidUtilities from "../../../util/guidUtilities";
 import { Component } from "react";
 

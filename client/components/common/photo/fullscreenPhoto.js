@@ -1,4 +1,4 @@
-import fullscreenPhotoStyles from "../../../styles/fullscreenPhoto.module.css";
+import fullscreenPhotoStyles from "../../../styles/common/photo/fullscreenPhoto.module.css";
 import TransparentButton from "../button/transparentButton";
 import Icon from "../misc/icon";
 import PhotoMetadataPresenter from "./photoMetadataPresenter";

@@ -1,4 +1,4 @@
-import photoMetadataPresenterStyles from "../../../styles/photoMetadataPresenter.module.css";
+import photoMetadataPresenterStyles from "../../../styles/common/photo/photoMetadataPresenter.module.css";
 import TagsPresenter from "../misc/tagPresenter";
 export default function PhotoMetadataPresenter(props) {
   const { metadata, classes, ...rest } = props;
