@@ -1,5 +1,5 @@
-import datalist from "../../styles/datalist.module.css";
-import GuidUtilities from "../../util/guidUtilities";
+import datalist from "../../../styles/datalist.module.css";
+import GuidUtilities from "../../../util/guidUtilities";
 import { Component } from "react";
 
 export default class Datalist extends Component {
@@ -17,7 +17,7 @@ export default class Datalist extends Component {
       <div>
         <input {...rest} list={consumedId} value={value} className={datalist.input} />
         <datalist id={consumedId}>
-          {children.map(c => (
+          {children.map((c) => (
             <option key={c}>{c}</option>
           ))}
         </datalist>

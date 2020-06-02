@@ -1,4 +1,4 @@
-import Datalist from "../datalist";
+import Datalist from "../dropdown/datalist";
 
 const FormDatalist = ({ children, name, label, error, ...rest }) => {
   return (
