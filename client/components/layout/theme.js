@@ -1,6 +1,6 @@
 import React, { Component, createRef } from "react";
-import LightTheme from "../../styles/themes/lightTheme";
-import DarkTheme from "../../styles/themes/darkTheme";
+import LightTheme from "../../styles/layout/themes/lightTheme";
+import DarkTheme from "../../styles/layout/themes/darkTheme";
 
 class Theme extends Component {
   node = createRef();
