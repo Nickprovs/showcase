@@ -1,13 +1,13 @@
 import { Component } from "react";
 import { toast } from "react-toastify";
-import pageHeaderStyles from "../../styles/pageHeader.module.css";
-import BasicButton from "../common/button/basicButton";
-import Icon from "../common/misc/icon";
-import TransparentButton from "../common/button/transparentButton";
+import pageHeaderStyles from "../../../styles/pageHeader.module.css";
+import BasicButton from "../../common/button/basicButton";
+import Icon from "../../common/misc/icon";
+import TransparentButton from "../../common/button/transparentButton";
 import Select, { components } from "react-select";
-import StringUtilities from "../../util/stringUtilities";
+import StringUtilities from "../../../util/stringUtilities";
 import Link from "next/link";
-import { styles as customReactSelectStyles, theme as customReactSelectTheme } from "../../misc/customReactSelectStyles";
+import { styles as customReactSelectStyles, theme as customReactSelectTheme } from "../../../misc/customReactSelectStyles";
 
 const RemoveCategoryToast = ({ closeToast, category, onRemoveCategory }) => (
   <div>
