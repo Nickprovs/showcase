@@ -9,7 +9,7 @@ import DatePostedPresenter from "../components/common/datePostedPresenter";
 import reframe from "reframe.js";
 import Link from "next/link";
 import TransparentButton from "../components/common/button/transparentButton";
-import Icon from "../components/common/icon";
+import Icon from "../components/common/misc/icon";
 import { deleteFeaturedSubsidiaryAsync, patchFeaturedSubsidiaryAsync } from "../services/featuredService";
 import { toast } from "react-toastify";
 

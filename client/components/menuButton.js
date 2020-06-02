@@ -1,4 +1,4 @@
-import Icon from "./common/icon";
+import Icon from "./common/misc/icon";
 import menuButton from "../styles/menuButton.module.css";
 
 export default function MenuButton(props) {

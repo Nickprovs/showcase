@@ -8,7 +8,7 @@ import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeat
 import Router from "next/router";
 import CommonPageHeaderControls from "../../components/common/commonPageHeaderControls";
 import Link from "next/link";
-import Icon from "../../components/common/icon";
+import Icon from "../../components/common/misc/icon";
 import TransparentButton from "../../components/common/button/transparentButton";
 import BasicButton from "../../components/common/button/basicButton";
 import Pagination from "../../components/common/pagination";

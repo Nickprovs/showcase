@@ -1,4 +1,4 @@
-import Icon from "./common/icon";
+import Icon from "./common/misc/icon";
 import TransparentButton from "./common/button/transparentButton";
 import footer from "../styles/footer.module.css";
 

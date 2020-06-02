@@ -1,5 +1,5 @@
 import { Component } from "react";
-import Icon from "./common/icon";
+import Icon from "./common/misc/icon";
 import TransparentButton from "./common/button/transparentButton";
 import Link from "next/link";
 import MenuButton from "./menuButton";

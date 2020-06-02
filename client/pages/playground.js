@@ -1,5 +1,5 @@
 import Select, { components } from "react-select";
-import Icon from "../components/common/icon";
+import Icon from "../components/common/misc/icon";
 import TransparentButton from "../components/common/button/transparentButton";
 import withAuthAsync from "../components/common/hoc/withAuthAsync";
 import withLayoutAsync from "../components/common/hoc/withLayoutAsync";
