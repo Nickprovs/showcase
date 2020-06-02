@@ -1,10 +1,10 @@
 import { Component } from "react";
-import Icon from "./common/misc/icon";
-import TransparentButton from "./common/button/transparentButton";
+import Icon from "../common/misc/icon";
+import TransparentButton from "../common/button/transparentButton";
 import Link from "next/link";
 import MenuButton from "./menuButton";
-import RouterUtilities from "../util/routerUtilities";
-import sidebar from "../styles/sidebar.module.css";
+import RouterUtilities from "../../util/routerUtilities";
+import sidebar from "../../styles/sidebar.module.css";
 
 export default class Sidebar extends Component {
   constructor(props) {

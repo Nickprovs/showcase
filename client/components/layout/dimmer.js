@@ -1,4 +1,4 @@
-import dimmer from "../styles/dimmer.module.css";
+import dimmer from "../../styles/dimmer.module.css";
 
 export default function Dimmer(props) {
   let on = false;

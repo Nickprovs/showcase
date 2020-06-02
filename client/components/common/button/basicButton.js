@@ -1,4 +1,4 @@
-import basicButton from "../../../styles/basicButton.module.css";
+import basicButton from "../../../styles/common/button/basicButton.module.css";
 
 export default function BasicButton(props) {
   const { children, className, ...rest } = props;

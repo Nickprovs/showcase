@@ -3,10 +3,10 @@ import NamePlate from "./namePlate";
 import Header from "./header";
 import Footer from "./footer";
 import Sidebar from "./sidebar";
-import Theme from "./layout/theme";
+import Theme from "./theme";
 import Dimmer from "./dimmer";
-import layout from "../styles/layout.module.css";
-import { logoutAsync } from "../services/authService";
+import layout from "../../styles/layout.module.css";
+import { logoutAsync } from "../../services/authService";
 import Router from "next/router";
 
 const contentStyle = {

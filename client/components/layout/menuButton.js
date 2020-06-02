@@ -1,5 +1,5 @@
-import Icon from "./common/misc/icon";
-import menuButton from "../styles/menuButton.module.css";
+import Icon from "../common/misc/icon";
+import menuButton from "../../styles/menuButton.module.css";
 
 export default function MenuButton(props) {
   const { children, className, ...rest } = props;

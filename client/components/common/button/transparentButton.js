@@ -1,4 +1,4 @@
-import transparentButton from "../../../styles/transparentButton.module.css";
+import transparentButton from "../../../styles/common/button/transparentButton.module.css";
 
 export default function TransparentButton(props) {
   const { children, className, ...rest } = props;

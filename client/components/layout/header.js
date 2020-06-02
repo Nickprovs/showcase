@@ -1,10 +1,10 @@
 import Link from "next/link";
-import Icon from "./common/misc/icon";
-import TransparentButton from "./common/button/transparentButton";
+import Icon from "../common/misc/icon";
+import TransparentButton from "../common/button/transparentButton";
 import HeaderButton from "./headerButton";
 import HeaderDropdown from "./headerDropdown";
 
-import header from "../styles/header.module.css";
+import header from "../../styles/header.module.css";
 import { useRouter } from "next/router";
 
 const menuStyle = {

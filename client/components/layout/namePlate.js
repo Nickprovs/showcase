@@ -1,7 +1,7 @@
-import namePlate from "../styles/nameplate.module.css";
-import RouterUtilities from "../util/routerUtilities";
-import Icon from "./common/misc/icon";
-import TransparentButton from "./common/button/transparentButton";
+import namePlate from "../../styles/nameplate.module.css";
+import RouterUtilities from "../../util/routerUtilities";
+import Icon from "../common/misc/icon";
+import TransparentButton from "../common/button/transparentButton";
 import Link from "next/link";
 
 export default function NamePlate(props) {
