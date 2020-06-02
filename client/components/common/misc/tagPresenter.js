@@ -1,4 +1,4 @@
-import tagsPresenterStyles from "../../../styles/tagsPresenter.module.css";
+import tagsPresenterStyles from "../../../styles/common/misc/tagsPresenter.module.css";
 import BasicButton from "../button/basicButton";
 import Link from "next/link";
 

@@ -1,4 +1,4 @@
-import datePostedPresenterStyles from "../../../styles/datePostedPresenter.module.css";
+import datePostedPresenterStyles from "../../../styles/common/date/datePostedPresenter.module.css";
 
 export default function DatePostedPresenter(props) {
   const { date, isModified, withLines, children, className, ...rest } = props;

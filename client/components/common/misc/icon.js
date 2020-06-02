@@ -1,4 +1,4 @@
-import icon from "../../../styles/icon.module.css";
+import icon from "../../../styles/common/misc/icon.module.css";
 
 export default function Icon(props) {
   const { className, ...rest } = props;
