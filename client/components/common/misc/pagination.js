@@ -1,5 +1,5 @@
-import paginationStyles from "../../styles/pagination.module.css";
-import TransparentButton from "./button/transparentButton";
+import paginationStyles from "../../../styles/pagination.module.css";
+import TransparentButton from "../button/transparentButton";
 import Link from "next/link";
 import { useRouter } from "next/router";
 

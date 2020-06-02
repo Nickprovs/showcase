@@ -10,10 +10,10 @@ import DatePostedPresenter from "../../components/common/datePostedPresenter";
 import Icon from "../../components/common/misc/icon";
 import TransparentButton from "../../components/common/button/transparentButton";
 import BasicButton from "../../components/common/button/basicButton";
-import Pagination from "../../components/common/pagination";
+import Pagination from "../../components/common/misc/pagination";
 import DangerousInnerHtmlWithScript from "../../components/common/dangerousInnerHtmlWithScript";
 import EmbedUtilities from "../../util/embedUtilities";
-import TagsPresenter from "../../components/common/tagPresenter";
+import TagsPresenter from "../../components/common/misc/tagPresenter";
 
 import { toast } from "react-toastify";
 import reframe from "reframe.js";

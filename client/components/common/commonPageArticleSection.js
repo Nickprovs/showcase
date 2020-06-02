@@ -5,9 +5,9 @@ import Icon from "./misc/icon";
 import TransparentButton from "./button/transparentButton";
 import BasicButton from "./button/basicButton";
 import Link from "next/link";
-import Pagination from "./pagination";
+import Pagination from "./misc/pagination";
 import DatePostedPresenter from "./datePostedPresenter";
-import TagPresenter from "./tagPresenter";
+import TagPresenter from "./misc/tagPresenter";
 
 const RemoveArticleToast = ({ closeToast, article, onRemoveArticleAsync }) => (
   <div>

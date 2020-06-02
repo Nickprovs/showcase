@@ -11,7 +11,7 @@ import Link from "next/link";
 import Icon from "../../components/common/misc/icon";
 import TransparentButton from "../../components/common/button/transparentButton";
 import BasicButton from "../../components/common/button/basicButton";
-import Pagination from "../../components/common/pagination";
+import Pagination from "../../components/common/misc/pagination";
 import { toast } from "react-toastify";
 
 const pageSize = 10;

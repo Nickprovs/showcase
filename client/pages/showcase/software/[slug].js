@@ -3,7 +3,7 @@ import withAuthAsync from "../../../components/common/hoc/withAuthAsync";
 import withLayoutAsync from "../../../components/common/hoc/withLayoutAsync";
 import DatePostedPresenter from "../../../components/common/datePostedPresenter";
 import DateModifiedPresenter from "../../../components/common/dateModifiedPresenter";
-import TagsPresenter from "../../../components/common/tagPresenter";
+import TagsPresenter from "../../../components/common/misc/tagPresenter";
 
 Software.getInitialProps = async function (context) {
   const { slug } = context.query;
