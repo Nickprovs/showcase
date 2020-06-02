@@ -143,7 +143,7 @@ class Index extends Component {
     const software = subsidiary.data;
     const { user } = this.props;
     return (
-      <div className={indexStyles.item}>
+      <div key={software._id} className={indexStyles.item}>
         {user && user.isAdmin && (
           <SubsidiaryAdminOptions
             subsidiary={subsidiary}
@@ -225,7 +225,7 @@ class Index extends Component {
     const media = subsidiary.data;
     const { user } = this.props;
     return (
-      <div className={indexStyles.item}>
+      <div key={media._id} className={indexStyles.item}>
         {user && user.isAdmin && (
           <SubsidiaryAdminOptions
             subsidiary={subsidiary}
@@ -254,7 +254,7 @@ class Index extends Component {
     const photo = subsidiary.data;
     const { user } = this.props;
     return (
-      <div className={indexStyles.item}>
+      <div key={photo._id} className={indexStyles.item}>
         {user && user.isAdmin && (
           <SubsidiaryAdminOptions
             subsidiary={subsidiary}
@@ -300,7 +300,7 @@ class Index extends Component {
     return (
       <div>
         {/*Primary Featured Content*/}
-        <div class={indexStyles.primaryContainer}>
+        <div className={indexStyles.primaryContainer}>
           {user && user.isAdmin && (
             <div className={indexStyles.primaryAdminOptions}>
               <a href={`/index/edit/primary`}>
