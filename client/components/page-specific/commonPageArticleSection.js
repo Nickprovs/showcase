@@ -1,13 +1,13 @@
 import { Component } from "react";
 import { toast } from "react-toastify";
 import articleSectionStyles from "../../styles/articleSection.module.css";
-import Icon from "./misc/icon";
-import TransparentButton from "./button/transparentButton";
-import BasicButton from "./button/basicButton";
+import Icon from "../common/misc/icon";
+import TransparentButton from "../common/button/transparentButton";
+import BasicButton from "../common/button/basicButton";
 import Link from "next/link";
-import Pagination from "./misc/pagination";
-import DatePostedPresenter from "./date/datePostedPresenter";
-import TagPresenter from "./misc/tagPresenter";
+import Pagination from "../common/misc/pagination";
+import DatePostedPresenter from "../common/date/datePostedPresenter";
+import TagPresenter from "../common/misc/tagPresenter";
 
 const RemoveArticleToast = ({ closeToast, article, onRemoveArticleAsync }) => (
   <div>

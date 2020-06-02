@@ -6,7 +6,7 @@ import withLayoutAsync from "../../components/common/hoc/withLayoutAsync";
 import { getPhotosAsync, deletePhotoAsync, getPhotoCategoriesAsync, deletePhotoCategoryAsync } from "../../services/photoService";
 import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../../services/featuredService";
 import Router from "next/router";
-import CommonPageHeaderControls from "../../components/common/commonPageHeaderControls";
+import CommonPageHeaderControls from "../../components/page-specific/commonPageHeaderControls";
 import Link from "next/link";
 import Icon from "../../components/common/misc/icon";
 import TransparentButton from "../../components/common/button/transparentButton";

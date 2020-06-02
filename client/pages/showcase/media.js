@@ -4,7 +4,7 @@ import withLayoutAsync from "../../components/common/hoc/withLayoutAsync";
 import { Component } from "react";
 import { getMediasAsync, deleteMediaAsync, getMediaCategoriesAsync } from "../../services/mediaService";
 import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../../services/featuredService";
-import CommonPageHeaderControls from "../../components/common/commonPageHeaderControls";
+import CommonPageHeaderControls from "../../components/page-specific/commonPageHeaderControls";
 import Router from "next/router";
 import DatePostedPresenter from "../../components/common/date/datePostedPresenter";
 import Icon from "../../components/common/misc/icon";
