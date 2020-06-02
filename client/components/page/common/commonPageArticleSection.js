@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { toast } from "react-toastify";
-import articleSectionStyles from "../../../styles/articleSection.module.css";
+import articleSectionStyles from "../../../styles/page/common/articleSection.module.css";
 import Icon from "../../common/misc/icon";
 import TransparentButton from "../../common/button/transparentButton";
 import BasicButton from "../../common/button/basicButton";

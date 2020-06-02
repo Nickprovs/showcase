@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { toast } from "react-toastify";
-import pageHeaderStyles from "../../../styles/pageHeader.module.css";
+import pageHeaderStyles from "../../../styles/page/common/pageHeader.module.css";
 import BasicButton from "../../common/button/basicButton";
 import Icon from "../../common/misc/icon";
 import TransparentButton from "../../common/button/transparentButton";
