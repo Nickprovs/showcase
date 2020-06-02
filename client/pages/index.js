@@ -3,7 +3,7 @@ import withLayoutAsync from "../components/common/hoc/withLayoutAsync";
 import FullscreenPhoto from "../components/common/photo/fullscreenPhoto";
 import { Component } from "react";
 import { getFeaturedAsync } from "../services/featuredService";
-import indexStyles from "../styles/index.module.css";
+import indexStyles from "../styles/page/index.module.css";
 import DangerousInnerHtmlWithScript from "../components/common/misc/dangerousInnerHtmlWithScript";
 import DatePostedPresenter from "../components/common/date/datePostedPresenter";
 import reframe from "reframe.js";

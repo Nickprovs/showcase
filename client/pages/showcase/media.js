@@ -1,4 +1,4 @@
-import mediaStyles from "../../styles/media.module.css";
+import mediaStyles from "../../styles/page/media.module.css";
 import withAuthAsync from "../../components/common/hoc/withAuthAsync";
 import withLayoutAsync from "../../components/common/hoc/withLayoutAsync";
 import { Component } from "react";
