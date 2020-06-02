@@ -1,8 +1,8 @@
 import { getBlogAsync } from "../../services/blogService";
 import withAuthAsync from "../../components/common/hoc/withAuthAsync";
 import withLayoutAsync from "../../components/common/hoc/withLayoutAsync";
-import DatePostedPresenter from "../../components/common/datePostedPresenter";
-import DateModifiedPresenter from "../../components/common/dateModifiedPresenter";
+import DatePostedPresenter from "../../components/common/date/datePostedPresenter";
+import DateModifiedPresenter from "../../components/common/date/dateModifiedPresenter";
 import TagsPresenter from "../../components/common/misc/tagPresenter";
 
 Blog.getInitialProps = async function (context) {

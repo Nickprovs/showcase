@@ -6,12 +6,12 @@ import { getMediasAsync, deleteMediaAsync, getMediaCategoriesAsync } from "../..
 import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../../services/featuredService";
 import CommonPageHeaderControls from "../../components/common/commonPageHeaderControls";
 import Router from "next/router";
-import DatePostedPresenter from "../../components/common/datePostedPresenter";
+import DatePostedPresenter from "../../components/common/date/datePostedPresenter";
 import Icon from "../../components/common/misc/icon";
 import TransparentButton from "../../components/common/button/transparentButton";
 import BasicButton from "../../components/common/button/basicButton";
 import Pagination from "../../components/common/misc/pagination";
-import DangerousInnerHtmlWithScript from "../../components/common/dangerousInnerHtmlWithScript";
+import DangerousInnerHtmlWithScript from "../../components/common/misc/dangerousInnerHtmlWithScript";
 import EmbedUtilities from "../../util/embedUtilities";
 import TagsPresenter from "../../components/common/misc/tagPresenter";
 
