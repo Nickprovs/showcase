@@ -1,6 +1,6 @@
 import { Component } from "react";
 import photoStyles from "../../styles/photo.module.css";
-import FullscreenPhoto from "../../components/common/fullscreenPhoto";
+import FullscreenPhoto from "../../components/common/photo/fullscreenPhoto";
 import withAuthAsync from "../../components/common/hoc/withAuthAsync";
 import withLayoutAsync from "../../components/common/hoc/withLayoutAsync";
 import { getPhotosAsync, deletePhotoAsync, getPhotoCategoriesAsync, deletePhotoCategoryAsync } from "../../services/photoService";

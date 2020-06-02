@@ -1,6 +1,6 @@
 import withAuthAsync from "../components/common/hoc/withAuthAsync";
 import withLayoutAsync from "../components/common/hoc/withLayoutAsync";
-import FullscreenPhoto from "../components/common/fullscreenPhoto";
+import FullscreenPhoto from "../components/common/photo/fullscreenPhoto";
 import { Component } from "react";
 import { getFeaturedAsync } from "../services/featuredService";
 import indexStyles from "../styles/index.module.css";
