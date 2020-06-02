@@ -1,4 +1,4 @@
-import headerButton from "../../styles/headerButton.module.css";
+import headerButton from "../../styles/layout/headerButton.module.css";
 
 export default function HeaderButton(props) {
   const { children, className, isSelected, ...rest } = props;

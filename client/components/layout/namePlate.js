@@ -1,4 +1,4 @@
-import namePlate from "../../styles/nameplate.module.css";
+import namePlate from "../../styles/layout/nameplate.module.css";
 import RouterUtilities from "../../util/routerUtilities";
 import Icon from "../common/misc/icon";
 import TransparentButton from "../common/button/transparentButton";

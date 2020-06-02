@@ -1,4 +1,4 @@
-import headerDropdown from "../../styles/headerDropdown.module.css";
+import headerDropdown from "../../styles/layout/headerDropdown.module.css";
 
 export default function HeaderDropdown(props) {
   const { className, text, isSelected, ...rest } = props;

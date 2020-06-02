@@ -4,7 +4,7 @@ import TransparentButton from "../common/button/transparentButton";
 import Link from "next/link";
 import MenuButton from "./menuButton";
 import RouterUtilities from "../../util/routerUtilities";
-import sidebar from "../../styles/sidebar.module.css";
+import sidebar from "../../styles/layout/sidebar.module.css";
 
 export default class Sidebar extends Component {
   constructor(props) {

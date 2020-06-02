@@ -1,4 +1,4 @@
-import paginationStyles from "../../../styles/pagination.module.css";
+import paginationStyles from "../../../styles/common/misc/pagination.module.css";
 import TransparentButton from "../button/transparentButton";
 import Link from "next/link";
 import { useRouter } from "next/router";

@@ -1,6 +1,6 @@
 import Icon from "../common/misc/icon";
 import TransparentButton from "../common/button/transparentButton";
-import footer from "../../styles/footer.module.css";
+import footer from "../../styles/layout/footer.module.css";
 
 export default function Footer(props) {
   const { externalPages, footnote } = props;
