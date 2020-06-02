@@ -2,8 +2,8 @@ import { Component } from "react";
 import Router from "next/router";
 import withAuthAsync from "../components/common/hoc/withAuthAsync";
 import withLayoutAsync from "../components/common/hoc/withLayoutAsync";
-import LoginCredentialsForm from "../components/loginCredentialsForm";
-import LoginEmailMfaForm from "../components/loginEmailMfaForm";
+import LoginCredentialsForm from "../components/page/login/loginCredentialsForm";
+import LoginEmailMfaForm from "../components/page/login/loginEmailMfaForm";
 import { parseCookies, setCookie } from "nookies";
 
 class Login extends Component {

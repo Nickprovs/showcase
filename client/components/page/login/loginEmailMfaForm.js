@@ -1,6 +1,6 @@
 import Joi from "@hapi/joi";
-import Form from "../common/form/form";
-import { authenticateEmailMfaAsync } from "../../services/authService";
+import Form from "../../common/form/form";
+import { authenticateEmailMfaAsync } from "../../../services/authService";
 import NProgress from "nprogress";
 import { toast } from "react-toastify";
 
