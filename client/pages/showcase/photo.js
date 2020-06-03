@@ -1,5 +1,8 @@
 import { Component } from "react";
 import photoStyles from "../../styles/page/photo.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar as fasStar, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
 import FullscreenPhoto from "../../components/common/photo/fullscreenPhoto";
 import withAuthAsync from "../../components/common/hoc/withAuthAsync";
 import withLayoutAsync from "../../components/common/hoc/withLayoutAsync";
@@ -8,7 +11,6 @@ import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeat
 import Router from "next/router";
 import CommonPageHeaderControls from "../../components/page/common/commonPageHeaderControls";
 import Link from "next/link";
-import Icon from "../../components/common/misc/icon";
 import TransparentButton from "../../components/common/button/transparentButton";
 import BasicButton from "../../components/common/button/basicButton";
 import Pagination from "../../components/common/misc/pagination";
@@ -318,11 +320,11 @@ class Photo extends Component {
                     <div id="test" className={photoStyles.adminOptions}>
                       <div style={{ backgroundColor: "white" }}>
                         <TransparentButton onClick={async () => await this.handleToggleFeaturedPhoto(photo)} style={{ color: "var(--f1)" }}>
-                          <Icon className={featured.subsidiaries.items.some((item) => item.id === photo._id) ? "fas fa-star" : "far fa-star"}></Icon>
+                          <FontAwesomeIcon size="2x" icon={featured.subsidiaries.items.some((item) => item.id === photo._id) ? fasStar : farStar} />
                         </TransparentButton>
                         <Link href={`/showcase/photo/edit/photo/[id]`} as={`/showcase/photo/edit/photo/${photo._id}`}>
                           <TransparentButton>
-                            <Icon className="fas fa-edit"></Icon>
+                            <FontAwesomeIcon size="2x" icon={faEdit} />
                           </TransparentButton>
                         </Link>
 
@@ -332,7 +334,7 @@ class Photo extends Component {
                           }
                           style={{ color: "var(--f1)" }}
                         >
-                          <Icon className="fas fa-trash"></Icon>
+                          <FontAwesomeIcon size="2x" icon={faTrash} />
                         </TransparentButton>
                       </div>
                     </div>

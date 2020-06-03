@@ -1,9 +1,9 @@
 import Link from "next/link";
-import Icon from "../common/misc/icon";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import TransparentButton from "../common/button/transparentButton";
 import HeaderButton from "./headerButton";
 import HeaderDropdown from "./headerDropdown";
-
 import header from "../../styles/layout/header.module.css";
 import { useRouter } from "next/router";
 
@@ -86,7 +86,7 @@ export default function Header(props) {
             <li style={externalPageListItemStyle} key="editGeneral">
               <Link href="/edit/general" key="editGeneral">
                 <TransparentButton style={{ color: "var(--s1)" }}>
-                  <Icon className="fas fa-edit"></Icon>
+                  <FontAwesomeIcon size="2x" icon={faEdit} />
                 </TransparentButton>
               </Link>
             </li>
@@ -95,7 +95,7 @@ export default function Header(props) {
             <li style={externalPageListItemStyle} key={item.label}>
               <a href={item.href}>
                 <TransparentButton style={{ color: "var(--s1)" }}>
-                  <Icon className={item.iconClasses}></Icon>
+                  <FontAwesomeIcon size="2x" icon={item.icon} />
                 </TransparentButton>
               </a>
             </li>

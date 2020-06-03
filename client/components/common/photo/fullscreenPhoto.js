@@ -1,8 +1,9 @@
 import fullscreenPhotoStyles from "../../../styles/common/photo/fullscreenPhoto.module.css";
 import TransparentButton from "../button/transparentButton";
-import Icon from "../misc/icon";
 import PhotoMetadataPresenter from "./photoMetadataPresenter";
 import { Component } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 export default class FullscreenPhoto extends Component {
   constructor() {
@@ -59,7 +60,7 @@ export default class FullscreenPhoto extends Component {
 
         <div className={fullscreenPhotoStyles.buttonContainer}>
           <TransparentButton onClick={() => this.handleCloseRequest()} style={{ color: "var(--s1)" }}>
-            <Icon className="fas fa-times fa-2x" />
+            <FontAwesomeIcon size="2x" icon={faTimes} />
           </TransparentButton>
           <TransparentButton
             onClick={(e) => {
@@ -68,7 +69,7 @@ export default class FullscreenPhoto extends Component {
             }}
             style={{ color: "var(--s1)" }}
           >
-            <Icon className="fas fa-info-circle fa-2x" />
+            <FontAwesomeIcon size="2x" icon={faInfoCircle} />
           </TransparentButton>
         </div>
       </div>

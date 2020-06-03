@@ -1,6 +1,7 @@
 import namePlate from "../../styles/layout/nameplate.module.css";
 import RouterUtilities from "../../util/routerUtilities";
-import Icon from "../common/misc/icon";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import TransparentButton from "../common/button/transparentButton";
 import Link from "next/link";
 
@@ -17,7 +18,7 @@ export default function NamePlate(props) {
       {user && user.isAdmin && (
         <Link href="/edit/general" key="editGeneral">
           <TransparentButton style={{ color: "var(--s1)" }}>
-            <Icon className="fas fa-edit"></Icon>
+            <FontAwesomeIcon size="2x" icon={faEdit} />
           </TransparentButton>
         </Link>
       )}

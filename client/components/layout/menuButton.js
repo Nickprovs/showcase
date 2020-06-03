@@ -1,5 +1,6 @@
-import Icon from "../common/misc/icon";
 import menuButton from "../../styles/layout/menuButton.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 export default function MenuButton(props) {
   const { children, className, ...rest } = props;
@@ -8,7 +9,7 @@ export default function MenuButton(props) {
   return (
     <button className={menuButton.menuButton + " " + className} {...rest}>
       <div className={menuButton.menuButtonContentContainer}>
-        <Icon className={`${menuButton.hamburgerIcon} fas fa-bars`} />
+        <FontAwesomeIcon style={{ marginRight: "5px" }} size="1x" icon={faBars} />
         <span>MENU</span>
       </div>
     </button>

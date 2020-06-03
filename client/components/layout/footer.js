@@ -1,4 +1,4 @@
-import Icon from "../common/misc/icon";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TransparentButton from "../common/button/transparentButton";
 import footer from "../../styles/layout/footer.module.css";
 
@@ -22,7 +22,7 @@ export default function Footer(props) {
             <li style={externalPageListItemStyle} key={item.label}>
               <a href={item.href}>
                 <TransparentButton>
-                  <Icon className={item.iconClasses}></Icon>
+                  <FontAwesomeIcon size="2x" icon={item.icon}></FontAwesomeIcon>
                 </TransparentButton>
               </a>
             </li>

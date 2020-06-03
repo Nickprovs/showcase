@@ -5,9 +5,12 @@ import Head from "next/head";
 import { ToastContainer } from "react-toastify";
 import BrowserSupportUtilities from "../util/browserSupportUtilities";
 import RedirectUtilities from "../util/redirectUtilities";
-import "@fortawesome/fontawesome-free/css/all.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles.css";
+
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css"; // Import the CSS
+config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
 
 export default function MyApp({ Component, pageProps }) {
   //Route change events

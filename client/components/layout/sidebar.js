@@ -1,5 +1,6 @@
 import { Component } from "react";
-import Icon from "../common/misc/icon";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import TransparentButton from "../common/button/transparentButton";
 import Link from "next/link";
 import MenuButton from "./menuButton";
@@ -134,7 +135,7 @@ export default class Sidebar extends Component {
               <li style={externalPageListItemStyle} key="editGeneral">
                 <Link href="/edit/general" key="editGeneral">
                   <TransparentButton>
-                    <Icon className="fas fa-edit"></Icon>
+                    <FontAwesomeIcon size="2x" icon={faEdit} />
                   </TransparentButton>
                 </Link>
               </li>
@@ -142,7 +143,7 @@ export default class Sidebar extends Component {
             {externalPages.map((item) => (
               <li key={item.label} style={externalPageListItemStyle}>
                 <TransparentButton onClick={async () => await this.handleExternalLinkableThingClicked(item.href)}>
-                  <Icon className={item.iconClasses}></Icon>
+                  <FontAwesomeIcon size="2x" icon={item.icon} />
                 </TransparentButton>
               </li>
             ))}

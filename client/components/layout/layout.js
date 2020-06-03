@@ -8,6 +8,7 @@ import Dimmer from "./dimmer";
 import layout from "../../styles/layout/layout.module.css";
 import { logoutAsync } from "../../services/authService";
 import Router from "next/router";
+import { faInstagram, faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 
 const contentStyle = {
   zIndex: 3,
@@ -106,21 +107,21 @@ export default class Layout extends Component {
     if (general.socialLinks.instagram)
       externalPages.push({
         href: general.socialLinks.instagram,
-        iconClasses: "fab fa-instagram",
+        icon: faInstagram,
         label: "Instagram",
       });
 
     if (general.socialLinks.github)
       externalPages.push({
         href: general.socialLinks.github,
-        iconClasses: "fab fa-github",
+        icon: faGithub,
         label: "Github",
       });
 
     if (general.socialLinks.linkedin)
       externalPages.push({
         href: general.socialLinks.linkedin,
-        iconClasses: "fab fa-linkedin-in",
+        icon: faLinkedin,
         label: "LinkedIn",
       });
 

@@ -9,21 +9,22 @@ import DatePostedPresenter from "../components/common/date/datePostedPresenter";
 import reframe from "reframe.js";
 import Link from "next/link";
 import TransparentButton from "../components/common/button/transparentButton";
-import Icon from "../components/common/misc/icon";
 import { deleteFeaturedSubsidiaryAsync, patchFeaturedSubsidiaryAsync } from "../services/featuredService";
 import { toast } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowUp, faArrowDown, faStar, faEdit } from "@fortawesome/free-solid-svg-icons";
 
 const SubsidiaryAdminOptions = ({ subsidiary, onMoveSubsidiaryAsync, onRemoveSubsidiaryAsync }) => {
   return (
     <div className={indexStyles.subsidiaryAdminOptions}>
       <TransparentButton onClick={async () => await onMoveSubsidiaryAsync(subsidiary, "raise")} style={{ color: "var(--f1)" }}>
-        <Icon className={"fas fa-arrow-up"}></Icon>
+        <FontAwesomeIcon size="2x" icon={faArrowUp} />
       </TransparentButton>
       <TransparentButton onClick={async () => await onMoveSubsidiaryAsync(subsidiary, "lower")} style={{ color: "var(--f1)" }}>
-        <Icon className={"fas fa-arrow-down"}></Icon>
+        <FontAwesomeIcon size="2x" icon={faArrowDown} />
       </TransparentButton>
       <TransparentButton onClick={async () => await onRemoveSubsidiaryAsync(subsidiary)} style={{ color: "var(--f1)" }}>
-        <Icon className={"fas fa-star"}></Icon>
+        <FontAwesomeIcon size="2x" icon={faStar} />
       </TransparentButton>
     </div>
   );
@@ -305,7 +306,7 @@ class Index extends Component {
             <div className={indexStyles.primaryAdminOptions}>
               <a href={`/index/edit/primary`}>
                 <TransparentButton>
-                  <Icon className={"fas fa-edit"}></Icon>
+                  <FontAwesomeIcon size="2x" icon={faEdit} />
                 </TransparentButton>
               </a>
             </div>

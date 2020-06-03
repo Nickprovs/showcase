@@ -2,8 +2,9 @@ import { Component } from "react";
 import { toast } from "react-toastify";
 import pageHeaderStyles from "../../../styles/page/common/pageHeader.module.css";
 import BasicButton from "../../common/button/basicButton";
-import Icon from "../../common/misc/icon";
 import TransparentButton from "../../common/button/transparentButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Select, { components } from "react-select";
 import StringUtilities from "../../../util/stringUtilities";
 import Link from "next/link";
@@ -80,7 +81,7 @@ class CommonPageHeaderControls extends Component {
               <Link href={`/${mainPagePath}/edit/category/[id]`} as={`/${mainPagePath}/edit/category/${props.data.value._id}`}>
                 <a>
                   <TransparentButton style={{ marginLeft: "auto", marginRight: "0", color: "var(--f1)" }}>
-                    <Icon className="fas fa-edit"></Icon>
+                    <FontAwesomeIcon size="2x" icon={faEdit} />
                   </TransparentButton>
                 </a>
               </Link>
@@ -92,7 +93,7 @@ class CommonPageHeaderControls extends Component {
                 }
                 style={{ marginLeft: "auto", marginRight: "0", color: "var(--f1)" }}
               >
-                <Icon className="fas fa-trash"></Icon>
+                <FontAwesomeIcon size="2x" icon={faTrash} />
               </TransparentButton>
             </div>
           )}

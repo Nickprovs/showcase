@@ -1,7 +1,9 @@
 import { Component } from "react";
 import { toast } from "react-toastify";
 import articleSectionStyles from "../../../styles/page/common/articleSection.module.css";
-import Icon from "../../common/misc/icon";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar as fasStar, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
 import TransparentButton from "../../common/button/transparentButton";
 import BasicButton from "../../common/button/basicButton";
 import Link from "next/link";
@@ -65,12 +67,12 @@ class CommonPageArticleSection extends Component {
                 {user && user.isAdmin && (
                   <div className={articleSectionStyles.adminOptions}>
                     <TransparentButton onClick={async () => await onToggleFeaturedArticleAsync(preview)} style={{ color: "var(--f1)" }}>
-                      <Icon className={featured.subsidiaries.items.some((item) => item.id === preview._id) ? "fas fa-star" : "far fa-star"}></Icon>
+                      <FontAwesomeIcon size="2x" icon={featured.subsidiaries.items.some((item) => item.id === preview._id) ? fasStar : farStar} />
                     </TransparentButton>
                     {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
                     <a href={`/${mainPagePath}/edit/article/${preview._id}`}>
                       <TransparentButton style={{ color: "var(--f1)" }}>
-                        <Icon className="fas fa-edit"></Icon>
+                        <FontAwesomeIcon size="2x" icon={faEdit} />
                       </TransparentButton>
                     </a>
                     <TransparentButton
@@ -79,7 +81,7 @@ class CommonPageArticleSection extends Component {
                       }
                       style={{ color: "var(--f1)" }}
                     >
-                      <Icon className="fas fa-trash"></Icon>
+                      <FontAwesomeIcon size="2x" icon={faTrash} />
                     </TransparentButton>
                   </div>
                 )}

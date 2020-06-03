@@ -2,12 +2,14 @@ import mediaStyles from "../../styles/page/media.module.css";
 import withAuthAsync from "../../components/common/hoc/withAuthAsync";
 import withLayoutAsync from "../../components/common/hoc/withLayoutAsync";
 import { Component } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar as fasStar, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
 import { getMediasAsync, deleteMediaAsync, getMediaCategoriesAsync } from "../../services/mediaService";
 import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../../services/featuredService";
 import CommonPageHeaderControls from "../../components/page/common/commonPageHeaderControls";
 import Router from "next/router";
 import DatePostedPresenter from "../../components/common/date/datePostedPresenter";
-import Icon from "../../components/common/misc/icon";
 import TransparentButton from "../../components/common/button/transparentButton";
 import BasicButton from "../../components/common/button/basicButton";
 import Pagination from "../../components/common/misc/pagination";
@@ -290,12 +292,12 @@ class Media extends Component {
               {user && user.isAdmin && (
                 <div className={mediaStyles.adminOptions}>
                   <TransparentButton onClick={async () => await this.handleToggleFeaturedMedia(media)} style={{ color: "var(--f1)" }}>
-                    <Icon className={featured.subsidiaries.items.some((item) => item.id === media._id) ? "fas fa-star" : "far fa-star"}></Icon>
+                    <FontAwesomeIcon size="2x" icon={featured.subsidiaries.items.some((item) => item.id === media._id) ? fasStar : farStar} />
                   </TransparentButton>
                   {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
                   <a href={`media/edit/media/${media._id}`}>
                     <TransparentButton style={{ color: "var(--f1)" }}>
-                      <Icon className="fas fa-edit"></Icon>
+                      <FontAwesomeIcon size="2x" icon={faEdit} />
                     </TransparentButton>
                   </a>
 
@@ -303,7 +305,7 @@ class Media extends Component {
                     onClick={() => toast.info(<RemoveMediaToast media={media} onRemoveMediaAsync={async (media) => await this.handleRemoveMedia(media)} />)}
                     style={{ color: "var(--f1)" }}
                   >
-                    <Icon className="fas fa-trash"></Icon>
+                    <FontAwesomeIcon size="2x" icon={faTrash} />
                   </TransparentButton>
                 </div>
               )}
