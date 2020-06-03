@@ -40,7 +40,7 @@ class CommonPageArticleSection extends Component {
       <div style={{ textAlign: "center" }}>
         <h1>{`No ${mainContentType}s found.`}</h1>
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <object style={{ display: "block", width: "35%", overflow: "none" }} type="image/svg+xml" data="/director_sad.svg"></object>
+          <object style={{ display: "block", width: "35%", overflow: "none" }} type="image/svg+xml" data="/images/director_sad.svg"></object>
         </div>
       </div>
     );

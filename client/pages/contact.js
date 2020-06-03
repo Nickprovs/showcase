@@ -68,7 +68,7 @@ class Contact extends Form {
       <div style={{ textAlign: "center" }}>
         <h1>{`Thanks for reaching out! I'll get back to you as soon as possible!`}</h1>
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <object style={{ display: "block", width: "35%", overflow: "none" }} type="image/svg+xml" data="/director_happy.svg"></object>
+          <object style={{ display: "block", width: "35%", overflow: "none" }} type="image/svg+xml" data="/images/director_happy.svg"></object>
         </div>
       </div>
     );
