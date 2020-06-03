@@ -138,7 +138,7 @@ class Photo extends Form {
     return (
       <div>
         <Head>
-          <script key="tinyMCE" type="text/javascript" src="/static/scripts/tinymce/tinymce.min.js"></script>
+          <script key="tinyMCE" type="text/javascript" src="/scripts/tinymce/tinymce.min.js"></script>
         </Head>
         <div className="standardPadding">
           <form onSubmit={this.handleSubmit}>
