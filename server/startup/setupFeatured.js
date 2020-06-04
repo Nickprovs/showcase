@@ -7,7 +7,7 @@ module.exports = async function () {
   if (!existingFeatured) {
     const featured = new FeaturedModel({
       primary: {
-        markup: "<h1>My Glorious Title</h1><br/><br/><p>My glorious paragraph</p>",
+        markup: "<h1>My Glorious Title</h1><p>My glorious paragraph</p>",
         dateLastModified: moment().toJSON(),
       },
       subsidiaries: {
