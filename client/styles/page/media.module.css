@@ -9,13 +9,14 @@
 .item {
   grid-row: span 1;
   grid-column: span 1;
-  padding: 10px;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
   background-color: var(--b1);
   border-bottom: 2px solid var(--s8);
+  padding: 10px;
+  padding-bottom: 20px;
 }
 .item:hover .adminOptions {
   opacity: 1;
@@ -31,6 +32,7 @@
 .title {
   flex: 10;
   order: 2;
+  line-height: 20px;
 }
 
 .date {
@@ -61,14 +63,19 @@
   flex: 15;
   order: 5;
   display: flex;
+  justify-content: center;
   align-items: center;
+  width: 95%;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .description {
-  overflow-wrap: anywhere;
+  word-break: normal;
+  overflow-wrap: normal;
   hyphens: auto;
+  text-align: center;
 }
-
 .previewButtons {
   flex: 20;
   order: 6;

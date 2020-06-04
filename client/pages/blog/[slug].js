@@ -18,13 +18,13 @@ function Blog({ blog }) {
   return (
     <div>
       <h1>{blog.title}</h1>
-      <DatePostedPresenter withLines={false} date={blog.datePosted} />
+      <DatePostedPresenter date={blog.datePosted} />
       <div dangerouslySetInnerHTML={{ __html: blog.body }} />
 
       {/* Article Footer Stuff */}
       <div>
         <br />
-        <div style={{ display: "flex", justifyContent: "center" }}>
+        <div style={{ display: "flex", justifyContent: "center", paddingBottom: "15px" }}>
           <TagsPresenter optionalUrl={"/blog"} tags={blog.tags} />
         </div>
         <DateModifiedPresenter postedDate={blog.datePosted} modifiedDate={blog.dateLastModified} />

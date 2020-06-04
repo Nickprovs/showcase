@@ -19,7 +19,7 @@ function Software({ software }) {
   return (
     <div>
       <h1>{software.title}</h1>
-      <DatePostedPresenter withLines={false} date={software.datePosted} />
+      <DatePostedPresenter date={software.datePosted} />
       <div dangerouslySetInnerHTML={{ __html: software.body }} />
 
       {/* Article Footer Stuff */}
@@ -29,6 +29,7 @@ function Software({ software }) {
           <TagsPresenter optionalUrl={"/showcase/software"} tags={software.tags} />
         </div>
         <DateModifiedPresenter postedDate={software.datePosted} modifiedDate={software.dateLastModified} />
+        <br />
       </div>
     </div>
   );

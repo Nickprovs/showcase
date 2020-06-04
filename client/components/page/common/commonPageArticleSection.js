@@ -102,7 +102,7 @@ class CommonPageArticleSection extends Component {
                   </Link>
                 </div>
                 <div className={articleSectionStyles.descriptionContainer}>
-                  <label className={articleSectionStyles.description}>{preview.description}</label>
+                  <p className={articleSectionStyles.description}>{preview.description}</p>
                 </div>
                 <div className={articleSectionStyles.tags}>
                   <TagPresenter tags={preview.tags} />
