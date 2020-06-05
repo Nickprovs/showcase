@@ -10,7 +10,7 @@ if (RegExp.prototype.flags === undefined) {
 
 //Polyfill necessary for Joi on some browsers
 if (typeof window["TextEncoder"] !== "function") {
-  const TextEncodingPolyfill = require("text-encoding");
-  window["TextEncoder"] = TextEncodingPolyfill.TextEncoder;
-  window["TextDecoder"] = TextEncodingPolyfill.TextDecoder;
+  const TextEncodingShim = require("text-encoding-shim");
+  window["TextEncoder"] = TextEncodingShim.TextEncoder;
+  window["TextDecoder"] = TextEncodingShim.TextDecoder;
 }

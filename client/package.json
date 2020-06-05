@@ -29,6 +29,6 @@
     "react-select": "^3.1.0",
     "react-toastify": "^5.5.0",
     "reframe.js": "^2.2.8",
-    "text-encoding": "^0.7.0"
+    "text-encoding-shim": "^1.0.5"
   }
 }
