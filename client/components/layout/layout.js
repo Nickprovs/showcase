@@ -33,6 +33,9 @@ export default class Layout extends Component {
       {
         href: "/index",
         label: "HOME",
+        getIsSelectedBasedOnPathNameOverride: (pathname) => {
+          return pathname.toLowerCase() === "/" || pathname.toLowerCase() === "/index";
+        },
       },
       {
         label: "SHOWCASE",
@@ -71,9 +74,12 @@ export default class Layout extends Component {
       internalPages.unshift({
         label: user.username.toUpperCase(),
         iconClasses: "",
+        getIsSelectedBasedOnPathNameOverride: (pathname) => {
+          return pathname.toLowerCase().includes("/user");
+        },
         subPages: [
           {
-            href: "/profile",
+            href: "/user/profile",
             label: "PROFILE",
             iconClasses: "",
           },
