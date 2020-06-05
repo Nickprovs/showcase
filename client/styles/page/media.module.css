@@ -75,6 +75,7 @@
   overflow-wrap: normal;
   hyphens: auto;
   text-align: center;
+  word-spacing: normal;
 }
 .previewButtons {
   flex: 20;

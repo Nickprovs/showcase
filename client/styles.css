@@ -62,24 +62,6 @@ body {
   font-size: 1rem;
 }
 
-@media screen and (max-width: 1680px) {
-  html {
-    font-size: 14pt;
-  }
-}
-
-@media screen and (max-width: 1280px) {
-  html {
-    font-size: 12pt;
-  }
-}
-
-@media screen and (max-width: 360px) {
-  html {
-    font-size: 10pt;
-  }
-}
-
 h1,
 h2,
 h3,
@@ -137,7 +119,7 @@ a:disabled {
 
 p {
   font-weight: normal;
-  font-size: 1em;
+  font-size: 1rem;
   margin-top: 10px;
   margin-bottom: 0px;
   margin-right: calc(5%);
@@ -146,10 +128,30 @@ p {
   padding-top: 0px;
   padding-bottom: 10px;
   word-break: break-all;
+  word-spacing: 2px;
+  text-align: justify;
 }
 
-.headerButton {
-  height: 100%;
+@media screen and (min-width: 700px) {
+  html {
+    font-size: 1.2rem;
+  }
+  p {
+    margin-right: calc(25px + 5%);
+    margin-left: calc(25px + 5%);
+    word-spacing: 3px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  html {
+    font-size: 1.3rem;
+  }
+  p {
+    margin-right: calc(100px + 3%);
+    margin-left: calc(100px + 3%);
+    word-spacing: 4px;
+  }
 }
 
 .mainContentTitle {

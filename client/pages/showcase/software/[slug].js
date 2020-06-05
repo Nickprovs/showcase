@@ -20,7 +20,7 @@ function Software({ software }) {
     <div>
       <h1>{software.title}</h1>
       <DatePostedPresenter date={software.datePosted} />
-      <div dangerouslySetInnerHTML={{ __html: software.body }} />
+      <div style={{ marginTop: "25px" }} dangerouslySetInnerHTML={{ __html: software.body }} />
 
       {/* Article Footer Stuff */}
       <div>

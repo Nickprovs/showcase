@@ -76,6 +76,7 @@
 }
 
 .description {
+  word-spacing: normal;
   word-break: normal;
   overflow-wrap: normal;
   hyphens: auto;

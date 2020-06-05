@@ -19,7 +19,7 @@ function Blog({ blog }) {
     <div>
       <h1>{blog.title}</h1>
       <DatePostedPresenter date={blog.datePosted} />
-      <div dangerouslySetInnerHTML={{ __html: blog.body }} />
+      <div style={{ marginTop: "25px" }} dangerouslySetInnerHTML={{ __html: blog.body }} />
 
       {/* Article Footer Stuff */}
       <div>
