@@ -163,19 +163,6 @@ p {
   padding-bottom: 10px;
 }
 
-.centerImage {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-}
-
-.prominentLabel {
-  font-size: 12pt;
-  font-weight: bold;
-  text-align: left;
-}
-
 .textButton {
   height: 40px;
   text-align: left;

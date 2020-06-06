@@ -59,9 +59,7 @@ export default class Sidebar extends Component {
     if (item.subPages && Object.entries(item.subPages).length > 0) {
       return (
         <a>
-          <label style={{ padding: "5px" }} className="prominentLabel">
-            {item.label}
-          </label>
+          <label className={sidebar.prominentLabel}>{item.label}</label>
           {item.subPages.map((item) => (
             <button
               key={item.label}
