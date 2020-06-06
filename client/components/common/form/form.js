@@ -7,6 +7,7 @@ import FormHtmlEditor from "./formHtmlEditor";
 import CustomJoi from "../../../misc/customJoi";
 import BasicButton from "../button/basicButton";
 import FormRecaptcha from "./formRecaptcha";
+import ObjectUtilities from "../../../util/objectUtilities";
 
 class Form extends Component {
   state = {
@@ -48,17 +49,16 @@ class Form extends Component {
   };
 
   //Needs... "name" of input, "value" of input, "type" of input
-  handleChange = (inputName, inputValue, inputType) => {
+  handleChange = (inputPath, inputValue, inputType) => {
     const errors = { ...this.state.errors };
-    const errorMessage = this.validateProperty(inputName, inputValue);
-    if (errorMessage) {
-      errors[inputName] = errorMessage;
-    } else {
-      delete errors[inputName];
-    }
+    const errorMessage = this.validateProperty(inputPath, inputValue);
+    if (errorMessage) ObjectUtilities.SetPropertyAtPath(errors, errorMessage, inputPath);
+    else ObjectUtilities.DeletePropertyAtPath(errors, inputPath);
+
     const data = { ...this.state.data };
-    if (inputName) {
-      data[inputName] = inputType === "checkbox" ? input.checked : inputValue;
+    if (inputPath) {
+      let value = inputType === "checkbox" ? input.checked : inputValue;
+      ObjectUtilities.SetPropertyAtPath(data, value, inputPath);
     }
     this.setState({ errors, data });
   };
@@ -79,7 +79,7 @@ class Form extends Component {
         label={label}
         value={this.state.data[name]}
         onChange={(e) => this.handleChange(e.currentTarget.name, e.currentTarget.value, e.currentTarget.type)}
-        error={this.state.errors[name]}
+        error={ObjectUtilities.GetPropertyFromPath(this.state.errors, name)}
         type={type}
       />
     );
@@ -93,7 +93,7 @@ class Form extends Component {
         placeholder={placeholder}
         value={this.state.data[name]}
         onChange={(e) => this.handleChange(e.currentTarget.name, e.currentTarget.value, e.currentTarget.type)}
-        error={this.state.errors[name]}
+        error={ObjectUtilities.GetPropertyFromPath(this.state.errors, name)}
       />
     );
   }
@@ -112,7 +112,7 @@ class Form extends Component {
         placeholder={placeholder}
         value={currentValueFormattedForSelect}
         onChange={(selected) => this.handleChange(name, selected.value, "select")}
-        error={this.state.errors[name]}
+        error={ObjectUtilities.GetPropertyFromPath(this.state.errors, name)}
         options={optionsFormattedForSelect}
       />
     );
@@ -126,7 +126,7 @@ class Form extends Component {
         placeholder={placeholder}
         value={this.state.data[name]}
         onChange={(e) => this.handleChange(e.currentTarget.name, e.currentTarget.value, e.currentTarget.type)}
-        error={this.state.errors[name]}
+        error={ObjectUtilities.GetPropertyFromPath(this.state.errors, name)}
         children={children}
       />
     );
@@ -151,7 +151,7 @@ class Form extends Component {
         label={label}
         value={this.state.data[name]}
         onEditorChange={(e) => this.handleChange(name, e, "text")}
-        error={this.state.errors[name]}
+        error={ObjectUtilities.GetPropertyFromPath(this.state.errors, name)}
       />
     );
   }
