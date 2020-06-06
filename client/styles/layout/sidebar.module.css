@@ -46,3 +46,27 @@
   text-align: left;
   padding: 5px;
 }
+
+.textButton {
+  height: 40px;
+  text-align: left;
+  font-size: 11pt;
+  font-weight: bold;
+  width: 100%;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  padding: 0px;
+}
+
+.textButton:hover {
+  color: var(--s5);
+}
+
+.textButton:active {
+  color: var(--s6);
+}
+
+.textButton:focus {
+  outline: 0;
+}

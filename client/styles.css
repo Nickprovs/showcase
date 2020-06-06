@@ -109,14 +109,6 @@ a:disabled {
   cursor: default;
 }
 
-.clickableHeading {
-  display: inline-block;
-  font-size: x-large;
-  text-align: center;
-  line-height: 35px;
-  padding: 5px;
-}
-
 p {
   font-weight: normal;
   font-size: 1rem;
@@ -154,6 +146,14 @@ p {
   }
 }
 
+.clickableHeading {
+  display: inline-block;
+  font-size: x-large;
+  text-align: center;
+  line-height: 35px;
+  padding: 5px;
+}
+
 .mainContentTitle {
   text-align: center;
   margin-top: 0px;
@@ -161,30 +161,6 @@ p {
   margin-right: 10px;
   margin-bottom: 0px;
   padding-bottom: 10px;
-}
-
-.textButton {
-  height: 40px;
-  text-align: left;
-  font-size: 11pt;
-  font-weight: bold;
-  width: 100%;
-  cursor: pointer;
-  border: none;
-  background: transparent;
-  padding: 0px;
-}
-
-.textButton:hover {
-  color: var(--s5);
-}
-
-.textButton:active {
-  color: var(--s6);
-}
-
-.textButton:focus {
-  outline: 0;
 }
 
 .standardPadding {
