@@ -14,12 +14,6 @@
   }
 }
 
-@media screen and (min-height: 700px) {
-  .container {
-    grid-auto-rows: 600px;
-  }
-}
-
 .item {
   background-color: var(--b1);
   grid-row: span 1;
@@ -64,6 +58,27 @@
   order: 4;
   overflow: hidden;
   width: 80%;
+}
+
+@media screen and (min-height: 300px) {
+  .previewImage {
+    max-width: 400px;
+    max-height: 250px;
+  }
+}
+
+@media screen and (min-height: 700px) {
+  .previewImage {
+    max-width: 720px;
+    max-height: 480px;
+  }
+}
+
+@media screen and (min-height: 1200px) {
+  .previewImage {
+    max-width: 1024px;
+    max-height: 768px;
+  }
 }
 
 .descriptionContainer {
