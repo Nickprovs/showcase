@@ -2,10 +2,12 @@ import withAuthAsync from "../../../components/common/hoc/withAuthAsync";
 import withLayoutAsync from "../../../components/common/hoc/withLayoutAsync";
 import Form from "../../../components/common/form/form";
 import CustomJoi from "../../../misc/customJoi";
+import BasicButton from "../../../components/common/button/basicButton";
 import { getBlogCategoriesAsync, createBlogAsync } from "../../../services/blogService";
 import Head from "next/head";
 import { toast } from "react-toastify";
 import Router from "next/router";
+import ArticleFormUtilities from "../../../util/articleFormUtilities";
 
 class Article extends Form {
   static async getInitialProps(context) {
@@ -17,7 +19,22 @@ class Article extends Form {
   constructor() {
     super();
 
-    this.state.data = { title: "", slug: "", category: null, image: "", description: "", body: "", tags: "" };
+    this.state.data = {
+      title: "",
+      slug: "",
+      category: null,
+      image: "",
+      description: "",
+      body: "",
+      tags: "",
+      addressableHighlightLabel1: "",
+      addressableHighlightAddress1: "",
+      addressableHighlightLabel2: "",
+      addressableHighlightAddress2: "",
+      addressableHighlightLabel3: "",
+      addressableHighlightAddress3: "",
+    };
+    this.state.showOptional = false;
     this.state.errors = {};
   }
 
@@ -37,16 +54,27 @@ class Article extends Form {
     image: CustomJoi.string().min(2).max(1000).required(),
     body: CustomJoi.string().min(10).required(),
     tags: CustomJoi.csvString().required().min(3).max(10),
+    addressableHighlightLabel1: CustomJoi.string().allow("").max(16).optional(),
+    addressableHighlightAddress1: CustomJoi.string().allow("").max(1024).optional(),
+    addressableHighlightLabel2: CustomJoi.string().allow("").max(16).optional(),
+    addressableHighlightAddress2: CustomJoi.string().allow("").max(1024).optional(),
+    addressableHighlightLabel3: CustomJoi.string().allow("").max(16).optional(),
+    addressableHighlightAddress3: CustomJoi.string().allow("").max(1024).optional(),
   });
 
   getBlogFromPassingState() {
     const { categories } = this.props;
     let blog = { ...this.state.data };
 
+    //Format Category
     let category = blog.category;
     delete blog.category;
     blog.categoryId = category._id;
 
+    //Format Addressable Highlights
+    blog.addressableHighlights = ArticleFormUtilities.getAddressableHighlightArrayAndFormatObj(blog);
+
+    //Format Tags
     let tagsString = blog.tags;
     delete blog.tags;
     let tagsArray = tagsString.replace(/^,+|,+$/gm, "").split(",");
@@ -84,6 +112,7 @@ class Article extends Form {
   };
 
   render() {
+    const { showOptional } = this.state;
     let { categories } = this.props;
     categories = categories ? categories : [];
     return (
@@ -100,6 +129,32 @@ class Article extends Form {
             {this.renderTextArea("description", "DESCRIPTION")}
             {this.renderHtmlEditor("body", "BODY")}
             {this.renderTextInput("tags", "TAGS")}
+
+            <BasicButton
+              onClick={(e) => {
+                e.preventDefault();
+                this.setState({ showOptional: !this.state.showOptional });
+              }}
+              style={{ marginTop: "25px", marginBottom: "20px", textAlign: "center", display: "block" }}
+            >
+              Show Optional
+            </BasicButton>
+            {showOptional && (
+              <div>
+                <h3 style={{ marginLeft: "0px", textAlign: "left" }}>Addressable Highlight 1 (Optional)</h3>
+                {this.renderTextInput("addressableHighlightLabel1", "LABEL")}
+                {this.renderTextInput("addressableHighlightAddress1", "URL")}
+
+                <h3 style={{ marginLeft: "0px", textAlign: "left" }}>Addressable Highlight 2 (Optional)</h3>
+                {this.renderTextInput("addressableHighlightLabel2", "LABEL")}
+                {this.renderTextInput("addressableHighlightAddress2", "URL")}
+
+                <h3 style={{ marginLeft: "0px", textAlign: "left" }}>Addressable Highlight 3 (Optional)</h3>
+                {this.renderTextInput("addressableHighlightLabel3", "LABEL")}
+                {this.renderTextInput("addressableHighlightAddress3", "URL")}
+              </div>
+            )}
+
             {this.renderButton("POST")}
           </form>
         </div>
