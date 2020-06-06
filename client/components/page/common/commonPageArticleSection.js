@@ -107,6 +107,13 @@ class CommonPageArticleSection extends Component {
                 <div className={articleSectionStyles.tags}>
                   <TagPresenter tags={preview.tags} />
                 </div>
+                {/* {preview.addressableHighlight && (
+                  <div className={articleSectionStyles.links}>
+                    <a target="_blank" href={preview.addressableHighlight.address}>
+                      {preview.addressableHighlight.label}
+                    </a>
+                  </div>
+                )} */}
               </div>
             ))}
           </div>

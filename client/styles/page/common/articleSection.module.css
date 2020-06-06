@@ -101,17 +101,16 @@
   margin-left: 4%;
 }
 
-.previewButtons {
-  flex: 15;
-  order: 6;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .tags {
   flex: 10;
+  order: 8;
+}
+
+.links {
+  flex: 10;
   order: 7;
+  /* margin-left: auto;
+  margin-right: 20px; */
 }
 
 .postButton {
