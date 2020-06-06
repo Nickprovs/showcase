@@ -129,10 +129,16 @@ const data = {
           slug: "ascii-art-automation-with-ascmii",
           title: "ASCII art automation with ASCMII",
           description: "A website built for visualizing your stuff in ascii!",
-          addressableHighlight: {
-            label: "Visit Site",
-            address: "https://www.ascmii.com",
-          },
+          addressableHighlights: [
+            {
+              label: "Website",
+              address: "https://www.ascmii.com",
+            },
+            {
+              label: "Github",
+              address: "https://www.github.com",
+            },
+          ],
           image: "https://www.w3resource.com/w3r_images/python-basic-image-exercise-86.png",
           body: "<p>This is a project for making ascii art! It's made with react. Wow!</p>",
           tags: ["ascii", "art", "automation", "react"],
@@ -141,10 +147,16 @@ const data = {
           slug: "your-own-spotify-universe-with-spotimon",
           title: "Your Own Spotify Universe with Spotimon",
           description: "Visualize your tunes.",
-          addressableHighlight: {
-            label: "Visit Site",
-            address: "https://www.spotimon.com",
-          },
+          addressableHighlights: [
+            {
+              label: "Visit Site",
+              address: "https://www.spotimon.com",
+            },
+            {
+              label: "Github",
+              address: "https://www.github.com",
+            },
+          ],
           image: "https://cdn.worldsciencefestival.com/wp-content/uploads/2019/04/EYES_IN_THE_SKIES-800x494.jpg",
           body: "<p>A website built for visualizing your spotify with a universe analogy. It's made with react. Wow!</p>",
           tags: ["spotify", "universe", "visualizer", "react"],

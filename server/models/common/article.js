@@ -4,23 +4,20 @@ const mongoose = require("mongoose");
 const { mongoSchema: categorySchema } = require("./category");
 const ValidationUtilities = require("../../util/validationUtilities");
 
-const addressableHighlightSchema = new mongoose.Schema(
-  {
-    label: {
-      type: String,
-      required: true,
-      minlength: 2,
-      maxlength: 24,
-    },
-    address: {
-      type: String,
-      required: true,
-      minlength: 2,
-      maxlength: 1024,
-    },
+const addressableHighlightSchema = {
+  label: {
+    type: String,
+    required: true,
+    minlength: 2,
+    maxlength: 24,
   },
-  { _id: false }
-);
+  address: {
+    type: String,
+    required: true,
+    minlength: 2,
+    maxlength: 1024,
+  },
+};
 
 //Mongo Schema
 const mongoArticleSchema = new mongoose.Schema(
@@ -72,9 +69,10 @@ const mongoArticleSchema = new mongoose.Schema(
       minlength: 2,
       required: true,
     },
-    addressableHighlight: {
-      type: addressableHighlightSchema,
+    addressableHighlights: {
+      type: [addressableHighlightSchema],
       required: false,
+      _id: false,
     },
     tags: {
       type: [String],
@@ -126,6 +124,12 @@ function omitPrivate(doc, obj) {
 
 mongoArticleSchema.set("toJSON", { virtuals: false, transform: omitPrivate });
 
+// items: Joi.array().items(joiSubsidiarySchema).min(0).max(10).required(),
+const joiAddressableHighlightSchema = Joi.object().keys({
+  label: Joi.string().required().min(2).max(24),
+  address: Joi.string().required().min(2).max(1024),
+});
+
 //Public Schema - Joi
 const joiArticleSchema = Joi.object({
   slug: Joi.string()
@@ -138,10 +142,7 @@ const joiArticleSchema = Joi.object({
   description: Joi.string().min(2).max(128).required(),
   image: Joi.string().min(2).max(1000).required(),
   body: Joi.string().min(2).required(),
-  addressableHighlight: Joi.object().keys({
-    label: Joi.string().required().min(2).max(24),
-    address: Joi.string().required().min(2).max(1024),
-  }),
+  addressableHighlights: Joi.array().items(joiAddressableHighlightSchema).min(0).max(3),
   tags: Joi.array().items(Joi.string()).min(3).max(10).required(),
   contingency: Joi.object().pattern(Joi.string(), Joi.string()),
 });
