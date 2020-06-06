@@ -32,7 +32,7 @@ export default class ArticleFormUtilities {
     return addressableHighlights;
   }
 
-  static getAddressableHighlightPropertiesObj(addressableHighlights) {
+  static getAddressableHighlightPropertiesObjFromArray(addressableHighlights) {
     return {
       addressableHighlightLabel1: addressableHighlights ? (addressableHighlights[0] ? addressableHighlights[0].label : "") : "",
       addressableHighlightAddress1: addressableHighlights ? (addressableHighlights[0] ? addressableHighlights[0].address : "") : "",

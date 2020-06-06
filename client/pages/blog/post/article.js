@@ -34,8 +34,8 @@ class Article extends Form {
       addressableHighlightLabel3: "",
       addressableHighlightAddress3: "",
     };
-    this.state.showOptional = false;
     this.state.errors = {};
+    this.state.showOptional = false;
   }
 
   schema = CustomJoi.object({

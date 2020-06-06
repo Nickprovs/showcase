@@ -54,8 +54,8 @@ class Article extends Form {
       addressableHighlightLabel3: "",
       addressableHighlightAddress3: "",
     };
-    this.state.showOptional = false;
     this.state.errors = {};
+    this.state.showOptional = false;
   }
 
   async componentDidMount() {
@@ -118,6 +118,7 @@ class Article extends Form {
     const { categories } = this.props;
     let blog = { ...this.state.data };
 
+    //Format Category
     let category = blog.category;
     delete blog.category;
     blog.categoryId = category._id;
@@ -125,6 +126,7 @@ class Article extends Form {
     //Format Addressable Highlights
     blog.addressableHighlights = ArticleFormUtilities.getAddressableHighlightArrayAndFormatObj(blog);
 
+    //Format Tags
     let tagsString = blog.tags;
     delete blog.tags;
     let tagsArray = tagsString.replace(/^,+|,+$/gm, "").split(",");
