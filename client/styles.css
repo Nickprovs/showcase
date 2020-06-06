@@ -83,7 +83,7 @@ a {
   color: var(--f1);
   font-family: SourceSansPro, Sans-Serif !important;
   cursor: pointer;
-  text-decoration: none;
+  font-size: 1.1rem;
 }
 
 a:hover {
@@ -133,9 +133,15 @@ p {
     margin-left: calc(25px + 5%);
     word-spacing: 3px;
   }
+  a {
+    font-size: 1.2rem;
+  }
 }
 
 @media screen and (min-width: 1200px) {
+  a {
+    font-size: 1.3rem;
+  }
   html {
     font-size: 1.3rem;
   }
@@ -152,6 +158,7 @@ p {
   text-align: center;
   line-height: 35px;
   padding: 5px;
+  text-decoration: none;
 }
 
 .mainContentTitle {
@@ -223,4 +230,8 @@ p {
 
 .twitter-timeline {
   width: max(350px, 40%) !important;
+}
+
+.a-no-underline {
+  text-decoration: none;
 }

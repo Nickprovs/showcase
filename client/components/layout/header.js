@@ -27,6 +27,9 @@ export default function Header(props) {
 
   const externalPageListItemStyle = {
     paddingRight: "25px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   };
 
   const router = useRouter();
