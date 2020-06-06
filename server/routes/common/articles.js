@@ -94,6 +94,7 @@ module.exports = function (ArticleModel, articleJoiSchema, ArticleCategoryModel,
       contingency: req.body.contingency ? req.body.contingency : {},
     });
 
+    article = await article.save();
     res.send(article);
   });
 
