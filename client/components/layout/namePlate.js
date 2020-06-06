@@ -17,9 +17,11 @@ export default function NamePlate(props) {
       </a>
       {user && user.isAdmin && (
         <Link href="/edit/general" key="editGeneral">
-          <TransparentButton style={{ color: "var(--s1)" }}>
-            <FontAwesomeIcon size="2x" icon={faEdit} />
-          </TransparentButton>
+          <a>
+            <TransparentButton style={{ color: "var(--s1)" }}>
+              <FontAwesomeIcon size="2x" icon={faEdit} />
+            </TransparentButton>
+          </a>
         </Link>
       )}
     </div>

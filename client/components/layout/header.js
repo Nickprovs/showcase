@@ -88,9 +88,11 @@ export default function Header(props) {
           {user && user.isAdmin && (
             <li style={externalPageListItemStyle} key="editGeneral">
               <Link href="/edit/general" key="editGeneral">
-                <TransparentButton style={{ color: "var(--s1)" }}>
-                  <FontAwesomeIcon size="2x" icon={faEdit} />
-                </TransparentButton>
+                <a>
+                  <TransparentButton style={{ color: "var(--s1)" }}>
+                    <FontAwesomeIcon size="2x" icon={faEdit} />
+                  </TransparentButton>
+                </a>
               </Link>
             </li>
           )}
