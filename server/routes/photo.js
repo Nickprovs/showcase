@@ -77,6 +77,9 @@ module.exports = function () {
     const photoCategory = await PhotoCategoryModel.findById(req.body.categoryId);
     if (!photoCategory) return res.status(400).send("Invalid photo category.");
 
+    const existingPhoto = await PhotoModel.findOne({ title: req.body.title });
+    if (existingPhoto) return res.status(400).send("Photo with same title already exists.");
+
     let now = moment().toJSON();
     let photo = new PhotoModel({
       title: req.body.title,

@@ -77,6 +77,9 @@ module.exports = function () {
     const mediaCategory = await MediaCategoryModel.findById(req.body.categoryId);
     if (!mediaCategory) return res.status(400).send("Invalid media category.");
 
+    const existingMedia = await MediaModel.findOne({ title: req.body.title });
+    if (existingMedia) return res.status(400).send("Media with same title already exists.");
+
     let now = moment().toJSON();
     let media = new MediaModel({
       title: req.body.title,

@@ -76,6 +76,9 @@ module.exports = function (ArticleModel, articleJoiSchema, ArticleCategoryModel,
     const articleCategory = await ArticleCategoryModel.findById(req.body.categoryId);
     if (!articleCategory) return res.status(400).send("Invalid article category.");
 
+    const existingArticle = await ArticleModel.findOne({ $or: [{ title: req.body.title }, { slug: req.body.slug }] });
+    if (existingArticle) return res.status(400).send("Article with same title or slug already exists.");
+
     let now = moment().toJSON();
     let article = new ArticleModel({
       slug: req.body.slug,
@@ -90,8 +93,6 @@ module.exports = function (ArticleModel, articleJoiSchema, ArticleCategoryModel,
       tags: req.body.tags.map((str) => str.trim()),
       contingency: req.body.contingency ? req.body.contingency : {},
     });
-
-    article = await article.save();
 
     res.send(article);
   });
