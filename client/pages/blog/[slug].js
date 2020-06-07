@@ -17,13 +17,25 @@ Blog.getInitialProps = async function (context) {
 function Blog({ blog }) {
   return (
     <div>
-      <h1>{blog.title}</h1>
-      <DatePostedPresenter date={blog.datePosted} />
-      <div style={{ marginTop: "25px" }} dangerouslySetInnerHTML={{ __html: blog.body }} />
+      {/* Primary Article Content*/}
+      <div>
+        <h1>{blog.title}</h1>
+        <DatePostedPresenter date={blog.datePosted} />
+        <div style={{ marginTop: "25px" }} dangerouslySetInnerHTML={{ __html: blog.body }} />
+      </div>
 
-      {/* Article Footer Stuff */}
+      {/* Secondary Article Content */}
       <div>
         <br />
+        {blog.addressableHighlights && blog.addressableHighlights.length > 0 && (
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            {blog.addressableHighlights.map((addressableHighlight) => (
+              <a key={addressableHighlight.label} style={{ margin: "10px" }} target="_blank" href={addressableHighlight.address}>
+                {addressableHighlight.label}
+              </a>
+            ))}
+          </div>
+        )}
         <div style={{ display: "flex", justifyContent: "center", paddingBottom: "15px" }}>
           <TagsPresenter optionalUrl={"/blog"} tags={blog.tags} />
         </div>

@@ -18,18 +18,29 @@ function Software({ software }) {
   console.log(software.body);
   return (
     <div>
-      <h1>{software.title}</h1>
-      <DatePostedPresenter date={software.datePosted} />
-      <div style={{ marginTop: "25px" }} dangerouslySetInnerHTML={{ __html: software.body }} />
+      {/* Primary Article Content*/}
+      <div>
+        <h1>{software.title}</h1>
+        <DatePostedPresenter date={software.datePosted} />
+        <div style={{ marginTop: "25px" }} dangerouslySetInnerHTML={{ __html: software.body }} />
+      </div>
 
-      {/* Article Footer Stuff */}
+      {/* Secondary Article Content */}
       <div>
         <br />
+        {software.addressableHighlights && software.addressableHighlights.length > 0 && (
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            {software.addressableHighlights.map((addressableHighlight) => (
+              <a key={addressableHighlight.label} style={{ margin: "10px" }} target="_blank" href={addressableHighlight.address}>
+                {addressableHighlight.label}
+              </a>
+            ))}
+          </div>
+        )}
         <div style={{ display: "flex", justifyContent: "center" }}>
           <TagsPresenter optionalUrl={"/showcase/software"} tags={software.tags} />
         </div>
         <DateModifiedPresenter postedDate={software.datePosted} modifiedDate={software.dateLastModified} />
-        <br />
       </div>
     </div>
   );
