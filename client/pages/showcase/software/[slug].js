@@ -31,7 +31,7 @@ function Software({ software }) {
         {software.addressableHighlights && software.addressableHighlights.length > 0 && (
           <div style={{ display: "flex", justifyContent: "center" }}>
             {software.addressableHighlights.map((addressableHighlight) => (
-              <a key={addressableHighlight.label} style={{ margin: "10px" }} target="_blank" href={addressableHighlight.address}>
+              <a key={addressableHighlight.label} style={{ marginLeft: "10px", marginRight: "10px" }} target="_blank" href={addressableHighlight.address}>
                 {addressableHighlight.label}
               </a>
             ))}
