@@ -123,6 +123,13 @@
   margin-left: 4%;
 }
 
+.addressableHighlights {
+  flex: 10;
+  order: 5;
+  display: flex;
+  justify-content: center;
+}
+
 .containerFitImage {
   object-fit: cover;
   cursor: pointer;

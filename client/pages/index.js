@@ -130,9 +130,9 @@ class Index extends Component {
   getFeaturedSubsidiaryMarkup(subsidiary) {
     switch (subsidiary.type) {
       case "blog":
-        return this.getFeaturedBlogMarkup(subsidiary);
+        return this.getFeaturedArticleMarkup(subsidiary, "blog", "blog");
       case "software":
-        return this.getFeaturedSoftwareMarkup(subsidiary);
+        return this.getFeaturedArticleMarkup(subsidiary, "software", "showcase/software");
       case "photo":
         return this.getFeaturedPhotoMarkup(subsidiary);
       case "media":
@@ -140,11 +140,11 @@ class Index extends Component {
     }
   }
 
-  getFeaturedSoftwareMarkup(subsidiary) {
-    const software = subsidiary.data;
+  getFeaturedArticleMarkup(subsidiary, type, mainPath) {
+    const article = subsidiary.data;
     const { user } = this.props;
     return (
-      <div key={software._id} className={indexStyles.item}>
+      <div key={article._id} className={indexStyles.item}>
         {user && user.isAdmin && (
           <SubsidiaryAdminOptions
             subsidiary={subsidiary}
@@ -153,71 +153,39 @@ class Index extends Component {
           />
         )}
         <div className={indexStyles.previewType}>
-          <Link href={`/showcase/software/[slug]`} as={`/showcase/software/${software.slug}`}>
+          <Link href={`/${mainPath}/[slug]`} as={`/${mainPath}/${article.slug}`}>
             <a style={{ width: "100%", padding: "0px", textAlign: "center" }} className="clickableHeading">
-              Featured Software
+              {`Featured  ${type.charAt(0).toUpperCase() + type.slice(1)}`}
             </a>
           </Link>
-          <DatePostedPresenter date={software.datePosted} />
+          <DatePostedPresenter date={article.datePosted} />
         </div>
         <div className={indexStyles.previewTitle}>
-          <Link href={`/showcase/software/[slug]`} as={`/showcase/software/${software.slug}`}>
-            <a className="clickableHeading">{software.title}</a>
+          <Link href={`/${mainPath}/[slug]`} as={`/${mainPath}/${article.slug}`}>
+            <a className="clickableHeading">{article.title}</a>
           </Link>
         </div>
         <div className={indexStyles.previewImage}>
-          <Link href={`/showcase/software/[slug]`} as={`/showcase/software/${software.slug}`}>
+          <Link href={`/${mainPath}/[slug]`} as={`/${mainPath}/${article.slug}`}>
             <a>
-              <img className={indexStyles.containerFitImage} src={software.image} />
+              <img className={indexStyles.containerFitImage} src={article.image} />
             </a>
           </Link>
         </div>
         <div className={indexStyles.descriptionContainer}>
           <label style={{ cursor: "text" }} className={indexStyles.description}>
-            {software.description}
+            {article.description}
           </label>
         </div>
-      </div>
-    );
-  }
-
-  getFeaturedBlogMarkup(subsidiary) {
-    const blog = subsidiary.data;
-    const { user } = this.props;
-    return (
-      <div key={blog._id} className={indexStyles.item}>
-        {user && user.isAdmin && (
-          <SubsidiaryAdminOptions
-            subsidiary={subsidiary}
-            onMoveSubsidiaryAsync={this.handleMoveSubsidiaryAsync}
-            onRemoveSubsidiaryAsync={this.handleRemoveSubsidiaryAsync}
-          />
+        {article.addressableHighlights && article.addressableHighlights.length > 0 && (
+          <div className={indexStyles.addressableHighlights}>
+            {article.addressableHighlights.map((addressableHighlight) => (
+              <a key={addressableHighlight.label} style={{ margin: "10px" }} target="_blank" href={addressableHighlight.address}>
+                {addressableHighlight.label}
+              </a>
+            ))}
+          </div>
         )}
-        <div className={indexStyles.previewType}>
-          <Link href={`/blog/[slug]`} as={`/blog/${blog.slug}`}>
-            <a style={{ width: "100%", padding: "0px", textAlign: "center" }} className="clickableHeading">
-              Featured Blog
-            </a>
-          </Link>
-          <DatePostedPresenter date={blog.datePosted} />
-        </div>
-        <div className={indexStyles.previewTitle}>
-          <Link href={`/blog/[slug]`} as={`/blog/${blog.slug}`}>
-            <a className="clickableHeading">{blog.title}</a>
-          </Link>
-        </div>
-        <div className={indexStyles.previewImage}>
-          <Link href={`/blog/[slug]`} as={`/blog/${blog.slug}`}>
-            <a>
-              <img className={indexStyles.containerFitImage} src={blog.image} />
-            </a>
-          </Link>
-        </div>
-        <div className={indexStyles.descriptionContainer}>
-          <label style={{ cursor: "text" }} className={indexStyles.description}>
-            {blog.description}
-          </label>
-        </div>
       </div>
     );
   }
