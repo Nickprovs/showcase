@@ -77,12 +77,12 @@
   text-align: center;
   word-spacing: normal;
 }
-.previewButtons {
-  flex: 20;
+
+.links {
+  flex: 10;
   order: 6;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: center;
 }
 
 .tags {

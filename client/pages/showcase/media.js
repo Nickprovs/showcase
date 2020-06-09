@@ -324,6 +324,15 @@ class Media extends Component {
               <div className={mediaStyles.tags}>
                 <TagsPresenter tags={media.tags} />
               </div>
+              {media.addressableHighlights && media.addressableHighlights.length > 0 && (
+                <div className={mediaStyles.links}>
+                  {media.addressableHighlights.map((addressableHighlight) => (
+                    <a key={addressableHighlight.label} style={{ marginLeft: "10px", marginRight: "10px" }} target="_blank" href={addressableHighlight.address}>
+                      {addressableHighlight.label}
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>
