@@ -124,7 +124,6 @@ function omitPrivate(doc, obj) {
 
 mongoArticleSchema.set("toJSON", { virtuals: false, transform: omitPrivate });
 
-// items: Joi.array().items(joiSubsidiarySchema).min(0).max(10).required(),
 const joiAddressableHighlightSchema = Joi.object().keys({
   label: Joi.string().required().min(2).max(24),
   address: Joi.string().required().min(2).max(1024),

@@ -88,6 +88,7 @@ module.exports = function () {
       dateLastModified: now,
       description: req.body.description,
       markup: req.body.markup,
+      addressableHighlights: req.body.addressableHighlights,
       tags: req.body.tags,
     });
 
@@ -108,6 +109,7 @@ module.exports = function () {
         dateLastModified: moment().toJSON(),
         description: req.body.description,
         markup: req.body.markup,
+        addressableHighlights: req.body.addressableHighlights,
         tags: req.body.tags,
       },
       { new: true }

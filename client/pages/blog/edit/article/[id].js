@@ -9,7 +9,7 @@ import { toast, cssTransition } from "react-toastify";
 import Router from "next/router";
 import RouterUtilities from "../../../../util/routerUtilities";
 import StringUtilities from "../../../../util/stringUtilities";
-import ArticleFormUtilities from "../../../../util/articleFormUtilities";
+import ExtendedFormUtilities from "../../../../util/extendedFormUtilities";
 
 class Article extends Form {
   static async getInitialProps(context) {
@@ -85,7 +85,7 @@ class Article extends Form {
         description: blog.description,
         body: blog.body,
         tags: StringUtilities.getCsvStringFromArray(blog.tags),
-        ...ArticleFormUtilities.getAddressableHighlightPropertiesObjFromArray(blog.addressableHighlights),
+        ...ExtendedFormUtilities.getAddressableHighlightPropertiesObjFromArray(blog.addressableHighlights),
       },
     });
   }
@@ -124,7 +124,7 @@ class Article extends Form {
     blog.categoryId = category._id;
 
     //Format Addressable Highlights
-    blog.addressableHighlights = ArticleFormUtilities.getAddressableHighlightArrayAndFormatObj(blog);
+    blog.addressableHighlights = ExtendedFormUtilities.getAddressableHighlightArrayAndFormatObj(blog);
 
     //Format Tags
     let tagsString = blog.tags;

@@ -1,4 +1,4 @@
-export default class ArticleFormUtilities {
+export default class ExtendedFormUtilities {
   static getAddressableHighlightArrayAndFormatObj(data) {
     let addressableHighlights = [];
 

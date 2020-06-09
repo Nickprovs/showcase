@@ -7,7 +7,7 @@ import { getSoftwareCategoriesAsync, createSoftwareAsync } from "../../../../ser
 import Head from "next/head";
 import { toast } from "react-toastify";
 import Router from "next/router";
-import ArticleFormUtilities from "../../../../util/articleFormUtilities";
+import ExtendedFormUtilities from "../../../../util/extendedFormUtilities";
 
 class Article extends Form {
   static async getInitialProps(context) {
@@ -72,7 +72,7 @@ class Article extends Form {
     software.categoryId = category._id;
 
     //Format Addressable Highlights
-    software.addressableHighlights = ArticleFormUtilities.getAddressableHighlightArrayAndFormatObj(software);
+    software.addressableHighlights = ExtendedFormUtilities.getAddressableHighlightArrayAndFormatObj(software);
 
     //Format Tags
     let tagsString = software.tags;

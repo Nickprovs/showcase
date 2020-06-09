@@ -9,7 +9,7 @@ import { toast, cssTransition } from "react-toastify";
 import Router from "next/router";
 import RouterUtilities from "../../../../../util/routerUtilities";
 import StringUtilities from "../../../../../util/stringUtilities";
-import ArticleFormUtilities from "../../../../../util/articleFormUtilities";
+import ExtendedFormUtilities from "../../../../../util/extendedFormUtilities";
 
 class Article extends Form {
   static async getInitialProps(context) {
@@ -85,7 +85,7 @@ class Article extends Form {
         description: software.description,
         body: software.body,
         tags: StringUtilities.getCsvStringFromArray(software.tags),
-        ...ArticleFormUtilities.getAddressableHighlightPropertiesObjFromArray(software.addressableHighlights),
+        ...ExtendedFormUtilities.getAddressableHighlightPropertiesObjFromArray(software.addressableHighlights),
       },
     });
   }
@@ -124,7 +124,7 @@ class Article extends Form {
     software.categoryId = category._id;
 
     //Format Addressable Highlights
-    software.addressableHighlights = ArticleFormUtilities.getAddressableHighlightArrayAndFormatObj(software);
+    software.addressableHighlights = ExtendedFormUtilities.getAddressableHighlightArrayAndFormatObj(software);
 
     //Format Tags
     let tagsString = software.tags;

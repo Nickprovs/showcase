@@ -7,7 +7,7 @@ import { getBlogCategoriesAsync, createBlogAsync } from "../../../services/blogS
 import Head from "next/head";
 import { toast } from "react-toastify";
 import Router from "next/router";
-import ArticleFormUtilities from "../../../util/articleFormUtilities";
+import ExtendedFormUtilities from "../../../util/extendedFormUtilities";
 
 class Article extends Form {
   static async getInitialProps(context) {
@@ -72,7 +72,7 @@ class Article extends Form {
     blog.categoryId = category._id;
 
     //Format Addressable Highlights
-    blog.addressableHighlights = ArticleFormUtilities.getAddressableHighlightArrayAndFormatObj(blog);
+    blog.addressableHighlights = ExtendedFormUtilities.getAddressableHighlightArrayAndFormatObj(blog);
 
     //Format Tags
     let tagsString = blog.tags;
