@@ -215,6 +215,15 @@ class Index extends Component {
             This is a test 123
           </label>
         </div>
+        {media.addressableHighlights && media.addressableHighlights.length > 0 && (
+          <div className={indexStyles.addressableHighlights}>
+            {media.addressableHighlights.map((addressableHighlight) => (
+              <a key={addressableHighlight.label} style={{ marginLeft: "10px", marginRight: "10px" }} target="_blank" href={addressableHighlight.address}>
+                {addressableHighlight.label}
+              </a>
+            ))}
+          </div>
+        )}
       </div>
     );
   }
@@ -248,6 +257,15 @@ class Index extends Component {
             {photo.description}
           </label>
         </div>
+        {photo.addressableHighlights && photo.addressableHighlights.length > 0 && (
+          <div className={indexStyles.addressableHighlights}>
+            {photo.addressableHighlights.map((addressableHighlight) => (
+              <a key={addressableHighlight.label} style={{ marginLeft: "10px", marginRight: "10px" }} target="_blank" href={addressableHighlight.address}>
+                {addressableHighlight.label}
+              </a>
+            ))}
+          </div>
+        )}
       </div>
     );
   }
