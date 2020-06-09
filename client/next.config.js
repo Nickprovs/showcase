@@ -5,7 +5,7 @@ module.exports = (phase, { defaultConfig }) => {
   return {
     //Public runtime config is for both the next client and server. There is also a server-only option (serverRuntimeConfig).
     publicRuntimeConfig: getPublicRuntimeConfig(phase),
-    webpack: function (cfg, { dev }) {
+    webpack: function (cfg) {
       const originalEntry = cfg.entry;
       cfg.entry = async () => {
         const entries = await originalEntry();
@@ -16,10 +16,6 @@ module.exports = (phase, { defaultConfig }) => {
 
         return entries;
       };
-
-      if (dev) {
-        cfg.devtool = "cheap-module-source-map";
-      }
 
       return cfg;
     },
