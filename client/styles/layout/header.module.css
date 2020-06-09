@@ -1,4 +1,4 @@
-@media screen and (min-width: 950px) {
+@media screen and (min-width: 875px) {
   .header {
     display: flex;
     clear: both;
@@ -10,7 +10,7 @@
   }
 }
 
-@media screen and (min-width: 0px) and (max-width: 949px) {
+@media screen and (min-width: 0px) and (max-width: 874px) {
   .header {
     display: none !important;
   }
@@ -22,5 +22,10 @@
 }
 
 .rightContent {
+  height: 100%;
   justify-content: right;
+  display: flex;
+  align-items: center;
+  padding-left: 0px;
+  margin-left: 0px;
 }

@@ -21,7 +21,7 @@
   }
 }
 
-@media screen and (min-width: 600px) and (max-width: 900px) {
+@media screen and (min-width: 600px) and (max-width: 950px) {
   .layoutStyle {
     padding-top: 10vmin;
     padding-bottom: 10vmin;
@@ -30,7 +30,7 @@
   }
 }
 
-@media screen and (min-width: 900px) {
+@media screen and (min-width: 950px) {
   .layoutStyle {
     padding-top: 10vmin;
     padding-bottom: 10vmin;
