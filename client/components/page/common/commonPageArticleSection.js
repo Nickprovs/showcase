@@ -88,7 +88,7 @@ class CommonPageArticleSection extends Component {
 
                 <div className={articleSectionStyles.previewTitle}>
                   <Link href={`/${mainPagePath}/[slug]`} as={`/${mainPagePath}/${preview.slug}`}>
-                    <a className="clickableHeading">{preview.title}</a>
+                    <a className="commonEntryHeading">{preview.title}</a>
                   </Link>
                 </div>
                 <div className={articleSectionStyles.previewDate}>

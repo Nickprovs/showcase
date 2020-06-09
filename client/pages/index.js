@@ -154,7 +154,7 @@ class Index extends Component {
         )}
         <div className={indexStyles.previewType}>
           <Link href={`/${mainPath}/[slug]`} as={`/${mainPath}/${article.slug}`}>
-            <a style={{ width: "100%", padding: "0px", textAlign: "center" }} className="clickableHeading">
+            <a style={{ width: "100%", padding: "0px", textAlign: "center" }} className="commonEntryHeading">
               {`Featured  ${type.charAt(0).toUpperCase() + type.slice(1)}`}
             </a>
           </Link>
@@ -162,7 +162,7 @@ class Index extends Component {
         </div>
         <div className={indexStyles.previewTitle}>
           <Link href={`/${mainPath}/[slug]`} as={`/${mainPath}/${article.slug}`}>
-            <a className="clickableHeading">{article.title}</a>
+            <a className="commonEntryHeading">{article.title}</a>
           </Link>
         </div>
         <div className={indexStyles.previewImage}>
@@ -203,17 +203,19 @@ class Index extends Component {
           />
         )}
         <div className={indexStyles.previewType}>
-          <h2>Featured Media</h2>
+          <h2 style={{ width: "100%", padding: "0px", textAlign: "center" }} className="commonEntryHeading">
+            Featured Media
+          </h2>
           <DatePostedPresenter date={media.datePosted} />
         </div>
         <div className={indexStyles.previewTitle}>
-          <h2>{media.title}</h2>
+          <h2 style={{ width: "100%", padding: "0px", textAlign: "center" }} className="commonEntryHeading">
+            {media.title}
+          </h2>
         </div>
         <DangerousInnerHtmlWithScript className={indexStyles.mediaContainer} html={media.markup} />
         <div className={indexStyles.descriptionContainer}>
-          <label style={{ cursor: "text" }} className={indexStyles.description}>
-            This is a test 123
-          </label>
+          <p className={indexStyles.description}>{media.description}</p>
         </div>
         {media.addressableHighlights && media.addressableHighlights.length > 0 && (
           <div className={indexStyles.addressableHighlights}>
@@ -241,11 +243,15 @@ class Index extends Component {
           />
         )}
         <div className={indexStyles.previewType}>
-          <h2>Featured Photo</h2>
+          <h2 style={{ width: "100%", padding: "0px", textAlign: "center" }} className="commonEntryHeading">
+            Featured Photo
+          </h2>
           <DatePostedPresenter date={photo.datePosted} />
         </div>
         <div className={indexStyles.previewTitle}>
-          <h2>{photo.title}</h2>
+          <h2 style={{ width: "100%", padding: "0px", textAlign: "center" }} className="commonEntryHeading">
+            {photo.title}
+          </h2>
         </div>
         <div className={indexStyles.photoContainer}>
           <a>
@@ -253,9 +259,7 @@ class Index extends Component {
           </a>
         </div>
         <div className={indexStyles.descriptionContainer}>
-          <label style={{ cursor: "text" }} className={indexStyles.description}>
-            {photo.description}
-          </label>
+          <p className={indexStyles.description}>{photo.description}</p>
         </div>
         {photo.addressableHighlights && photo.addressableHighlights.length > 0 && (
           <div className={indexStyles.addressableHighlights}>
