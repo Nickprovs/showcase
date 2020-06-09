@@ -90,6 +90,7 @@ module.exports = function () {
       orientation: req.body.orientation,
       displaySize: req.body.displaySize,
       source: req.body.source,
+      addressableHighlights: req.body.addressableHighlights,
       tags: req.body.tags,
     });
 
@@ -112,6 +113,7 @@ module.exports = function () {
         orientation: req.body.orientation,
         displaySize: req.body.displaySize,
         source: req.body.source,
+        addressableHighlights: req.body.addressableHighlights,
         tags: req.body.tags,
       },
       { new: true }

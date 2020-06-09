@@ -3,6 +3,7 @@ Joi.objectId = require("joi-objectid")(Joi);
 const mongoose = require("mongoose");
 const { mongoSchema: categorySchema } = require("./common/category");
 
+//Mongo Schema
 const addressableHighlightSchema = {
   label: {
     type: String,
@@ -18,7 +19,6 @@ const addressableHighlightSchema = {
   },
 };
 
-//Mongo Schema
 const mongoMediaSchema = new mongoose.Schema({
   title: {
     type: String,
