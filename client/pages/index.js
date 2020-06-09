@@ -14,9 +14,15 @@ import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp, faArrowDown, faStar, faEdit } from "@fortawesome/free-solid-svg-icons";
 
-const SubsidiaryAdminOptions = ({ subsidiary, onMoveSubsidiaryAsync, onRemoveSubsidiaryAsync }) => {
+const SubsidiaryAdminOptions = ({ subsidiary, editPath, onMoveSubsidiaryAsync, onRemoveSubsidiaryAsync }) => {
   return (
     <div className={indexStyles.subsidiaryAdminOptions}>
+      {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
+      <a href={editPath}>
+        <TransparentButton style={{ color: "var(--f1)" }}>
+          <FontAwesomeIcon size="2x" icon={faEdit} />
+        </TransparentButton>
+      </a>
       <TransparentButton onClick={async () => await onMoveSubsidiaryAsync(subsidiary, "raise")} style={{ color: "var(--f1)" }}>
         <FontAwesomeIcon size="2x" icon={faArrowUp} />
       </TransparentButton>
@@ -148,6 +154,7 @@ class Index extends Component {
         {user && user.isAdmin && (
           <SubsidiaryAdminOptions
             subsidiary={subsidiary}
+            editPath={`${mainPath}/edit/article/${subsidiary.data._id}`}
             onMoveSubsidiaryAsync={this.handleMoveSubsidiaryAsync}
             onRemoveSubsidiaryAsync={this.handleRemoveSubsidiaryAsync}
           />
@@ -197,6 +204,7 @@ class Index extends Component {
       <div key={media._id} className={indexStyles.item}>
         {user && user.isAdmin && (
           <SubsidiaryAdminOptions
+            editPath={`showcase/media/edit/media/${subsidiary.data._id}`}
             subsidiary={subsidiary}
             onMoveSubsidiaryAsync={this.handleMoveSubsidiaryAsync}
             onRemoveSubsidiaryAsync={this.handleRemoveSubsidiaryAsync}
@@ -237,6 +245,7 @@ class Index extends Component {
       <div key={photo._id} className={indexStyles.item}>
         {user && user.isAdmin && (
           <SubsidiaryAdminOptions
+            editPath={`showcase/photo/edit/photo/${subsidiary.data._id}`}
             subsidiary={subsidiary}
             onMoveSubsidiaryAsync={this.handleMoveSubsidiaryAsync}
             onRemoveSubsidiaryAsync={this.handleRemoveSubsidiaryAsync}
