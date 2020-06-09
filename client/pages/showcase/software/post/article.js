@@ -136,7 +136,7 @@ class Article extends Form {
               }}
               style={{ marginTop: "25px", marginBottom: "20px", textAlign: "center", display: "block" }}
             >
-              Show Optional
+              Toggle Optional
             </BasicButton>
             {showOptional && (
               <div>
