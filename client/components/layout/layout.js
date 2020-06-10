@@ -9,6 +9,7 @@ import layout from "../../styles/layout/layout.module.css";
 import { logoutAsync } from "../../services/authService";
 import Router from "next/router";
 import { faInstagram, faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
+import ThemeUtilities from "../../util/themeUtilities";
 
 const contentStyle = {
   zIndex: 3,
@@ -20,7 +21,12 @@ const contentStyle = {
 export default class Layout extends Component {
   state = {
     isSidebarOpen: false,
+    darkModeOn: false,
   };
+
+  componentDidMount() {
+    this.setState({ darkModeOn: ThemeUtilities.getSavedDarkModeOnStatus() });
+  }
 
   handleToggleSidebar(openStatus) {
     this.setState({ isSidebarOpen: openStatus });
@@ -134,6 +140,12 @@ export default class Layout extends Component {
     return externalPages;
   }
 
+  handleToggleTheme() {
+    const darkModeOn = !this.state.darkModeOn;
+    this.setState({ darkModeOn });
+    ThemeUtilities.saveDarkModeOnStatus(darkModeOn);
+  }
+
   render() {
     const { children, general, user } = this.props;
     const { isSidebarOpen } = this.state;
@@ -143,8 +155,9 @@ export default class Layout extends Component {
     let title = general ? general.title : "SHOWCASE";
     let footnote = general ? general.footnote : "";
 
+    const theme = this.state.darkModeOn ? Theme.Dark : Theme.Light;
     return (
-      <Theme variables={Theme.Light}>
+      <Theme variables={theme}>
         <div className={layout.containerStyle}>
           <div className={layout.background} />
           <Sidebar
@@ -158,7 +171,10 @@ export default class Layout extends Component {
           <div className={layout.layoutStyle}>
             <NamePlate user={user} title={title} />
             <Header user={user} internalPages={internalPages} externalPages={externalPages} />
-            <div style={contentStyle}>{children}</div>
+            <div style={contentStyle}>
+              <button onClick={() => this.handleToggleTheme()}>test</button>
+              {children}
+            </div>
             <Footer externalPages={externalPages} footnote={footnote} />
           </div>
         </div>
