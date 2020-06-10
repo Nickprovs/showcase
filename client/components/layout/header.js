@@ -98,7 +98,7 @@ export default function Header(props) {
           )}
           {externalPages.map((item) => (
             <li style={externalPageListItemStyle} key={item.label}>
-              <a href={item.href}>
+              <a target="_blank" href={item.href}>
                 <TransparentButton style={{ color: "var(--s1)" }}>
                   <FontAwesomeIcon size="2x" icon={item.icon} />
                 </TransparentButton>
