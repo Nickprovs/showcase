@@ -10,9 +10,9 @@
   border-width: 1px;
   border-color: var(--s7);
   box-shadow: none;
-  background-color: white;
+  background-color: var(--b1);
   cursor: pointer;
-  color: black;
+  color: var(--f1);
 
   -moz-transition: border-color 0.2s ease-in-out, color 0.2s;
   -o-transition: border-color 0.2s ease-in-out, color 0.2s;
