@@ -148,14 +148,14 @@ export default class Layout extends Component {
 
   render() {
     const { children, general, user } = this.props;
-    const { isSidebarOpen } = this.state;
+    const { isSidebarOpen, darkModeOn } = this.state;
     const internalPages = this.getInternalPages();
     const externalPages = this.getExternalPages();
 
     let title = general ? general.title : "SHOWCASE";
     let footnote = general ? general.footnote : "";
 
-    const theme = this.state.darkModeOn ? Theme.Dark : Theme.Light;
+    const theme = darkModeOn ? Theme.Dark : Theme.Light;
     return (
       <Theme variables={theme}>
         <div className={layout.containerStyle}>
@@ -166,15 +166,20 @@ export default class Layout extends Component {
             isSidebarOpen={isSidebarOpen}
             internalPages={internalPages}
             externalPages={externalPages}
+            darkModeOn={darkModeOn}
+            onToggleTheme={() => this.handleToggleTheme()}
           />
           <Dimmer on={isSidebarOpen} />
           <div className={layout.layoutStyle}>
             <NamePlate user={user} title={title} />
-            <Header user={user} internalPages={internalPages} externalPages={externalPages} />
-            <div style={contentStyle}>
-              <button onClick={() => this.handleToggleTheme()}>test</button>
-              {children}
-            </div>
+            <Header
+              user={user}
+              internalPages={internalPages}
+              externalPages={externalPages}
+              darkModeOn={darkModeOn}
+              onToggleTheme={() => this.handleToggleTheme()}
+            />
+            <div style={contentStyle}>{children}</div>
             <Footer externalPages={externalPages} footnote={footnote} />
           </div>
         </div>

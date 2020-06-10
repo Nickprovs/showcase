@@ -1,6 +1,7 @@
 import { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faLightbulb as fasLightbulb, faLightbulb } from "@fortawesome/free-solid-svg-icons";
+import { faLightbulb as farLightbulb } from "@fortawesome/free-regular-svg-icons";
 import TransparentButton from "../common/button/transparentButton";
 import Link from "next/link";
 import MenuButton from "./menuButton";
@@ -108,7 +109,7 @@ export default class Sidebar extends Component {
       display: "inline",
     };
 
-    const { internalPages, externalPages, isSidebarOpen, user } = this.props;
+    const { user, internalPages, externalPages, isSidebarOpen, onSetSidebarOpen, onToggleTheme, darkModeOn } = this.props;
 
     const sidebarClass = isSidebarOpen ? sidebar.sidebarExpanded : sidebar.sidebarCollapsed;
     return (
@@ -140,6 +141,16 @@ export default class Sidebar extends Component {
                 </Link>
               </li>
             )}
+            <li style={externalPageListItemStyle} key="themeToggle">
+              <TransparentButton
+                onClick={() => {
+                  onToggleTheme();
+                  onSetSidebarOpen(false);
+                }}
+              >
+                <FontAwesomeIcon size="2x" icon={darkModeOn ? farLightbulb : fasLightbulb} />
+              </TransparentButton>
+            </li>
             {externalPages.map((item) => (
               <li key={item.label} style={externalPageListItemStyle}>
                 <TransparentButton onClick={async () => await this.handleExternalLinkableThingClicked(item.href)}>

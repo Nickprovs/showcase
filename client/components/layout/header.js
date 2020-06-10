@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faLightbulb as fasLightbulb, faLightbulb } from "@fortawesome/free-solid-svg-icons";
+import { faLightbulb as farLightbulb } from "@fortawesome/free-regular-svg-icons";
 import TransparentButton from "../common/button/transparentButton";
 import HeaderButton from "./headerButton";
 import HeaderDropdown from "./headerDropdown";
@@ -18,7 +19,7 @@ const menuItemStyle = {
 };
 
 export default function Header(props) {
-  const { internalPages, externalPages, user } = props;
+  const { user, internalPages, externalPages, onToggleTheme, darkModeOn } = props;
 
   const externalPageListStyle = {
     display: "flex",
@@ -96,6 +97,11 @@ export default function Header(props) {
               </Link>
             </li>
           )}
+          <li style={externalPageListItemStyle} key="themeToggle">
+            <TransparentButton onClick={() => onToggleTheme()} style={{ color: "var(--s1)" }}>
+              <FontAwesomeIcon size="2x" icon={darkModeOn ? farLightbulb : fasLightbulb} />
+            </TransparentButton>
+          </li>
           {externalPages.map((item) => (
             <li style={externalPageListItemStyle} key={item.label}>
               <a target="_blank" href={item.href}>
