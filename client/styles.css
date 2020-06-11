@@ -189,6 +189,8 @@ p {
   border-color: var(--s8);
   box-sizing: border-box;
   width: 95%;
+  color: var(--f1);
+  background-color: var(--b2);
 }
 
 .form-control:focus {

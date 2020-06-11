@@ -3,13 +3,14 @@ export const styles = (width, height) => {
     option: (styles, state) => {
       return {
         ...styles,
-        backgroundColor: state.isSelected ? "var(--s6)" : state.isFocused ? "var(--s11)" : "var(--b1)",
+        backgroundColor: state.isSelected ? "var(--s6)" : state.isFocused ? "var(--b2)" : "var(--b1)",
         cursor: "pointer",
       };
     },
-    control: (styles) => {
+    control: (styles, state) => {
       return {
         ...styles,
+        backgroundColor: "var(--b2)",
         height: height ? height : styles.height,
         width: width ? width : styles.width,
         borderWidth: 2,
@@ -19,6 +20,7 @@ export const styles = (width, height) => {
     menu: (styles, state) => {
       return {
         ...styles,
+        backgroundColor: "var(--b1)",
         marginTop: 0,
         width: width ? width : styles.width,
       };
@@ -27,6 +29,13 @@ export const styles = (width, height) => {
       return {
         ...styles,
         paddingTop: 0,
+      };
+    },
+    singleValue: (styles, state) => {
+      return {
+        ...styles,
+        paddingTop: 0,
+        color: "var(--f1)",
       };
     },
   };
