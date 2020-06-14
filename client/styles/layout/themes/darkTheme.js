@@ -11,7 +11,7 @@ const DarkTheme = {
   "--s5": "#18bfef",
   "--s6": "#1f9ec3",
   "--s7": "#FFFFFF",
-  "--s8": "#3d3d3d",
+  "--s8": "black",
   "--s9": "#green",
   "--s10": "red",
   "--s11": "#dbdbdb",

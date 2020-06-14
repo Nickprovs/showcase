@@ -156,10 +156,16 @@ export default class Layout extends Component {
     let footnote = general ? general.footnote : "";
 
     const theme = darkModeOn ? Theme.Dark : Theme.Light;
+
+    //Get background image based on theme -- with a fallback of a non-themed background image.
+    const backgroundImageCssUrl = darkModeOn
+      ? `url("../../images/background-dark.jpg"), url("../../images/background.jpg")`
+      : `url("../../images/background-light.jpg"), url("../../images/background.jpg")`;
+
     return (
       <Theme variables={theme}>
         <div className={layout.containerStyle}>
-          <div className={layout.background} />
+          <div style={{ backgroundImage: backgroundImageCssUrl }} className={layout.background} />
           <Sidebar
             user={user}
             onSetSidebarOpen={(openStatus) => this.handleToggleSidebar(openStatus)}

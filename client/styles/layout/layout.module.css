@@ -40,8 +40,8 @@
 }
 
 .background {
-  background-image: url("../../public/images/background.jpg");
-  background-position: center;
+  transition: background-image 0.25s linear;
+  background-position: center 0;
   position: fixed;
   background-size: cover;
   z-index: -999999;
