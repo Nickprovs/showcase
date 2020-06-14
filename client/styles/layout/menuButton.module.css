@@ -8,9 +8,9 @@
   letter-spacing: 0.03em;
   display: inline-block;
   border-width: 1px;
-  border-color: var(--s7);
+  border-color: var(--s8);
   box-shadow: none;
-  background-color: var(--b1);
+  background-color: var(--b2);
   cursor: pointer;
   color: var(--f1);
 
