@@ -39,6 +39,7 @@ export default function MyApp({ Component, pageProps }) {
       <Head>
         {/* Import CSS for nprogress */}
         <link rel="stylesheet" type="text/css" href="/nprogress.css" />
+        <link id="favicon" rel="shortcut icon" href="favicon.ico" />
       </Head>
       <ToastContainer />
       <Component {...pageProps} />
