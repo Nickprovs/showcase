@@ -323,7 +323,7 @@ class Photo extends Component {
                   {/* Admin Options */}
                   {user && user.isAdmin && (
                     <div id="test" className={photoStyles.adminOptions}>
-                      <div style={{ backgroundColor: "white" }}>
+                      <div>
                         <TransparentButton onClick={async () => await this.handleToggleFeaturedPhoto(photo)} style={{ color: "var(--f1)" }}>
                           <FontAwesomeIcon size="2x" icon={featured.subsidiaries.items.some((item) => item.id === photo._id) ? fasStar : farStar} />
                         </TransparentButton>
