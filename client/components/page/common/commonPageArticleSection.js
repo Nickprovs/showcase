@@ -66,16 +66,21 @@ class CommonPageArticleSection extends Component {
                 {/*Admin Controls*/}
                 {user && user.isAdmin && (
                   <div className={articleSectionStyles.adminOptions}>
-                    <TransparentButton onClick={async () => await onToggleFeaturedArticleAsync(preview)} style={{ color: "var(--f1)" }}>
+                    <TransparentButton
+                      aria-label="Toggle Featured"
+                      onClick={async () => await onToggleFeaturedArticleAsync(preview)}
+                      style={{ color: "var(--f1)" }}
+                    >
                       <FontAwesomeIcon size="2x" icon={featured.subsidiaries.items.some((item) => item.id === preview._id) ? fasStar : farStar} />
                     </TransparentButton>
                     {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
                     <a href={`/${mainPagePath}/edit/article/${preview._id}`}>
-                      <TransparentButton style={{ color: "var(--f1)" }}>
+                      <TransparentButton aria-label="Edit Content" style={{ color: "var(--f1)" }}>
                         <FontAwesomeIcon size="2x" icon={faEdit} />
                       </TransparentButton>
                     </a>
                     <TransparentButton
+                      aria-label="Delete Content"
                       onClick={() =>
                         toast.info(<RemoveArticleToast article={preview} onRemoveArticleAsync={async (article) => await onRemoveArticleAsync(article)} />)
                       }

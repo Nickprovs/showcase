@@ -134,7 +134,7 @@ export default class Sidebar extends Component {
               <li style={externalPageListItemStyle} key="editGeneral">
                 <Link href="/edit/general" key="editGeneral">
                   <a>
-                    <TransparentButton>
+                    <TransparentButton aria-label="Edit General">
                       <FontAwesomeIcon size="2x" icon={faEdit} />
                     </TransparentButton>
                   </a>
@@ -143,6 +143,7 @@ export default class Sidebar extends Component {
             )}
             <li style={externalPageListItemStyle} key="themeToggle">
               <TransparentButton
+                aria-label="Toggle Theme"
                 onClick={() => {
                   onToggleTheme();
                   onSetSidebarOpen(false);
@@ -153,7 +154,7 @@ export default class Sidebar extends Component {
             </li>
             {externalPages.map((item) => (
               <li key={item.label} style={externalPageListItemStyle}>
-                <TransparentButton onClick={async () => await this.handleExternalLinkableThingClicked(item.href)}>
+                <TransparentButton aria-label={item.label} onClick={async () => await this.handleExternalLinkableThingClicked(item.href)}>
                   <FontAwesomeIcon size="2x" icon={item.icon} />
                 </TransparentButton>
               </li>

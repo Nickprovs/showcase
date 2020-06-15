@@ -4,6 +4,8 @@ import withLayoutAsync from "../../../components/common/hoc/withLayoutAsync";
 import DatePostedPresenter from "../../../components/common/date/datePostedPresenter";
 import DateModifiedPresenter from "../../../components/common/date/dateModifiedPresenter";
 import TagsPresenter from "../../../components/common/misc/tagPresenter";
+import Head from "next/head";
+import FormatUtilities from "../../../util/formatUtilities";
 
 Software.getInitialProps = async function (context) {
   const { slug } = context.query;
@@ -14,10 +16,12 @@ Software.getInitialProps = async function (context) {
   };
 };
 
-function Software({ software }) {
-  console.log(software.body);
+function Software({ software, general }) {
   return (
     <div>
+      <Head>
+        <title>{FormatUtilities.getFormattedWebsiteTitle(software.title, general ? general.title : "Showcase")}</title>
+      </Head>
       {/* Primary Article Content*/}
       <div>
         <h1>{software.title}</h1>

@@ -4,6 +4,8 @@ import withLayoutAsync from "../../components/common/hoc/withLayoutAsync";
 import DatePostedPresenter from "../../components/common/date/datePostedPresenter";
 import DateModifiedPresenter from "../../components/common/date/dateModifiedPresenter";
 import TagsPresenter from "../../components/common/misc/tagPresenter";
+import Head from "next/head";
+import FormatUtilities from "../../util/formatUtilities";
 
 Blog.getInitialProps = async function (context) {
   const { slug } = context.query;
@@ -14,9 +16,12 @@ Blog.getInitialProps = async function (context) {
   };
 };
 
-function Blog({ blog }) {
+function Blog({ blog, general }) {
   return (
     <div>
+      <Head>
+        <title>{FormatUtilities.getFormattedWebsiteTitle(blog.title, general ? general.title : "Showcase")}</title>
+      </Head>
       {/* Primary Article Content*/}
       <div>
         <h1>{blog.title}</h1>

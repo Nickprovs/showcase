@@ -7,6 +7,8 @@ import CommonPageArticleSection from "../../components/page/common/commonPageArt
 import Router from "next/router";
 import { getSoftwaresAsync, deleteSoftwareAsync, getSoftwareCategoriesAsync, deleteSoftwareCategoryAsync } from "../../services/softwareService";
 import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../../services/featuredService";
+import Head from "next/head";
+import FormatUtilities from "../../util/formatUtilities";
 
 const pageSize = 6;
 
@@ -250,10 +252,13 @@ class Software extends Component {
 
   render() {
     const { previews, featured, categories, currentPage, totalSoftwaresCount, currentCategory, searchText } = this.state;
-    const { user } = this.props;
+    const { user, general } = this.props;
 
     return (
       <div>
+        <Head>
+          <title>{FormatUtilities.getFormattedWebsiteTitle("Software", general ? general.title : "Showcase")}</title>
+        </Head>
         <CommonPageHeaderControls
           user={user}
           mainPagePath="showcase/software"

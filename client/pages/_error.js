@@ -1,9 +1,14 @@
 import withAuthAsync from "../components/common/hoc/withAuthAsync";
 import withLayoutAsync from "../components/common/hoc/withLayoutAsync";
+import Head from "next/head";
+import FormatUtilities from "../util/formatUtilities";
 
-function Error({ statusCode }) {
+function Error({ statusCode, general }) {
   return (
     <div>
+      <Head>
+        <title>{FormatUtilities.getFormattedWebsiteTitle("Error", general ? general.title : "Showcase")}</title>
+      </Head>
       <h1 className="mainContentTitle">{statusCode ? `${statusCode} Error` : "Error"}</h1>
       <p>{statusCode ? `An error occurred on the server.` : "An error occurred on client."}</p>
       <div style={{ textAlign: "center" }}>

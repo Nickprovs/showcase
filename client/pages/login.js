@@ -5,6 +5,8 @@ import withLayoutAsync from "../components/common/hoc/withLayoutAsync";
 import LoginCredentialsForm from "../components/page/login/loginCredentialsForm";
 import LoginEmailMfaForm from "../components/page/login/loginEmailMfaForm";
 import { parseCookies, setCookie } from "nookies";
+import Head from "next/head";
+import FormatUtilities from "../util/formatUtilities";
 
 class Login extends Component {
   constructor() {
@@ -30,10 +32,19 @@ class Login extends Component {
 
   render() {
     const { showEmailCodeAuth } = this.state;
-    return showEmailCodeAuth ? (
-      <LoginEmailMfaForm onEmailMfaAuthCompleteAsync={async (result) => await this.handleEmailMfaAuthCompletedAsync(result)} />
-    ) : (
-      <LoginCredentialsForm onCredentialsAuthCompletedAsync={async (result) => await this.handleCredentialsAuthCompletedAsync(result)} />
+    const { general } = this.props;
+
+    return (
+      <div>
+        <Head>
+          <title>{FormatUtilities.getFormattedWebsiteTitle("Login", general ? general.title : "Showcase")}</title>
+        </Head>
+        {showEmailCodeAuth ? (
+          <LoginEmailMfaForm onEmailMfaAuthCompleteAsync={async (result) => await this.handleEmailMfaAuthCompletedAsync(result)} />
+        ) : (
+          <LoginCredentialsForm onCredentialsAuthCompletedAsync={async (result) => await this.handleCredentialsAuthCompletedAsync(result)} />
+        )}
+      </div>
     );
   }
 }

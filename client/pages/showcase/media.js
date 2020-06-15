@@ -16,7 +16,8 @@ import Pagination from "../../components/common/misc/pagination";
 import DangerousInnerHtmlWithScript from "../../components/common/misc/dangerousInnerHtmlWithScript";
 import EmbedUtilities from "../../util/embedUtilities";
 import TagsPresenter from "../../components/common/misc/tagPresenter";
-
+import Head from "next/head";
+import FormatUtilities from "../../util/formatUtilities";
 import { toast } from "react-toastify";
 import reframe from "reframe.js";
 
@@ -277,7 +278,7 @@ class Media extends Component {
   }
 
   render() {
-    const { user } = this.props;
+    const { user, general } = this.props;
     const { medias, featured, totalMediasCount, currentPage, searchText, categories, currentCategory } = this.state;
 
     //If we have no medias to display for this route...
@@ -341,6 +342,9 @@ class Media extends Component {
 
     return (
       <div>
+        <Head>
+          <title>{FormatUtilities.getFormattedWebsiteTitle("Media", general ? general.title : "Showcase")}</title>
+        </Head>
         <CommonPageHeaderControls
           user={user}
           mainPagePath="showcase/media"

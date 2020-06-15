@@ -13,6 +13,8 @@ import { deleteFeaturedSubsidiaryAsync, patchFeaturedSubsidiaryAsync } from "../
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp, faArrowDown, faStar, faEdit } from "@fortawesome/free-solid-svg-icons";
+import Head from "next/head";
+import FormatUtilities from "../util/formatUtilities";
 
 const SubsidiaryAdminOptions = ({ subsidiary, editPath, onMoveSubsidiaryAsync, onRemoveSubsidiaryAsync }) => {
   return (
@@ -294,11 +296,14 @@ class Index extends Component {
   }
 
   render() {
-    const { user } = this.props;
+    const { user, general } = this.props;
     const { featured, fullScreenPhoto, fullScreenPhotoVisible } = this.state;
     if (!featured) return <p>oops</p>;
     return (
       <div>
+        <Head>
+          <title>{FormatUtilities.getFormattedWebsiteTitle("Home", general ? general.title : "Showcase")}</title>
+        </Head>
         {/*Primary Featured Content*/}
         <div className={indexStyles.primaryContainer}>
           {user && user.isAdmin && (

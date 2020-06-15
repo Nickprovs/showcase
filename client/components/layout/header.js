@@ -90,7 +90,7 @@ export default function Header(props) {
             <li style={externalPageListItemStyle} key="editGeneral">
               <Link href="/edit/general" key="editGeneral">
                 <a>
-                  <TransparentButton style={{ color: "var(--s1)" }}>
+                  <TransparentButton aria-label="Edit General" style={{ color: "var(--s1)" }}>
                     <FontAwesomeIcon size="2x" icon={faEdit} />
                   </TransparentButton>
                 </a>
@@ -98,14 +98,14 @@ export default function Header(props) {
             </li>
           )}
           <li style={externalPageListItemStyle} key="themeToggle">
-            <TransparentButton onClick={() => onToggleTheme()} style={{ color: "var(--s1)" }}>
+            <TransparentButton aria-label="Toggle Theme" onClick={() => onToggleTheme()} style={{ color: "var(--s1)" }}>
               <FontAwesomeIcon size="2x" icon={darkModeOn ? farLightbulb : fasLightbulb} />
             </TransparentButton>
           </li>
           {externalPages.map((item) => (
             <li style={externalPageListItemStyle} key={item.label}>
               <a target="_blank" href={item.href}>
-                <TransparentButton style={{ color: "var(--s1)" }}>
+                <TransparentButton aria-label={item.label} style={{ color: "var(--s1)" }}>
                   <FontAwesomeIcon size="2x" icon={item.icon} />
                 </TransparentButton>
               </a>

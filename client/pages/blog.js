@@ -7,6 +7,9 @@ import CommonPageArticleSection from "../components/page/common/commonPageArticl
 import Router from "next/router";
 import { getBlogsAsync, deleteBlogAsync, getBlogCategoriesAsync, deleteBlogCategoryAsync } from "../services/blogService";
 import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../services/featuredService";
+import Head from "next/head";
+import FormatUtilities from "../util/formatUtilities";
+
 const pageSize = 6;
 
 class Blog extends Component {
@@ -249,10 +252,13 @@ class Blog extends Component {
 
   render() {
     const { previews, featured, categories, currentPage, totalBlogsCount, currentCategory, searchText } = this.state;
-    const { user } = this.props;
+    const { user, general } = this.props;
 
     return (
       <div>
+        <Head>
+          <title>{FormatUtilities.getFormattedWebsiteTitle("Blog", general ? general.title : "Showcase")}</title>
+        </Head>
         <CommonPageHeaderControls
           user={user}
           mainPagePath="blog"

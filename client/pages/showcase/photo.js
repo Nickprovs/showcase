@@ -15,6 +15,8 @@ import TransparentButton from "../../components/common/button/transparentButton"
 import BasicButton from "../../components/common/button/basicButton";
 import Pagination from "../../components/common/misc/pagination";
 import { toast } from "react-toastify";
+import Head from "next/head";
+import FormatUtilities from "../../util/formatUtilities";
 
 const pageSize = 10;
 
@@ -298,7 +300,7 @@ class Photo extends Component {
 
   render() {
     const { photos, featured, totalPhotosCount, fullScreenPhotoVisible, fullScreenPhoto, searchText, categories, currentCategory, currentPage } = this.state;
-    const { user } = this.props;
+    const { user, general } = this.props;
 
     //If we have no photos to display for this route...
     let markupBody;
@@ -306,6 +308,9 @@ class Photo extends Component {
     else
       markupBody = (
         <div>
+          <Head>
+            <title>{FormatUtilities.getFormattedWebsiteTitle("Photo", general ? general.title : "Showcase")}</title>
+          </Head>
           <div style={{ zIndex: "200" }} className={photoStyles.container}>
             {photos.map((photo) => (
               <div

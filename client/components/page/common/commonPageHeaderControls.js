@@ -80,7 +80,7 @@ class CommonPageHeaderControls extends Component {
               {/* Edit */}
               <Link href={`/${mainPagePath}/edit/category/[id]`} as={`/${mainPagePath}/edit/category/${props.data.value._id}`}>
                 <a>
-                  <TransparentButton style={{ marginLeft: "auto", marginRight: "0", color: "var(--f1)" }}>
+                  <TransparentButton aria-label="Edit Category" style={{ marginLeft: "auto", marginRight: "0", color: "var(--f1)" }}>
                     <FontAwesomeIcon size="2x" icon={faEdit} />
                   </TransparentButton>
                 </a>
@@ -88,6 +88,7 @@ class CommonPageHeaderControls extends Component {
 
               {/* Delete */}
               <TransparentButton
+                aria-label="Delete Category"
                 onClick={() =>
                   toast.info(<RemoveCategoryToast category={props.data.value} onRemoveCategory={async () => await onDeleteCategoryAsync(props.data.value)} />)
                 }

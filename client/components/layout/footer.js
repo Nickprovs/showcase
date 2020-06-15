@@ -21,7 +21,7 @@ export default function Footer(props) {
           {externalPages.map((item) => (
             <li style={externalPageListItemStyle} key={item.label}>
               <a href={item.href}>
-                <TransparentButton>
+                <TransparentButton aria-label={item.label}>
                   <FontAwesomeIcon size="2x" icon={item.icon}></FontAwesomeIcon>
                 </TransparentButton>
               </a>
