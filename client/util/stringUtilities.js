@@ -14,4 +14,12 @@ export default class StringUtilities {
     if (!input) return input;
     return input.charAt(0).toUpperCase() + input.slice(1);
   }
+
+  static toEachWordCapitalized(input) {
+    return input
+      .toLowerCase()
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  }
 }
