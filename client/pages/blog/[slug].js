@@ -18,7 +18,7 @@ Blog.getInitialProps = async function (context) {
 
 function Blog({ blog, general }) {
   return (
-    <div>
+    <article>
       <Head>
         <title>{FormatUtilities.getFormattedWebsiteTitle(blog.title, general ? general.title : "Showcase")}</title>
       </Head>
@@ -46,7 +46,7 @@ function Blog({ blog, general }) {
         </div>
         <DateModifiedPresenter postedDate={blog.datePosted} modifiedDate={blog.dateLastModified} />
       </div>
-    </div>
+    </article>
   );
 }
 

@@ -18,7 +18,7 @@ Software.getInitialProps = async function (context) {
 
 function Software({ software, general }) {
   return (
-    <div>
+    <article>
       <Head>
         <title>{FormatUtilities.getFormattedWebsiteTitle(software.title, general ? general.title : "Showcase")}</title>
       </Head>
@@ -46,7 +46,7 @@ function Software({ software, general }) {
         </div>
         <DateModifiedPresenter postedDate={software.datePosted} modifiedDate={software.dateLastModified} />
       </div>
-    </div>
+    </article>
   );
 }
 
