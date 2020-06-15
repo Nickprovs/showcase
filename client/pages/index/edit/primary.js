@@ -2,11 +2,12 @@ import withAuthAsync from "../../../components/common/hoc/withAuthAsync";
 import withLayoutAsync from "../../../components/common/hoc/withLayoutAsync";
 import Form from "../../../components/common/form/form";
 import CustomJoi from "../../../misc/customJoi";
-import Head from "next/head";
 import { toast, cssTransition } from "react-toastify";
 import Router from "next/router";
 import RouterUtilities from "../../../util/routerUtilities";
 import { updateFeaturedPrimaryAsync, getFeaturedPrimaryAsync } from "../../../services/featuredService";
+import Head from "next/head";
+import FormatUtilities from "../../../util/formatUtilities";
 
 class Primary extends Form {
   static async getInitialProps(context) {
@@ -87,10 +88,12 @@ class Primary extends Form {
   };
 
   render() {
+    const { general } = this.props;
     return (
       <div>
         <Head>
           <script key="tinyMCE" type="text/javascript" src="/scripts/tinymce/tinymce.min.js"></script>
+          <title>{FormatUtilities.getFormattedWebsiteTitle("Edit Primary", general ? general.title : "Showcase")}</title>
         </Head>
         <div className="standardPadding">
           <form onSubmit={this.handleSubmit}>

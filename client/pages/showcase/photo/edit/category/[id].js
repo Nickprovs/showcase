@@ -6,6 +6,8 @@ import { getPhotoCategoryAsync, updatePhotoCategoryAsync } from "../../../../../
 import { toast, cssTransition } from "react-toastify";
 import Router from "next/router";
 import RouterUtilities from "../../../../../util/routerUtilities";
+import Head from "next/head";
+import FormatUtilities from "../../../../../util/formatUtilities";
 
 class Category extends Form {
   static async getInitialProps(context) {
@@ -89,8 +91,13 @@ class Category extends Form {
   };
 
   render() {
+    const { general } = this.props;
+
     return (
       <div>
+        <Head>
+          <title>{FormatUtilities.getFormattedWebsiteTitle("Edit Photo Category", general ? general.title : "Showcase")}</title>
+        </Head>
         <div className="standardPadding">
           <form onSubmit={this.handleSubmit}>
             {this.renderTextInput("name", "NAME")}

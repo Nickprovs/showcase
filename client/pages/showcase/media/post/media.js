@@ -4,10 +4,11 @@ import Form from "../../../../components/common/form/form";
 import BasicButton from "../../../../components/common/button/basicButton";
 import CustomJoi from "../../../../misc/customJoi";
 import { getMediaCategoriesAsync, createMediaAsync } from "../../../../services/mediaService";
-import Head from "next/head";
 import { toast } from "react-toastify";
 import Router from "next/router";
 import ExtendedFormUtilities from "../../../../util/extendedFormUtilities";
+import Head from "next/head";
+import FormatUtilities from "../../../../util/formatUtilities";
 
 class Media extends Form {
   static async getInitialProps(context) {
@@ -102,12 +103,13 @@ class Media extends Form {
   };
 
   render() {
-    let { categories } = this.props;
+    let { categories, general } = this.props;
     const { showOptional } = this.state;
     categories = categories ? categories : [];
     return (
       <div>
         <Head>
+          <title>{FormatUtilities.getFormattedWebsiteTitle("Post Media", general ? general.title : "Showcase")}</title>
           <script key="tinyMCE" type="text/javascript" src="/scripts/tinymce/tinymce.min.js"></script>
         </Head>
         <div className="standardPadding">

@@ -4,12 +4,13 @@ import Form from "../../../../components/common/form/form";
 import BasicButton from "../../../../components/common/button/basicButton";
 import CustomJoi from "../../../../misc/customJoi";
 import { getBlogAsync, getBlogCategoriesAsync, updateBlogAsync } from "../../../../services/blogService";
-import Head from "next/head";
 import { toast, cssTransition } from "react-toastify";
 import Router from "next/router";
 import RouterUtilities from "../../../../util/routerUtilities";
 import StringUtilities from "../../../../util/stringUtilities";
 import ExtendedFormUtilities from "../../../../util/extendedFormUtilities";
+import Head from "next/head";
+import FormatUtilities from "../../../../util/formatUtilities";
 
 class Article extends Form {
   static async getInitialProps(context) {
@@ -166,12 +167,13 @@ class Article extends Form {
   };
 
   render() {
-    let { categories } = this.props;
+    let { categories, general } = this.props;
     const { showOptional } = this.state;
     categories = categories ? categories : [];
     return (
       <div>
         <Head>
+          <title>{FormatUtilities.getFormattedWebsiteTitle("Edit Blog", general ? general.title : "Showcase")}</title>
           <script key="tinyMCE" type="text/javascript" src="/scripts/tinymce/tinymce.min.js"></script>
         </Head>
         <div className="standardPadding">

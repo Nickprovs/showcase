@@ -4,12 +4,13 @@ import Form from "../../../../../components/common/form/form";
 import BasicButton from "../../../../../components/common/button/basicButton";
 import CustomJoi from "../../../../../misc/customJoi";
 import { getSoftwareAsync, getSoftwareCategoriesAsync, updateSoftwareAsync } from "../../../../../services/softwareService";
-import Head from "next/head";
 import { toast, cssTransition } from "react-toastify";
 import Router from "next/router";
 import RouterUtilities from "../../../../../util/routerUtilities";
 import StringUtilities from "../../../../../util/stringUtilities";
 import ExtendedFormUtilities from "../../../../../util/extendedFormUtilities";
+import Head from "next/head";
+import FormatUtilities from "../../../../../util/formatUtilities";
 
 class Article extends Form {
   static async getInitialProps(context) {
@@ -167,12 +168,13 @@ class Article extends Form {
 
   render() {
     const { showOptional } = this.state;
-    let { categories } = this.props;
+    let { categories, general } = this.props;
     categories = categories ? categories : [];
     return (
       <div>
         <Head>
           <script key="tinyMCE" type="text/javascript" src="/scripts/tinymce/tinymce.min.js"></script>
+          <title>{FormatUtilities.getFormattedWebsiteTitle("Edit Software", general ? general.title : "Showcase")}</title>
         </Head>
         <div className="standardPadding">
           <form onSubmit={this.handleSubmit}>

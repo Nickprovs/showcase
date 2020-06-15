@@ -4,12 +4,13 @@ import Form from "../../../../../components/common/form/form";
 import BasicButton from "../../../../../components/common/button/basicButton";
 import CustomJoi from "../../../../../misc/customJoi";
 import { getPhotoAsync, getPhotoCategoriesAsync, updatePhotoAsync } from "../../../../../services/photoService";
-import Head from "next/head";
 import { toast, cssTransition } from "react-toastify";
 import Router from "next/router";
 import RouterUtilities from "../../../../../util/routerUtilities";
 import StringUtilities from "../../../../../util/stringUtilities";
 import ExtendedFormUtilities from "../../../../../util/extendedFormUtilities";
+import Head from "next/head";
+import FormatUtilities from "../../../../../util/formatUtilities";
 
 class Photo extends Form {
   static async getInitialProps(context) {
@@ -162,13 +163,14 @@ class Photo extends Form {
   };
 
   render() {
-    let { categories } = this.props;
+    let { categories, general } = this.props;
     const { showOptional } = this.state;
     categories = categories ? categories : [];
     return (
       <div>
         <Head>
           <script key="tinyMCE" type="text/javascript" src="/scripts/tinymce/tinymce.min.js"></script>
+          <title>{FormatUtilities.getFormattedWebsiteTitle("Edit Photo", general ? general.title : "Showcase")}</title>
         </Head>
         <div className="standardPadding">
           <form onSubmit={this.handleSubmit}>

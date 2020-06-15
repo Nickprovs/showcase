@@ -5,6 +5,8 @@ import CustomJoi from "../../../../misc/customJoi";
 import { createMediaCategoryAsync } from "../../../../services/mediaService";
 import { toast } from "react-toastify";
 import Router from "next/router";
+import Head from "next/head";
+import FormatUtilities from "../../../../util/formatUtilities";
 
 class Category extends Form {
   constructor() {
@@ -51,8 +53,12 @@ class Category extends Form {
   };
 
   render() {
+    const { general } = this.props;
     return (
       <div className="standardPadding">
+        <Head>
+          <title>{FormatUtilities.getFormattedWebsiteTitle("Post Media Category", general ? general.title : "Showcase")}</title>
+        </Head>
         <form onSubmit={this.handleSubmit}>
           {this.renderTextInput("name", "NAME")}
           {this.renderTextInput("slug", "SLUG")}

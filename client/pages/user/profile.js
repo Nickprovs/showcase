@@ -1,11 +1,14 @@
 import withAuthAsync from "../../components/common/hoc/withAuthAsync";
 import withLayoutAsync from "../../components/common/hoc/withLayoutAsync";
+import Head from "next/head";
+import FormatUtilities from "../../util/formatUtilities";
 
-const Profile = (props) => {
-  let user = props.user;
-  console.log(user);
+const Profile = ({ general, user }) => {
   return (
     <div style={{ paddingBottom: "25px" }}>
+      <Head>
+        <title>{FormatUtilities.getFormattedWebsiteTitle("User", general ? general.title : "Showcase")}</title>
+      </Head>
       <h1>Profile</h1>
       <p>
         <b>Username:</b> {user.username}
