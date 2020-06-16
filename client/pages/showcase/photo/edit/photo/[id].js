@@ -171,6 +171,7 @@ class Photo extends Form {
         <Head>
           <script key="tinyMCE" type="text/javascript" src="/scripts/tinymce/tinymce.min.js"></script>
           <title>{FormatUtilities.getFormattedWebsiteTitle("Edit Photo", general ? general.title : "Showcase")}</title>
+          <meta name="description" content="Edit an existing photo." />
         </Head>
         <div className="standardPadding">
           <form onSubmit={this.handleSubmit}>

@@ -174,6 +174,7 @@ class Article extends Form {
       <div>
         <Head>
           <title>{FormatUtilities.getFormattedWebsiteTitle("Edit Blog", general ? general.title : "Showcase")}</title>
+          <meta name="description" content="Edit an existing blog." />
           <script key="tinyMCE" type="text/javascript" src="/scripts/tinymce/tinymce.min.js"></script>
         </Head>
         <div className="standardPadding">

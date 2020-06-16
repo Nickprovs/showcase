@@ -175,6 +175,7 @@ class Article extends Form {
         <Head>
           <script key="tinyMCE" type="text/javascript" src="/scripts/tinymce/tinymce.min.js"></script>
           <title>{FormatUtilities.getFormattedWebsiteTitle("Edit Software", general ? general.title : "Showcase")}</title>
+          <meta name="description" content="Edit an existing software." />
         </Head>
         <div className="standardPadding">
           <form onSubmit={this.handleSubmit}>

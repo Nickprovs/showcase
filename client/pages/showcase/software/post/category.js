@@ -59,6 +59,7 @@ class Category extends Form {
       <div className="standardPadding">
         <Head>
           <title>{FormatUtilities.getFormattedWebsiteTitle("Post Software Category", general ? general.title : "Showcase")}</title>
+          <meta name="description" content="Post a new software category." />
         </Head>
         <form onSubmit={this.handleSubmit}>
           {this.renderTextInput("name", "NAME")}
