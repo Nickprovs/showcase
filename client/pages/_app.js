@@ -37,6 +37,10 @@ export default function MyApp({ Component, pageProps }) {
   return (
     <div>
       <Head>
+        {/* Site-Wide Metadata */}
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
         {/* Import CSS for nprogress */}
         <link rel="stylesheet" type="text/css" href="/nprogress.css" />
         <link id="favicon" rel="shortcut icon" href="/favicon.ico" />
