@@ -8,6 +8,7 @@ const Profile = ({ general, user }) => {
     <div style={{ paddingBottom: "25px" }}>
       <Head>
         <title>{FormatUtilities.getFormattedWebsiteTitle("User", general ? general.title : "Showcase")}</title>
+        <meta name="description" content="The user profile section." />
       </Head>
       <h1>Profile</h1>
       <p>

@@ -21,6 +21,7 @@ function Blog({ blog, general }) {
     <article>
       <Head>
         <title>{FormatUtilities.getFormattedWebsiteTitle(blog.title, general ? general.title : "Showcase")}</title>
+        <meta name="description" content={blog.description} />
       </Head>
       {/* Primary Article Content*/}
       <div>

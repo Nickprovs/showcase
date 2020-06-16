@@ -21,6 +21,7 @@ function Software({ software, general }) {
     <article>
       <Head>
         <title>{FormatUtilities.getFormattedWebsiteTitle(software.title, general ? general.title : "Showcase")}</title>
+        <meta name="description" content={software.description} />
       </Head>
       {/* Primary Article Content*/}
       <div>
