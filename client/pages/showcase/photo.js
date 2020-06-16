@@ -17,6 +17,7 @@ import Pagination from "../../components/common/misc/pagination";
 import { toast } from "react-toastify";
 import Head from "next/head";
 import FormatUtilities from "../../util/formatUtilities";
+import StringUtilities from "../../util/stringUtilities";
 
 const pageSize = 10;
 
@@ -310,6 +311,7 @@ class Photo extends Component {
         <div>
           <Head>
             <title>{FormatUtilities.getFormattedWebsiteTitle("Photo", general ? general.title : "Showcase")}</title>
+            <meta name="description" content={`The photo showcase of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
           </Head>
           <div style={{ zIndex: "200" }} className={photoStyles.container}>
             {photos.map((photo) => (

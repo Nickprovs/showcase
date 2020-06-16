@@ -9,6 +9,7 @@ import { getSoftwaresAsync, deleteSoftwareAsync, getSoftwareCategoriesAsync, del
 import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../../services/featuredService";
 import Head from "next/head";
 import FormatUtilities from "../../util/formatUtilities";
+import StringUtilities from "../../util/stringUtilities";
 
 const pageSize = 6;
 
@@ -258,6 +259,7 @@ class Software extends Component {
       <div>
         <Head>
           <title>{FormatUtilities.getFormattedWebsiteTitle("Software", general ? general.title : "Showcase")}</title>
+          <meta name="description" content={`The software showcase of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
         </Head>
         <CommonPageHeaderControls
           user={user}

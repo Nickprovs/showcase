@@ -8,6 +8,7 @@ function Error({ statusCode, general }) {
     <div>
       <Head>
         <title>{FormatUtilities.getFormattedWebsiteTitle("Error", general ? general.title : "Showcase")}</title>
+        <meta name="description" content="Oops. Something went wrong!" />
       </Head>
       <h1 className="mainContentTitle">{statusCode ? `${statusCode} Error` : "Error"}</h1>
       <p>{statusCode ? `An error occurred on the server.` : "An error occurred on client."}</p>

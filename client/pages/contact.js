@@ -8,6 +8,7 @@ import getConfig from "next/config";
 import NProgress from "nprogress";
 import Head from "next/head";
 import FormatUtilities from "../util/formatUtilities";
+import StringUtilities from "../util/stringUtilities";
 
 const { publicRuntimeConfig } = getConfig();
 const captchaPublicKey = publicRuntimeConfig.captchaPublicKey;
@@ -95,6 +96,7 @@ class Contact extends Form {
       <div>
         <Head>
           <title>{FormatUtilities.getFormattedWebsiteTitle("Contact", general ? general.title : "Showcase")}</title>
+          <meta name="description" content={`Get in touch with ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
         </Head>
         <div className="standardPadding">{!contactComplete ? this.getContactNotCompleteMarkup() : this.getContactCompleteMarkup()}</div>
       </div>

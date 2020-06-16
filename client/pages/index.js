@@ -15,6 +15,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp, faArrowDown, faStar, faEdit } from "@fortawesome/free-solid-svg-icons";
 import Head from "next/head";
 import FormatUtilities from "../util/formatUtilities";
+import StringUtilities from "../util/stringUtilities";
 
 const SubsidiaryAdminOptions = ({ subsidiary, editPath, onMoveSubsidiaryAsync, onRemoveSubsidiaryAsync }) => {
   return (
@@ -303,6 +304,7 @@ class Index extends Component {
       <div>
         <Head>
           <title>{FormatUtilities.getFormattedWebsiteTitle("Home", general ? general.title : "Showcase")}</title>
+          <meta name="description" content={`The home of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
         </Head>
         {/*Primary Featured Content*/}
         <div className={indexStyles.primaryContainer}>

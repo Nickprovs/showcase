@@ -17,9 +17,10 @@ import DangerousInnerHtmlWithScript from "../../components/common/misc/dangerous
 import EmbedUtilities from "../../util/embedUtilities";
 import TagsPresenter from "../../components/common/misc/tagPresenter";
 import Head from "next/head";
-import FormatUtilities from "../../util/formatUtilities";
 import { toast } from "react-toastify";
 import reframe from "reframe.js";
+import FormatUtilities from "../../util/formatUtilities";
+import StringUtilities from "../../util/stringUtilities";
 
 const pageSize = 5;
 
@@ -344,6 +345,7 @@ class Media extends Component {
       <div>
         <Head>
           <title>{FormatUtilities.getFormattedWebsiteTitle("Media", general ? general.title : "Showcase")}</title>
+          <meta name="description" content={`The media showcase of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
         </Head>
         <CommonPageHeaderControls
           user={user}

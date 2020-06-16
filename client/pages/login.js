@@ -7,6 +7,7 @@ import LoginEmailMfaForm from "../components/page/login/loginEmailMfaForm";
 import { parseCookies, setCookie } from "nookies";
 import Head from "next/head";
 import FormatUtilities from "../util/formatUtilities";
+import StringUtilities from "../util/stringUtilities";
 
 class Login extends Component {
   constructor() {
@@ -38,6 +39,7 @@ class Login extends Component {
       <div>
         <Head>
           <title>{FormatUtilities.getFormattedWebsiteTitle("Login", general ? general.title : "Showcase")}</title>
+          <meta name="description" content={`Login to the ${StringUtilities.toEachWordCapitalized(general.title)} site.`} />
         </Head>
         {showEmailCodeAuth ? (
           <LoginEmailMfaForm onEmailMfaAuthCompleteAsync={async (result) => await this.handleEmailMfaAuthCompletedAsync(result)} />

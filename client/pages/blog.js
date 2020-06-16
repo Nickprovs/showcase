@@ -9,6 +9,7 @@ import { getBlogsAsync, deleteBlogAsync, getBlogCategoriesAsync, deleteBlogCateg
 import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../services/featuredService";
 import Head from "next/head";
 import FormatUtilities from "../util/formatUtilities";
+import StringUtilities from "../util/stringUtilities";
 
 const pageSize = 6;
 
@@ -258,6 +259,7 @@ class Blog extends Component {
       <div>
         <Head>
           <title>{FormatUtilities.getFormattedWebsiteTitle("Blog", general ? general.title : "Showcase")}</title>
+          <meta name="description" content={`The blog of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
         </Head>
         <CommonPageHeaderControls
           user={user}
