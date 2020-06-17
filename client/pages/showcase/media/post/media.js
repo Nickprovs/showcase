@@ -111,6 +111,7 @@ class Media extends Form {
         <Head>
           <title>{FormatUtilities.getFormattedWebsiteTitle("Post Media", general ? general.title : "Showcase")}</title>
           <meta name="description" content="Post a new media." />
+          <meta name="robots" content="noindex" />
           <script key="tinyMCE" type="text/javascript" src="/scripts/tinymce/tinymce.min.js"></script>
         </Head>
         <div className="standardPadding">

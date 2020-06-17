@@ -9,6 +9,7 @@ const Profile = ({ general, user }) => {
       <Head>
         <title>{FormatUtilities.getFormattedWebsiteTitle("User", general ? general.title : "Showcase")}</title>
         <meta name="description" content="The user profile section." />
+        <meta name="robots" content="noindex" />
       </Head>
       <h1>Profile</h1>
       <p>

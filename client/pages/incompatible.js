@@ -9,6 +9,7 @@ export default function Incompatible(props) {
       <Head>
         <title>{FormatUtilities.getFormattedWebsiteTitle("Incompatible", general ? general.title : "Showcase")}</title>
         <meta name="description" content="Oops. There seems to be an incompatibility issue!" />
+        <meta name="robots" content="noindex" />
       </Head>
       <h1>This browser isn't compatible.</h1>
       <h2>Sorry about that.</h2>

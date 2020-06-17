@@ -98,6 +98,7 @@ class Category extends Form {
         <Head>
           <title>{FormatUtilities.getFormattedWebsiteTitle("Edit Photo Category", general ? general.title : "Showcase")}</title>
           <meta name="description" content="Edit an existing photo category." />
+          <meta name="robots" content="noindex" />
         </Head>
         <div className="standardPadding">
           <form onSubmit={this.handleSubmit}>

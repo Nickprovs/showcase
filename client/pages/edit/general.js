@@ -110,6 +110,7 @@ class Primary extends Form {
         <Head>
           <title>{FormatUtilities.getFormattedWebsiteTitle("Edit General", general ? general.title : "Showcase")}</title>
           <meta name="description" content="Edit general data about this website." />
+          <meta name="robots" content="noindex" />
         </Head>
         <div className="standardPadding">
           <form onSubmit={this.handleSubmit}>

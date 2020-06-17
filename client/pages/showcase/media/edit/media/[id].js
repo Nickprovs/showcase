@@ -166,6 +166,7 @@ class Media extends Form {
           <script key="tinyMCE" type="text/javascript" src="/scripts/tinymce/tinymce.min.js"></script>
           <title>{FormatUtilities.getFormattedWebsiteTitle("Edit Media", general ? general.title : "Showcase")}</title>
           <meta name="description" content="Edit an existing media." />
+          <meta name="robots" content="noindex" />
         </Head>
         <div className="standardPadding">
           <form onSubmit={this.handleSubmit}>

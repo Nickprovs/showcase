@@ -59,6 +59,7 @@ class Category extends Form {
         <Head>
           <title>{FormatUtilities.getFormattedWebsiteTitle("Post Media Category", general ? general.title : "Showcase")}</title>
           <meta name="description" content="Post a new media category." />
+          <meta name="robots" content="noindex" />
         </Head>
         <form onSubmit={this.handleSubmit}>
           {this.renderTextInput("name", "NAME")}

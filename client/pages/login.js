@@ -40,6 +40,7 @@ class Login extends Component {
         <Head>
           <title>{FormatUtilities.getFormattedWebsiteTitle("Login", general ? general.title : "Showcase")}</title>
           <meta name="description" content={`Login to the ${StringUtilities.toEachWordCapitalized(general.title)} site.`} />
+          <meta name="robots" content="noindex" />
         </Head>
         {showEmailCodeAuth ? (
           <LoginEmailMfaForm onEmailMfaAuthCompleteAsync={async (result) => await this.handleEmailMfaAuthCompletedAsync(result)} />
