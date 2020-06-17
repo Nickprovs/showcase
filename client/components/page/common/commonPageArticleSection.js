@@ -114,6 +114,7 @@ class CommonPageArticleSection extends Component {
                   <div className={articleSectionStyles.links}>
                     {preview.addressableHighlights.map((addressableHighlight) => (
                       <a
+                        rel="noopener"
                         key={addressableHighlight.label}
                         style={{ marginLeft: "10px", marginRight: "10px" }}
                         target="_blank"

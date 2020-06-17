@@ -20,7 +20,7 @@ export default function Footer(props) {
         <ul style={externalPageListStyle}>
           {externalPages.map((item) => (
             <li style={externalPageListItemStyle} key={item.label}>
-              <a href={item.href}>
+              <a rel="noopener" target="_blank" href={item.href}>
                 <TransparentButton aria-label={item.label}>
                   <FontAwesomeIcon size="2x" icon={item.icon}></FontAwesomeIcon>
                 </TransparentButton>

@@ -188,7 +188,13 @@ class Index extends Component {
         {article.addressableHighlights && article.addressableHighlights.length > 0 && (
           <div className={indexStyles.addressableHighlights}>
             {article.addressableHighlights.map((addressableHighlight) => (
-              <a key={addressableHighlight.label} style={{ marginLeft: "10px", marginRight: "10px" }} target="_blank" href={addressableHighlight.address}>
+              <a
+                rel="noopener"
+                key={addressableHighlight.label}
+                style={{ marginLeft: "10px", marginRight: "10px" }}
+                target="_blank"
+                href={addressableHighlight.address}
+              >
                 {addressableHighlight.label}
               </a>
             ))}
@@ -229,7 +235,13 @@ class Index extends Component {
         {media.addressableHighlights && media.addressableHighlights.length > 0 && (
           <div className={indexStyles.addressableHighlights}>
             {media.addressableHighlights.map((addressableHighlight) => (
-              <a key={addressableHighlight.label} style={{ marginLeft: "10px", marginRight: "10px" }} target="_blank" href={addressableHighlight.address}>
+              <a
+                rel="noopener"
+                key={addressableHighlight.label}
+                style={{ marginLeft: "10px", marginRight: "10px" }}
+                target="_blank"
+                href={addressableHighlight.address}
+              >
                 {addressableHighlight.label}
               </a>
             ))}
@@ -279,7 +291,13 @@ class Index extends Component {
         {photo.addressableHighlights && photo.addressableHighlights.length > 0 && (
           <div className={indexStyles.addressableHighlights}>
             {photo.addressableHighlights.map((addressableHighlight) => (
-              <a key={addressableHighlight.label} style={{ marginLeft: "10px", marginRight: "10px" }} target="_blank" href={addressableHighlight.address}>
+              <a
+                rel="noopener"
+                key={addressableHighlight.label}
+                style={{ marginLeft: "10px", marginRight: "10px" }}
+                target="_blank"
+                href={addressableHighlight.address}
+              >
                 {addressableHighlight.label}
               </a>
             ))}

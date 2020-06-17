@@ -9,6 +9,6 @@ export default class RouterUtilities {
 
   static async routeExternalWithDelayAsync(url, target = "_blank", milliseconds) {
     await AsyncUtilities.setTimeoutAsync(milliseconds);
-    window.open(url, target);
+    window.open(url, target, "noopener");
   }
 }

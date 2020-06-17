@@ -89,11 +89,9 @@ export default function Header(props) {
           {user && user.isAdmin && (
             <li style={externalPageListItemStyle} key="editGeneral">
               <Link href="/edit/general" key="editGeneral">
-                <a>
-                  <TransparentButton aria-label="Edit General" style={{ color: "var(--s1)" }}>
-                    <FontAwesomeIcon size="2x" icon={faEdit} />
-                  </TransparentButton>
-                </a>
+                <TransparentButton aria-label="Edit General" style={{ color: "var(--s1)" }}>
+                  <FontAwesomeIcon size="2x" icon={faEdit} />
+                </TransparentButton>
               </Link>
             </li>
           )}
@@ -104,7 +102,7 @@ export default function Header(props) {
           </li>
           {externalPages.map((item) => (
             <li style={externalPageListItemStyle} key={item.label}>
-              <a target="_blank" href={item.href}>
+              <a rel="noopener" target="_blank" href={item.href}>
                 <TransparentButton aria-label={item.label} style={{ color: "var(--s1)" }}>
                   <FontAwesomeIcon size="2x" icon={item.icon} />
                 </TransparentButton>
