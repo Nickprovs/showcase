@@ -71,7 +71,7 @@ export default function Header(props) {
   };
 
   return (
-    <div className={header.header}>
+    <nav className={header.header}>
       {/* Internal Links*/}
       <div className={header.leftContent}>
         <ul style={menuStyle}>
@@ -113,6 +113,6 @@ export default function Header(props) {
           ))}
         </ul>
       </div>
-    </div>
+    </nav>
   );
 }

@@ -116,6 +116,7 @@ class CommonPageHeaderControls extends Component {
         {/* Search Box */}
         <div className={pageHeaderStyles.headerControl}>
           <input
+            aria-label="Search"
             style={{ width: "100%", height: "45px" }}
             className="form-control"
             onKeyPress={(e) => this.internalOnSearchKeyPressed(e)}
@@ -128,6 +129,7 @@ class CommonPageHeaderControls extends Component {
         {/* Category Box */}
         <div className={pageHeaderStyles.headerControl}>
           <Select
+            aria-label="Select Category"
             instanceId={`category_select_${mainPagePath}`}
             options={categoriesFormattedForSelect}
             onChange={(selected) => onCategoryChange(selected.value)}

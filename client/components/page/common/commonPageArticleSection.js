@@ -101,9 +101,7 @@ class CommonPageArticleSection extends Component {
                 </div>
                 <div className={articleSectionStyles.previewImage}>
                   <Link href={`/${mainPagePath}/[slug]`} as={`/${mainPagePath}/${preview.slug}`}>
-                    <a>
-                      <img className={articleSectionStyles.containerFitImage} src={preview.image} />
-                    </a>
+                    <img className={articleSectionStyles.containerFitImage} src={preview.image} />
                   </Link>
                 </div>
                 <div className={articleSectionStyles.descriptionContainer}>

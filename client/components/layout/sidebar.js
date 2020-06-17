@@ -113,7 +113,7 @@ export default class Sidebar extends Component {
 
     const sidebarClass = isSidebarOpen ? sidebar.sidebarExpanded : sidebar.sidebarCollapsed;
     return (
-      <div className={sidebar.container}>
+      <nav className={sidebar.container}>
         {/* Actual Sidebar*/}
         <div ref={this.setSidebarRef} className={sidebar.sidebar + " " + sidebarClass}>
           {/* Sidebar Menu Button */}
@@ -161,7 +161,7 @@ export default class Sidebar extends Component {
             ))}
           </ul>
         </div>
-      </div>
+      </nav>
     );
   }
 }

@@ -15,7 +15,7 @@ export default function Footer(props) {
   };
 
   return (
-    <div>
+    <footer>
       <div className={footer.footer}>
         <ul style={externalPageListStyle}>
           {externalPages.map((item) => (
@@ -33,6 +33,6 @@ export default function Footer(props) {
       <div className={footer.copyrightContainer}>
         <label className={footer.copyright}>{footnote}</label>
       </div>
-    </div>
+    </footer>
   );
 }

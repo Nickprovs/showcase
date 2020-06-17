@@ -324,20 +324,23 @@ class Photo extends Component {
                 <div className={photoStyles.cellContainer}>
                   {/* Admin Options */}
                   {user && user.isAdmin && (
-                    <div id="test" className={photoStyles.adminOptions}>
+                    <div className={photoStyles.adminOptions}>
                       <div>
-                        <TransparentButton onClick={async () => await this.handleToggleFeaturedPhoto(photo)} style={{ color: "var(--f1)" }}>
+                        <TransparentButton
+                          aria-label="Toggle Photo as Featured"
+                          onClick={async () => await this.handleToggleFeaturedPhoto(photo)}
+                          style={{ color: "var(--f1)" }}
+                        >
                           <FontAwesomeIcon size="2x" icon={featured.subsidiaries.items.some((item) => item.id === photo._id) ? fasStar : farStar} />
                         </TransparentButton>
                         <Link href={`/showcase/photo/edit/photo/[id]`} as={`/showcase/photo/edit/photo/${photo._id}`}>
-                          <a>
-                            <TransparentButton>
-                              <FontAwesomeIcon size="2x" icon={faEdit} />
-                            </TransparentButton>
-                          </a>
+                          <TransparentButton aria-label="Edit Photo">
+                            <FontAwesomeIcon size="2x" icon={faEdit} />
+                          </TransparentButton>
                         </Link>
 
                         <TransparentButton
+                          aria-label="Remove Photo"
                           onClick={() =>
                             toast.info(<RemovePhotoToast photo={photo} onRemovePhotoAsync={async (photo) => await this.handleRemovePhoto(photo)} />)
                           }
