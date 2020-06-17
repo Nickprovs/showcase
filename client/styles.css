@@ -194,7 +194,7 @@ p {
   padding-left: 8px;
   border-width: 2px;
   border-style: solid;
-  border-color: var(--s8);
+  border-color: var(--s9);
   box-sizing: border-box;
   width: 95%;
   color: var(--f1);
@@ -229,7 +229,7 @@ p {
 
 .form-label-error {
   font-size: 10pt;
-  color: var(--s9);
+  color: var(--s11);
   font-family: "SourceSansPro";
   font-weight: bold;
 }

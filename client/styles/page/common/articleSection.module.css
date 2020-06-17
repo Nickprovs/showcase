@@ -5,8 +5,8 @@
   grid-auto-rows: minmax(400px, auto);
   grid-auto-flow: dense;
   overflow: hidden;
-  border-top: 2px solid var(--s8);
-  border-left: 2px solid var(--s8);
+  border-top: 2px solid var(--s9);
+  border-left: 2px solid var(--s9);
 }
 @media screen and (min-width: 550px) {
   .container {
@@ -27,8 +27,8 @@
 }
 
 .container > .item {
-  border-bottom: 2px solid var(--s8);
-  border-right: 2px solid var(--s8);
+  border-bottom: 2px solid var(--s9);
+  border-right: 2px solid var(--s9);
 }
 
 .item:hover .adminOptions {

@@ -12,9 +12,9 @@ const LightTheme = {
   "--s6": "#1f9ec3",
   "--s7": "#000000",
   "--s8": "#bbbbbb",
-  "--s9": "#green",
-  "--s10": "red",
-  "--s11": "#dbdbdb",
+  "--s9": "#bbbbbb",
+  "--s10": "#green",
+  "--s11": "red",
 };
 
 export default LightTheme;

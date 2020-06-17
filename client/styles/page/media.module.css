@@ -1,9 +1,9 @@
 .container {
   display: grid;
   grid-template-columns: 1fr;
-  border-top: 2px solid var(--s8);
-  border-left: 2px solid var(--s8);
-  border-right: 2px solid var(--s8);
+  border-top: 2px solid var(--s9);
+  border-left: 2px solid var(--s9);
+  border-right: 2px solid var(--s9);
 }
 
 .item {
@@ -14,7 +14,7 @@
   flex-wrap: wrap;
   align-items: center;
   background-color: var(--b1);
-  border-bottom: 2px solid var(--s8);
+  border-bottom: 2px solid var(--s9);
   padding: 10px;
   padding-bottom: 20px;
 }
