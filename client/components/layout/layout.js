@@ -158,9 +158,7 @@ export default class Layout extends Component {
     const theme = darkModeOn ? Theme.Dark : Theme.Light;
 
     //Get background image based on theme -- with a fallback of a non-themed background image.
-    const backgroundImageCssUrl = darkModeOn
-      ? `url("/images/background-dark.jpg"), url("/images/background.jpg")`
-      : `url("/images/background-light.jpg"), url("/images/background.jpg")`;
+    const backgroundImageCssUrl = darkModeOn ? `url("/images/background-dark.jpg")` : `url("/images/background-light.jpg")`;
 
     return (
       <Theme variables={theme}>
