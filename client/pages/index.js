@@ -21,18 +21,18 @@ const SubsidiaryAdminOptions = ({ subsidiary, editPath, onMoveSubsidiaryAsync, o
   return (
     <div className={indexStyles.subsidiaryAdminOptions}>
       {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
-      <a href={editPath}>
-        <TransparentButton style={{ color: "var(--f1)" }}>
+      <a aria-label="Edit Content" href={editPath}>
+        <TransparentButton aria-label="Edit Content" style={{ color: "var(--f1)" }}>
           <FontAwesomeIcon size="2x" icon={faEdit} />
         </TransparentButton>
       </a>
-      <TransparentButton onClick={async () => await onMoveSubsidiaryAsync(subsidiary, "raise")} style={{ color: "var(--f1)" }}>
+      <TransparentButton aria-label="Move Content Up" onClick={async () => await onMoveSubsidiaryAsync(subsidiary, "raise")} style={{ color: "var(--f1)" }}>
         <FontAwesomeIcon size="2x" icon={faArrowUp} />
       </TransparentButton>
-      <TransparentButton onClick={async () => await onMoveSubsidiaryAsync(subsidiary, "lower")} style={{ color: "var(--f1)" }}>
+      <TransparentButton aria-label="Move Content Down" onClick={async () => await onMoveSubsidiaryAsync(subsidiary, "lower")} style={{ color: "var(--f1)" }}>
         <FontAwesomeIcon size="2x" icon={faArrowDown} />
       </TransparentButton>
-      <TransparentButton onClick={async () => await onRemoveSubsidiaryAsync(subsidiary)} style={{ color: "var(--f1)" }}>
+      <TransparentButton aria-label="Remove From Featured" onClick={async () => await onRemoveSubsidiaryAsync(subsidiary)} style={{ color: "var(--f1)" }}>
         <FontAwesomeIcon size="2x" icon={faStar} />
       </TransparentButton>
     </div>
@@ -177,9 +177,7 @@ class Index extends Component {
         </div>
         <div className={indexStyles.previewImage}>
           <Link href={`/${mainPath}/[slug]`} as={`/${mainPath}/${article.slug}`}>
-            <a>
-              <img className={indexStyles.containerFitImage} src={article.image} />
-            </a>
+            <img alt="" className={indexStyles.containerFitImage} src={article.image} />
           </Link>
         </div>
         <div className={indexStyles.descriptionContainer}>
@@ -267,7 +265,12 @@ class Index extends Component {
         </div>
         <div className={indexStyles.photoContainer}>
           <a>
-            <img onClick={() => this.handleOpenFullScreenPhoto(photo)} className={indexStyles.preservedAspectRatioPhoto} src={photo.source} />
+            <img
+              alt={photo.description}
+              onClick={() => this.handleOpenFullScreenPhoto(photo)}
+              className={indexStyles.preservedAspectRatioPhoto}
+              src={photo.source}
+            />
           </a>
         </div>
         <div className={indexStyles.descriptionContainer}>
@@ -310,8 +313,8 @@ class Index extends Component {
         <div className={indexStyles.primaryContainer}>
           {user && user.isAdmin && (
             <div className={indexStyles.primaryAdminOptions}>
-              <a href={`/index/edit/primary`}>
-                <TransparentButton>
+              <a aria-label="Edit Primary Featured Content" href={`/index/edit/primary`}>
+                <TransparentButton aria-label="Edit Primary Featured Content">
                   <FontAwesomeIcon size="2x" icon={faEdit} />
                 </TransparentButton>
               </a>

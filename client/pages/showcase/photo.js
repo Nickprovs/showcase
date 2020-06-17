@@ -352,7 +352,12 @@ class Photo extends Component {
                     </div>
                   )}
 
-                  <img className={photoStyles.containerFitImage} onClick={() => this.handleOpenFullScreenPhoto(photo)} src={photo.source} />
+                  <img
+                    alt={photo.description}
+                    className={photoStyles.containerFitImage}
+                    onClick={() => this.handleOpenFullScreenPhoto(photo)}
+                    src={photo.source}
+                  />
                 </div>
               </div>
             ))}

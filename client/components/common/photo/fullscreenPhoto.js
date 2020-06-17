@@ -50,7 +50,7 @@ export default class FullscreenPhoto extends Component {
     return (
       <div onClick={() => this.handleCloseRequest()} className={containerClasses}>
         <div className={fullscreenPhotoStyles.imageContainer}>
-          <img className={fullscreenPhotoStyles.image} src={src} />
+          <img alt={metadata ? metadata.description : ""} className={fullscreenPhotoStyles.image} src={src} />
         </div>
         {metadata && showMetadata && (
           <div className={fullscreenPhotoStyles.metadataContainer}>

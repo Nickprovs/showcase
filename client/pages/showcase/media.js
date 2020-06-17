@@ -293,17 +293,22 @@ class Media extends Component {
               {/*Admin Controls*/}
               {user && user.isAdmin && (
                 <div className={mediaStyles.adminOptions}>
-                  <TransparentButton onClick={async () => await this.handleToggleFeaturedMedia(media)} style={{ color: "var(--f1)" }}>
+                  <TransparentButton
+                    aria-label="Toggle Media as Featured"
+                    onClick={async () => await this.handleToggleFeaturedMedia(media)}
+                    style={{ color: "var(--f1)" }}
+                  >
                     <FontAwesomeIcon size="2x" icon={featured.subsidiaries.items.some((item) => item.id === media._id) ? fasStar : farStar} />
                   </TransparentButton>
                   {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
-                  <a href={`media/edit/media/${media._id}`}>
-                    <TransparentButton style={{ color: "var(--f1)" }}>
+                  <a aria-label="Edit Media" href={`media/edit/media/${media._id}`}>
+                    <TransparentButton aria-label="Edit Media" style={{ color: "var(--f1)" }}>
                       <FontAwesomeIcon size="2x" icon={faEdit} />
                     </TransparentButton>
                   </a>
 
                   <TransparentButton
+                    aria-label="Delete Media"
                     onClick={() => toast.info(<RemoveMediaToast media={media} onRemoveMediaAsync={async (media) => await this.handleRemoveMedia(media)} />)}
                     style={{ color: "var(--f1)" }}
                   >
