@@ -6,6 +6,8 @@ import DateModifiedPresenter from "../../components/common/date/dateModifiedPres
 import TagsPresenter from "../../components/common/misc/tagPresenter";
 import Head from "next/head";
 import FormatUtilities from "../../util/formatUtilities";
+import { useEffect } from "react";
+import reframe from "reframe.js";
 
 Blog.getInitialProps = async function (context) {
   const { slug } = context.query;
@@ -17,6 +19,10 @@ Blog.getInitialProps = async function (context) {
 };
 
 function Blog({ blog, general }) {
+  useEffect(() => {
+    setTimeout(() => reframe("iframe"), 0);
+  });
+
   return (
     <article>
       <Head>

@@ -6,6 +6,8 @@ import DateModifiedPresenter from "../../../components/common/date/dateModifiedP
 import TagsPresenter from "../../../components/common/misc/tagPresenter";
 import Head from "next/head";
 import FormatUtilities from "../../../util/formatUtilities";
+import { useEffect } from "react";
+import reframe from "reframe.js";
 
 Software.getInitialProps = async function (context) {
   const { slug } = context.query;
@@ -17,6 +19,10 @@ Software.getInitialProps = async function (context) {
 };
 
 function Software({ software, general }) {
+  useEffect(() => {
+    setTimeout(() => reframe("iframe"), 0);
+  });
+
   return (
     <article>
       <Head>
