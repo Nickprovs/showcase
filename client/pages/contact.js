@@ -9,6 +9,7 @@ import NProgress from "nprogress";
 import Head from "next/head";
 import FormatUtilities from "../util/formatUtilities";
 import StringUtilities from "../util/stringUtilities";
+import { I0_DIRECTOR_HAPPY } from "../misc/iconData";
 
 const { publicRuntimeConfig } = getConfig();
 const captchaPublicKey = publicRuntimeConfig.captchaPublicKey;
@@ -70,8 +71,10 @@ class Contact extends Form {
     return (
       <div style={{ textAlign: "center" }}>
         <h1>{`Thanks for reaching out! I'll get back to you as soon as possible!`}</h1>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <object style={{ display: "block", width: "35%", overflow: "none" }} type="image/svg+xml" data="/images/director_happy.svg"></object>
+        <div class="svg-container-medium" style={{ marginBottom: "25px" }}>
+          <svg version="1.1" viewBox="0 0 100 100" preserveAspectRatio="xMinYMin meet" class="svg-content">
+            <path fill="none" stroke="var(--f1)" stroke-width="2" d={I0_DIRECTOR_HAPPY} />
+          </svg>
         </div>
       </div>
     );

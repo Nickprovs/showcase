@@ -10,6 +10,7 @@ import Link from "next/link";
 import Pagination from "../../common/misc/pagination";
 import DatePostedPresenter from "../../common/date/datePostedPresenter";
 import TagPresenter from "../../common/misc/tagPresenter";
+import { I1_DIRECTOR_SAD } from "../../../misc/iconData";
 
 const RemoveArticleToast = ({ closeToast, article, onRemoveArticleAsync }) => (
   <div>
@@ -41,8 +42,10 @@ class CommonPageArticleSection extends Component {
     return (
       <div style={{ textAlign: "center" }}>
         <h1>{`No ${mainContentType}s found.`}</h1>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <object style={{ display: "block", width: "35%", overflow: "none" }} type="image/svg+xml" data="/images/director_sad.svg"></object>
+        <div class="svg-container-medium" style={{ marginBottom: "25px" }}>
+          <svg version="1.1" viewBox="0 0 100 100" preserveAspectRatio="xMinYMin meet" class="svg-content">
+            <path fill="none" stroke="var(--f1)" stroke-width="2" d={I1_DIRECTOR_SAD} />
+          </svg>
         </div>
       </div>
     );

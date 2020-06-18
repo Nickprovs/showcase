@@ -13,6 +13,7 @@ export default function Incompatible(props) {
       </Head>
       <h1>This browser isn't compatible.</h1>
       <h2>Sorry about that.</h2>
+      {/*We use the object approach to svg here as inline-svg most likely won't work well with incompatible browsers*/}
       <div style={{ textAlign: "center" }}>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <object style={{ display: "block", width: "35%", overflow: "none" }} type="image/svg+xml" data="/images/director_sad.svg"></object>

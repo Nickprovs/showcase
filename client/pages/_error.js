@@ -2,6 +2,7 @@ import withAuthAsync from "../components/common/hoc/withAuthAsync";
 import withLayoutAsync from "../components/common/hoc/withLayoutAsync";
 import Head from "next/head";
 import FormatUtilities from "../util/formatUtilities";
+import { I1_DIRECTOR_SAD } from "../misc/iconData";
 
 function Error({ statusCode, general }) {
   return (
@@ -13,10 +14,10 @@ function Error({ statusCode, general }) {
       </Head>
       <h1 className="mainContentTitle">{statusCode ? `${statusCode} Error` : "Error"}</h1>
       <p>{statusCode ? `An error occurred on the server.` : "An error occurred on client."}</p>
-      <div style={{ textAlign: "center" }}>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <object style={{ display: "block", width: "35%", overflow: "none" }} type="image/svg+xml" data="director_sad.svg"></object>
-        </div>
+      <div class="svg-container-medium" style={{ marginBottom: "25px" }}>
+        <svg version="1.1" viewBox="0 0 100 100" preserveAspectRatio="xMinYMin meet" class="svg-content">
+          <path fill="none" stroke="var(--f1)" stroke-width="2" d={I1_DIRECTOR_SAD} />
+        </svg>
       </div>
     </div>
   );

@@ -245,3 +245,19 @@ p {
 .a-no-underline {
   text-decoration: none;
 }
+
+.svg-container-medium {
+  display: inline-block;
+  position: relative;
+  width: 25%;
+  padding-bottom: 25%;
+  vertical-align: middle;
+  overflow: hidden;
+}
+
+.svg-content {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
