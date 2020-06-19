@@ -293,8 +293,8 @@ class Photo extends Component {
     return (
       <div style={{ textAlign: "center" }}>
         <h1>{`No photos found.`}</h1>
-        <div class="svg-container-medium" style={{ marginBottom: "25px" }}>
-          <svg version="1.1" viewBox="0 0 100 100" preserveAspectRatio="xMinYMin meet" class="svg-content">
+        <div className="svg-container-medium" style={{ marginBottom: "25px" }}>
+          <svg version="1.1" viewBox="0 0 100 100" preserveAspectRatio="xMinYMin meet" className="svg-content">
             <path fill="none" stroke="var(--f1)" stroke-width="2" d={I1_DIRECTOR_SAD} />
           </svg>
         </div>

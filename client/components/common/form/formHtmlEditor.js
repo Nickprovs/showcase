@@ -1,40 +1,51 @@
-import { Editor } from '@tinymce/tinymce-react';
+import { Editor } from "@tinymce/tinymce-react";
 
-const FormHtmlEditor = ({ name, label, error, init, initialValue, ...rest }) => {
-    return (
-      <div>
-        <label className="form-label" htmlFor={name}>
-          {label}
-        </label>
-        <br />
-        <Editor    
-            {...rest}
-            name={name} 
-            id={name}
-            initialValue = {initialValue ? initialValue : "<p></p>"}
-            init= {init ? init : {
-                  width: "95%",
-                  height: 777,
-                  menubar: true,
-                  plugins: [
-                    'advlist autolink lists link image charmap print preview anchor',
-                    'searchreplace visualblocks code fullscreen',
-                    'insertdatetime media table paste code help wordcount'
-                  ],
-                  toolbar:
-                    'undo redo | formatselect | bold italic backcolor | \
+function FormHtmlEditor({ name, label, error, init, initialValue, darkModeOn, ...rest }) {
+  let optionalThemeData = {};
+
+  if (darkModeOn) {
+    optionalThemeData.skin = "oxide-dark";
+    optionalThemeData.content_css = "dark";
+  }
+
+  return (
+    <div>
+      <label className="form-label" htmlFor={name}>
+        {label}
+      </label>
+      <br />
+      <Editor
+        {...rest}
+        name={name}
+        id={name}
+        initialValue={initialValue ? initialValue : "<p></p>"}
+        init={
+          init
+            ? init
+            : {
+                ...optionalThemeData,
+                width: "96%",
+                height: 750,
+                menubar: true,
+                plugins: [
+                  "advlist autolink lists link image charmap print preview anchor",
+                  "searchreplace visualblocks code fullscreen",
+                  "insertdatetime media table paste code help wordcount",
+                ],
+                toolbar:
+                  "undo redo | formatselect | bold italic backcolor | \
                     alignleft aligncenter alignright alignjustify | \
-                    bullist numlist outdent indent | removeformat | help'
-                }}
-            />       
-          <div>
-            <label className="form-label-error" htmlFor={name}>
-              {error}
-            </label>
-          </div>
+                    bullist numlist outdent indent | removeformat | help",
+              }
+        }
+      />
+      <div>
+        <label className="form-label-error" htmlFor={name}>
+          {error}
+        </label>
       </div>
-    );
-  };
-  
-  export default FormHtmlEditor;
-  
+    </div>
+  );
+}
+
+export default FormHtmlEditor;

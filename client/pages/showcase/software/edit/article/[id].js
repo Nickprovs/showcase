@@ -11,6 +11,7 @@ import StringUtilities from "../../../../../util/stringUtilities";
 import ExtendedFormUtilities from "../../../../../util/extendedFormUtilities";
 import Head from "next/head";
 import FormatUtilities from "../../../../../util/formatUtilities";
+import ThemeUtilities from "../../../../../util/themeUtilities";
 
 class Article extends Form {
   static async getInitialProps(context) {
@@ -34,7 +35,10 @@ class Article extends Form {
       categories = null;
     }
 
-    return { software: software, categories: categories };
+    //Get theme data for tinymce init
+    let darkModeOn = ThemeUtilities.getSavedDarkModeOnStatus(context);
+
+    return { software, categories, darkModeOn };
   }
 
   constructor() {
@@ -168,7 +172,7 @@ class Article extends Form {
 
   render() {
     const { showOptional } = this.state;
-    let { categories, general } = this.props;
+    let { categories, general, darkModeOn } = this.props;
     categories = categories ? categories : [];
     return (
       <div>
@@ -185,7 +189,7 @@ class Article extends Form {
             {this.renderSelect("category", "CATEGORY", "Select Category", categories.items, "name")}
             {this.renderTextInput("image", "IMAGE")}
             {this.renderTextArea("description", "DESCRIPTION")}
-            {this.renderHtmlEditor("body", "BODY")}
+            {this.renderHtmlEditor("body", "BODY", darkModeOn)}
             {this.renderTextInput("tags", "TAGS")}
 
             <BasicButton

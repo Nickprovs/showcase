@@ -71,8 +71,8 @@ class Contact extends Form {
     return (
       <div style={{ textAlign: "center" }}>
         <h1>{`Thanks for reaching out! I'll get back to you as soon as possible!`}</h1>
-        <div class="svg-container-medium" style={{ marginBottom: "25px" }}>
-          <svg version="1.1" viewBox="0 0 100 100" preserveAspectRatio="xMinYMin meet" class="svg-content">
+        <div className="svg-container-medium" style={{ marginBottom: "25px" }}>
+          <svg version="1.1" viewBox="0 0 100 100" preserveAspectRatio="xMinYMin meet" className="svg-content">
             <path fill="none" stroke="var(--f1)" stroke-width="2" d={I0_DIRECTOR_HAPPY} />
           </svg>
         </div>

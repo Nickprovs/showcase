@@ -132,7 +132,7 @@ class Form extends Component {
     );
   }
 
-  renderHtmlEditor(name, label) {
+  renderHtmlEditor(name, label, darkModeOn = false) {
     //When doing client-side nav... the next head sometimes doesn't contain the script right away. So be sure to server-side nav to
     //This may be fixed with RFC $8981 in the future
     if (typeof document !== "undefined") {
@@ -148,6 +148,7 @@ class Form extends Component {
     return (
       <FormHtmlEditor
         name={name}
+        darkModeOn={darkModeOn}
         label={label}
         value={this.state.data[name]}
         onEditorChange={(e) => this.handleChange(name, e, "text")}
