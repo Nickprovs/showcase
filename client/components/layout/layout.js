@@ -96,8 +96,7 @@ export default class Layout extends Component {
               try {
                 await logoutAsync();
                 window.localStorage.setItem("logout", Date.now());
-                console.log("test");
-                Router.push("/login");
+                Router.reload();
               } catch (ex) {
                 console.log(ex);
               }
