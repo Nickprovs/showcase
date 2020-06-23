@@ -1,7 +1,5 @@
 {
-  "clientProtocol": "CLIENT_PROTOCOL",
-  "clientAddress": "CLIENT_ADDRESS",
-  "clientPort": "CLIENT_PORT",
+  "clientUrl": "CLIENT_URL",
   "adminUsername": "ADMIN_USERNAME",
   "adminPassword": "ADMIN_PASSWORD",
   "adminEmail": "ADMIN_EMAIL",

@@ -1,7 +1,5 @@
 {
-  "clientProtocol": "http",
-  "clientAddress": "localhost",
-  "clientPort": "3000",
+  "clientUrl": "http://localhost:3000",
   "adminUsername": "admin",
   "adminPassword": "password",
   "adminEmail": "",
