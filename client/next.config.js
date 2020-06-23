@@ -47,8 +47,8 @@ function getPublicRuntimeConfig(phase) {
 }
 
 function validatePublicRuntimeConfig(publicRuntimeConfig) {
-  if (!publicRuntimeConfig.apiProtocol) throw new Error("Must set API_PROTOCOL environment variable (http or https)");
-  if (!publicRuntimeConfig.apiAddress) throw new Error("Must set API_ADDRESS environment variable");
-  if (!publicRuntimeConfig.apiPort) throw new Error("Must set API_PORT environment variable");
-  if (!publicRuntimeConfig.captchaPublicKey) throw new Error("Must set CAPTCHA_PUBLIC_KEY environment variable");
+  // if (!publicRuntimeConfig.apiProtocol) throw new Error("Must set API_PROTOCOL environment variable (http or https)");
+  // if (!publicRuntimeConfig.apiAddress) throw new Error("Must set API_ADDRESS environment variable");
+  // if (!publicRuntimeConfig.apiPort) throw new Error("Must set API_PORT environment variable");
+  // if (!publicRuntimeConfig.captchaPublicKey) throw new Error("Must set CAPTCHA_PUBLIC_KEY environment variable");
 }
