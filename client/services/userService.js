@@ -1,10 +1,8 @@
 import fetch from "isomorphic-unfetch";
 import getConfig from "next/config";
-
 const { publicRuntimeConfig } = getConfig();
-const APIURL = `${publicRuntimeConfig.apiProtocol}://${publicRuntimeConfig.apiAddress}:${publicRuntimeConfig.apiPort}`;
 
-const MEURL = `${APIURL}/me`;
+const MEURL = `${publicRuntimeConfig.apiUrl}/me`;
 
 export async function getCurrentUserAsync(context) {
   const fetchRequest = {

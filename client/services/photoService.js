@@ -1,13 +1,10 @@
 import asyncUtilities from "../util/asyncUtilities";
 import fetch from "isomorphic-unfetch";
 import getConfig from "next/config";
-
 const { publicRuntimeConfig } = getConfig();
-const APIURL = `${publicRuntimeConfig.apiProtocol}://${publicRuntimeConfig.apiAddress}:${publicRuntimeConfig.apiPort}`;
 
-const PHOTOSAPIURL = `${APIURL}/photos`;
-const PHOTOCATEGORIESURL = `${APIURL}/photoCategories`;
-const FEATUREDPHOTOSAPIURL = `${APIURL}/featured/photo`;
+const PHOTOSAPIURL = `${publicRuntimeConfig.apiUrl}/photos`;
+const PHOTOCATEGORIESURL = `${publicRuntimeConfig.apiUrl}/photoCategories`;
 
 export async function getPhotosAsync(options) {
   let query = "";

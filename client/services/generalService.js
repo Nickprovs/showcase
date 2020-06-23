@@ -1,8 +1,8 @@
 import fetch from "isomorphic-unfetch";
 import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
-const APIURL = `${publicRuntimeConfig.apiProtocol}://${publicRuntimeConfig.apiAddress}:${publicRuntimeConfig.apiPort}`;
-const GENERALAPIURL = `${APIURL}/general`;
+
+const GENERALAPIURL = `${publicRuntimeConfig.apiUrl}/general`;
 
 export async function getGeneralAsync(options) {
   let query = "";

@@ -1,11 +1,9 @@
 import fetch from "isomorphic-unfetch";
 import getConfig from "next/config";
-
 const { publicRuntimeConfig } = getConfig();
-const APIURL = `${publicRuntimeConfig.apiProtocol}://${publicRuntimeConfig.apiAddress}:${publicRuntimeConfig.apiPort}`;
-const SOFTWAREAPIURL = `${APIURL}/software`;
-const SOFTWARECATEGORIESAPIURL = `${APIURL}/softwareCategories`;
-const FEATUREDSOFTWAREAPIURL = `${APIURL}/featured/software`;
+
+const SOFTWAREAPIURL = `${publicRuntimeConfig.apiUrl}/software`;
+const SOFTWARECATEGORIESAPIURL = `${publicRuntimeConfig.apiUrl}/softwareCategories`;
 
 export async function getSoftwaresAsync(options) {
   let query = "";

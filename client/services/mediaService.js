@@ -2,11 +2,9 @@ import fetch from "isomorphic-unfetch";
 import getConfig from "next/config";
 
 const { publicRuntimeConfig } = getConfig();
-const APIURL = `${publicRuntimeConfig.apiProtocol}://${publicRuntimeConfig.apiAddress}:${publicRuntimeConfig.apiPort}`;
 
-const PHOTOSAPIURL = `${APIURL}/medias`;
-const PHOTOCATEGORIESURL = `${APIURL}/mediaCategories`;
-const FEATUREDMEDIASAPIURL = `${APIURL}/featured/media`;
+const PHOTOSAPIURL = `${publicRuntimeConfig.apiUrl}/medias`;
+const PHOTOCATEGORIESURL = `${publicRuntimeConfig.apiUrl}/mediaCategories`;
 
 export async function getMediasAsync(options) {
   let query = "";

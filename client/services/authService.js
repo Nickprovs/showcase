@@ -1,9 +1,8 @@
 import fetch from "isomorphic-unfetch";
 import getConfig from "next/config";
-
 const { publicRuntimeConfig } = getConfig();
-const APIURL = `${publicRuntimeConfig.apiProtocol}://${publicRuntimeConfig.apiAddress}:${publicRuntimeConfig.apiPort}`;
-const AUTHURL = `${APIURL}/auth`;
+
+const AUTHURL = `${publicRuntimeConfig.apiUrl}/auth`;
 const AUTHCREDENTIALSURL = `${AUTHURL}/credentials`;
 const AUTHEMAILMFAURL = `${AUTHURL}/emailMfa`;
 

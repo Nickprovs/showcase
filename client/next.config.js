@@ -36,9 +36,7 @@ function getPublicRuntimeConfig(phase) {
 
   //Configuration will usually come from environment -- but also potentially a config file for convenience
   publicRuntimeConfig = {
-    apiProtocol: process.env.API_PROTOCOL || (configFile && configFile.apiProtocol),
-    apiAddress: process.env.API_ADDRESS || (configFile && configFile.apiAddress),
-    apiPort: process.env.API_PORT || (configFile && configFile.apiPort),
+    apiUrl: process.env.API_URL || (configFile && configFile.apiUrl),
     captchaPublicKey: process.env.CAPTCHA_PUBLIC_KEY || (configFile && configFile.captchaPublicKey),
   };
 
@@ -47,8 +45,6 @@ function getPublicRuntimeConfig(phase) {
 }
 
 function validatePublicRuntimeConfig(publicRuntimeConfig) {
-  // if (!publicRuntimeConfig.apiProtocol) throw new Error("Must set API_PROTOCOL environment variable (http or https)");
-  // if (!publicRuntimeConfig.apiAddress) throw new Error("Must set API_ADDRESS environment variable");
-  // if (!publicRuntimeConfig.apiPort) throw new Error("Must set API_PORT environment variable");
+  // if (!publicRuntimeConfig.apiUrl) throw new Error("Must set API_URL environment variable");
   // if (!publicRuntimeConfig.captchaPublicKey) throw new Error("Must set CAPTCHA_PUBLIC_KEY environment variable");
 }

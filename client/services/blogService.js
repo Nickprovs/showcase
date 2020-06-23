@@ -3,9 +3,8 @@ import fetch from "isomorphic-unfetch";
 import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
 
-const APIURL = `${publicRuntimeConfig.apiProtocol}://${publicRuntimeConfig.apiAddress}:${publicRuntimeConfig.apiPort}`;
-const BLOGSAPIURL = `${APIURL}/blogs`;
-const BLOGGENRESAPIURL = `${APIURL}/blogCategories`;
+const BLOGSAPIURL = `${publicRuntimeConfig.apiUrl}/blogs`;
+const BLOGGENRESAPIURL = `${publicRuntimeConfig.apiUrl}/blogCategories`;
 
 export async function getBlogsAsync(options) {
   let query = "";
