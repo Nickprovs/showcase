@@ -1,4 +1,4 @@
-import namePlate from "../../styles/layout/nameplate.module.css";
+import namePlate from "../../styles/layout/namePlate.module.css";
 import RouterUtilities from "../../util/routerUtilities";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
