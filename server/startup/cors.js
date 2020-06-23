@@ -1,5 +1,7 @@
 let cors = require("cors");
 const config = require("config");
+const portFormatted = config.get("clientPort") ? `:${config.get("clientPort")}` : "";
+
 module.exports = function (app) {
   app.use(
     //Notes:
@@ -10,7 +12,7 @@ module.exports = function (app) {
       methods: ["GET", "PUT", "PATCH", "POST", "DELETE"],
       preflightContinue: true,
       credentials: true,
-      origin: `${config.get("clientProtocol")}://${config.get("clientAddress")}:${config.get("clientPort")}`,
+      origin: `${config.get("clientProtocol")}://${config.get("clientAddress")}${portFormatted}`,
     })
   );
 };
