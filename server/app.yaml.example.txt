@@ -1,0 +1,26 @@
+# [START app_yaml]
+runtime: nodejs
+env: flex
+
+service: api
+handlers:
+  - url: /api/*
+    secure: always
+    redirect_http_response_code: 301
+    script: auto
+
+env_variables:
+  CLIENT_URL: "https://YOUR_CUSTOM_DOMAIN_YOU_ASSIGNED_WITH_APPENGINE.com"
+  ADMIN_USERNAME: "your_admin_username"
+  ADMIN_PASSWORD: "your_admin_password"
+  ADMIN_EMAIL: "your_admin_email@gmail.com" //Email for 2-Factor Auth
+  SMTP_HOST: "your_smtp_provider" //ex: smtp.mailgun.org
+  SMTP_PORT: "your_smtp_provider_port" //ex: 587
+  SMTP_DISPLAY_USERNAME: "admin@your_custom_domain.com"
+  SMTP_AUTH_USERNAME: "your_smtp_provider_username"
+  SMTP_AUTH_PASSWORD: "your_smtp_provider_username_email"
+  SMTP_RECEIVER_EMAIL: "the_email_you_want_contacts_to_go_to@gmail.com" //Contact Email
+  TOKEN_PRIVATE_KEY: "your_token_private_key" //ex: random string
+  CAPTCHA_PRIVATE_KEY: "your_captcha_private_key_from_google"
+  DB_CONNECTION_STRING: "your_mongo_db_connection_string_with_auth_baked_in"
+  AUTH_TYPE: "MFA" //ex: SFA or MFA (MFA uses email for 2 factor auth) / SFA is less secure and only uses username and password

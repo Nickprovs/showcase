@@ -1,0 +1,13 @@
+# [START app_yaml]
+runtime: nodejs10
+
+service: default
+handlers:
+  - url: /(.*\api)$
+    secure: always
+    redirect_http_response_code: 301
+    script: auto
+
+env_variables:
+  API_URL: "https://YOUR_CUSTOM_DOMAIN_YOU_ASSIGNED_WITH_APPENGINE.com/api"
+  CAPTCHA_PUBLIC_KEY: "Your_Public_Key_From_Google_Here"
