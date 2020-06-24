@@ -17,21 +17,21 @@ const { PhotoCategoryModel, joiSchema: joiPhotoCategorySchema } = require("../mo
 const { MediaCategoryModel, joiSchema: joiMediaCategorySchema } = require("../models/mediaCategory");
 
 module.exports = function (app) {
-  app.use("/general", general());
-  app.use("/featured", featured());
-  app.use("/contact", contact);
-  app.use("/auth", auth);
-  app.use("/me", me);
+  app.use("/api/general", general());
+  app.use("/api/featured", featured());
+  app.use("/api/contact", contact);
+  app.use("/api/auth", auth);
+  app.use("/api/me", me);
 
-  app.use("/blogs", articles(Blog, joiBlogSchema, BlogCategory, "blog"));
-  app.use("/blogCategories", categories(BlogCategory, joiBlogCategorySchema));
+  app.use("/api/blogs", articles(Blog, joiBlogSchema, BlogCategory, "blog"));
+  app.use("/api/blogCategories", categories(BlogCategory, joiBlogCategorySchema));
 
-  app.use("/software", articles(Software, joiSoftwareSchema, SoftwareCategory, "software"));
-  app.use("/softwareCategories", categories(SoftwareCategory, joiSoftwareCategorySchema));
+  app.use("/api/software", articles(Software, joiSoftwareSchema, SoftwareCategory, "software"));
+  app.use("/api/softwareCategories", categories(SoftwareCategory, joiSoftwareCategorySchema));
 
-  app.use("/photos", photos());
-  app.use("/photoCategories", categories(PhotoCategoryModel, joiPhotoCategorySchema));
+  app.use("/api/photos", photos());
+  app.use("/api/photoCategories", categories(PhotoCategoryModel, joiPhotoCategorySchema));
 
-  app.use("/medias", medias());
-  app.use("/mediaCategories", categories(MediaCategoryModel, joiMediaCategorySchema));
+  app.use("/api/medias", medias());
+  app.use("/api/mediaCategories", categories(MediaCategoryModel, joiMediaCategorySchema));
 };
