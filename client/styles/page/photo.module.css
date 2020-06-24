@@ -174,12 +174,6 @@
   opacity: 1 !important;
 }
 
-@media (hover: none) {
-  .adminOptions {
-    opacity: 1;
-  }
-}
-
 .cellContainer:hover .containerFitImage {
   transform: scale(1.05);
 }
@@ -193,6 +187,12 @@
   justify-content: flex-end;
   opacity: 0;
   z-index: 2;
+}
+
+@media (hover: none) {
+  .adminOptions {
+    opacity: 1;
+  }
 }
 
 .paginationContainer {

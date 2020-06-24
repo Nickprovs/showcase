@@ -8,17 +8,17 @@
   opacity: 1;
 }
 
-@media (hover: none) {
-  .primaryAdminOptions {
-    opacity: 1;
-  }
-}
-
 .primaryAdminOptions {
   position: relative;
   opacity: 0;
   margin-left: auto;
   float: right;
+}
+
+@media (hover: none) {
+  .primaryAdminOptions {
+    opacity: 1;
+  }
 }
 
 .container {
@@ -62,17 +62,17 @@
   opacity: 1;
 }
 
-@media (hover: none) {
-  .subsidiaryAdminOptions {
-    opacity: 1;
-  }
-}
-
 .subsidiaryAdminOptions {
   opacity: 0;
   margin-left: auto;
   flex: 5;
   order: 1;
+}
+
+@media (hover: none) {
+  .subsidiaryAdminOptions {
+    opacity: 1;
+  }
 }
 
 .previewType {
