@@ -174,6 +174,12 @@
   opacity: 1 !important;
 }
 
+@media (hover: none) {
+  .adminOptions {
+    opacity: 1;
+  }
+}
+
 .cellContainer:hover .containerFitImage {
   transform: scale(1.05);
 }

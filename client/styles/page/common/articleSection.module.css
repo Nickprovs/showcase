@@ -35,6 +35,12 @@
   opacity: 1;
 }
 
+@media (hover: none) {
+  .adminOptions {
+    opacity: 1;
+  }
+}
+
 .adminOptions {
   opacity: 0;
   margin-left: auto;
