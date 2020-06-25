@@ -1,3 +1,5 @@
+const express = require("express");
+const config = require("config");
 const auth = require("../routes/auth");
 const me = require("../routes/me");
 const contact = require("../routes/contact");
@@ -33,5 +35,6 @@ module.exports = function (app) {
   router.use("/medias", medias());
   router.use("/mediaCategories", categories(MediaCategoryModel, joiMediaCategorySchema));
 
-  app.use("/api", router);
+  const servedAtPath = config.has("servedAtPath") ? config.get("servedAtPath") : "/api";
+  app.use(servedAtPath, router);
 };

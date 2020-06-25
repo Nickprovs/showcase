@@ -1,4 +1,5 @@
 {
+  "servedAtPath": "SERVED_AT_PATH",
   "recognizedClients": "RECOGNIZED_CLIENTS",
   "adminUsername": "ADMIN_USERNAME",
   "adminPassword": "ADMIN_PASSWORD",
