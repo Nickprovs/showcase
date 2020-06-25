@@ -14,10 +14,10 @@ app.prepare().then(() => {
   if (process.env.NODE_ENV === "production") server.enable("trust proxy");
 
   server.all("*", (req, res) => {
-    //PRODUCTION ONLY: Redirect to https in prod
+    //PRODUCTION ONLY: Redirect to https and www if not present in prod
     if (process.env.NODE_ENV === "production") {
-      if (req.secure) return handle(req, res);
-      else return res.redirect("https://" + req.headers.host + req.url);
+      if (req.secure && req.headers.host.match(/^www\..*/i)) return handle(req, res);
+      else return res.redirect(301, "https://www." + req.headers.host + req.url);
     }
 
     return handle(req, res);
