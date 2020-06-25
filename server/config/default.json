@@ -1,5 +1,5 @@
 {
-  "clientUrl": "http://localhost:3000",
+  "recognizedClients": "http://localhost:3000",
   "adminUsername": "admin",
   "adminPassword": "password",
   "adminEmail": "",

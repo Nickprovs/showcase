@@ -1,5 +1,5 @@
 {
-  "clientUrl": "CLIENT_URL",
+  "recognizedClients": "RECOGNIZED_CLIENTS",
   "adminUsername": "ADMIN_USERNAME",
   "adminPassword": "ADMIN_PASSWORD",
   "adminEmail": "ADMIN_EMAIL",

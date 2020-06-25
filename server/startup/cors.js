@@ -1,5 +1,9 @@
 let cors = require("cors");
 const config = require("config");
+const recognizedClientsArray = config
+  .get("recognizedClients")
+  .split(",")
+  .map((client) => client.trim());
 
 module.exports = function (app) {
   app.use(
@@ -11,7 +15,7 @@ module.exports = function (app) {
       methods: ["GET", "PUT", "PATCH", "POST", "DELETE"],
       preflightContinue: true,
       credentials: true,
-      origin: config.get("clientUrl"),
+      origin: recognizedClientsArray,
     })
   );
 };

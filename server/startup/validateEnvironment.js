@@ -1,7 +1,7 @@
 const config = require("config");
 
 module.exports = function () {
-  if (!config.has("clientUrl")) throw new Error("Client Url must be set as environment variable: CLIENT_URL");
+  if (!config.has("recognizedClients")) throw new Error("Recognized Clients must be set as environment variable: RECOGNIZED_CLIENTS");
   if (!config.has("adminUsername")) throw new Error("Admin Username must be set as environment variable: ADMIN_USERNAME");
   if (!config.has("adminPassword")) throw new Error("Admin Password must be set as environment variable: ADMIN_PASSWORD");
   if (!config.has("adminEmail")) throw new Error("Admin Email must be set as environment variable: ADMIN_EMAIL");
