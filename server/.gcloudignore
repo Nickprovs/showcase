@@ -13,5 +13,10 @@
 .git
 .gitignore
 
+# Misc Files:
+log.log
+
 # Node.js dependencies:
 node_modules/
+
+
