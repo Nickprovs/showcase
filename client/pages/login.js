@@ -33,7 +33,7 @@ class Login extends Component {
 
   render() {
     const { showEmailCodeAuth } = this.state;
-    const { general } = this.props;
+    const { general, darkModeOn } = this.props;
 
     return (
       <div>
@@ -45,7 +45,10 @@ class Login extends Component {
         {showEmailCodeAuth ? (
           <LoginEmailMfaForm onEmailMfaAuthCompleteAsync={async (result) => await this.handleEmailMfaAuthCompletedAsync(result)} />
         ) : (
-          <LoginCredentialsForm onCredentialsAuthCompletedAsync={async (result) => await this.handleCredentialsAuthCompletedAsync(result)} />
+          <LoginCredentialsForm
+            darkModeOn={darkModeOn}
+            onCredentialsAuthCompletedAsync={async (result) => await this.handleCredentialsAuthCompletedAsync(result)}
+          />
         )}
       </div>
     );

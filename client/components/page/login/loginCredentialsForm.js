@@ -55,13 +55,14 @@ class LoginCredentialsForm extends Form {
   };
 
   render() {
+    const { darkModeOn } = this.props;
     return (
       <div>
         <div className="standardPadding">
           <form onSubmit={this.handleSubmit}>
             {this.renderTextInput("username", "USERNAME")}
             {this.renderTextInput("password", "PASSWORD", "", "password")}
-            {this.renderRecaptcha("captcha", "CAPTCHA", captchaPublicKey)}
+            {this.renderRecaptcha("captcha", "CAPTCHA", captchaPublicKey, darkModeOn)}
             {this.renderButton("LOGIN")}
           </form>
         </div>

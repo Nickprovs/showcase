@@ -80,13 +80,13 @@ class Contact extends Form {
     );
   }
 
-  getContactNotCompleteMarkup() {
+  getContactNotCompleteMarkup(darkModeOn) {
     return (
       <form onSubmit={this.handleSubmit}>
         {this.renderTextInput("name", "NAME")}
         {this.renderTextInput("email", "EMAIL")}
         {this.renderTextArea("message", "MESSAGE")}
-        {this.renderRecaptcha("captcha", "CAPTCHA", captchaPublicKey)}
+        {this.renderRecaptcha("captcha", "CAPTCHA", captchaPublicKey, darkModeOn)}
         {this.renderButton("SEND MESSAGE")}
       </form>
     );
@@ -94,14 +94,15 @@ class Contact extends Form {
 
   render() {
     const { contactComplete } = this.state;
-    const { general } = this.props;
+    const { general, darkModeOn } = this.props;
+
     return (
       <div>
         <Head>
           <title>{FormatUtilities.getFormattedWebsiteTitle("Contact", general ? general.title : "Showcase")}</title>
           <meta name="description" content={`Get in touch with ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
         </Head>
-        <div className="standardPadding">{!contactComplete ? this.getContactNotCompleteMarkup() : this.getContactCompleteMarkup()}</div>
+        <div className="standardPadding">{!contactComplete ? this.getContactNotCompleteMarkup(darkModeOn) : this.getContactCompleteMarkup()}</div>
       </div>
     );
   }

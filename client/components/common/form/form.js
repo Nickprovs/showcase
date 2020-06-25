@@ -152,9 +152,16 @@ class Form extends Component {
     );
   }
 
-  renderRecaptcha(name, label, sitekey) {
+  renderRecaptcha(name, label, sitekey, darkModeOn) {
     return (
-      <FormRecaptcha ref={this.recaptchaRef} name={name} label={label} onChange={(value) => this.handleChange(name, value, "captcha")} sitekey={sitekey} />
+      <FormRecaptcha
+        ref={this.recaptchaRef}
+        name={name}
+        label={label}
+        onChange={(value) => this.handleChange(name, value, "captcha")}
+        sitekey={sitekey}
+        darkModeOn={darkModeOn}
+      />
     );
   }
 

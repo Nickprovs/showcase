@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { Component, Children, isValidElement, cloneElement } from "react";
 import NamePlate from "./namePlate";
 import Header from "./header";
 import Footer from "./footer";
@@ -151,6 +151,12 @@ export default class Layout extends Component {
     const internalPages = this.getInternalPages();
     const externalPages = this.getExternalPages();
 
+    const childrenWithProps = Children.map(children, (child) => {
+      if (isValidElement(child)) {
+        return cloneElement(child, { darkModeOn });
+      }
+    });
+
     let title = general ? general.title : "SHOWCASE";
     let footnote = general ? general.footnote : "";
 
@@ -182,7 +188,7 @@ export default class Layout extends Component {
               darkModeOn={darkModeOn}
               onToggleTheme={() => this.handleToggleTheme()}
             />
-            <main style={contentStyle}>{children}</main>
+            <main style={contentStyle}>{childrenWithProps}</main>
             <Footer externalPages={externalPages} footnote={footnote} darkModeOn={darkModeOn} onToggleTheme={() => this.handleToggleTheme()} />
           </div>
         </div>
