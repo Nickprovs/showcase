@@ -10,7 +10,7 @@ handlers:
     script: auto
 
 env_variables:
-  CLIENT_URL: "https://YOUR_CUSTOM_DOMAIN_YOU_ASSIGNED_WITH_APPENGINE.com"
+  RECOGNIZED_CLIENTS: "https://your-domain.com, https://www.your-domain.com"
   ADMIN_USERNAME: "your_admin_username"
   ADMIN_PASSWORD: "your_admin_password"
   ADMIN_EMAIL: "your_admin_email@gmail.com" //Email for 2-Factor Auth
