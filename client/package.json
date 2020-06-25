@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "next dev",
+    "dev": "node server.js",
     "build": "next build",
-    "start": "next start --port $PORT",
+    "start": "node server.js --port $PORT",
     "deploy": "gcloud app deploy --version main",
     "test": "echo \"Error: no test specified\" && exit 1",
     "gcp-build": "npm run build"
@@ -22,6 +22,9 @@
     "@fortawesome/react-fontawesome": "^0.1.10",
     "@hapi/joi": "^17.1.1",
     "@tinymce/tinymce-react": "^3.6.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "helmet": "^3.23.2",
     "isomorphic-unfetch": "^3.0.0",
     "next": "^9.4.4",
     "nookies": "^2.3.0",
