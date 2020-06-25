@@ -17,21 +17,21 @@ const { PhotoCategoryModel, joiSchema: joiPhotoCategorySchema } = require("../mo
 const { MediaCategoryModel, joiSchema: joiMediaCategorySchema } = require("../models/mediaCategory");
 
 module.exports = function (app) {
-  app.use("/api/general", general());
-  app.use("/api/featured", featured());
-  app.use("/api/contact", contact);
-  app.use("/api/auth", auth);
-  app.use("/api/me", me);
+  const router = express.Router();
 
-  app.use("/api/blogs", articles(Blog, joiBlogSchema, BlogCategory, "blog"));
-  app.use("/api/blogCategories", categories(BlogCategory, joiBlogCategorySchema));
+  router.use("/general", general());
+  router.use("/featured", featured());
+  router.use("/contact", contact);
+  router.use("/auth", auth);
+  router.use("/me", me);
+  router.use("/blogs", articles(Blog, joiBlogSchema, BlogCategory, "blog"));
+  router.use("/blogCategories", categories(BlogCategory, joiBlogCategorySchema));
+  router.use("/software", articles(Software, joiSoftwareSchema, SoftwareCategory, "software"));
+  router.use("/softwareCategories", categories(SoftwareCategory, joiSoftwareCategorySchema));
+  router.use("/photos", photos());
+  router.use("/photoCategories", categories(PhotoCategoryModel, joiPhotoCategorySchema));
+  router.use("/medias", medias());
+  router.use("/mediaCategories", categories(MediaCategoryModel, joiMediaCategorySchema));
 
-  app.use("/api/software", articles(Software, joiSoftwareSchema, SoftwareCategory, "software"));
-  app.use("/api/softwareCategories", categories(SoftwareCategory, joiSoftwareCategorySchema));
-
-  app.use("/api/photos", photos());
-  app.use("/api/photoCategories", categories(PhotoCategoryModel, joiPhotoCategorySchema));
-
-  app.use("/api/medias", medias());
-  app.use("/api/mediaCategories", categories(MediaCategoryModel, joiMediaCategorySchema));
+  app.use("/api", router);
 };
