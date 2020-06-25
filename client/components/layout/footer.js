@@ -1,9 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TransparentButton from "../common/button/transparentButton";
 import footer from "../../styles/layout/footer.module.css";
+import { faLightbulb as fasLightbulb } from "@fortawesome/free-solid-svg-icons";
+import { faLightbulb as farLightbulb } from "@fortawesome/free-regular-svg-icons";
 
 export default function Footer(props) {
-  const { externalPages, footnote } = props;
+  const { externalPages, footnote, onToggleTheme, darkModeOn } = props;
 
   const externalPageListStyle = {
     listStyleType: "none",
@@ -18,6 +20,11 @@ export default function Footer(props) {
     <footer>
       <div className={footer.footer}>
         <ul style={externalPageListStyle}>
+          <li style={externalPageListItemStyle} key="themeToggle">
+            <TransparentButton aria-label="Toggle Theme" onClick={() => onToggleTheme()}>
+              <FontAwesomeIcon size="2x" icon={darkModeOn ? farLightbulb : fasLightbulb} />
+            </TransparentButton>
+          </li>
           {externalPages.map((item) => (
             <li style={externalPageListItemStyle} key={item.label}>
               <a rel="noopener" target="_blank" href={item.href}>

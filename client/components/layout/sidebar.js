@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faLightbulb as fasLightbulb, faLightbulb } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faLightbulb as fasLightbulb } from "@fortawesome/free-solid-svg-icons";
 import { faLightbulb as farLightbulb } from "@fortawesome/free-regular-svg-icons";
 import TransparentButton from "../common/button/transparentButton";
 import Link from "next/link";

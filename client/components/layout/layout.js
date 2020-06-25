@@ -183,7 +183,7 @@ export default class Layout extends Component {
               onToggleTheme={() => this.handleToggleTheme()}
             />
             <main style={contentStyle}>{children}</main>
-            <Footer externalPages={externalPages} footnote={footnote} />
+            <Footer externalPages={externalPages} footnote={footnote} darkModeOn={darkModeOn} onToggleTheme={() => this.handleToggleTheme()} />
           </div>
         </div>
       </Theme>
