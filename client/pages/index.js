@@ -17,15 +17,17 @@ import Head from "next/head";
 import FormatUtilities from "../util/formatUtilities";
 import StringUtilities from "../util/stringUtilities";
 
-const SubsidiaryAdminOptions = ({ subsidiary, editPath, onMoveSubsidiaryAsync, onRemoveSubsidiaryAsync }) => {
+const SubsidiaryAdminOptions = ({ subsidiary, editPath, editPathAs, onMoveSubsidiaryAsync, onRemoveSubsidiaryAsync }) => {
   return (
     <div className={indexStyles.subsidiaryAdminOptions}>
       {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
-      <a aria-label="Edit Content" href={editPath}>
-        <TransparentButton aria-label="Edit Content" style={{ color: "var(--f1)" }}>
-          <FontAwesomeIcon size="2x" icon={faEdit} />
-        </TransparentButton>
-      </a>
+      <Link href={editPath} as={editPathAs}>
+        <a aria-label="Edit Content">
+          <TransparentButton aria-label="Edit Content" style={{ color: "var(--f1)" }}>
+            <FontAwesomeIcon size="2x" icon={faEdit} />
+          </TransparentButton>
+        </a>
+      </Link>
       <TransparentButton aria-label="Move Content Up" onClick={async () => await onMoveSubsidiaryAsync(subsidiary, "raise")} style={{ color: "var(--f1)" }}>
         <FontAwesomeIcon size="2x" icon={faArrowUp} />
       </TransparentButton>
@@ -157,7 +159,8 @@ class Index extends Component {
         {user && user.isAdmin && (
           <SubsidiaryAdminOptions
             subsidiary={subsidiary}
-            editPath={`${mainPath}/edit/article/${subsidiary.data._id}`}
+            editPath={`${mainPath}/edit/article/[id]`}
+            editPathAs={`${mainPath}/edit/article/${subsidiary.data._id}`}
             onMoveSubsidiaryAsync={this.handleMoveSubsidiaryAsync}
             onRemoveSubsidiaryAsync={this.handleRemoveSubsidiaryAsync}
           />
@@ -211,7 +214,8 @@ class Index extends Component {
       <div key={media._id} className={indexStyles.item}>
         {user && user.isAdmin && (
           <SubsidiaryAdminOptions
-            editPath={`showcase/media/edit/media/${subsidiary.data._id}`}
+            editPath={`showcase/media/edit/media/[id]`}
+            editPathAs={`showcase/media/edit/media/${subsidiary.data._id}`}
             subsidiary={subsidiary}
             onMoveSubsidiaryAsync={this.handleMoveSubsidiaryAsync}
             onRemoveSubsidiaryAsync={this.handleRemoveSubsidiaryAsync}
@@ -258,7 +262,8 @@ class Index extends Component {
       <div key={photo._id} className={indexStyles.item}>
         {user && user.isAdmin && (
           <SubsidiaryAdminOptions
-            editPath={`showcase/photo/edit/photo/${subsidiary.data._id}`}
+            editPath={`showcase/photo/edit/photo/[id]`}
+            editPathAs={`showcase/photo/edit/photo/${subsidiary.data._id}`}
             subsidiary={subsidiary}
             onMoveSubsidiaryAsync={this.handleMoveSubsidiaryAsync}
             onRemoveSubsidiaryAsync={this.handleRemoveSubsidiaryAsync}
@@ -331,11 +336,13 @@ class Index extends Component {
         <div className={indexStyles.primaryContainer}>
           {user && user.isAdmin && (
             <div className={indexStyles.primaryAdminOptions}>
-              <a aria-label="Edit Primary Featured Content" href={`/index/edit/primary`}>
-                <TransparentButton aria-label="Edit Primary Featured Content">
-                  <FontAwesomeIcon size="2x" icon={faEdit} />
-                </TransparentButton>
-              </a>
+              <Link href={`/index/edit/primary`}>
+                <a>
+                  <TransparentButton aria-label="Edit Primary Featured Content">
+                    <FontAwesomeIcon size="2x" icon={faEdit} />
+                  </TransparentButton>
+                </a>
+              </Link>
             </div>
           )}
           <div

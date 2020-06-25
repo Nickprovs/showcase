@@ -76,12 +76,13 @@ class CommonPageArticleSection extends Component {
                     >
                       <FontAwesomeIcon size="2x" icon={featured.subsidiaries.items.some((item) => item.id === preview._id) ? fasStar : farStar} />
                     </TransparentButton>
-                    {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
-                    <a href={`/${mainPagePath}/edit/article/${preview._id}`}>
-                      <TransparentButton aria-label="Edit Content" style={{ color: "var(--f1)" }}>
-                        <FontAwesomeIcon size="2x" icon={faEdit} />
-                      </TransparentButton>
-                    </a>
+                    <Link href={`/${mainPagePath}/edit/article/[id]`} as={`/${mainPagePath}/edit/article/${preview._id}`}>
+                      <a>
+                        <TransparentButton aria-label="Edit Content" style={{ color: "var(--f1)" }}>
+                          <FontAwesomeIcon size="2x" icon={faEdit} />
+                        </TransparentButton>
+                      </a>
+                    </Link>
                     <TransparentButton
                       aria-label="Delete Content"
                       onClick={() =>

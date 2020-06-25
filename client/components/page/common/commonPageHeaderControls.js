@@ -145,10 +145,11 @@ class CommonPageHeaderControls extends Component {
         {/* Post Content (ADMIN) */}
         {user && user.isAdmin && (
           <div className={pageHeaderStyles.headerControl}>
-            {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
-            <a href={`/${mainPagePath}/post/${mainContentType}`}>
-              <BasicButton style={{ width: "100%" }}>{`New ${StringUtilities.capitalizeFirstLetterIfPossible(mainContentType)}`}</BasicButton>
-            </a>
+            <Link href={`/${mainPagePath}/post/${mainContentType}`}>
+              <a>
+                <BasicButton style={{ width: "100%" }}>{`New ${StringUtilities.capitalizeFirstLetterIfPossible(mainContentType)}`}</BasicButton>
+              </a>
+            </Link>
           </div>
         )}
 

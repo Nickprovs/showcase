@@ -133,16 +133,11 @@ class Form extends Component {
   }
 
   renderHtmlEditor(name, label, darkModeOn = false) {
-    //When doing client-side nav... the next head sometimes doesn't contain the script right away. So be sure to server-side nav to
-    //This may be fixed with RFC $8981 in the future
+    //When doing client-side nav... the head does not always contain the scripts defined in head by an individual page
+    //As a result, the necessary script is loaded for every page in app.js. So this script should be there.
     if (typeof document !== "undefined") {
       if (document.querySelectorAll(`script[src="/scripts/tinymce/tinymce.min.js"]`).length < 1)
-        throw new Error(
-          "Must import tinymce.min.js script in head of html file. \n" +
-            "Could also be due to next.js client side rendering head issue. \n" +
-            "Workaround in that case: Redirect to server with <a/> instead of <Link/>. \n" +
-            "See next.js RFC $8981 for status of this issue."
-        );
+        throw new Error("Must import tinymce.min.js script in head of html file. \n");
     }
 
     return (

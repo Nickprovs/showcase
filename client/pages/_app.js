@@ -46,6 +46,9 @@ export default function MyApp({ Component, pageProps }) {
         <link id="favicon" rel="shortcut icon" href="/favicon.ico" />
         <link rel="preload" href="/images/background-dark.jpg" as="image" />
         <link rel="preload" href="/images/background-light.jpg" as="image" />
+
+        {/* Present in all pages rather than a few form pages because of: github.com/vercel/next.js/issues/13565 */}
+        <script key="tinyMCE" type="text/javascript" src="/scripts/tinymce/tinymce.min.js"></script>
       </Head>
       <ToastContainer />
       <Component {...pageProps} />

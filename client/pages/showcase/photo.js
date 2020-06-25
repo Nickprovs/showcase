@@ -337,9 +337,11 @@ class Photo extends Component {
                           <FontAwesomeIcon size="2x" icon={featured.subsidiaries.items.some((item) => item.id === photo._id) ? fasStar : farStar} />
                         </TransparentButton>
                         <Link href={`/showcase/photo/edit/photo/[id]`} as={`/showcase/photo/edit/photo/${photo._id}`}>
-                          <TransparentButton aria-label="Edit Photo">
-                            <FontAwesomeIcon size="2x" icon={faEdit} />
-                          </TransparentButton>
+                          <a>
+                            <TransparentButton aria-label="Edit Photo">
+                              <FontAwesomeIcon size="2x" icon={faEdit} />
+                            </TransparentButton>
+                          </a>
                         </Link>
 
                         <TransparentButton

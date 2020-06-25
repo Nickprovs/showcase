@@ -8,6 +8,7 @@ import RouterUtilities from "../../../util/routerUtilities";
 import { updateFeaturedPrimaryAsync, getFeaturedPrimaryAsync } from "../../../services/featuredService";
 import Head from "next/head";
 import FormatUtilities from "../../../util/formatUtilities";
+import ThemeUtilities from "../../../util/themeUtilities";
 
 class Primary extends Form {
   static async getInitialProps(context) {
@@ -22,7 +23,10 @@ class Primary extends Form {
       data = null;
     }
 
-    return { primary: data.primary };
+    //Get theme data (for tinymce init)
+    let darkModeOn = ThemeUtilities.getSavedDarkModeOnStatus(context);
+
+    return { primary: data.primary, darkModeOn };
   }
 
   constructor() {
@@ -88,7 +92,7 @@ class Primary extends Form {
   };
 
   render() {
-    const { general } = this.props;
+    const { general, darkModeOn } = this.props;
     return (
       <div>
         <Head>
@@ -99,7 +103,7 @@ class Primary extends Form {
         </Head>
         <div className="standardPadding">
           <form onSubmit={this.handleSubmit}>
-            {this.renderHtmlEditor("markup", "MARKUP")}
+            {this.renderHtmlEditor("markup", "MARKUP", darkModeOn)}
             {this.renderButton("UPDATE")}
           </form>
         </div>
