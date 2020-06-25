@@ -1,4 +1,0 @@
-Cookies:
-    * If you expect cookies to be set in-browser upon a rest call to a route that sets them...
-        * You should be requesting from a url that contains the "Allowed-Origin" url set by cors in express
-        * You should be requesting from a url that
