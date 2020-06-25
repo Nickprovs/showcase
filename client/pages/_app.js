@@ -44,6 +44,8 @@ export default function MyApp({ Component, pageProps }) {
         {/* Import CSS for nprogress */}
         <link rel="stylesheet" type="text/css" href="/nprogress.css" />
         <link id="favicon" rel="shortcut icon" href="/favicon.ico" />
+        <link rel="preload" href="/images/background-dark.jpg" as="image" />
+        <link rel="preload" href="/images/background-light.jpg" as="image" />
       </Head>
       <ToastContainer />
       <Component {...pageProps} />
