@@ -4,8 +4,6 @@ runtime: nodejs10
 service: default
 handlers:
   - url: /(.*\api)$
-    secure: always
-    redirect_http_response_code: 301
     script: auto
 
 env_variables:
