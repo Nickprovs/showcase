@@ -11,3 +11,6 @@ yarn-error.log*
 config/development.json
 app.yaml
 dispatch.yaml
+# Assets
+public/images/background-light.jpg
+public/images/background-dark.jpg
