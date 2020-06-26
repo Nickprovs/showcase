@@ -1,4 +1,4 @@
-@media screen and (min-width: 875px) {
+@media screen and (min-width: 950px) {
   .header {
     display: flex;
     clear: both;
@@ -10,7 +10,7 @@
   }
 }
 
-@media screen and (min-width: 0px) and (max-width: 874px) {
+@media screen and (min-width: 0px) and (max-width: 949px) {
   .header {
     display: none !important;
   }
