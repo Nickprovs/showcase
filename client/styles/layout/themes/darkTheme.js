@@ -2,6 +2,7 @@ const DarkTheme = {
   "--b1": "#1a1a1b",
   "--b2": "#2c2c2e",
   "--b3": "#dedede",
+  "--b4": "#000000",
   "--f1": "#FFFFFF",
   "--f2": "#FFFFFF",
   "--s1": "#FFFFFF",
