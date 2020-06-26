@@ -1,17 +1,16 @@
 .headerButton {
+  font-size: 11pt;
   height: 70px;
+  padding-left: 23px;
+  padding-right: 23px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   font-weight: bolder;
-  font-size: 11.5pt;
   display: inline-block;
   border-style: none;
   border-width: 0px;
   background-color: transparent;
   cursor: pointer;
-  min-width: 110px;
-  padding-right: 13px;
-  padding-left: 13px;
-  padding-top: 5px;
-  padding-bottom: 5px;
   color: var(--s1);
 }
 .headerButtonSelected {
