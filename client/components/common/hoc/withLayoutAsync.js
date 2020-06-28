@@ -5,8 +5,14 @@ import { getGeneralAsync } from "../../../services/generalService";
 const withLayoutAsync = (WrappedComponent) => {
   return class LayoutWrapperComponent extends Component {
     static async getInitialProps(ctx) {
-      const generalRes = await getGeneralAsync();
-      const general = await generalRes.json();
+      let generalRes = null;
+      let general = null;
+      try {
+        generalRes = await getGeneralAsync();
+        general = await generalRes.json();
+      } catch (ex) {
+        console.log("Issue getting general data from server necessary for layout", ex);
+      }
 
       const innerProps = WrappedComponent.getInitialProps && (await WrappedComponent.getInitialProps(ctx));
       return { ...innerProps, general };
