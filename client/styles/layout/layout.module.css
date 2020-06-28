@@ -12,7 +12,7 @@
   max-width: 2000px;
 }
 
-@media screen and (min-width: 0px) and (max-width: 699px) {
+@media screen and (min-width: 0px) and (max-width: 599px) {
   .layoutStyle {
     padding-top: 10vmin;
     padding-bottom: 10vmin;
@@ -21,7 +21,7 @@
   }
 }
 
-@media screen and (min-width: 700px) and (max-width: 1199px) {
+@media screen and (min-width: 600px) and (max-width: 1199px) {
   .layoutStyle {
     padding-top: 10vmin;
     padding-bottom: 10vmin;
