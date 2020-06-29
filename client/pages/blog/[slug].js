@@ -9,6 +9,7 @@ import FormatUtilities from "../../util/formatUtilities";
 import { useEffect } from "react";
 import reframe from "reframe.js";
 import DangerouslySetInnerHtmlWithScript from "../../components/common/misc/dangerouslySetInnerHtmlWithScript";
+import initializeDomPurify from "../../misc/customDomPurify";
 import { sanitize } from "isomorphic-dompurify";
 
 Blog.getInitialProps = async function (context) {
@@ -22,6 +23,7 @@ Blog.getInitialProps = async function (context) {
 
 function Blog({ blog, general }) {
   useEffect(() => {
+    initializeDomPurify();
     setTimeout(() => reframe("iframe"), 0);
   });
 

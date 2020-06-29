@@ -22,6 +22,7 @@ import reframe from "reframe.js";
 import FormatUtilities from "../../util/formatUtilities";
 import StringUtilities from "../../util/stringUtilities";
 import { I1_DIRECTOR_SAD } from "../../misc/iconData";
+import initializeDomPurify from "../../misc/customDomPurify";
 import { sanitize } from "isomorphic-dompurify";
 
 const pageSize = 5;
@@ -115,6 +116,7 @@ class Media extends Component {
     this.setState({ initialSearchProp: initialSearchProp });
     this.setState({ categories: categories });
 
+    initializeDomPurify();
     setTimeout(() => reframe("iframe"), 0);
   }
 

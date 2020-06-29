@@ -19,10 +19,16 @@ export default function initializeDomPurify() {
     switch (tagName) {
       case "IFRAME":
       case "SCRIPT":
+        console.log("in hook");
+
         const src = currentNode.attributes.src;
         if (!src) currentNode.parentNode?.removeChild(currentNode);
         const srcIsTrusted = recognizedMarkupDomains.some((d) => src.value.toLowerCase().startsWith(d.toLowerCase()));
-        if (!srcIsTrusted) currentNode.parentNode?.removeChild(currentNode);
+        if (!srcIsTrusted) {
+          console.log("removing untrusted source", currentNode);
+          currentNode.parentNode?.removeChild(currentNode);
+          console.log("trusted sources ", recognizedMarkupDomains);
+        }
         break;
     }
     return currentNode;

@@ -16,6 +16,7 @@ import { faArrowUp, faArrowDown, faStar, faEdit } from "@fortawesome/free-solid-
 import Head from "next/head";
 import FormatUtilities from "../util/formatUtilities";
 import StringUtilities from "../util/stringUtilities";
+import initializeDomPurify from "../misc/customDomPurify";
 import { sanitize } from "isomorphic-dompurify";
 
 const SubsidiaryAdminOptions = ({ subsidiary, editPath, editPathAs, onMoveSubsidiaryAsync, onRemoveSubsidiaryAsync }) => {
@@ -72,6 +73,7 @@ class Index extends Component {
     const { featured } = this.props;
     this.setState({ featured: featured });
 
+    initializeDomPurify();
     reframe("iframe");
   }
 

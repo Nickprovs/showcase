@@ -12,6 +12,8 @@ import ExtendedFormUtilities from "../../../../util/extendedFormUtilities";
 import Head from "next/head";
 import FormatUtilities from "../../../../util/formatUtilities";
 import ThemeUtilities from "../../../../util/themeUtilities";
+import initializeDomPurify from "../../../../misc/customDomPurify";
+import { sanitize } from "isomorphic-dompurify";
 
 class Article extends Form {
   static async getInitialProps(context) {
@@ -77,10 +79,13 @@ class Article extends Form {
       return;
     }
 
+    initializeDomPurify();
     this.getStateDataFromBlog(blog);
   }
 
   getStateDataFromBlog(blog) {
+    console.log("purifying");
+
     this.setState({
       data: {
         title: blog.title,
@@ -88,7 +93,7 @@ class Article extends Form {
         category: blog.category,
         image: blog.image,
         description: blog.description,
-        body: blog.body,
+        body: sanitize(blog.body),
         tags: StringUtilities.getCsvStringFromArray(blog.tags),
         ...ExtendedFormUtilities.getAddressableHighlightPropertiesObjFromArray(blog.addressableHighlights),
       },

@@ -11,6 +11,8 @@ import StringUtilities from "../../../../../util/stringUtilities";
 import ExtendedFormUtilities from "../../../../../util/extendedFormUtilities";
 import Head from "next/head";
 import FormatUtilities from "../../../../../util/formatUtilities";
+import initializeDomPurify from "../../../../../misc/customDomPurify";
+import { sanitize } from "isomorphic-dompurify";
 
 class Media extends Form {
   static async getInitialProps(context) {
@@ -71,16 +73,18 @@ class Media extends Form {
       return;
     }
 
+    initializeDomPurify();
     this.getStateDataFromMedia(media);
   }
 
   getStateDataFromMedia(media) {
+    console.log("purifying");
     this.setState({
       data: {
         title: media.title,
         category: media.category,
         description: media.description,
-        markup: media.markup,
+        markup: sanitize(media.markup),
         tags: StringUtilities.getCsvStringFromArray(media.tags),
         ...ExtendedFormUtilities.getAddressableHighlightPropertiesObjFromArray(media.addressableHighlights),
       },

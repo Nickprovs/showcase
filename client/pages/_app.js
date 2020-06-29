@@ -2,11 +2,9 @@ import App from "next/app";
 import Router from "next/router";
 import NProgress from "nprogress";
 import Head from "next/head";
-import { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import BrowserSupportUtilities from "../util/browserSupportUtilities";
 import RedirectUtilities from "../util/redirectUtilities";
-import initializeDomPurify from "../misc/customDomPurify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles.css";
 
@@ -35,11 +33,6 @@ export default function MyApp({ Component, pageProps }) {
       },
     });
   }
-
-  useEffect(() => {
-    initializeDomPurify();
-  });
-
   return (
     <div>
       <Head>

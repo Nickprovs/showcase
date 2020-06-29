@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import reframe from "reframe.js";
 import DangerouslySetInnerHtmlWithScript from "../../../components/common/misc/dangerouslySetInnerHtmlWithScript";
 import { sanitize } from "isomorphic-dompurify";
+import initializeDomPurify from "../../../misc/customDomPurify";
 
 Software.getInitialProps = async function (context) {
   const { slug } = context.query;
@@ -22,6 +23,7 @@ Software.getInitialProps = async function (context) {
 
 function Software({ software, general }) {
   useEffect(() => {
+    initializeDomPurify();
     setTimeout(() => reframe("iframe"), 0);
   });
 
