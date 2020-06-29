@@ -25,3 +25,5 @@ env_variables:
   CAPTCHA_PRIVATE_KEY: "your_captcha_private_key_from_google"
   DB_CONNECTION_STRING: "your_mongo_db_connection_string_with_auth_baked_in"
   AUTH_TYPE: "MFA" //ex: SFA or MFA (MFA uses email for 2 factor auth) / SFA is less secure and only uses username and password
+  RECOGNIZED_MARKUP_DOMAINS: "https://www.youtube.com, https://player.vimeo.com, https://open.spotify.com, //www.instagram.com/embed.js, https://platform.twitter.com" //Scripts and iFrames from these sources won't get sanitized
+

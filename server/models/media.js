@@ -2,6 +2,7 @@ const Joi = require("@hapi/joi");
 Joi.objectId = require("joi-objectid")(Joi);
 const mongoose = require("mongoose");
 const { mongoSchema: categorySchema } = require("./common/category");
+const { sanitize } = require("isomorphic-dompurify");
 
 //Mongo Schema
 const addressableHighlightSchema = {
@@ -71,11 +72,12 @@ function validateTags(val) {
 }
 
 // transform for sending as json
-function omitPrivate(doc, obj) {
+function transform(doc, obj) {
   delete obj.__v;
+  sanitize(obj.markup);
   return obj;
 }
-mongoMediaSchema.set("toJSON", { virtuals: false, transform: omitPrivate });
+mongoMediaSchema.set("toJSON", { virtuals: false, transform: transform });
 
 const MediaModel = mongoose.model("Media", mongoMediaSchema);
 

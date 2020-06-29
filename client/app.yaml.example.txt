@@ -9,3 +9,5 @@ handlers:
 env_variables:
   API_URL: "https://YOUR_CUSTOM_DOMAIN_YOU_ASSIGNED_WITH_APPENGINE.com/api"
   CAPTCHA_PUBLIC_KEY: "Your_Public_Key_From_Google_Here"
+  RECOGNIZED_MARKUP_DOMAINS: "https://www.youtube.com, https://player.vimeo.com, https://open.spotify.com, //www.instagram.com/embed.js, https://platform.twitter.com" //Scripts and iFrames from these sources won't get sanitized
+

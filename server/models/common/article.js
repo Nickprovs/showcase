@@ -3,6 +3,7 @@ Joi.objectId = require("joi-objectid")(Joi);
 const mongoose = require("mongoose");
 const { mongoSchema: categorySchema } = require("./category");
 const ValidationUtilities = require("../../util/validationUtilities");
+const { sanitize } = require("isomorphic-dompurify");
 
 const addressableHighlightSchema = {
   label: {
@@ -117,12 +118,13 @@ function validateSlug(slug) {
 }
 
 // transform for sending as json
-function omitPrivate(doc, obj) {
+function transform(doc, obj) {
   delete obj.__v;
+  sanitize(obj.body);
   return obj;
 }
 
-mongoArticleSchema.set("toJSON", { virtuals: false, transform: omitPrivate });
+mongoArticleSchema.set("toJSON", { virtuals: false, transform: transform });
 
 const joiAddressableHighlightSchema = Joi.object().keys({
   label: Joi.string().required().min(2).max(24),

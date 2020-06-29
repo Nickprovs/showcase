@@ -19,7 +19,6 @@ module.exports = function () {
   router.get("/", async (req, res) => {
     let general = await GeneralModel.findOne();
     general = { ...general.toJSON(), recognizedMarkupDomains };
-    console.log(general);
     res.send(general);
   });
 

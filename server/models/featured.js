@@ -1,6 +1,7 @@
 const Joi = require("@hapi/joi");
 Joi.objectId = require("joi-objectid")(Joi);
 const mongoose = require("mongoose");
+const { sanitize } = require("isomorphic-dompurify");
 
 const subsidiarySchema = {
   id: {
@@ -46,12 +47,13 @@ const mongoFeaturedSchema = new mongoose.Schema({
 const FeaturedModel = mongoose.model("Featured", mongoFeaturedSchema);
 
 // transform for sending as json
-function omitPrivate(doc, obj) {
+function transform(doc, obj) {
   delete obj.__v;
+  sanitize(obj.primary.markup);
   return obj;
 }
 
-mongoFeaturedSchema.set("toJSON", { virtuals: false, transform: omitPrivate });
+mongoFeaturedSchema.set("toJSON", { virtuals: false, transform: transform });
 
 //Joi Schema
 const joiSubsidiarySchema = Joi.object({
