@@ -12,7 +12,7 @@ const { MediaModel } = require("../models/media");
 const getAllQuerySchema = require("./schemas/queries/featured/getAllQuery");
 const getSubsidiariesQuerySchema = require("./schemas/queries/featured/getSubsidiariesQuery");
 const patchSubsidiaryQuerySchema = require("./schemas/queries/featured/patchSubsidiaryQuery");
-
+const { sanitize } = require("isomorphic-dompurify");
 const winston = require("winston");
 
 async function getContentByTypeAndId(type, id) {
@@ -97,7 +97,7 @@ module.exports = function () {
 
   router.put("/primary", [auth(), admin, validateBody(joiPrimarySchema)], async (req, res) => {
     let featured = await FeaturedModel.findOne();
-    featured.primary.markup = req.body.markup;
+    featured.primary.markup = sanitize(req.body.markup);
     featured.primary.dateLastModified = moment().toJSON();
 
     await featured.save();

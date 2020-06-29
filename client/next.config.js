@@ -38,6 +38,7 @@ function getPublicRuntimeConfig(phase) {
   publicRuntimeConfig = {
     apiUrl: process.env.API_URL || (configFile && configFile.apiUrl),
     captchaPublicKey: process.env.CAPTCHA_PUBLIC_KEY || (configFile && configFile.captchaPublicKey),
+    recognizedMarkupDomains: process.env.RECOGNIZED_MARKUP_DOMAINS || (configFile && configFile.recognizedMarkupDomains),
   };
 
   validatePublicRuntimeConfig(publicRuntimeConfig);
@@ -47,4 +48,5 @@ function getPublicRuntimeConfig(phase) {
 function validatePublicRuntimeConfig(publicRuntimeConfig) {
   // if (!publicRuntimeConfig.apiUrl) throw new Error("Must set API_URL environment variable");
   // if (!publicRuntimeConfig.captchaPublicKey) throw new Error("Must set CAPTCHA_PUBLIC_KEY environment variable");
+  // if (!publicRuntimeConfig.recognizedMarkupDomains) throw new Error("Must set RECOGNIZED_MARKUP_DOMAINS environment variable");
 }

@@ -16,6 +16,7 @@ import { faArrowUp, faArrowDown, faStar, faEdit } from "@fortawesome/free-solid-
 import Head from "next/head";
 import FormatUtilities from "../util/formatUtilities";
 import StringUtilities from "../util/stringUtilities";
+import { sanitize } from "isomorphic-dompurify";
 
 const SubsidiaryAdminOptions = ({ subsidiary, editPath, editPathAs, onMoveSubsidiaryAsync, onRemoveSubsidiaryAsync }) => {
   return (
@@ -232,7 +233,7 @@ class Index extends Component {
             {media.title}
           </h2>
         </div>
-        <DangerousInnerHtmlWithScript className={indexStyles.mediaContainer} html={media.markup} />
+        <DangerousInnerHtmlWithScript className={indexStyles.mediaContainer} html={sanitize(media.markup)} />
         <div className={indexStyles.descriptionContainer}>
           <p className={indexStyles.description}>{media.description}</p>
         </div>
@@ -347,7 +348,7 @@ class Index extends Component {
           )}
           <div
             dangerouslySetInnerHTML={{
-              __html: featured.primary.markup,
+              __html: sanitize(featured.primary.markup),
             }}
           />
         </div>

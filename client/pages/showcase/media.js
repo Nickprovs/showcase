@@ -22,6 +22,7 @@ import reframe from "reframe.js";
 import FormatUtilities from "../../util/formatUtilities";
 import StringUtilities from "../../util/stringUtilities";
 import { I1_DIRECTOR_SAD } from "../../misc/iconData";
+import { sanitize } from "isomorphic-dompurify";
 
 const pageSize = 5;
 
@@ -327,7 +328,7 @@ class Media extends Component {
                 <DatePostedPresenter date={media.datePosted} />
               </div>
               {/*TODO: Changed to iFrame or Media Tag*/}
-              <DangerousInnerHtmlWithScript className={mediaStyles.mediaContainer} html={media.markup} />
+              <DangerousInnerHtmlWithScript className={mediaStyles.mediaContainer} html={sanitize(media.markup)} />
               <div className={mediaStyles.descriptionContainer}>
                 <label>{media.description}</label>
               </div>

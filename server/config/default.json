@@ -14,5 +14,6 @@
   "tokenPrivateKey": "unsecureKey",
   "captchaPrivateKey": "unsecureKey",
   "dbConnectionString": "mongodb://localhost/showcase",
-  "authType": "SFA"
+  "authType": "SFA",
+  "recognizedMarkupDomains": "https://www.youtube.com, https://player.vimeo.com, https://open.spotify.com, //www.instagram.com/embed.js, https://platform.twitter.com"
 }

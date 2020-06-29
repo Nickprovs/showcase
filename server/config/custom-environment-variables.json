@@ -14,5 +14,6 @@
   "tokenPrivateKey": "TOKEN_PRIVATE_KEY",
   "captchaPrivateKey": "CAPTCHA_PRIVATE_KEY",
   "dbConnectionString": "DB_CONNECTION_STRING",
-  "authType": "AUTH_TYPE"
+  "authType": "AUTH_TYPE",
+  "recognizedMarkupDomains": "RECOGNIZED_MARKUP_DOMAINS"
 }

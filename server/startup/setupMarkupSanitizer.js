@@ -1,17 +1,17 @@
-import { addHook, setConfig } from "isomorphic-dompurify";
-import getConfig from "next/config";
-const { publicRuntimeConfig } = getConfig();
-const recognizedMarkupDomains = publicRuntimeConfig.recognizedMarkupDomains.split(",").map((domain) => domain.trim());
+const { addHook, setConfig } = require("isomorphic-dompurify");
+const config = require("config");
+const recognizedMarkupDomains = config
+  .get("recognizedMarkupDomains")
+  .split(",")
+  .map((domain) => domain.trim());
 
-export default function initializeDomPurify() {
+module.exports = function () {
   //Allow scrips and iframes -- but filter them out via hooks unless they meet the criterio
   const customConfig = { ADD_TAGS: ["script", "iframe", "iframe"], FORCE_BODY: true };
   setConfig(customConfig);
-
   addHook("uponSanitizeElement", function (currentNode, hookEvent, config) {
     //Ignore bum nodes
     if (!currentNode || !currentNode.tagName) return currentNode;
-
     //Only allow iframes and scripts that have
     //1.) Have a src tag.
     //2.) Src tag is a from a trusted place.
@@ -20,11 +20,11 @@ export default function initializeDomPurify() {
       case "IFRAME":
       case "SCRIPT":
         const src = currentNode.attributes.src;
-        if (!src) currentNode.parentNode?.removeChild(currentNode);
+        if (!src && currentNode.parentNode) currentNode.parentNode.removeChild(currentNode);
         const srcIsTrusted = recognizedMarkupDomains.some((d) => src.value.toLowerCase().startsWith(d.toLowerCase()));
-        if (!srcIsTrusted) currentNode.parentNode?.removeChild(currentNode);
+        if (!srcIsTrusted && currentNode.parentNode) currentNode.parentNode.removeChild(currentNode);
         break;
     }
     return currentNode;
   });
-}
+};

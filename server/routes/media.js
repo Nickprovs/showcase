@@ -9,7 +9,7 @@ const getAllQuerySchema = require("./schemas/queries/media/getAllQuery");
 const { MediaModel, joiSchema: joiMediaSchema } = require("../models/media");
 const { MediaCategoryModel } = require("../models/mediaCategory");
 const ValidationUtilities = require("../util/validationUtilities");
-
+const { sanitize } = require("isomorphic-dompurify");
 const winston = require("winston");
 
 module.exports = function () {
@@ -87,7 +87,7 @@ module.exports = function () {
       datePosted: now,
       dateLastModified: now,
       description: req.body.description,
-      markup: req.body.markup,
+      markup: sanitize(req.body.markup),
       addressableHighlights: req.body.addressableHighlights,
       tags: req.body.tags,
     });
@@ -108,7 +108,7 @@ module.exports = function () {
         category: mediaCategory,
         dateLastModified: moment().toJSON(),
         description: req.body.description,
-        markup: req.body.markup,
+        markup: sanitize(req.body.markup),
         addressableHighlights: req.body.addressableHighlights,
         tags: req.body.tags,
       },

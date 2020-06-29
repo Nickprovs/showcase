@@ -5,14 +5,21 @@ const admin = require("../middleware/admin");
 const validateBody = require("../middleware/validateBody");
 const validateQuery = require("../middleware/validateQuery");
 const { GeneralModel, joiSchema: joiGeneralSchema } = require("../models/general");
-
 const winston = require("winston");
+const config = require("config");
+
+const recognizedMarkupDomains = config
+  .get("recognizedMarkupDomains")
+  .split(",")
+  .map((domain) => domain.trim());
 
 module.exports = function () {
   const router = express.Router();
 
   router.get("/", async (req, res) => {
     let general = await GeneralModel.findOne();
+    general = { ...general.toJSON(), recognizedMarkupDomains };
+    console.log(general);
     res.send(general);
   });
 

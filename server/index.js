@@ -19,6 +19,7 @@ require("./startup/validation")();
 require("./startup/setupAdmin")();
 require("./startup/setupGeneral")();
 require("./startup/setupFeatured")();
+require("./startup/setupMarkupSanitizer")();
 require("./startup/routes")(app);
 
 const port = process.env.PORT || config.get("port");

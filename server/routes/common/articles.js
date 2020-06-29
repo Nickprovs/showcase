@@ -5,10 +5,10 @@ const admin = require("../../middleware/admin");
 const validateBody = require("../../middleware/validateBody");
 const validateQuery = require("../../middleware/validateQuery");
 const ValidationUtilities = require("../../util/validationUtilities");
-
 const validateVariableId = require("../../middleware/validateVariableId");
 const getAllQuerySchema = require("../schemas/queries/articles/getAllQuery");
 const winston = require("winston");
+const { sanitize } = require("isomorphic-dompurify");
 
 module.exports = function (ArticleModel, articleJoiSchema, ArticleCategoryModel, typeName) {
   const router = express.Router();
@@ -88,7 +88,7 @@ module.exports = function (ArticleModel, articleJoiSchema, ArticleCategoryModel,
       dateLastModified: now,
       description: req.body.description,
       image: req.body.image,
-      body: req.body.body,
+      body: sanitize(req.body.body),
       addressableHighlights: req.body.addressableHighlights,
       tags: req.body.tags.map((str) => str.trim()),
       contingency: req.body.contingency ? req.body.contingency : {},
@@ -115,7 +115,7 @@ module.exports = function (ArticleModel, articleJoiSchema, ArticleCategoryModel,
         dateLastModified: moment().toJSON(),
         description: req.body.description,
         image: req.body.image,
-        body: req.body.body,
+        body: sanitize(req.body.body),
         addressableHighlights: req.body.addressableHighlights,
         tags: req.body.tags.map((str) => str.trim()),
         contingency: req.body.contingency,

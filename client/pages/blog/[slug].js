@@ -8,6 +8,7 @@ import Head from "next/head";
 import FormatUtilities from "../../util/formatUtilities";
 import { useEffect } from "react";
 import reframe from "reframe.js";
+import { sanitize } from "isomorphic-dompurify";
 
 Blog.getInitialProps = async function (context) {
   const { slug } = context.query;
