@@ -74,7 +74,7 @@ class Index extends Component {
     this.setState({ featured: featured });
 
     initializeDomPurify();
-    reframe("iframe");
+    setTimeout(() => reframe("iframe"), 0);
   }
 
   componentDidUpdate(prevProps, prevState) {
