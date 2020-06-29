@@ -12,7 +12,7 @@ import ExtendedFormUtilities from "../../../../../util/extendedFormUtilities";
 import Head from "next/head";
 import FormatUtilities from "../../../../../util/formatUtilities";
 import ThemeUtilities from "../../../../../util/themeUtilities";
-import initializeDomPurify from "../../misc/customDomPurify";
+import initializeDomPurify from "../../../../../misc/customDomPurify";
 import { sanitize } from "isomorphic-dompurify";
 
 class Article extends Form {

@@ -1,7 +1,10 @@
 import { addHook, setConfig } from "isomorphic-dompurify";
 import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
-const recognizedMarkupDomains = publicRuntimeConfig.recognizedMarkupDomains.split(",").map((domain) => domain.trim());
+
+const recognizedMarkupDomains = publicRuntimeConfig.recognizedMarkupDomains
+  ? publicRuntimeConfig.recognizedMarkupDomains.split(",").map((domain) => domain.trim())
+  : [""];
 
 export default function initializeDomPurify() {
   //Allow scrips and iframes -- but filter them out via hooks unless they meet the criterio
