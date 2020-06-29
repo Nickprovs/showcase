@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 
-function DangerousInnerHtmlWithScript(props) {
+function DangerouslySetInnerHtmlWithScript(props) {
   const { html } = props;
   const divRef = useRef(null);
 
@@ -13,4 +13,4 @@ function DangerousInnerHtmlWithScript(props) {
   return <div {...props} ref={divRef}></div>;
 }
 
-export default DangerousInnerHtmlWithScript;
+export default DangerouslySetInnerHtmlWithScript;

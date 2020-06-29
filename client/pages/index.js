@@ -4,7 +4,7 @@ import FullscreenPhoto from "../components/common/photo/fullscreenPhoto";
 import { Component } from "react";
 import { getFeaturedAsync } from "../services/featuredService";
 import indexStyles from "../styles/page/index.module.css";
-import DangerousInnerHtmlWithScript from "../components/common/misc/dangerousInnerHtmlWithScript";
+import DangerouslySetInnerHtmlWithScript from "../components/common/misc/dangerouslySetInnerHtmlWithScript";
 import DatePostedPresenter from "../components/common/date/datePostedPresenter";
 import reframe from "reframe.js";
 import Link from "next/link";
@@ -233,7 +233,7 @@ class Index extends Component {
             {media.title}
           </h2>
         </div>
-        <DangerousInnerHtmlWithScript className={indexStyles.mediaContainer} html={sanitize(media.markup)} />
+        <DangerouslySetInnerHtmlWithScript className={indexStyles.mediaContainer} html={sanitize(media.markup)} />
         <div className={indexStyles.descriptionContainer}>
           <p className={indexStyles.description}>{media.description}</p>
         </div>
@@ -346,11 +346,7 @@ class Index extends Component {
               </Link>
             </div>
           )}
-          <div
-            dangerouslySetInnerHTML={{
-              __html: sanitize(featured.primary.markup),
-            }}
-          />
+          <DangerouslySetInnerHtmlWithScript html={sanitize(featured.primary.markup)} />
         </div>
 
         {/*Subsidiary Featured Content*/}

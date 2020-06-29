@@ -13,7 +13,7 @@ import DatePostedPresenter from "../../components/common/date/datePostedPresente
 import TransparentButton from "../../components/common/button/transparentButton";
 import BasicButton from "../../components/common/button/basicButton";
 import Pagination from "../../components/common/misc/pagination";
-import DangerousInnerHtmlWithScript from "../../components/common/misc/dangerousInnerHtmlWithScript";
+import DangerouslySetInnerHtmlWithScript from "../../components/common/misc/dangerouslySetInnerHtmlWithScript";
 import EmbedUtilities from "../../util/embedUtilities";
 import TagsPresenter from "../../components/common/misc/tagPresenter";
 import Head from "next/head";
@@ -328,7 +328,7 @@ class Media extends Component {
                 <DatePostedPresenter date={media.datePosted} />
               </div>
               {/*TODO: Changed to iFrame or Media Tag*/}
-              <DangerousInnerHtmlWithScript className={mediaStyles.mediaContainer} html={sanitize(media.markup)} />
+              <DangerouslySetInnerHtmlWithScript className={mediaStyles.mediaContainer} html={sanitize(media.markup)} />
               <div className={mediaStyles.descriptionContainer}>
                 <label>{media.description}</label>
               </div>

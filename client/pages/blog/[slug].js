@@ -8,6 +8,7 @@ import Head from "next/head";
 import FormatUtilities from "../../util/formatUtilities";
 import { useEffect } from "react";
 import reframe from "reframe.js";
+import DangerouslySetInnerHtmlWithScript from "../../components/common/misc/dangerouslySetInnerHtmlWithScript";
 import { sanitize } from "isomorphic-dompurify";
 
 Blog.getInitialProps = async function (context) {
@@ -34,7 +35,7 @@ function Blog({ blog, general }) {
       <div>
         <h1>{blog.title}</h1>
         <DatePostedPresenter date={blog.datePosted} />
-        <div style={{ marginTop: "25px" }} dangerouslySetInnerHTML={{ __html: blog.body }} />
+        <DangerouslySetInnerHtmlWithScript style={{ marginTop: "25px" }} html={sanitize(blog.body)} />
       </div>
 
       {/* Secondary Article Content */}

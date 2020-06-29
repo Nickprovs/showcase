@@ -8,6 +8,7 @@ import Head from "next/head";
 import FormatUtilities from "../../../util/formatUtilities";
 import { useEffect } from "react";
 import reframe from "reframe.js";
+import DangerouslySetInnerHtmlWithScript from "../../../components/common/misc/dangerouslySetInnerHtmlWithScript";
 import { sanitize } from "isomorphic-dompurify";
 
 Software.getInitialProps = async function (context) {
@@ -34,7 +35,7 @@ function Software({ software, general }) {
       <div>
         <h1>{software.title}</h1>
         <DatePostedPresenter date={software.datePosted} />
-        <div style={{ marginTop: "25px" }} dangerouslySetInnerHTML={{ __html: sanitize(software.body) }} />
+        <DangerouslySetInnerHtmlWithScript style={{ marginTop: "25px" }} html={sanitize(software.body)} />
       </div>
 
       {/* Secondary Article Content */}
