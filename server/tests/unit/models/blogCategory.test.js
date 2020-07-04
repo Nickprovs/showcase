@@ -1,10 +1,10 @@
-const { joiSchema: schema } = require("../../../models/articleCategory");
+const { joiSchema: schema } = require("../../../models/blogCategory");
 
-describe("articleCategory.validate", () => {
+describe("blogCategory.validate", () => {
   it("should validate a properly formed articleCategory", () => {
     const articleCategory = {
       name: "Software",
-      slug: "software"
+      slug: "software",
     };
 
     const { error } = schema.validate(articleCategory);
@@ -16,7 +16,7 @@ describe("articleCategory.validate", () => {
   it("should validate an improperly formed articleCategory", () => {
     const articleCategory = {
       namdgdg: "Software",
-      slug: "sof&*@^tware"
+      slug: "sof&*@^tware",
     };
 
     const { error } = schema.validate(articleCategory);
