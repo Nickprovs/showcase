@@ -37,7 +37,7 @@ describe("/software", () => {
         description: "The cowiest of cows.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadada",
-        tags: ["the", "great", "cow", "common1", "common2"]
+        tags: ["the", "great", "cow", "common1", "common2"],
       });
       await software1.save();
 
@@ -48,7 +48,7 @@ describe("/software", () => {
         description: "The dogiest of dogs.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadasfsfsfsfsfsfsfsda",
-        tags: ["the", "great", "cow", "common1", "common2"]
+        tags: ["the", "great", "cow", "common1", "common2"],
       });
       await software2.save();
 
@@ -59,7 +59,7 @@ describe("/software", () => {
         description: "The beaveriest of beavers.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadasfsfsfsfsfsfsfsda",
-        tags: ["the", "beaver", "beav"]
+        tags: ["the", "beaver", "beav"],
       });
       await software3.save();
     });
@@ -69,9 +69,9 @@ describe("/software", () => {
 
       expect(res.status).toBe(200);
       expect(res.body.items.length).toBe(3);
-      expect(res.body.items.some(g => g.title === software1.title)).toBeTruthy();
-      expect(res.body.items.some(g => g.title === software2.title)).toBeTruthy();
-      expect(res.body.items.some(g => g.title === software3.title)).toBeTruthy();
+      expect(res.body.items.some((g) => g.title === software1.title)).toBeTruthy();
+      expect(res.body.items.some((g) => g.title === software2.title)).toBeTruthy();
+      expect(res.body.items.some((g) => g.title === software3.title)).toBeTruthy();
     });
 
     it("Should return the correct metadata when no query filter is provided", async () => {
@@ -87,8 +87,8 @@ describe("/software", () => {
 
       expect(res.status).toBe(200);
       expect(res.body.items.length).toBe(2);
-      expect(res.body.items.some(g => g.title === software2.title)).toBeTruthy();
-      expect(res.body.items.some(g => g.title === software3.title)).toBeTruthy();
+      expect(res.body.items.some((g) => g.title === software2.title)).toBeTruthy();
+      expect(res.body.items.some((g) => g.title === software3.title)).toBeTruthy();
     });
 
     it("Should return the correct metadata that matches the category id filter", async () => {
@@ -153,12 +153,6 @@ describe("/software", () => {
       expect(res.body.items.length).toBe(1);
       expect(res.body.total === 1);
     });
-
-    it("Should return the multiple software that matches the category search", async () => {
-      const res = await request(server).get(`/software?search=Non-Fiction`);
-      expect(res.body.items.length).toBe(2);
-      expect(res.body.total === 2);
-    });
   });
 
   describe("GET /:id", () => {
@@ -173,11 +167,13 @@ describe("/software", () => {
         description: "The dogiest of dogs.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadada",
-        addressableHighlight: {
-          label: "Cool Search Engine",
-          address: "www.google.com"
-        },
-        tags: ["the", "great", "cow"]
+        addressableHighlights: [
+          {
+            label: "Cool Search Engine",
+            address: "www.google.com",
+          },
+        ],
+        tags: ["the", "great", "cow"],
       });
       await software.save();
       const res = await request(server).get("/software/" + software._id);
@@ -192,7 +188,7 @@ describe("/software", () => {
       expect(res.body).toHaveProperty("description", software.description);
       expect(res.body).toHaveProperty("image", software.image);
       expect(res.body).toHaveProperty("body", software.body);
-      expect(res.body).toHaveProperty("addressableHighlight");
+      expect(res.body).toHaveProperty("addressableHighlights");
       expect(res.body).toHaveProperty("tags");
       expect(res.body).toHaveProperty("contingency");
     });
@@ -215,10 +211,7 @@ describe("/software", () => {
     let token;
 
     const exec = () => {
-      return request(server)
-        .post("/software")
-        .set("x-auth-token", token)
-        .send(software);
+      return request(server).post("/software").set("x-auth-token", token).send(software);
     };
 
     beforeEach(async () => {
@@ -234,16 +227,18 @@ describe("/software", () => {
         description: "The dogiest of dogs.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadada",
-        addressableHighlight: {
-          label: "Cool Search Engine",
-          address: "www.google.com"
-        },
+        addressableHighlights: [
+          {
+            label: "Cool Search Engine",
+            address: "www.google.com",
+          },
+        ],
         tags: ["The", "Dogiest", "Dog"],
         contingency: {
           key1: "hey",
           key2: "world",
-          key3: "what's up"
-        }
+          key3: "what's up",
+        },
       };
     });
 
@@ -300,7 +295,7 @@ describe("/software", () => {
       expect(res.body).toHaveProperty("body", software.body);
       expect(res.body).toHaveProperty("tags");
       expect(res.body).toHaveProperty("contingency", software.contingency);
-      expect(res.body).toHaveProperty("addressableHighlight");
+      expect(res.body).toHaveProperty("addressableHighlights");
     });
   });
 
@@ -330,15 +325,17 @@ describe("/software", () => {
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aaadeeadada",
         tags: ["The", "Dogiest", "Dog"],
-        addressableHighlight: {
-          label: "Cool Search Engine",
-          address: "www.google.com"
-        },
+        addressableHighlights: [
+          {
+            label: "Cool Search Engine",
+            address: "www.google.com",
+          },
+        ],
         contingency: {
           key1: "Hi",
           key2: "What's good?",
-          key3: "This is wack!"
-        }
+          key3: "This is wack!",
+        },
       });
       await existingSoftware.save();
 
@@ -352,16 +349,18 @@ describe("/software", () => {
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aaaabbbbbccccddddeeeffffadada",
         tags: ["The", "Dogiest", "Dog"],
-        addressableHighlight: {
-          label: "Bad Search Engine",
-          address: "www.bing.com"
-        },
+        addressableHighlights: [
+          {
+            label: "Bad Search Engine",
+            address: "www.bing.com",
+          },
+        ],
         contingency: {
           key1: "THIS IS EDITED",
           key2: "WOWWWW",
           key3: "CRAZY",
-          key4: "A new key was added too!!!"
-        }
+          key4: "A new key was added too!!!",
+        },
       };
     });
 
@@ -444,7 +443,7 @@ describe("/software", () => {
       expect(res.body).toHaveProperty("body", software.body);
       expect(res.body).toHaveProperty("tags", software.tags);
       expect(res.body).toHaveProperty("contingency", software.contingency);
-      expect(res.body).toHaveProperty("addressableHighlight", software.addressableHighlight);
+      expect(res.body).toHaveProperty("addressableHighlights", software.addressableHighlights);
     });
   });
 
@@ -472,16 +471,18 @@ describe("/software", () => {
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aaadeeadada",
         tags: ["The", "Dogiest", "Dog"],
-        addressableHighlight: {
-          label: "Bad Search Engine",
-          address: "www.bing.com"
-        },
+        addressableHighlights: [
+          {
+            label: "Bad Search Engine",
+            address: "www.bing.com",
+          },
+        ],
         contingency: {
           key1: "THIS IS EDITED",
           key2: "WOWWWW",
           key3: "CRAZY",
-          key4: "A new key was added too!!!"
-        }
+          key4: "A new key was added too!!!",
+        },
       });
       await software.save();
       id = software._id;
@@ -544,7 +545,7 @@ describe("/software", () => {
       expect(res.body).toHaveProperty("body", software.body);
       expect(res.body).toHaveProperty("tags");
       expect(res.body).toHaveProperty("contingency");
-      expect(res.body).toHaveProperty("addressableHighlight");
+      expect(res.body).toHaveProperty("addressableHighlights");
     });
   });
 });
