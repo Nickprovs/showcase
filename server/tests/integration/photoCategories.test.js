@@ -1,5 +1,5 @@
 const request = require("supertest");
-const { PhotoCategory } = require("../../models/photoCategory");
+const { PhotoCategoryModel } = require("../../models/photoCategory");
 const { User } = require("../../models/user");
 const mongoose = require("mongoose");
 const moment = require("moment");
@@ -11,7 +11,7 @@ describe("/photoCategories", () => {
   });
   afterEach(async () => {
     await server.close();
-    await PhotoCategory.deleteMany({});
+    await PhotoCategoryModel.deleteMany({});
   });
 
   describe("GET /", () => {
@@ -19,10 +19,10 @@ describe("/photoCategories", () => {
     let photoCategory2;
 
     beforeEach(async () => {
-      photoCategory1 = new PhotoCategory({ name: "Fiction", slug: "fiction" });
+      photoCategory1 = new PhotoCategoryModel({ name: "Fiction", slug: "fiction" });
       photoCategory1 = await photoCategory1.save();
 
-      photoCategory2 = new PhotoCategory({ name: "Non-Fiction", slug: "non-fiction" });
+      photoCategory2 = new PhotoCategoryModel({ name: "Non-Fiction", slug: "non-fiction" });
       photoCategory2 = await photoCategory2.save();
     });
 
@@ -31,14 +31,14 @@ describe("/photoCategories", () => {
 
       expect(res.status).toBe(200);
       expect(res.body.items.length).toBe(2);
-      expect(res.body.items.some(g => g.name === photoCategory1.name)).toBeTruthy();
-      expect(res.body.items.some(g => g.name === photoCategory2.name)).toBeTruthy();
+      expect(res.body.items.some((g) => g.name === photoCategory1.name)).toBeTruthy();
+      expect(res.body.items.some((g) => g.name === photoCategory2.name)).toBeTruthy();
     });
   });
 
   describe("GET /:id", () => {
     it("should return an photo category if valid id is passed", async () => {
-      let photoCategory = new PhotoCategory({ name: "Horror", slug: "horror" });
+      let photoCategory = new PhotoCategoryModel({ name: "Horror", slug: "horror" });
       photoCategory = await photoCategory.save();
 
       const res = await request(server).get("/photoCategories/" + photoCategory._id);
@@ -64,10 +64,7 @@ describe("/photoCategories", () => {
     let token;
 
     const exec = () => {
-      return request(server)
-        .post("/photoCategories")
-        .set("x-auth-token", token)
-        .send(photoCategory);
+      return request(server).post("/photoCategories").set("x-auth-token", token).send(photoCategory);
     };
 
     beforeEach(async () => {
@@ -103,7 +100,7 @@ describe("/photoCategories", () => {
     it("should save if it is valid", async () => {
       await exec();
 
-      const savedPhotoCategory = await PhotoCategory.find({ name: photoCategory.name });
+      const savedPhotoCategory = await PhotoCategoryModel.find({ name: photoCategory.name });
       expect(savedPhotoCategory).not.toBeNull();
     });
 
@@ -128,14 +125,14 @@ describe("/photoCategories", () => {
     };
 
     beforeEach(async () => {
-      existingPhotoCategory = new PhotoCategory({ name: "Fiction", slug: "fiction" });
+      existingPhotoCategory = new PhotoCategoryModel({ name: "Fiction", slug: "fiction" });
       existingPhotoCategory = await existingPhotoCategory.save();
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
       id = existingPhotoCategory._id;
 
       photoCategory = {
         name: "Fantasy",
-        slug: "fantasy"
+        slug: "fantasy",
       };
     });
 
@@ -181,14 +178,14 @@ describe("/photoCategories", () => {
     it("should save it if it is valid", async () => {
       await exec();
 
-      const savedPhotoCategory = await PhotoCategory.find({ name: photoCategory.name });
+      const savedPhotoCategory = await PhotoCategoryModel.find({ name: photoCategory.name });
       expect(savedPhotoCategory).not.toBeNull();
     });
 
     it("should update it if input is valid", async () => {
       await exec();
 
-      const updatedPhotoCategory = await PhotoCategory.findById(existingPhotoCategory._id);
+      const updatedPhotoCategory = await PhotoCategoryModel.findById(existingPhotoCategory._id);
 
       expect(updatedPhotoCategory.name).toBe(photoCategory.name);
     });
@@ -214,7 +211,7 @@ describe("/photoCategories", () => {
     };
 
     beforeEach(async () => {
-      photoCategory = new PhotoCategory({ name: "Folk", slug: "folk" });
+      photoCategory = new PhotoCategoryModel({ name: "Folk", slug: "folk" });
       photoCategory = await photoCategory.save();
       id = photoCategory._id;
       token = new User({ isAdmin: true }).generateAuthToken();
@@ -255,7 +252,7 @@ describe("/photoCategories", () => {
     it("should delete the photo if input is valid", async () => {
       await exec();
 
-      const savedPhotoCategory = await PhotoCategory.findById(id);
+      const savedPhotoCategory = await PhotoCategoryModel.findById(id);
       expect(savedPhotoCategory).toBeNull();
     });
 
