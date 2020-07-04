@@ -1,17 +1,17 @@
 const request = require("supertest");
-const { ArticleCategory } = require("../../models/articleCategory");
+const { BlogCategory } = require("../../models/blogCategory");
 const { User } = require("../../models/user");
 const mongoose = require("mongoose");
 const moment = require("moment");
 
 let server;
-describe("/articleCategories", () => {
+describe("/blogCategories", () => {
   beforeEach(() => {
     server = require("../../index");
   });
   afterEach(async () => {
     await server.close();
-    await ArticleCategory.deleteMany({});
+    await BlogCategory.deleteMany({});
   });
 
   describe("GET /", () => {
@@ -19,41 +19,41 @@ describe("/articleCategories", () => {
     let articleCategory2;
 
     beforeEach(async () => {
-      articleCategory1 = new ArticleCategory({ name: "Fiction", slug: "fiction" });
+      articleCategory1 = new BlogCategory({ name: "Fiction", slug: "fiction" });
       articleCategory1 = await articleCategory1.save();
 
-      articleCategory2 = new ArticleCategory({ name: "Non-Fiction", slug: "non-fiction" });
+      articleCategory2 = new BlogCategory({ name: "Non-Fiction", slug: "non-fiction" });
       articleCategory2 = await articleCategory2.save();
     });
 
     it("Should return all the article categories", async () => {
-      const res = await request(server).get("/articleCategories");
+      const res = await request(server).get("/blogCategories");
 
       expect(res.status).toBe(200);
       expect(res.body.items.length).toBe(2);
-      expect(res.body.items.some(g => g.name === articleCategory1.name)).toBeTruthy();
-      expect(res.body.items.some(g => g.name === articleCategory2.name)).toBeTruthy();
+      expect(res.body.items.some((g) => g.name === articleCategory1.name)).toBeTruthy();
+      expect(res.body.items.some((g) => g.name === articleCategory2.name)).toBeTruthy();
     });
   });
 
   describe("GET /:id", () => {
     it("should return an article category if valid id is passed", async () => {
-      let articleCategory = new ArticleCategory({ name: "Horror", slug: "horror" });
+      let articleCategory = new BlogCategory({ name: "Horror", slug: "horror" });
       articleCategory = await articleCategory.save();
 
-      const res = await request(server).get("/articleCategories/" + articleCategory._id);
+      const res = await request(server).get("/blogCategories/" + articleCategory._id);
       expect(res.status).toBe(200);
       expect(res.body).toHaveProperty("name", articleCategory.name);
     });
 
     it("should return 400 if invalid id is passed", async () => {
-      const res = await request(server).get("/articleCategories/-1");
+      const res = await request(server).get("/blogCategories/-1");
       expect(res.status).toBe(400);
     });
 
     it("should return 404 if no article with the given id exists", async () => {
       const id = mongoose.Types.ObjectId();
-      const res = await request(server).get("/articleCategories/" + id);
+      const res = await request(server).get("/blogCategories/" + id);
 
       expect(res.status).toBe(404);
     });
@@ -64,10 +64,7 @@ describe("/articleCategories", () => {
     let token;
 
     const exec = () => {
-      return request(server)
-        .post("/articleCategories")
-        .set("x-auth-token", token)
-        .send(articleCategory);
+      return request(server).post("/blogCategories").set("x-auth-token", token).send(articleCategory);
     };
 
     beforeEach(async () => {
@@ -103,7 +100,7 @@ describe("/articleCategories", () => {
     it("should save if it is valid", async () => {
       await exec();
 
-      const savedArticleCategory = await ArticleCategory.find({ name: articleCategory.name });
+      const savedArticleCategory = await BlogCategory.find({ name: articleCategory.name });
       expect(savedArticleCategory).not.toBeNull();
     });
 
@@ -122,20 +119,20 @@ describe("/articleCategories", () => {
 
     const exec = () => {
       return request(server)
-        .put("/articleCategories/" + id)
+        .put("/blogCategories/" + id)
         .set("x-auth-token", token)
         .send(articleCategory);
     };
 
     beforeEach(async () => {
-      existingArticleCategory = new ArticleCategory({ name: "Fiction", slug: "fiction" });
+      existingArticleCategory = new BlogCategory({ name: "Fiction", slug: "fiction" });
       existingArticleCategory = await existingArticleCategory.save();
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
       id = existingArticleCategory._id;
 
       articleCategory = {
         name: "Fantasy",
-        slug: "fantasy"
+        slug: "fantasy",
       };
     });
 
@@ -181,14 +178,14 @@ describe("/articleCategories", () => {
     it("should save it if it is valid", async () => {
       await exec();
 
-      const savedArticleCategory = await ArticleCategory.find({ name: articleCategory.name });
+      const savedArticleCategory = await BlogCategory.find({ name: articleCategory.name });
       expect(savedArticleCategory).not.toBeNull();
     });
 
     it("should update it if input is valid", async () => {
       await exec();
 
-      const updatedArticleCategory = await ArticleCategory.findById(existingArticleCategory._id);
+      const updatedArticleCategory = await BlogCategory.findById(existingArticleCategory._id);
 
       expect(updatedArticleCategory.name).toBe(articleCategory.name);
     });
@@ -208,13 +205,13 @@ describe("/articleCategories", () => {
 
     const exec = async () => {
       return await request(server)
-        .delete("/articleCategories/" + id)
+        .delete("/blogCategories/" + id)
         .set("x-auth-token", token)
         .send();
     };
 
     beforeEach(async () => {
-      articleCategory = new ArticleCategory({ name: "Folk", slug: "folk" });
+      articleCategory = new BlogCategory({ name: "Folk", slug: "folk" });
       articleCategory = await articleCategory.save();
       id = articleCategory._id;
       token = new User({ isAdmin: true }).generateAuthToken();
@@ -255,7 +252,7 @@ describe("/articleCategories", () => {
     it("should delete the article if input is valid", async () => {
       await exec();
 
-      const savedArticleCategory = await ArticleCategory.findById(id);
+      const savedArticleCategory = await BlogCategory.findById(id);
       expect(savedArticleCategory).toBeNull();
     });
 

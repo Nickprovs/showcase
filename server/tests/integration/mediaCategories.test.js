@@ -1,5 +1,5 @@
 const request = require("supertest");
-const { MediaCategory } = require("../../models/mediaCategory");
+const { MediaCategoryModel } = require("../../models/mediaCategory");
 const { User } = require("../../models/user");
 const mongoose = require("mongoose");
 const moment = require("moment");
@@ -11,7 +11,7 @@ describe("/mediaCategories", () => {
   });
   afterEach(async () => {
     await server.close();
-    await MediaCategory.deleteMany({});
+    await MediaCategoryModel.deleteMany({});
   });
 
   describe("GET /", () => {
@@ -19,10 +19,10 @@ describe("/mediaCategories", () => {
     let mediaCategory2;
 
     beforeEach(async () => {
-      mediaCategory1 = new MediaCategory({ name: "Fiction", slug: "fiction" });
+      mediaCategory1 = new MediaCategoryModel({ name: "Fiction", slug: "fiction" });
       mediaCategory1 = await mediaCategory1.save();
 
-      mediaCategory2 = new MediaCategory({ name: "Non-Fiction", slug: "non-fiction" });
+      mediaCategory2 = new MediaCategoryModel({ name: "Non-Fiction", slug: "non-fiction" });
       mediaCategory2 = await mediaCategory2.save();
     });
 
@@ -38,7 +38,7 @@ describe("/mediaCategories", () => {
 
   describe("GET /:id", () => {
     it("should return an media category if valid id is passed", async () => {
-      let mediaCategory = new MediaCategory({ name: "Horror", slug: "horror" });
+      let mediaCategory = new MediaCategoryModel({ name: "Horror", slug: "horror" });
       mediaCategory = await mediaCategory.save();
 
       const res = await request(server).get("/mediaCategories/" + mediaCategory._id);
@@ -100,7 +100,7 @@ describe("/mediaCategories", () => {
     it("should save if it is valid", async () => {
       await exec();
 
-      const savedMediaCategory = await MediaCategory.find({ name: mediaCategory.name });
+      const savedMediaCategory = await MediaCategoryModel.find({ name: mediaCategory.name });
       expect(savedMediaCategory).not.toBeNull();
     });
 
@@ -125,7 +125,7 @@ describe("/mediaCategories", () => {
     };
 
     beforeEach(async () => {
-      existingMediaCategory = new MediaCategory({ name: "Fiction", slug: "fiction" });
+      existingMediaCategory = new MediaCategoryModel({ name: "Fiction", slug: "fiction" });
       existingMediaCategory = await existingMediaCategory.save();
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
       id = existingMediaCategory._id;
@@ -178,14 +178,14 @@ describe("/mediaCategories", () => {
     it("should save it if it is valid", async () => {
       await exec();
 
-      const savedMediaCategory = await MediaCategory.find({ name: mediaCategory.name });
+      const savedMediaCategory = await MediaCategoryModel.find({ name: mediaCategory.name });
       expect(savedMediaCategory).not.toBeNull();
     });
 
     it("should update it if input is valid", async () => {
       await exec();
 
-      const updatedMediaCategory = await MediaCategory.findById(existingMediaCategory._id);
+      const updatedMediaCategory = await MediaCategoryModel.findById(existingMediaCategory._id);
 
       expect(updatedMediaCategory.name).toBe(mediaCategory.name);
     });
@@ -211,7 +211,7 @@ describe("/mediaCategories", () => {
     };
 
     beforeEach(async () => {
-      mediaCategory = new MediaCategory({ name: "Folk", slug: "folk" });
+      mediaCategory = new MediaCategoryModel({ name: "Folk", slug: "folk" });
       mediaCategory = await mediaCategory.save();
       id = mediaCategory._id;
       token = new User({ isAdmin: true }).generateAuthToken();
@@ -252,7 +252,7 @@ describe("/mediaCategories", () => {
     it("should delete the media if input is valid", async () => {
       await exec();
 
-      const savedMediaCategory = await MediaCategory.findById(id);
+      const savedMediaCategory = await MediaCategoryModel.findById(id);
       expect(savedMediaCategory).toBeNull();
     });
 
