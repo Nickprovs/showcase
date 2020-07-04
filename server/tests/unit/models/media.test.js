@@ -7,9 +7,7 @@ describe("media.validate", () => {
       title: "testtt",
       categoryId: mongoose.Types.ObjectId().toHexString(),
       description: "The dogiest of dogs.",
-      orientation: "portrait",
-      displaySize: "medium",
-      source: "https://i.imgur.com/O2NQNvP.jpg",
+      markup: `<iframe width="560" height="315" src="https://www.youtube.com/embed/EwTZ2xpQwpA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
     };
 
     const { error } = schema.validate(media);
@@ -23,9 +21,6 @@ describe("media.validate", () => {
       title: "testtt",
       description: "The dogiest of dogs.",
       categoryId: "Adadadad",
-      orientation: "dogs",
-      displaySize: "medium",
-      source: "https://i.imgur.com/O2NQNvP.jpg",
     };
 
     const { error } = schema.validate(media);
