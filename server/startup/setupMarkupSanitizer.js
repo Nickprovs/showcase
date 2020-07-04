@@ -5,26 +5,54 @@ const recognizedMarkupDomains = config
   .split(",")
   .map((domain) => domain.trim());
 
+//Used for tags that we may want to include based on the value of their source tag.
+const getTagNodeHasSourceFromValidLocation = (node) => {
+  //If the tag we want to check doesn't have a source, it's no good.
+  const src = node.attributes.src;
+  if (!src) return false;
+
+  //See if the soruce is whitelisted
+  const srcIsTrusted = recognizedMarkupDomains.some((d) => src.value.toLowerCase().startsWith(d.toLowerCase()));
+  if (srcIsTrusted) return true;
+
+  return false;
+};
+
 module.exports = function () {
   //Allow scrips and iframes -- but filter them out via hooks unless they meet the criterio
   const customConfig = { ADD_TAGS: ["script", "iframe", "iframe"], FORCE_BODY: true };
   setConfig(customConfig);
-  addHook("uponSanitizeElement", function (currentNode, hookEvent, config) {
+
+  //Only allow iframes and scripts that have
+  //1.) Have a src tag.
+  //2.) Src tag is a from a trusted place.
+  addHook("uponSanitizeElement", function (node, hookEvent, config) {
     //Ignore bum nodes
-    if (!currentNode || !currentNode.tagName) return currentNode;
-    //Only allow iframes and scripts that have
-    //1.) Have a src tag.
-    //2.) Src tag is a from a trusted place.
-    const tagName = currentNode.tagName.toUpperCase();
+    if (!node || !node.tagName) return node;
+
+    const tagName = node.tagName.toUpperCase();
     switch (tagName) {
       case "IFRAME":
       case "SCRIPT":
-        const src = currentNode.attributes.src;
-        if (!src && currentNode.parentNode) currentNode.parentNode.removeChild(currentNode);
-        const srcIsTrusted = recognizedMarkupDomains.some((d) => src.value.toLowerCase().startsWith(d.toLowerCase()));
-        if (!srcIsTrusted && currentNode.parentNode) currentNode.parentNode.removeChild(currentNode);
+        if (!getTagNodeHasSourceFromValidLocation(node) && node.parentNode) node.parentNode.removeChild(node);
         break;
     }
-    return currentNode;
+    return node;
+  });
+
+  //Only allow attributes from iframes and scripts that have
+  //1.) Have a src tag.
+  //2.) Src tag is a from a trusted place.
+  addHook("uponSanitizeAttribute", function (node, data) {
+    //Ignore bum nodes
+    if (!node || !node.tagName) return node;
+
+    const tagName = node.tagName.toUpperCase();
+    switch (tagName) {
+      case "IFRAME":
+      case "SCRIPT":
+        if (getTagNodeHasSourceFromValidLocation(node)) data.allowedAttributes[data.attrName] = true;
+        break;
+    }
   });
 };
