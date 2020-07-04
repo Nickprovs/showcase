@@ -6,6 +6,7 @@ const { PhotoModel } = require("./models/photo");
 const { PhotoCategoryModel } = require("./models/photoCategory");
 const { MediaModel } = require("./models/media");
 const { MediaCategoryModel } = require("./models/mediaCategory");
+const { User } = require("./models/user");
 
 const mongoose = require("mongoose");
 mongoose.set("useCreateIndex", true);
@@ -385,7 +386,10 @@ async function saveCollection(data, MainModel, CategoryModel) {
 async function seed() {
   try {
     const connection = await mongoose.connect(config.get("dbConnectionString"), { useNewUrlParser: true, useUnifiedTopology: true });
+    const user = await User.findOne({});
     await connection.connection.db.dropDatabase();
+
+    if (user) await user.save();
     await saveCollection(data.blogs, Blog, BlogCategory);
     await saveCollection(data.software, Software, SoftwareCategory);
     await saveCollection(data.photos, PhotoModel, PhotoCategoryModel);
