@@ -1,6 +1,6 @@
 const request = require("supertest");
-const { Media } = require("../../models/media");
-const { MediaCategory } = require("../../models/mediaCategory");
+const { MediaModel } = require("../../models/media");
+const { MediaCategoryModel } = require("../../models/mediaCategory");
 const { User } = require("../../models/user");
 const mongoose = require("mongoose");
 const moment = require("moment");
@@ -12,8 +12,8 @@ describe("/medias", () => {
   });
   afterEach(async () => {
     await server.close();
-    await Media.deleteMany({});
-    await MediaCategory.deleteMany({});
+    await MediaModel.deleteMany({});
+    await MediaCategoryModel.deleteMany({});
   });
 
   describe("GET /", () => {
@@ -24,41 +24,35 @@ describe("/medias", () => {
     let media3;
 
     beforeEach(async () => {
-      mediaCategory1 = new MediaCategory({ name: "Mammal", slug: "mammal" });
+      mediaCategory1 = new MediaCategoryModel({ name: "Mammal", slug: "mammal" });
       mediaCategory1 = await mediaCategory1.save();
 
-      mediaCategory2 = new MediaCategory({ name: "Reptile", slug: "reptile" });
+      mediaCategory2 = new MediaCategoryModel({ name: "Reptile", slug: "reptile" });
       mediaCategory2 = await mediaCategory2.save();
 
-      media1 = new Media({
+      media1 = new MediaModel({
         title: "Dog Media",
         category: mediaCategory1,
         description: "A media of a dog.",
-        orientation: "landscape",
-        displaySize: "medium",
-        source: "https://i.imgur.com/xyPtn4m.jpg",
+        markup: `<iframe width="560" height="315" src="https://www.youtube.com/embed/jxGrbtGmxnI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
         tags: ["cute", "dog", "doggo", "common1", "common2"],
       });
       await media1.save();
 
-      media2 = new Media({
+      media2 = new MediaModel({
         title: "Cat Media",
         category: mediaCategory1,
         description: "A media of a cat.",
-        orientation: "portrait",
-        displaySize: "large",
-        source: "https://i.imgur.com/ILv82mN.jpeg",
+        markup: `<iframe width="560" height="315" src="https://www.youtube.com/embed/jxGrbtGmxnI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
         tags: ["cute", "cat", "kitten", "common1", "common2"],
       });
       await media2.save();
 
-      media3 = new Media({
+      media3 = new MediaModel({
         title: "Lizard Media",
         category: mediaCategory2,
         description: "A media of a lizard.",
-        orientation: "portrait",
-        displaySize: "large",
-        source: "https://i.imgur.com/ILv82mN.jpeg",
+        markup: `<iframe width="560" height="315" src="https://www.youtube.com/embed/jxGrbtGmxnI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
         tags: ["cute", "lizard", "lizards"],
       });
       await media3.save();
@@ -83,7 +77,7 @@ describe("/medias", () => {
     });
 
     it("Should return only the medias that match the category id filter", async () => {
-      const res = await request(server).get(`/medias?categoryId=${mediaCategory1._id}`);
+      const res = await request(server).get(`/medias?category=${mediaCategory1._id}`);
 
       expect(res.status).toBe(200);
       expect(res.body.items.length).toBe(2);
@@ -92,7 +86,7 @@ describe("/medias", () => {
     });
 
     it("Should return the correct metadata that matches the category id filter", async () => {
-      const res = await request(server).get(`/medias?categoryId=${mediaCategory1._id}`);
+      const res = await request(server).get(`/medias?category=${mediaCategory1._id}`);
 
       expect(res.body.items.length).toBe(2);
       expect(res.body.total === 2);
@@ -110,7 +104,7 @@ describe("/medias", () => {
     });
 
     it("Should return the correct metadata that matches offset and the category id filter", async () => {
-      const res = await request(server).get(`/medias?categoryId=${mediaCategory1._id}&offset=1`);
+      const res = await request(server).get(`/medias?category=${mediaCategory1._id}&offset=1`);
 
       expect(res.body.items.length).toBe(1);
       expect(res.body.total === 2);
@@ -149,16 +143,14 @@ describe("/medias", () => {
 
   describe("GET /:id", () => {
     it("should return a media if valid id is passed", async () => {
-      let mediaCategory = new MediaCategory({ name: "Portrait", slug: "portrait" });
+      let mediaCategory = new MediaCategoryModel({ name: "Portrait", slug: "portrait" });
       mediaCategory = await mediaCategory.save();
 
-      const media = new Media({
+      const media = new MediaModel({
         title: "Dog Media 1",
         category: mediaCategory,
         description: "A media of a dog 1.",
-        orientation: "landscape",
-        displaySize: "medium",
-        source: "https://i.imgur.com/xyPtn4m.jpg",
+        markup: `<iframe width="560" height="315" src="https://www.youtube.com/embed/jxGrbtGmxnI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
         tags: ["one", "dog", "doggo"],
       });
       await media.save();
@@ -171,9 +163,7 @@ describe("/medias", () => {
       expect(res.body).toHaveProperty("dateLastModified");
       expect(new Date(res.body.dateLastModified).getTime() === media.dateLastModified.getTime()).toBeTruthy();
       expect(res.body).toHaveProperty("description", media.description);
-      expect(res.body).toHaveProperty("orientation", media.orientation);
-      expect(res.body).toHaveProperty("displaySize", media.displaySize);
-      expect(res.body).toHaveProperty("source", media.source);
+      expect(res.body).toHaveProperty("markup", media.markup);
       expect(res.body).toHaveProperty("tags");
     });
 
@@ -201,16 +191,14 @@ describe("/medias", () => {
     beforeEach(async () => {
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
 
-      let mediaCategory = new MediaCategory({ name: "Panorama", slug: "panorama" });
+      let mediaCategory = new MediaCategoryModel({ name: "Panorama", slug: "panorama" });
       mediaCategory = await mediaCategory.save();
 
       media = {
         title: "Dog Media 2",
         categoryId: mediaCategory._id,
         description: "A media of a dog 2.",
-        orientation: "landscape",
-        displaySize: "medium",
-        source: "https://i.imgur.com/xyPtn4m.jpg",
+        markup: `<iframe width="560" height="315" src="https://www.youtube.com/embed/jxGrbtGmxnI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
         tags: ["Two", "dog", "doggo"],
       };
     });
@@ -238,27 +226,28 @@ describe("/medias", () => {
 
     it("should return 200 if successful", async () => {
       const res = await exec();
+      if (res.error) console.log(res.error);
       expect(res.status).toBe(200);
     });
 
     it("should save the media if it is valid", async () => {
       await exec();
 
-      const postedAndSavedMedia = await Media.find({ title: media.title });
+      const postedAndSavedMedia = await MediaModel.find({ title: media.title });
 
       expect(postedAndSavedMedia).not.toBeNull();
     });
 
     it("should return the media if it is valid", async () => {
       const res = await exec();
+      console.log(res.body);
+
       expect(res.status).toBe(200);
       expect(res.body).toHaveProperty("title", media.title);
       expect(res.body).toHaveProperty("datePosted");
       expect(res.body).toHaveProperty("dateLastModified");
       expect(res.body).toHaveProperty("description", media.description);
-      expect(res.body).toHaveProperty("orientation", media.orientation);
-      expect(res.body).toHaveProperty("displaySize", media.displaySize);
-      expect(res.body).toHaveProperty("source", media.source);
+      expect(res.body).toHaveProperty("markup", media.markup);
       expect(res.body).toHaveProperty("tags");
     });
   });
@@ -278,16 +267,14 @@ describe("/medias", () => {
     };
 
     beforeEach(async () => {
-      mediaCategory = new MediaCategory({ name: "Fiction", slug: "fiction" });
+      mediaCategory = new MediaCategoryModel({ name: "Fiction", slug: "fiction" });
       mediaCategory = await mediaCategory.save();
 
-      existingMedia = new Media({
+      existingMedia = new MediaModel({
         title: "Bunny Media",
         category: mediaCategory,
         description: "A media of a bunny.",
-        orientation: "portrait",
-        displaySize: "small",
-        source: "https://i.imgur.com/ILv82mN.jpeg",
+        markup: `<iframe width="560" height="315" src="https://www.youtube.com/embed/jxGrbtGmxnI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
         tags: ["cute", "bunny", "rabbit"],
       });
       await existingMedia.save();
@@ -296,11 +283,9 @@ describe("/medias", () => {
       id = existingMedia._id;
       media = {
         title: "Big Bunny Media",
-        categoryId: mediaCategory._id,
+        category: mediaCategory._id,
         description: "A media of a big bunny.",
-        orientation: "landscape",
-        displaySize: "medium",
-        source: "https://i.imgur.com/8vr8jT8.jpeg",
+        markup: `<iframe width="560" height="315" src="https://www.youtube.com/embed/jxGrbtGmxnI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
         tags: ["cute", "bunny", "rabbit"],
       };
     });
@@ -347,7 +332,7 @@ describe("/medias", () => {
     it("should save the media if it is valid", async () => {
       await exec();
 
-      const media = await Media.find({ title: "testtt1" });
+      const media = await MediaModel.find({ title: "testtt1" });
 
       expect(media).not.toBeNull();
     });
@@ -355,12 +340,10 @@ describe("/medias", () => {
     it("should update the media if input is valid", async () => {
       await exec();
 
-      const updatedMedia = await Media.findById(existingMedia._id);
+      const updatedMedia = await MediaModel.findById(existingMedia._id);
 
       expect(updatedMedia.title).toBe(media.title);
       expect(updatedMedia.description).toBe(media.description);
-      expect(updatedMedia.orientation).toBe(media.orientation);
-      expect(updatedMedia.displaySize).toBe(media.displaySize);
     });
 
     it("should return the updated media if it is valid", async () => {
@@ -375,9 +358,7 @@ describe("/medias", () => {
       expect(res.body).toHaveProperty("dateLastModified");
       expect(new Date(res.body.dateLastModified).getTime() === existingMedia.dateLastModified.getTime()).toBeFalsy();
       expect(res.body).toHaveProperty("description", media.description);
-      expect(res.body).toHaveProperty("orientation", media.orientation);
-      expect(res.body).toHaveProperty("displaySize", media.displaySize);
-      expect(res.body).toHaveProperty("source", media.source);
+      expect(res.body).toHaveProperty("markup", media.markup);
       expect(res.body).toHaveProperty("tags", media.tags);
     });
   });
@@ -395,16 +376,14 @@ describe("/medias", () => {
     };
 
     beforeEach(async () => {
-      mediaCategory = new MediaCategory({ name: "Candid", slug: "candid" });
+      mediaCategory = new MediaCategoryModel({ name: "Candid", slug: "candid" });
       mediaCategory = await mediaCategory.save();
 
-      media = new Media({
+      media = new MediaModel({
         title: "Smol Bunny Media",
         category: mediaCategory,
         description: "A media of a smol bunny.",
-        orientation: "panorama",
-        displaySize: "medium",
-        source: "https://i.imgur.com/ILv82mN.jpeg",
+        markup: `<iframe width="560" height="315" src="https://www.youtube.com/embed/jxGrbtGmxnI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
         tags: ["smol", "bunny", "rabbit"],
       });
       await media.save();
@@ -447,7 +426,7 @@ describe("/medias", () => {
     it("should delete the media if input is valid", async () => {
       await exec();
 
-      const mediaInDb = await Media.findById(id);
+      const mediaInDb = await MediaModel.findById(id);
 
       expect(mediaInDb).toBeNull();
     });
@@ -460,9 +439,7 @@ describe("/medias", () => {
       expect(res.body).toHaveProperty("datePosted");
       expect(res.body).toHaveProperty("dateLastModified");
       expect(res.body).toHaveProperty("description", media.description);
-      expect(res.body).toHaveProperty("orientation", media.orientation);
-      expect(res.body).toHaveProperty("displaySize", media.displaySize);
-      expect(res.body).toHaveProperty("source", media.source);
+      expect(res.body).toHaveProperty("markup", media.markup);
       expect(res.body).toHaveProperty("tags");
     });
   });
