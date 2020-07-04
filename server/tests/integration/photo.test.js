@@ -1,6 +1,6 @@
 const request = require("supertest");
-const { Photo } = require("../../models/photo");
-const { PhotoCategory } = require("../../models/photoCategory");
+const { PhotoModel } = require("../../models/photo");
+const { PhotoCategoryModel } = require("../../models/photoCategory");
 const { User } = require("../../models/user");
 const mongoose = require("mongoose");
 const moment = require("moment");
@@ -12,8 +12,8 @@ describe("/photos", () => {
   });
   afterEach(async () => {
     await server.close();
-    await Photo.deleteMany({});
-    await PhotoCategory.deleteMany({});
+    await PhotoModel.deleteMany({});
+    await PhotoCategoryModel.deleteMany({});
   });
 
   describe("GET /", () => {
@@ -24,42 +24,42 @@ describe("/photos", () => {
     let photo3;
 
     beforeEach(async () => {
-      photoCategory1 = new PhotoCategory({ name: "Mammal", slug: "mammal" });
+      photoCategory1 = new PhotoCategoryModel({ name: "Mammal", slug: "mammal" });
       photoCategory1 = await photoCategory1.save();
 
-      photoCategory2 = new PhotoCategory({ name: "Reptile", slug: "reptile" });
+      photoCategory2 = new PhotoCategoryModel({ name: "Reptile", slug: "reptile" });
       photoCategory2 = await photoCategory2.save();
 
-      photo1 = new Photo({
+      photo1 = new PhotoModel({
         title: "Dog Photo",
         category: photoCategory1,
         description: "A photo of a dog.",
         orientation: "landscape",
         displaySize: "medium",
         source: "https://i.imgur.com/xyPtn4m.jpg",
-        tags: ["cute", "dog", "doggo", "common1", "common2"]
+        tags: ["cute", "dog", "doggo", "common1", "common2"],
       });
       await photo1.save();
 
-      photo2 = new Photo({
+      photo2 = new PhotoModel({
         title: "Cat Photo",
         category: photoCategory1,
         description: "A photo of a cat.",
         orientation: "portrait",
         displaySize: "large",
         source: "https://i.imgur.com/ILv82mN.jpeg",
-        tags: ["cute", "cat", "kitten", "common1", "common2"]
+        tags: ["cute", "cat", "kitten", "common1", "common2"],
       });
       await photo2.save();
 
-      photo3 = new Photo({
+      photo3 = new PhotoModel({
         title: "Lizard Photo",
         category: photoCategory2,
         description: "A photo of a lizard.",
         orientation: "portrait",
         displaySize: "large",
         source: "https://i.imgur.com/ILv82mN.jpeg",
-        tags: ["cute", "lizard", "lizards"]
+        tags: ["cute", "lizard", "lizards"],
       });
       await photo3.save();
     });
@@ -69,9 +69,9 @@ describe("/photos", () => {
 
       expect(res.status).toBe(200);
       expect(res.body.items.length).toBe(3);
-      expect(res.body.items.some(g => g.title === photo1.title)).toBeTruthy();
-      expect(res.body.items.some(g => g.title === photo2.title)).toBeTruthy();
-      expect(res.body.items.some(g => g.title === photo3.title)).toBeTruthy();
+      expect(res.body.items.some((g) => g.title === photo1.title)).toBeTruthy();
+      expect(res.body.items.some((g) => g.title === photo2.title)).toBeTruthy();
+      expect(res.body.items.some((g) => g.title === photo3.title)).toBeTruthy();
     });
 
     it("Should return the correct metadata when no query filter is provided", async () => {
@@ -83,16 +83,16 @@ describe("/photos", () => {
     });
 
     it("Should return only the photos that match the category id filter", async () => {
-      const res = await request(server).get(`/photos?categoryId=${photoCategory1._id}`);
+      const res = await request(server).get(`/photos?category=${photoCategory1._id}`);
 
       expect(res.status).toBe(200);
       expect(res.body.items.length).toBe(2);
-      expect(res.body.items.some(g => g.title === photo1.title)).toBeTruthy();
-      expect(res.body.items.some(g => g.title === photo2.title)).toBeTruthy();
+      expect(res.body.items.some((g) => g.title === photo1.title)).toBeTruthy();
+      expect(res.body.items.some((g) => g.title === photo2.title)).toBeTruthy();
     });
 
     it("Should return the correct metadata that matches the category id filter", async () => {
-      const res = await request(server).get(`/photos?categoryId=${photoCategory1._id}`);
+      const res = await request(server).get(`/photos?category=${photoCategory1._id}`);
 
       expect(res.body.items.length).toBe(2);
       expect(res.body.total === 2);
@@ -110,7 +110,7 @@ describe("/photos", () => {
     });
 
     it("Should return the correct metadata that matches offset and the category id filter", async () => {
-      const res = await request(server).get(`/photos?categoryId=${photoCategory1._id}&offset=1`);
+      const res = await request(server).get(`/photos?category=${photoCategory1._id}&offset=1`);
 
       expect(res.body.items.length).toBe(1);
       expect(res.body.total === 2);
@@ -149,17 +149,17 @@ describe("/photos", () => {
 
   describe("GET /:id", () => {
     it("should return a photo if valid id is passed", async () => {
-      let photoCategory = new PhotoCategory({ name: "Portrait", slug: "portrait" });
+      let photoCategory = new PhotoCategoryModel({ name: "Portrait", slug: "portrait" });
       photoCategory = await photoCategory.save();
 
-      const photo = new Photo({
+      const photo = new PhotoModel({
         title: "Dog Photo 1",
         category: photoCategory,
         description: "A photo of a dog 1.",
         orientation: "landscape",
         displaySize: "medium",
         source: "https://i.imgur.com/xyPtn4m.jpg",
-        tags: ["one", "dog", "doggo"]
+        tags: ["one", "dog", "doggo"],
       });
       await photo.save();
       const res = await request(server).get("/photos/" + photo._id);
@@ -195,16 +195,13 @@ describe("/photos", () => {
     let token;
 
     const exec = () => {
-      return request(server)
-        .post("/photos")
-        .set("x-auth-token", token)
-        .send(photo);
+      return request(server).post("/photos").set("x-auth-token", token).send(photo);
     };
 
     beforeEach(async () => {
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
 
-      let photoCategory = new PhotoCategory({ name: "Panorama", slug: "panorama" });
+      let photoCategory = new PhotoCategoryModel({ name: "Panorama", slug: "panorama" });
       photoCategory = await photoCategory.save();
 
       photo = {
@@ -214,7 +211,7 @@ describe("/photos", () => {
         orientation: "landscape",
         displaySize: "medium",
         source: "https://i.imgur.com/xyPtn4m.jpg",
-        tags: ["Two", "dog", "doggo"]
+        tags: ["Two", "dog", "doggo"],
       };
     });
 
@@ -247,7 +244,7 @@ describe("/photos", () => {
     it("should save the photo if it is valid", async () => {
       await exec();
 
-      const postedAndSavedPhoto = await Photo.find({ title: photo.title });
+      const postedAndSavedPhoto = await PhotoModel.find({ title: photo.title });
 
       expect(postedAndSavedPhoto).not.toBeNull();
     });
@@ -281,17 +278,17 @@ describe("/photos", () => {
     };
 
     beforeEach(async () => {
-      photoCategory = new PhotoCategory({ name: "Fiction", slug: "fiction" });
+      photoCategory = new PhotoCategoryModel({ name: "Fiction", slug: "fiction" });
       photoCategory = await photoCategory.save();
 
-      existingPhoto = new Photo({
+      existingPhoto = new PhotoModel({
         title: "Bunny Photo",
         category: photoCategory,
         description: "A photo of a bunny.",
         orientation: "portrait",
         displaySize: "small",
         source: "https://i.imgur.com/ILv82mN.jpeg",
-        tags: ["cute", "bunny", "rabbit"]
+        tags: ["cute", "bunny", "rabbit"],
       });
       await existingPhoto.save();
 
@@ -304,7 +301,7 @@ describe("/photos", () => {
         orientation: "landscape",
         displaySize: "medium",
         source: "https://i.imgur.com/8vr8jT8.jpeg",
-        tags: ["cute", "bunny", "rabbit"]
+        tags: ["cute", "bunny", "rabbit"],
       };
     });
 
@@ -350,7 +347,7 @@ describe("/photos", () => {
     it("should save the photo if it is valid", async () => {
       await exec();
 
-      const photo = await Photo.find({ title: "testtt1" });
+      const photo = await PhotoModel.find({ title: "testtt1" });
 
       expect(photo).not.toBeNull();
     });
@@ -358,7 +355,7 @@ describe("/photos", () => {
     it("should update the photo if input is valid", async () => {
       await exec();
 
-      const updatedPhoto = await Photo.findById(existingPhoto._id);
+      const updatedPhoto = await PhotoModel.findById(existingPhoto._id);
 
       expect(updatedPhoto.title).toBe(photo.title);
       expect(updatedPhoto.description).toBe(photo.description);
@@ -398,17 +395,17 @@ describe("/photos", () => {
     };
 
     beforeEach(async () => {
-      photoCategory = new PhotoCategory({ name: "Candid", slug: "candid" });
+      photoCategory = new PhotoCategoryModel({ name: "Candid", slug: "candid" });
       photoCategory = await photoCategory.save();
 
-      photo = new Photo({
+      photo = new PhotoModel({
         title: "Smol Bunny Photo",
         category: photoCategory,
         description: "A photo of a smol bunny.",
         orientation: "panorama",
         displaySize: "medium",
         source: "https://i.imgur.com/ILv82mN.jpeg",
-        tags: ["smol", "bunny", "rabbit"]
+        tags: ["smol", "bunny", "rabbit"],
       });
       await photo.save();
       id = photo._id;
@@ -450,7 +447,7 @@ describe("/photos", () => {
     it("should delete the photo if input is valid", async () => {
       await exec();
 
-      const photoInDb = await Photo.findById(id);
+      const photoInDb = await PhotoModel.findById(id);
 
       expect(photoInDb).toBeNull();
     });
