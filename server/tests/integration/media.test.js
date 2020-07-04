@@ -226,7 +226,6 @@ describe("/medias", () => {
 
     it("should return 200 if successful", async () => {
       const res = await exec();
-      if (res.error) console.log(res.error);
       expect(res.status).toBe(200);
     });
 
@@ -240,14 +239,13 @@ describe("/medias", () => {
 
     it("should return the media if it is valid", async () => {
       const res = await exec();
-      console.log(res.body);
 
       expect(res.status).toBe(200);
       expect(res.body).toHaveProperty("title", media.title);
       expect(res.body).toHaveProperty("datePosted");
       expect(res.body).toHaveProperty("dateLastModified");
       expect(res.body).toHaveProperty("description", media.description);
-      expect(res.body).toHaveProperty("markup", media.markup);
+      expect(res.body).toHaveProperty("markup");
       expect(res.body).toHaveProperty("tags");
     });
   });
@@ -283,7 +281,7 @@ describe("/medias", () => {
       id = existingMedia._id;
       media = {
         title: "Big Bunny Media",
-        category: mediaCategory._id,
+        categoryId: mediaCategory._id,
         description: "A media of a big bunny.",
         markup: `<iframe width="560" height="315" src="https://www.youtube.com/embed/jxGrbtGmxnI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
         tags: ["cute", "bunny", "rabbit"],
@@ -358,7 +356,7 @@ describe("/medias", () => {
       expect(res.body).toHaveProperty("dateLastModified");
       expect(new Date(res.body.dateLastModified).getTime() === existingMedia.dateLastModified.getTime()).toBeFalsy();
       expect(res.body).toHaveProperty("description", media.description);
-      expect(res.body).toHaveProperty("markup", media.markup);
+      expect(res.body).toHaveProperty("markup");
       expect(res.body).toHaveProperty("tags", media.tags);
     });
   });
@@ -439,7 +437,7 @@ describe("/medias", () => {
       expect(res.body).toHaveProperty("datePosted");
       expect(res.body).toHaveProperty("dateLastModified");
       expect(res.body).toHaveProperty("description", media.description);
-      expect(res.body).toHaveProperty("markup", media.markup);
+      expect(res.body).toHaveProperty("markup");
       expect(res.body).toHaveProperty("tags");
     });
   });
