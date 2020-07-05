@@ -328,7 +328,40 @@ class Index extends Component {
   render() {
     const { user, general, domainUrl } = this.props;
     const { featured, fullScreenPhoto, fullScreenPhotoVisible } = this.state;
-    if (!featured) return <p>oops</p>;
+    let markupBody;
+    if (!featured) markupBody = <p>oops</p>;
+    else
+      markupBody = (
+        <div>
+          {/*Primary Featured Content*/}
+          <div className={indexStyles.primaryContainer}>
+            {user && user.isAdmin && (
+              <div className={indexStyles.primaryAdminOptions}>
+                <Link href={`/index/edit/primary`}>
+                  <a>
+                    <TransparentButton aria-label="Edit Primary Featured Content">
+                      <FontAwesomeIcon size="2x" icon={faEdit} />
+                    </TransparentButton>
+                  </a>
+                </Link>
+              </div>
+            )}
+            <DangerouslySetInnerHtmlWithScript html={sanitize(featured.primary.markup)} />
+          </div>
+
+          {/*Subsidiary Featured Content*/}
+          {featured.subsidiaries && featured.subsidiaries.items.length > 0 && (
+            <div className={indexStyles.container}>{featured.subsidiaries.items.map((item) => this.getFeaturedSubsidiaryMarkup(item))}</div>
+          )}
+
+          <FullscreenPhoto
+            onCloseRequested={() => this.handleCloseFullScreenPhoto()}
+            visible={fullScreenPhotoVisible}
+            src={fullScreenPhoto ? fullScreenPhoto.source : ""}
+            metadata={fullScreenPhoto}
+          />
+        </div>
+      );
     return (
       <div>
         <Head>
@@ -340,34 +373,7 @@ class Index extends Component {
           <title>{FormatUtilities.getFormattedWebsiteTitle("Home", general ? general.title : "Showcase")}</title>
           <meta name="description" content={`The home of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
         </Head>
-
-        {/*Primary Featured Content*/}
-        <div className={indexStyles.primaryContainer}>
-          {user && user.isAdmin && (
-            <div className={indexStyles.primaryAdminOptions}>
-              <Link href={`/index/edit/primary`}>
-                <a>
-                  <TransparentButton aria-label="Edit Primary Featured Content">
-                    <FontAwesomeIcon size="2x" icon={faEdit} />
-                  </TransparentButton>
-                </a>
-              </Link>
-            </div>
-          )}
-          <DangerouslySetInnerHtmlWithScript html={sanitize(featured.primary.markup)} />
-        </div>
-
-        {/*Subsidiary Featured Content*/}
-        {featured.subsidiaries && featured.subsidiaries.items.length > 0 && (
-          <div className={indexStyles.container}>{featured.subsidiaries.items.map((item) => this.getFeaturedSubsidiaryMarkup(item))}</div>
-        )}
-
-        <FullscreenPhoto
-          onCloseRequested={() => this.handleCloseFullScreenPhoto()}
-          visible={fullScreenPhotoVisible}
-          src={fullScreenPhoto ? fullScreenPhoto.source : ""}
-          metadata={fullScreenPhoto}
-        />
+        {markupBody}
       </div>
     );
   }

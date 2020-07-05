@@ -310,78 +310,74 @@ class Photo extends Component {
     if (!photos || photos.length === 0) markupBody = this.getEmptyPhotoSectionMarkup();
     else
       markupBody = (
-        <div>
-          <Head>
-            <meta property="og:title" content={FormatUtilities.getFormattedWebsiteTitle("Photo", general ? general.title : "Showcase")} />
-            <meta property="og:type" content="website" />
-            <meta property="og:image" content={`${domainUrl}/images/meta-photo.jpg`} />
-            <meta property="og:description" content={`The photo showcase of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
-            <meta name="twitter:card" content="summary" />
-            <title>{FormatUtilities.getFormattedWebsiteTitle("Photo", general ? general.title : "Showcase")}</title>
-            <meta name="description" content={`The photo showcase of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
-          </Head>
-          <div style={{ zIndex: "200" }} className={photoStyles.container}>
-            {photos.map((photo) => (
-              <div
-                key={photo._id}
-                title={`Orientation: ${photo.orientation}, DisplaySize: ${photo.displaySize}`}
-                className={this.getClassesForPhoto(photo)}
-                style={{ position: "relative" }}
-              >
-                <div className={photoStyles.cellContainer}>
-                  {/* Admin Options */}
-                  {user && user.isAdmin && (
-                    <div className={photoStyles.adminOptions}>
-                      <div>
-                        <TransparentButton
-                          aria-label="Toggle Photo as Featured"
-                          onClick={async () => await this.handleToggleFeaturedPhoto(photo)}
-                          style={{ color: "var(--f1)" }}
-                        >
-                          <FontAwesomeIcon size="2x" icon={featured.subsidiaries.items.some((item) => item.id === photo._id) ? fasStar : farStar} />
-                        </TransparentButton>
-                        <Link href={`/showcase/photo/edit/photo/[id]`} as={`/showcase/photo/edit/photo/${photo._id}`}>
-                          <a>
-                            <TransparentButton aria-label="Edit Photo">
-                              <FontAwesomeIcon size="2x" icon={faEdit} />
-                            </TransparentButton>
-                          </a>
-                        </Link>
+        <div style={{ zIndex: "200" }} className={photoStyles.container}>
+          {photos.map((photo) => (
+            <div
+              key={photo._id}
+              title={`Orientation: ${photo.orientation}, DisplaySize: ${photo.displaySize}`}
+              className={this.getClassesForPhoto(photo)}
+              style={{ position: "relative" }}
+            >
+              <div className={photoStyles.cellContainer}>
+                {/* Admin Options */}
+                {user && user.isAdmin && (
+                  <div className={photoStyles.adminOptions}>
+                    <div>
+                      <TransparentButton
+                        aria-label="Toggle Photo as Featured"
+                        onClick={async () => await this.handleToggleFeaturedPhoto(photo)}
+                        style={{ color: "var(--f1)" }}
+                      >
+                        <FontAwesomeIcon size="2x" icon={featured.subsidiaries.items.some((item) => item.id === photo._id) ? fasStar : farStar} />
+                      </TransparentButton>
+                      <Link href={`/showcase/photo/edit/photo/[id]`} as={`/showcase/photo/edit/photo/${photo._id}`}>
+                        <a>
+                          <TransparentButton aria-label="Edit Photo">
+                            <FontAwesomeIcon size="2x" icon={faEdit} />
+                          </TransparentButton>
+                        </a>
+                      </Link>
 
-                        <TransparentButton
-                          aria-label="Remove Photo"
-                          onClick={() =>
-                            toast.info(<RemovePhotoToast photo={photo} onRemovePhotoAsync={async (photo) => await this.handleRemovePhoto(photo)} />)
-                          }
-                          style={{ color: "var(--f1)" }}
-                        >
-                          <FontAwesomeIcon size="2x" icon={faTrash} />
-                        </TransparentButton>
-                      </div>
+                      <TransparentButton
+                        aria-label="Remove Photo"
+                        onClick={() => toast.info(<RemovePhotoToast photo={photo} onRemovePhotoAsync={async (photo) => await this.handleRemovePhoto(photo)} />)}
+                        style={{ color: "var(--f1)" }}
+                      >
+                        <FontAwesomeIcon size="2x" icon={faTrash} />
+                      </TransparentButton>
                     </div>
-                  )}
+                  </div>
+                )}
 
-                  <img
-                    alt={photo.description}
-                    className={photoStyles.containerFitImage}
-                    onClick={() => this.handleOpenFullScreenPhoto(photo)}
-                    src={photo.source}
-                  />
-                </div>
+                <img
+                  alt={photo.description}
+                  className={photoStyles.containerFitImage}
+                  onClick={() => this.handleOpenFullScreenPhoto(photo)}
+                  src={photo.source}
+                />
               </div>
-            ))}
-            <FullscreenPhoto
-              onCloseRequested={() => this.handleCloseFullScreenPhoto()}
-              visible={fullScreenPhotoVisible}
-              src={fullScreenPhoto ? fullScreenPhoto.source : ""}
-              metadata={fullScreenPhoto}
-            />
-          </div>
+            </div>
+          ))}
+          <FullscreenPhoto
+            onCloseRequested={() => this.handleCloseFullScreenPhoto()}
+            visible={fullScreenPhotoVisible}
+            src={fullScreenPhoto ? fullScreenPhoto.source : ""}
+            metadata={fullScreenPhoto}
+          />
         </div>
       );
 
     return (
       <div>
+        <Head>
+          <meta property="og:title" content={FormatUtilities.getFormattedWebsiteTitle("Photo", general ? general.title : "Showcase")} />
+          <meta property="og:type" content="website" />
+          <meta property="og:image" content={`${domainUrl}/images/meta-photo.jpg`} />
+          <meta property="og:description" content={`The photo showcase of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
+          <meta name="twitter:card" content="summary" />
+          <title>{FormatUtilities.getFormattedWebsiteTitle("Photo", general ? general.title : "Showcase")}</title>
+          <meta name="description" content={`The photo showcase of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
+        </Head>
         <CommonPageHeaderControls
           user={user}
           mainPagePath="showcase/photo"
