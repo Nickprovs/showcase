@@ -36,7 +36,6 @@ export default function MyApp({ Component, pageProps }) {
   }
 
   let siteTitle = pageProps.general ? pageProps.general.title : "Showcase";
-
   return (
     <div>
       <Head>
@@ -44,6 +43,7 @@ export default function MyApp({ Component, pageProps }) {
         <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta property="og:site_name" content={siteTitle} />
+        <meta property="og:url" content={pageProps.fullPath} />
 
         {/* Import CSS for nprogress */}
         <link rel="stylesheet" type="text/css" href="/nprogress.css" />

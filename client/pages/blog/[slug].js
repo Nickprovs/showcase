@@ -35,8 +35,13 @@ function Blog({ blog, general, fullPath }) {
         <meta property="og:title" content={blog.title} />
         <meta property="og:type" content="article" />
         <meta property="og:image" content={blog.image} />
-        <meta property="og:url" content={fullPath} />
         <meta property="og:description" content={blog.description} />
+        <meta property="og:article:published_time" content={blog.datePosted} />
+        <meta property="og:article:modified_time" content={blog.dateLastModified} />
+        <meta property="og:article:tag" content={blog.tags} />
+        <meta property="og:article:section" content={blog.category.name} />
+        <meta property="og:article:author" content={general ? general.title : "Admin"} />
+        <meta name="twitter:card" content="summary_large_image" />
       </Head>
       {/* Primary Article Content*/}
       <div>

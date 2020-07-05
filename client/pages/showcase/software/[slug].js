@@ -32,6 +32,16 @@ function Software({ software, general }) {
       <Head>
         <title>{FormatUtilities.getFormattedWebsiteTitle(software.title, general ? general.title : "Showcase")}</title>
         <meta name="description" content={software.description} />
+        <meta property="og:title" content={software.title} />
+        <meta property="og:type" content="article" />
+        <meta property="og:image" content={software.image} />
+        <meta property="og:description" content={software.description} />
+        <meta property="og:article:published_time" content={software.datePosted} />
+        <meta property="og:article:modified_time" content={software.dateLastModified} />
+        <meta property="og:article:tag" content={software.tags} />
+        <meta property="og:article:section" content={software.category.name} />
+        <meta property="og:article:author" content={general ? general.title : "Admin"} />
+        <meta name="twitter:card" content="summary_large_image" />
       </Head>
       {/* Primary Article Content*/}
       <div>
