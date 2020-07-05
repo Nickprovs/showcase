@@ -332,13 +332,13 @@ class Index extends Component {
     return (
       <div>
         <Head>
-          <title>{FormatUtilities.getFormattedWebsiteTitle("Home", general ? general.title : "Showcase")}</title>
-          <meta name="description" content={`The home of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
           <meta property="og:title" content={general.title} />
           <meta property="og:type" content="website" />
           <meta property="og:image" content={`${domainUrl}/images/meta-main.jpg`} />
           <meta property="og:description" content={`The home of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
           <meta name="twitter:card" content="summary" />
+          <title>{FormatUtilities.getFormattedWebsiteTitle("Home", general ? general.title : "Showcase")}</title>
+          <meta name="description" content={`The home of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
         </Head>
 
         {/*Primary Featured Content*/}

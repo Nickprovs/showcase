@@ -258,13 +258,13 @@ class Blog extends Component {
     return (
       <div>
         <Head>
-          <title>{FormatUtilities.getFormattedWebsiteTitle("Blog", general ? general.title : "Showcase")}</title>
-          <meta name="description" content={`The blog of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
           <meta property="og:title" content={FormatUtilities.getFormattedWebsiteTitle("Blog", general ? general.title : "Showcase")} />
           <meta property="og:type" content="website" />
           <meta property="og:image" content={`${domainUrl}/images/meta-blog.jpg`} />
           <meta property="og:description" content={`The blog of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
           <meta name="twitter:card" content="summary" />
+          <title>{FormatUtilities.getFormattedWebsiteTitle("Blog", general ? general.title : "Showcase")}</title>
+          <meta name="description" content={`The blog of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
         </Head>
         <CommonPageHeaderControls
           user={user}

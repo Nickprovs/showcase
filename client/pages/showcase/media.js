@@ -361,13 +361,13 @@ class Media extends Component {
     return (
       <div>
         <Head>
-          <title>{FormatUtilities.getFormattedWebsiteTitle("Media", general ? general.title : "Showcase")}</title>
-          <meta name="description" content={`The media showcase of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
           <meta property="og:title" content={FormatUtilities.getFormattedWebsiteTitle("Media", general ? general.title : "Showcase")} />
           <meta property="og:type" content="website" />
           <meta property="og:image" content={`${domainUrl}/images/meta-media.jpg`} />
           <meta property="og:description" content={`The media showcase of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
           <meta name="twitter:card" content="summary" />
+          <title>{FormatUtilities.getFormattedWebsiteTitle("Media", general ? general.title : "Showcase")}</title>
+          <meta name="description" content={`The media showcase of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
         </Head>
         <CommonPageHeaderControls
           user={user}
