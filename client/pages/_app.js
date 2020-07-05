@@ -5,6 +5,7 @@ import Head from "next/head";
 import { ToastContainer } from "react-toastify";
 import BrowserSupportUtilities from "../util/browserSupportUtilities";
 import RedirectUtilities from "../util/redirectUtilities";
+import UrlUtilities from "../util/urlUtilities";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles.css";
 
@@ -63,6 +64,8 @@ MyApp.getInitialProps = async (appContext) => {
   //Check for browser compatability and redirect if necessary
   if (appContext.ctx.pathname !== "/incompatible" && !BrowserSupportUtilities.isBrowserSupported(appContext.ctx))
     RedirectUtilities.Redirect(appContext.ctx, "/incompatible");
+
+  appProps.pageProps.fullPath = UrlUtilities.getFullPathIsomorphic(appContext.ctx);
 
   return { ...appProps };
 };
