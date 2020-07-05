@@ -13,7 +13,6 @@ class Primary extends Form {
   static async getInitialProps(context) {
     const { id } = context.query;
 
-    //Get the blog
     let data = null;
     try {
       const generalRes = await getGeneralAsync();
@@ -28,7 +27,7 @@ class Primary extends Form {
   constructor() {
     super();
 
-    this.state.data = { title: "", footnote: "", github: "", linkedin: "", instagram: "" };
+    this.state.data = { title: "", footnote: "", professionTitle: "", professionShow: "", github: "", linkedin: "", instagram: "" };
     this.state.errors = {};
   }
 
@@ -47,6 +46,8 @@ class Primary extends Form {
       data: {
         title: general.title,
         footnote: general.footnote,
+        professionTitle: general.profession.title,
+        professionShow: general.profession.show,
         github: general.socialLinks.github ? general.socialLinks.github : "",
         linkedin: general.socialLinks.linkedin ? general.socialLinks.linkedin : "",
         instagram: general.socialLinks.instagram ? general.socialLinks.instagram : "",
@@ -57,6 +58,8 @@ class Primary extends Form {
   schema = CustomJoi.object({
     title: CustomJoi.string().min(2).max(64).required(),
     footnote: CustomJoi.string().min(5).max(256).required(),
+    professionTitle: CustomJoi.string().min(2).max(64).required(),
+    professionShow: CustomJoi.string().min(2).max(64).required(),
     github: CustomJoi.string().optional().allow("").max(256),
     linkedin: CustomJoi.string().optional().allow("").max(256),
     instagram: CustomJoi.string().optional().allow("").max(256),
@@ -65,6 +68,7 @@ class Primary extends Form {
   getGeneralFromPassingState() {
     let general = { ...this.state.data };
 
+    //Format social links data
     general.socialLinks = {
       instagram: general.instagram,
       github: general.github,
@@ -74,6 +78,15 @@ class Primary extends Form {
     delete general.linkedin;
     delete general.github;
     delete general.instagram;
+
+    //Format profession data
+    general.profession = {
+      title: general.professionTitle,
+      show: general.professionShow,
+    };
+
+    delete general.professionTitle;
+    delete general.professionShow;
 
     return general;
   }
@@ -116,6 +129,8 @@ class Primary extends Form {
           <form onSubmit={this.handleSubmit}>
             {this.renderTextInput("title", "TITLE")}
             {this.renderTextInput("footnote", "FOOTNOTE")}
+            {this.renderTextInput("professionTitle", "PROFESSION SECTION TITLE")}
+            {this.renderTextInput("professionShow", "SHOW PROFESSION SECTION")}
             {this.renderTextInput("github", "GITHUB")}
             {this.renderTextInput("linkedin", "LINKEDIN")}
             {this.renderTextInput("instagram", "INSTAGRAM")}

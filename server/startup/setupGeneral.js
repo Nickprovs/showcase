@@ -8,6 +8,10 @@ module.exports = async function () {
     const general = new GeneralModel({
       title: "SHOWCASE",
       footnote: "© SOME BODY | BUILT BY SOME BODY | INSPIRED BY SOME BODY",
+      profession: {
+        title: "Software",
+        show: true,
+      },
       socialLinks: {
         linkedin: "https://www.linkedin.com/feed/",
         github: "https://github.com/",

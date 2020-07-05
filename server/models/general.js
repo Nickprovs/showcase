@@ -2,6 +2,21 @@ const Joi = require("@hapi/joi");
 Joi.objectId = require("joi-objectid")(Joi);
 const mongoose = require("mongoose");
 
+const professionSchema = {
+  title: {
+    type: String,
+    minlength: 2,
+    maxlength: 64,
+    required: true,
+    default: "Software",
+  },
+  show: {
+    type: Boolean,
+    required: true,
+    default: true,
+  },
+};
+
 //Mongo Schema
 const mongoGeneralSchema = new mongoose.Schema({
   title: {
@@ -16,6 +31,7 @@ const mongoGeneralSchema = new mongoose.Schema({
     minlength: 2,
     maxlength: 256,
   },
+  profession: professionSchema,
   socialLinks: {
     type: Map,
     of: String,
@@ -53,11 +69,17 @@ mongoGeneralSchema.set("toJSON", { virtuals: false, transform: omitPrivate });
 
 const GeneralModel = mongoose.model("General", mongoGeneralSchema);
 
+const joiProfessionSchema = Joi.object({
+  title: Joi.string().min(2).max(64).required(),
+  show: Joi.boolean().required(),
+});
+
 //Joi Schema
 const joiGeneralSchema = Joi.object({
   title: Joi.string().min(2).max(64).required(),
   footnote: Joi.string().min(2).max(256).required(),
   socialLinks: Joi.object().pattern(Joi.string(), Joi.string().optional().allow("").max(256)),
+  profession: joiProfessionSchema,
 });
 
 exports.GeneralModel = GeneralModel;
