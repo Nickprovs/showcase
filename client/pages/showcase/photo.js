@@ -306,7 +306,6 @@ class Photo extends Component {
     const { photos, featured, totalPhotosCount, fullScreenPhotoVisible, fullScreenPhoto, searchText, categories, currentCategory, currentPage } = this.state;
     const { user, general, domainUrl } = this.props;
 
-    //If we have no photos to display for this route...
     let markupBody;
     if (!photos || photos.length === 0) markupBody = this.getEmptyPhotoSectionMarkup();
     else

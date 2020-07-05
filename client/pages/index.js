@@ -340,6 +340,7 @@ class Index extends Component {
           <meta property="og:description" content={`The home of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
           <meta name="twitter:card" content="summary" />
         </Head>
+
         {/*Primary Featured Content*/}
         <div className={indexStyles.primaryContainer}>
           {user && user.isAdmin && (
