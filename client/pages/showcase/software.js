@@ -262,7 +262,7 @@ class Software extends Component {
           <meta name="description" content={`The software showcase of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
           <meta property="og:title" content={FormatUtilities.getFormattedWebsiteTitle("Software", general ? general.title : "Showcase")} />
           <meta property="og:type" content="website" />
-          <meta property="og:image" content={`${domainUrl}/images/profession.jpg`} />
+          <meta property="og:image" content={`${domainUrl}/images/meta-profession.jpg`} />
           <meta property="og:description" content={`The software showcase of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
           <meta name="twitter:card" content="summary" />
         </Head>

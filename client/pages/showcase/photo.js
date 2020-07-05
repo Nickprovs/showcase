@@ -316,7 +316,7 @@ class Photo extends Component {
             <meta name="description" content={`The photo showcase of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
             <meta property="og:title" content={FormatUtilities.getFormattedWebsiteTitle("Photo", general ? general.title : "Showcase")} />
             <meta property="og:type" content="website" />
-            <meta property="og:image" content={`${domainUrl}/images/photo.jpg`} />
+            <meta property="og:image" content={`${domainUrl}/images/meta-photo.jpg`} />
             <meta property="og:description" content={`The photo showcase of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
             <meta name="twitter:card" content="summary" />
           </Head>

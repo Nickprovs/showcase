@@ -336,7 +336,7 @@ class Index extends Component {
           <meta name="description" content={`The home of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
           <meta property="og:title" content={general.title} />
           <meta property="og:type" content="website" />
-          <meta property="og:image" content={`${domainUrl}/images/main.jpg`} />
+          <meta property="og:image" content={`${domainUrl}/images/meta-main.jpg`} />
           <meta property="og:description" content={`The home of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
           <meta name="twitter:card" content="summary" />
         </Head>

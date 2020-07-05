@@ -103,7 +103,7 @@ class Contact extends Form {
           <meta name="description" content={`Get in touch with ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
           <meta property="og:title" content={FormatUtilities.getFormattedWebsiteTitle("Contact", general ? general.title : "Showcase")} />
           <meta property="og:type" content="website" />
-          <meta property="og:image" content={`${domainUrl}/images/contact.jpg`} />
+          <meta property="og:image" content={`${domainUrl}/images/meta-contact.jpg`} />
           <meta property="og:description" content={`Get in touch with ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
           <meta name="twitter:card" content="summary" />
         </Head>
