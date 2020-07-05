@@ -326,7 +326,7 @@ class Index extends Component {
   }
 
   render() {
-    const { user, general } = this.props;
+    const { user, general, domainUrl } = this.props;
     const { featured, fullScreenPhoto, fullScreenPhotoVisible } = this.state;
     if (!featured) return <p>oops</p>;
     return (
@@ -334,6 +334,11 @@ class Index extends Component {
         <Head>
           <title>{FormatUtilities.getFormattedWebsiteTitle("Home", general ? general.title : "Showcase")}</title>
           <meta name="description" content={`The home of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
+          <meta property="og:title" content={general.title} />
+          <meta property="og:type" content="website" />
+          <meta property="og:image" content={`${domainUrl}/images/main.jpg`} />
+          <meta property="og:description" content={`The home of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
+          <meta name="twitter:card" content="summary" />
         </Head>
         {/*Primary Featured Content*/}
         <div className={indexStyles.primaryContainer}>

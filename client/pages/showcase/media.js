@@ -285,7 +285,7 @@ class Media extends Component {
   }
 
   render() {
-    const { user, general } = this.props;
+    const { user, general, domainUrl } = this.props;
     const { medias, featured, totalMediasCount, currentPage, searchText, categories, currentCategory } = this.state;
 
     //If we have no medias to display for this route...
@@ -363,6 +363,11 @@ class Media extends Component {
         <Head>
           <title>{FormatUtilities.getFormattedWebsiteTitle("Media", general ? general.title : "Showcase")}</title>
           <meta name="description" content={`The media showcase of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
+          <meta property="og:title" content={FormatUtilities.getFormattedWebsiteTitle("Media", general ? general.title : "Showcase")} />
+          <meta property="og:type" content="website" />
+          <meta property="og:image" content={`${domainUrl}/images/media.jpg`} />
+          <meta property="og:description" content={`The media showcase of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
+          <meta name="twitter:card" content="summary" />
         </Head>
         <CommonPageHeaderControls
           user={user}

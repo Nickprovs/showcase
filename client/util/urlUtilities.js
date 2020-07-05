@@ -12,4 +12,16 @@ export default class UrlUtilities {
     }
     return fullUrl;
   }
+
+  static getDomainPathIsomorphic(ctx) {
+    let domainUrl;
+    if (ctx.req) {
+      // Server side rendering
+      domainUrl = ctx.req.protocol + "://" + ctx.req.get("host");
+    } else {
+      // Client side rendering
+      domainUrl = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ":" + window.location.port : "");
+    }
+    return domainUrl;
+  }
 }

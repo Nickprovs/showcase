@@ -304,7 +304,7 @@ class Photo extends Component {
 
   render() {
     const { photos, featured, totalPhotosCount, fullScreenPhotoVisible, fullScreenPhoto, searchText, categories, currentCategory, currentPage } = this.state;
-    const { user, general } = this.props;
+    const { user, general, domainUrl } = this.props;
 
     //If we have no photos to display for this route...
     let markupBody;
@@ -315,6 +315,11 @@ class Photo extends Component {
           <Head>
             <title>{FormatUtilities.getFormattedWebsiteTitle("Photo", general ? general.title : "Showcase")}</title>
             <meta name="description" content={`The photo showcase of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
+            <meta property="og:title" content={FormatUtilities.getFormattedWebsiteTitle("Photo", general ? general.title : "Showcase")} />
+            <meta property="og:type" content="website" />
+            <meta property="og:image" content={`${domainUrl}/images/photo.jpg`} />
+            <meta property="og:description" content={`The photo showcase of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
+            <meta name="twitter:card" content="summary" />
           </Head>
           <div style={{ zIndex: "200" }} className={photoStyles.container}>
             {photos.map((photo) => (

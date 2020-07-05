@@ -253,13 +253,18 @@ class Blog extends Component {
 
   render() {
     const { previews, featured, categories, currentPage, totalBlogsCount, currentCategory, searchText } = this.state;
-    const { user, general } = this.props;
+    const { user, general, domainUrl } = this.props;
 
     return (
       <div>
         <Head>
           <title>{FormatUtilities.getFormattedWebsiteTitle("Blog", general ? general.title : "Showcase")}</title>
           <meta name="description" content={`The blog of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
+          <meta property="og:title" content={FormatUtilities.getFormattedWebsiteTitle("Blog", general ? general.title : "Showcase")} />
+          <meta property="og:type" content="website" />
+          <meta property="og:image" content={`${domainUrl}/images/blog.jpg?v=2`} />
+          <meta property="og:description" content={`The blog of ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
+          <meta name="twitter:card" content="summary" />
         </Head>
         <CommonPageHeaderControls
           user={user}

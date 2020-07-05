@@ -94,13 +94,18 @@ class Contact extends Form {
 
   render() {
     const { contactComplete } = this.state;
-    const { general, darkModeOn } = this.props;
+    const { general, darkModeOn, domainUrl } = this.props;
 
     return (
       <div>
         <Head>
           <title>{FormatUtilities.getFormattedWebsiteTitle("Contact", general ? general.title : "Showcase")}</title>
           <meta name="description" content={`Get in touch with ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
+          <meta property="og:title" content={FormatUtilities.getFormattedWebsiteTitle("Contact", general ? general.title : "Showcase")} />
+          <meta property="og:type" content="website" />
+          <meta property="og:image" content={`${domainUrl}/images/contact.jpg`} />
+          <meta property="og:description" content={`Get in touch with ${StringUtilities.toEachWordCapitalized(general.title)}.`} />
+          <meta name="twitter:card" content="summary" />
         </Head>
         <div className="standardPadding">{!contactComplete ? this.getContactNotCompleteMarkup(darkModeOn) : this.getContactCompleteMarkup()}</div>
       </div>
