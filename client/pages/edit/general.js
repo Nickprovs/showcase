@@ -47,7 +47,7 @@ class Primary extends Form {
         title: general.title,
         footnote: general.footnote,
         professionTitle: general.profession.title,
-        professionShow: general.profession.show,
+        professionShow: general.profession.show.toString(),
         github: general.socialLinks.github ? general.socialLinks.github : "",
         linkedin: general.socialLinks.linkedin ? general.socialLinks.linkedin : "",
         instagram: general.socialLinks.instagram ? general.socialLinks.instagram : "",
@@ -130,7 +130,7 @@ class Primary extends Form {
             {this.renderTextInput("title", "TITLE")}
             {this.renderTextInput("footnote", "FOOTNOTE")}
             {this.renderTextInput("professionTitle", "PROFESSION SECTION TITLE")}
-            {this.renderTextInput("professionShow", "SHOW PROFESSION SECTION")}
+            {this.renderSelect("professionShow", "SHOW PROFESSION SECTION", "Select Orientation", ["true", "false"], null)}
             {this.renderTextInput("github", "GITHUB")}
             {this.renderTextInput("linkedin", "LINKEDIN")}
             {this.renderTextInput("instagram", "INSTAGRAM")}
