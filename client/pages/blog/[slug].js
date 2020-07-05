@@ -32,6 +32,14 @@ function Blog({ blog, general }) {
       <Head>
         <title>{FormatUtilities.getFormattedWebsiteTitle(blog.title, general ? general.title : "Showcase")}</title>
         <meta name="description" content={blog.description} />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={blog.title} />
+        <meta property="og:description" content={blog.description} />
+        <meta
+          property="og:image"
+          content="http://static01.nyt.com/images/2015/02/19/arts/international/19iht-btnumbers19A/19iht-btnumbers19A-facebookJumbo-v2.jpg"
+        />
       </Head>
       {/* Primary Article Content*/}
       <div>
