@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const { joiSchema, mongoSchema } = require("./common/category");
 
-const SoftwareCategory = mongoose.model("SoftwareCategory", mongoSchema);
+const PortfolioCategory = mongoose.model("PortfolioCategory", mongoSchema);
 
-exports.SoftwareCategory = SoftwareCategory;
+exports.PortfolioCategory = PortfolioCategory;
 exports.joiSchema = joiSchema;
 exports.mongoSchema = mongoSchema;

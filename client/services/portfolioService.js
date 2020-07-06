@@ -2,10 +2,10 @@ import fetch from "isomorphic-unfetch";
 import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
 
-const SOFTWAREAPIURL = `${publicRuntimeConfig.apiUrl}/software`;
-const SOFTWARECATEGORIESAPIURL = `${publicRuntimeConfig.apiUrl}/softwareCategories`;
+const PORTFOLIOAPIURL = `${publicRuntimeConfig.apiUrl}/portfolio`;
+const PORTFOLIOCATEGORIESAPIURL = `${publicRuntimeConfig.apiUrl}/portfolioCategories`;
 
-export async function getSoftwaresAsync(options) {
+export async function getPortfoliosAsync(options) {
   let query = "";
 
   if (options) {
@@ -16,33 +16,33 @@ export async function getSoftwaresAsync(options) {
     if (options.dateOrder) query += query ? `&dateOrder=${options.dateOrder}` : `?dateOrder=${options.category}`;
   }
 
-  const res = await fetch(SOFTWAREAPIURL + query);
+  const res = await fetch(PORTFOLIOAPIURL + query);
   return res;
 }
 
-export async function getSoftwareAsync(softwareIdOrSlug) {
-  const requestUrl = SOFTWAREAPIURL + "/" + softwareIdOrSlug;
+export async function getPortfolioAsync(portfolioIdOrSlug) {
+  const requestUrl = PORTFOLIOAPIURL + "/" + portfolioIdOrSlug;
   const res = await fetch(requestUrl);
   return res;
 }
 
-export async function createSoftwareAsync(software) {
-  const res = await fetch(SOFTWAREAPIURL, {
+export async function createPortfolioAsync(portfolio) {
+  const res = await fetch(PORTFOLIOAPIURL, {
     method: "post",
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(software),
+    body: JSON.stringify(portfolio),
   });
   return res;
 }
 
-export async function updateSoftwareAsync(software) {
-  const body = { ...software };
+export async function updatePortfolioAsync(portfolio) {
+  const body = { ...portfolio };
   delete body._id;
 
-  const res = await fetch(`${SOFTWAREAPIURL}/${software._id}`, {
+  const res = await fetch(`${PORTFOLIOAPIURL}/${portfolio._id}`, {
     method: "put",
     credentials: "include",
     headers: {
@@ -53,8 +53,8 @@ export async function updateSoftwareAsync(software) {
   return res;
 }
 
-export async function deleteSoftwareAsync(softwareId) {
-  const res = await fetch(`${SOFTWAREAPIURL}/${softwareId}`, {
+export async function deletePortfolioAsync(portfolioId) {
+  const res = await fetch(`${PORTFOLIOAPIURL}/${portfolioId}`, {
     method: "delete",
     credentials: "include",
     headers: {
@@ -64,19 +64,19 @@ export async function deleteSoftwareAsync(softwareId) {
   return res;
 }
 
-export async function getSoftwareCategoryAsync(categoryId) {
-  const requestUrl = SOFTWARECATEGORIESAPIURL + "/" + categoryId;
+export async function getPortfolioCategoryAsync(categoryId) {
+  const requestUrl = PORTFOLIOCATEGORIESAPIURL + "/" + categoryId;
   const res = await fetch(requestUrl);
   return res;
 }
 
-export async function getSoftwareCategoriesAsync() {
-  const res = await fetch(SOFTWARECATEGORIESAPIURL);
+export async function getPortfolioCategoriesAsync() {
+  const res = await fetch(PORTFOLIOCATEGORIESAPIURL);
   return res;
 }
 
-export async function createSoftwareCategoryAsync(name, slug) {
-  const res = await fetch(SOFTWARECATEGORIESAPIURL, {
+export async function createPortfolioCategoryAsync(name, slug) {
+  const res = await fetch(PORTFOLIOCATEGORIESAPIURL, {
     method: "post",
     credentials: "include",
     headers: {
@@ -87,11 +87,11 @@ export async function createSoftwareCategoryAsync(name, slug) {
   return res;
 }
 
-export async function updateSoftwareCategoryAsync(category) {
+export async function updatePortfolioCategoryAsync(category) {
   const body = { ...category };
   delete body._id;
 
-  const res = await fetch(`${SOFTWARECATEGORIESAPIURL}/${category._id}`, {
+  const res = await fetch(`${PORTFOLIOCATEGORIESAPIURL}/${category._id}`, {
     method: "put",
     credentials: "include",
     headers: {
@@ -102,9 +102,9 @@ export async function updateSoftwareCategoryAsync(category) {
   return res;
 }
 
-export async function deleteSoftwareCategoryAsync(softwareCategoryId) {
-  console.log("Making request to", `${SOFTWARECATEGORIESAPIURL}/${softwareCategoryId}`);
-  const res = await fetch(`${SOFTWARECATEGORIESAPIURL}/${softwareCategoryId}`, {
+export async function deletePortfolioCategoryAsync(portfolioCategoryId) {
+  console.log("Making request to", `${PORTFOLIOCATEGORIESAPIURL}/${portfolioCategoryId}`);
+  const res = await fetch(`${PORTFOLIOCATEGORIESAPIURL}/${portfolioCategoryId}`, {
     method: "delete",
     credentials: "include",
     headers: {

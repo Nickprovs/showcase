@@ -33,7 +33,20 @@ export default class Layout extends Component {
   }
 
   getInternalPages() {
-    const { user } = this.props;
+    const { user, general } = this.props;
+
+    let showcaseSubPages = [
+      {
+        href: "/showcase/photo",
+        label: "PHOTO",
+        iconClasses: "",
+      },
+      {
+        href: "/showcase/media",
+        label: "MEDIA",
+        iconClasses: "",
+      },
+    ];
 
     let internalPages = [
       {
@@ -46,23 +59,7 @@ export default class Layout extends Component {
       {
         label: "SHOWCASE",
         iconClasses: "",
-        subPages: [
-          {
-            href: "/showcase/software",
-            label: "SOFTWARE",
-            iconClasses: "",
-          },
-          {
-            href: "/showcase/photo",
-            label: "PHOTO",
-            iconClasses: "",
-          },
-          {
-            href: "/showcase/media",
-            label: "MEDIA",
-            iconClasses: "",
-          },
-        ],
+        subPages: showcaseSubPages,
       },
       {
         href: "/blog",
@@ -75,6 +72,14 @@ export default class Layout extends Component {
         iconClasses: "",
       },
     ];
+
+    if (general && general.portfolio.show) {
+      showcaseSubPages.unshift({
+        href: "/showcase/portfolio",
+        label: general ? general.portfolio.title : "Portfolio",
+        iconClasses: "",
+      });
+    }
 
     if (user) {
       internalPages.unshift({

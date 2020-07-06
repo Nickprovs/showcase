@@ -11,10 +11,10 @@ const photos = require("../routes/photo");
 const medias = require("../routes/media");
 
 const { Blog, joiSchema: joiBlogSchema } = require("../models/blog");
-const { Software, joiSchema: joiSoftwareSchema } = require("../models/software");
+const { Portfolio, joiSchema: joiPortfolioSchema } = require("../models/portfolio");
 
 const { BlogCategory, joiSchema: joiBlogCategorySchema } = require("../models/blogCategory");
-const { SoftwareCategory, joiSchema: joiSoftwareCategorySchema } = require("../models/softwareCategory");
+const { PortfolioCategory, joiSchema: joiPortfolioCategorySchema } = require("../models/portfolioCategory");
 const { PhotoCategoryModel, joiSchema: joiPhotoCategorySchema } = require("../models/photoCategory");
 const { MediaCategoryModel, joiSchema: joiMediaCategorySchema } = require("../models/mediaCategory");
 
@@ -28,8 +28,8 @@ module.exports = function (app) {
   router.use("/me", me);
   router.use("/blogs", articles(Blog, joiBlogSchema, BlogCategory, "blog"));
   router.use("/blogCategories", categories(BlogCategory, joiBlogCategorySchema));
-  router.use("/software", articles(Software, joiSoftwareSchema, SoftwareCategory, "software"));
-  router.use("/softwareCategories", categories(SoftwareCategory, joiSoftwareCategorySchema));
+  router.use("/portfolio", articles(Portfolio, joiPortfolioSchema, PortfolioCategory, "portfolio"));
+  router.use("/portfolioCategories", categories(PortfolioCategory, joiPortfolioCategorySchema));
   router.use("/photos", photos());
   router.use("/photoCategories", categories(PhotoCategoryModel, joiPhotoCategorySchema));
   router.use("/medias", medias());

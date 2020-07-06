@@ -1,46 +1,23 @@
-import withAuthAsync from "../../../../../components/common/hoc/withAuthAsync";
-import withLayoutAsync from "../../../../../components/common/hoc/withLayoutAsync";
-import Form from "../../../../../components/common/form/form";
-import BasicButton from "../../../../../components/common/button/basicButton";
-import CustomJoi from "../../../../../misc/customJoi";
-import { getSoftwareAsync, getSoftwareCategoriesAsync, updateSoftwareAsync } from "../../../../../services/softwareService";
-import { toast, cssTransition } from "react-toastify";
+import withAuthAsync from "../../../../components/common/hoc/withAuthAsync";
+import withLayoutAsync from "../../../../components/common/hoc/withLayoutAsync";
+import Form from "../../../../components/common/form/form";
+import BasicButton from "../../../../components/common/button/basicButton";
+import CustomJoi from "../../../../misc/customJoi";
+import { getPortfolioCategoriesAsync, createPortfolioAsync } from "../../../../services/portfolioService";
+import { toast } from "react-toastify";
 import Router from "next/router";
-import RouterUtilities from "../../../../../util/routerUtilities";
-import StringUtilities from "../../../../../util/stringUtilities";
-import ExtendedFormUtilities from "../../../../../util/extendedFormUtilities";
+import ExtendedFormUtilities from "../../../../util/extendedFormUtilities";
 import Head from "next/head";
-import FormatUtilities from "../../../../../util/formatUtilities";
-import ThemeUtilities from "../../../../../util/themeUtilities";
-import initializeDomPurify from "../../../../../misc/customDomPurify";
-import { sanitize } from "isomorphic-dompurify";
+import FormatUtilities from "../../../../util/formatUtilities";
+import ThemeUtilities from "../../../../util/themeUtilities";
 
 class Article extends Form {
   static async getInitialProps(context) {
-    const { id } = context.query;
-
-    //Get the software
-    let software = null;
-    try {
-      const softwareRes = await getSoftwareAsync(id);
-      software = await softwareRes.json();
-    } catch (ex) {
-      software = null;
-    }
-
-    //Get categories for form
-    let categories = null;
-    try {
-      let categoriesRes = await getSoftwareCategoriesAsync();
-      categories = await categoriesRes.json();
-    } catch (ex) {
-      categories = null;
-    }
-
-    //Get theme data for tinymce init
+    let res = await getPortfolioCategoriesAsync();
+    let categories = await res.json();
     let darkModeOn = ThemeUtilities.getSavedDarkModeOnStatus(context);
 
-    return { software, categories, darkModeOn };
+    return { categories, darkModeOn };
   }
 
   constructor() {
@@ -63,40 +40,6 @@ class Article extends Form {
     };
     this.state.errors = {};
     this.state.showOptional = false;
-  }
-
-  async componentDidMount() {
-    const { software, categories } = this.props;
-    if (!software) {
-      toast.error("Couldn't get software. Redirecting back.", { autoClose: 1500 });
-      await RouterUtilities.routeInternalWithDelayAsync("/showcase/software", 2000);
-      return;
-    }
-
-    if (!categories) {
-      toast.error("Couldn't get categories. Redirecting back.", { autoClose: 1500 });
-      await RouterUtilities.routeInternalWithDelayAsync("/showcase/software", 2000);
-      return;
-    }
-
-    initializeDomPurify();
-    this.getStateDataFromSoftware(software);
-  }
-
-  getStateDataFromSoftware(software) {
-    console.log("purifying");
-    this.setState({
-      data: {
-        title: software.title,
-        slug: software.slug,
-        category: software.category,
-        image: software.image,
-        description: software.description,
-        body: sanitize(software.body),
-        tags: StringUtilities.getCsvStringFromArray(software.tags),
-        ...ExtendedFormUtilities.getAddressableHighlightPropertiesObjFromArray(software.addressableHighlights),
-      },
-    });
   }
 
   schema = CustomJoi.object({
@@ -123,37 +66,35 @@ class Article extends Form {
     addressableHighlightAddress3: CustomJoi.string().allow("").max(1024).optional(),
   });
 
-  getSoftwareFromPassingState() {
+  getPortfolioFromPassingState() {
     const { categories } = this.props;
-    let software = { ...this.state.data };
+    let portfolio = { ...this.state.data };
 
     //Format Category
-    let category = software.category;
-    delete software.category;
-    software.categoryId = category._id;
+    let category = portfolio.category;
+    delete portfolio.category;
+    portfolio.categoryId = category._id;
 
     //Format Addressable Highlights
-    software.addressableHighlights = ExtendedFormUtilities.getAddressableHighlightArrayAndFormatObj(software);
+    portfolio.addressableHighlights = ExtendedFormUtilities.getAddressableHighlightArrayAndFormatObj(portfolio);
 
     //Format Tags
-    let tagsString = software.tags;
-    delete software.tags;
+    let tagsString = portfolio.tags;
+    delete portfolio.tags;
     let tagsArray = tagsString.replace(/^,+|,+$/gm, "").split(",");
     tagsArray = tagsArray.map((str) => str.trim());
-    software.tags = tagsArray;
+    portfolio.tags = tagsArray;
 
-    return software;
+    return portfolio;
   }
 
   doSubmit = async () => {
-    let originalSoftware = this.props.software;
-    let software = this.getSoftwareFromPassingState();
-    software._id = originalSoftware._id;
-
+    const portfolio = this.getPortfolioFromPassingState();
+    console.log(portfolio);
     let res = null;
     //Try and post the new category
     try {
-      res = await updateSoftwareAsync(software);
+      res = await createPortfolioAsync(portfolio);
     } catch (ex) {
       let errorMessage = `Error: ${ex}`;
       console.log(errorMessage);
@@ -170,21 +111,20 @@ class Article extends Form {
       return;
     }
 
-    //TODO: Disallow posting duplicate category at server level.
-    Router.push("/showcase/software");
+    Router.push("/showcase/portfolio");
   };
 
   render() {
-    const { showOptional } = this.state;
     let { categories, general, darkModeOn } = this.props;
+    const { showOptional } = this.state;
     categories = categories ? categories : [];
     return (
       <div>
         <Head>
           <script key="tinyMCE" type="text/javascript" src="/scripts/tinymce/tinymce.min.js"></script>
-          <title>{FormatUtilities.getFormattedWebsiteTitle("Edit Software", general ? general.title : "Showcase")}</title>
+          <title>{FormatUtilities.getFormattedWebsiteTitle("Post Portfolio", general ? general.title : "Showcase")}</title>
+          <meta name="description" content="Post a new portfolio." />
           <meta name="robots" content="noindex" />
-          <meta name="description" content="Edit an existing software." />
         </Head>
         <div className="standardPadding">
           <form onSubmit={this.handleSubmit}>
@@ -199,7 +139,7 @@ class Article extends Form {
             <BasicButton
               onClick={(e) => {
                 e.preventDefault();
-                this.setState({ showOptional: !showOptional });
+                this.setState({ showOptional: !this.state.showOptional });
               }}
               style={{ marginTop: "25px", marginBottom: "20px", textAlign: "center", display: "block" }}
             >
@@ -220,8 +160,7 @@ class Article extends Form {
                 {this.renderTextInput("addressableHighlightAddress3", "URL")}
               </div>
             )}
-
-            {this.renderButton("UPDATE")}
+            {this.renderButton("POST")}
           </form>
         </div>
       </div>

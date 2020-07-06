@@ -6,7 +6,7 @@ const validateBody = require("../middleware/validateBody");
 const validateQuery = require("../middleware/validateQuery");
 const { FeaturedModel, joiFeaturedSchema, joiPrimarySchema, joiSubsidiarySchema } = require("../models/featured");
 const { Blog: BlogModel } = require("../models/blog");
-const { Software: SoftwareModel } = require("../models/software");
+const { Portfolio: PortfolioModel } = require("../models/portfolio");
 const { PhotoModel } = require("../models/photo");
 const { MediaModel } = require("../models/media");
 const getAllQuerySchema = require("./schemas/queries/featured/getAllQuery");
@@ -19,8 +19,8 @@ async function getContentByTypeAndId(type, id) {
   switch (type) {
     case "blog":
       return await BlogModel.findOne({ _id: id });
-    case "software":
-      return await SoftwareModel.findOne({ _id: id });
+    case "portfolio":
+      return await PortfolioModel.findOne({ _id: id });
     case "photo":
       return await PhotoModel.findOne({ _id: id });
     case "media":

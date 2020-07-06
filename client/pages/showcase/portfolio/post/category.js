@@ -2,7 +2,7 @@ import withAuthAsync from "../../../../components/common/hoc/withAuthAsync";
 import withLayoutAsync from "../../../../components/common/hoc/withLayoutAsync";
 import Form from "../../../../components/common/form/form";
 import CustomJoi from "../../../../misc/customJoi";
-import { createSoftwareCategoryAsync } from "../../../../services/softwareService";
+import { createPortfolioCategoryAsync } from "../../../../services/portfolioService";
 import { toast } from "react-toastify";
 import Router from "next/router";
 import Head from "next/head";
@@ -31,7 +31,7 @@ class Category extends Form {
 
     //Try and post the new category
     try {
-      res = await createSoftwareCategoryAsync(name, slug);
+      res = await createPortfolioCategoryAsync(name, slug);
     } catch (ex) {
       let errorMessage = `Error: ${ex}`;
       console.log(errorMessage);
@@ -49,7 +49,7 @@ class Category extends Form {
     }
 
     //TODO: Disallow posting duplicate category at server level.
-    Router.push("/showcase/software");
+    Router.push("/showcase/portfolio");
   };
 
   render() {
@@ -58,8 +58,8 @@ class Category extends Form {
     return (
       <div className="standardPadding">
         <Head>
-          <title>{FormatUtilities.getFormattedWebsiteTitle("Post Software Category", general ? general.title : "Showcase")}</title>
-          <meta name="description" content="Post a new software category." />
+          <title>{FormatUtilities.getFormattedWebsiteTitle("Post Portfolio Category", general ? general.title : "Showcase")}</title>
+          <meta name="description" content="Post a new portfolio category." />
           <meta name="robots" content="noindex" />
         </Head>
         <form onSubmit={this.handleSubmit}>

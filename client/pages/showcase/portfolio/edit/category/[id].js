@@ -2,7 +2,7 @@ import withAuthAsync from "../../../../../components/common/hoc/withAuthAsync";
 import withLayoutAsync from "../../../../../components/common/hoc/withLayoutAsync";
 import Form from "../../../../../components/common/form/form";
 import CustomJoi from "../../../../../misc/customJoi";
-import { getSoftwareCategoryAsync, updateSoftwareCategoryAsync } from "../../../../../services/softwareService";
+import { getPortfolioCategoryAsync, updatePortfolioCategoryAsync } from "../../../../../services/portfolioService";
 import { toast, cssTransition } from "react-toastify";
 import Router from "next/router";
 import RouterUtilities from "../../../../../util/routerUtilities";
@@ -16,7 +16,7 @@ class Category extends Form {
     //Get the category
     let category = null;
     try {
-      let categoryRes = await getSoftwareCategoryAsync(id);
+      let categoryRes = await getPortfolioCategoryAsync(id);
       category = await categoryRes.json();
     } catch (ex) {
       category = null;
@@ -36,7 +36,7 @@ class Category extends Form {
     const { category } = this.props;
     if (!category) {
       toast.error("Couldn't get category. Redirecting back.", { autoClose: 1500 });
-      await RouterUtilities.routeInternalWithDelayAsync("/showcase/software", 2000);
+      await RouterUtilities.routeInternalWithDelayAsync("/showcase/portfolio", 2000);
       return;
     }
 
@@ -69,7 +69,7 @@ class Category extends Form {
     let res = null;
     //Try and post the new category
     try {
-      res = await updateSoftwareCategoryAsync(category);
+      res = await updatePortfolioCategoryAsync(category);
     } catch (ex) {
       let errorMessage = `Error: ${ex}`;
       console.log(errorMessage);
@@ -87,7 +87,7 @@ class Category extends Form {
     }
 
     //TODO: Disallow posting duplicate category at server level.
-    Router.push("/showcase/software");
+    Router.push("/showcase/portfolio");
   };
 
   render() {
@@ -95,8 +95,8 @@ class Category extends Form {
     return (
       <div>
         <Head>
-          <title>{FormatUtilities.getFormattedWebsiteTitle("Edit Software Category", general ? general.title : "Showcase")}</title>
-          <meta name="description" content="Edit an existing software category." />
+          <title>{FormatUtilities.getFormattedWebsiteTitle("Edit Portfolio Category", general ? general.title : "Showcase")}</title>
+          <meta name="description" content="Edit an existing portfolio category." />
           <meta name="robots" content="noindex" />
         </Head>
         <div className="standardPadding">

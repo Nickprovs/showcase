@@ -145,8 +145,8 @@ class Index extends Component {
     switch (subsidiary.type) {
       case "blog":
         return this.getFeaturedArticleMarkup(subsidiary, "blog", "blog");
-      case "software":
-        return this.getFeaturedArticleMarkup(subsidiary, "software", "showcase/software");
+      case "portfolio":
+        return this.getFeaturedArticleMarkup(subsidiary, "portfolio", "showcase/portfolio");
       case "photo":
         return this.getFeaturedPhotoMarkup(subsidiary);
       case "media":
