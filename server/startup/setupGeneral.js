@@ -8,7 +8,7 @@ module.exports = async function () {
     const general = new GeneralModel({
       title: "SHOWCASE",
       footnote: "© SOME BODY | BUILT BY SOME BODY | INSPIRED BY SOME BODY",
-      profession: {
+      portfolio: {
         title: "Software",
         show: true,
       },

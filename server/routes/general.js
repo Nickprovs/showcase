@@ -23,7 +23,7 @@ module.exports = function () {
       {
         title: req.body.title,
         footnote: req.body.footnote,
-        profession: req.body.profession,
+        portfolio: req.body.portfolio,
         socialLinks: req.body.socialLinks,
         dateLastModified: moment().toJSON(),
       },

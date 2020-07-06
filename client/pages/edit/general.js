@@ -27,7 +27,7 @@ class Primary extends Form {
   constructor() {
     super();
 
-    this.state.data = { title: "", footnote: "", professionTitle: "", professionShow: "", github: "", linkedin: "", instagram: "" };
+    this.state.data = { title: "", footnote: "", portfolioTitle: "", portfolioShow: "", github: "", linkedin: "", instagram: "" };
     this.state.errors = {};
   }
 
@@ -46,8 +46,8 @@ class Primary extends Form {
       data: {
         title: general.title,
         footnote: general.footnote,
-        professionTitle: general.profession.title,
-        professionShow: general.profession.show.toString(),
+        portfolioTitle: general.portfolio.title,
+        portfolioShow: general.portfolio.show.toString(),
         github: general.socialLinks.github ? general.socialLinks.github : "",
         linkedin: general.socialLinks.linkedin ? general.socialLinks.linkedin : "",
         instagram: general.socialLinks.instagram ? general.socialLinks.instagram : "",
@@ -58,8 +58,8 @@ class Primary extends Form {
   schema = CustomJoi.object({
     title: CustomJoi.string().min(2).max(64).required(),
     footnote: CustomJoi.string().min(5).max(256).required(),
-    professionTitle: CustomJoi.string().min(2).max(64).required(),
-    professionShow: CustomJoi.string().min(2).max(64).required(),
+    portfolioTitle: CustomJoi.string().min(2).max(64).required(),
+    portfolioShow: CustomJoi.string().min(2).max(64).required(),
     github: CustomJoi.string().optional().allow("").max(256),
     linkedin: CustomJoi.string().optional().allow("").max(256),
     instagram: CustomJoi.string().optional().allow("").max(256),
@@ -79,14 +79,14 @@ class Primary extends Form {
     delete general.github;
     delete general.instagram;
 
-    //Format profession data
-    general.profession = {
-      title: general.professionTitle,
-      show: general.professionShow,
+    //Format portfolio data
+    general.portfolio = {
+      title: general.portfolioTitle,
+      show: general.portfolioShow,
     };
 
-    delete general.professionTitle;
-    delete general.professionShow;
+    delete general.portfolioTitle;
+    delete general.portfolioShow;
 
     return general;
   }
@@ -129,8 +129,8 @@ class Primary extends Form {
           <form onSubmit={this.handleSubmit}>
             {this.renderTextInput("title", "TITLE")}
             {this.renderTextInput("footnote", "FOOTNOTE")}
-            {this.renderTextInput("professionTitle", "PROFESSION SECTION TITLE")}
-            {this.renderSelect("professionShow", "SHOW PROFESSION SECTION", "Select Orientation", ["true", "false"], null)}
+            {this.renderTextInput("portfolioTitle", "PORTFOLIO ARTICLE SECTION TITLE")}
+            {this.renderSelect("portfolioShow", "SHOW PORTFOLIO ARTICLE SECTION", "Select Orientation", ["true", "false"], null)}
             {this.renderTextInput("github", "GITHUB")}
             {this.renderTextInput("linkedin", "LINKEDIN")}
             {this.renderTextInput("instagram", "INSTAGRAM")}
