@@ -1,9 +1,9 @@
-const { joiSchema: schema } = require("../../../models/software");
+const { joiSchema: schema } = require("../../../models/portfolio");
 const mongoose = require("mongoose");
 
-describe("software.validate", () => {
-  it("should validate a properly formed software", () => {
-    const software = {
+describe("portfolio.validate", () => {
+  it("should validate a properly formed portfolio", () => {
+    const portfolio = {
       slug: "the-dogs-have-eyes",
       title: "The Dogs Have Eyes",
       categoryId: mongoose.Types.ObjectId().toHexString(),
@@ -13,14 +13,14 @@ describe("software.validate", () => {
       tags: ["The", "Dogs", "Have", "Eyes"],
     };
 
-    const { error } = schema.validate(software);
+    const { error } = schema.validate(portfolio);
     const isValid = !error;
 
     expect(isValid).toBe(true);
   });
 
-  it("should validate an improperly formed software (not enough tags)", () => {
-    const software = {
+  it("should validate an improperly formed portfolio (not enough tags)", () => {
+    const portfolio = {
       slug: "the-dogs-have-eyes",
       title: "The Dogs Have Eyes",
       categoryId: mongoose.Types.ObjectId().toHexString(),
@@ -30,14 +30,14 @@ describe("software.validate", () => {
       tags: ["the", "dogs"],
     };
 
-    const { error } = schema.validate(software);
+    const { error } = schema.validate(portfolio);
     const isValid = !error;
 
     expect(isValid).toBe(false);
   });
 
-  it("should validate a properly formed software with contingency data", () => {
-    const software = {
+  it("should validate a properly formed portfolio with contingency data", () => {
+    const portfolio = {
       slug: "the-dogs-have-eyes",
       title: "The Dogs Have Eyes",
       categoryId: mongoose.Types.ObjectId().toHexString(),
@@ -52,14 +52,14 @@ describe("software.validate", () => {
       },
     };
 
-    const { error } = schema.validate(software);
+    const { error } = schema.validate(portfolio);
     const isValid = !error;
 
     expect(isValid).toBe(true);
   });
 
-  it("should validate an improperly formed software with invalid contingency data (non string val)", () => {
-    const software = {
+  it("should validate an improperly formed portfolio with invalid contingency data (non string val)", () => {
+    const portfolio = {
       slug: "the-dogs-have-eyes",
       title: "The Dogs Have Eyes",
       categoryId: mongoose.Types.ObjectId().toHexString(),
@@ -75,14 +75,14 @@ describe("software.validate", () => {
       },
     };
 
-    const { error } = schema.validate(software);
+    const { error } = schema.validate(portfolio);
     const isValid = !error;
 
     expect(isValid).toBe(false);
   });
 
-  it("should validate a properly formed software with an addressable highlight", () => {
-    const software = {
+  it("should validate a properly formed portfolio with an addressable highlight", () => {
+    const portfolio = {
       slug: "the-dogs-have-eyes",
       title: "The Dogs Have Eyes",
       categoryId: mongoose.Types.ObjectId().toHexString(),
@@ -103,14 +103,14 @@ describe("software.validate", () => {
       },
     };
 
-    const { error } = schema.validate(software);
+    const { error } = schema.validate(portfolio);
     const isValid = !error;
 
     expect(isValid).toBe(true);
   });
 
-  it("should validate an improperly formed software with a bad addressable highlight", () => {
-    const software = {
+  it("should validate an improperly formed portfolio with a bad addressable highlight", () => {
+    const portfolio = {
       slug: "the-dogs-have-eyes",
       title: "The Dogs Have Eyes",
       categoryId: mongoose.Types.ObjectId().toHexString(),
@@ -129,7 +129,7 @@ describe("software.validate", () => {
       },
     };
 
-    const { error } = schema.validate(software);
+    const { error } = schema.validate(portfolio);
     const isValid = !error;
 
     expect(isValid).toBe(false);

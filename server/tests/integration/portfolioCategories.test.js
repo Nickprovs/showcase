@@ -1,78 +1,75 @@
 const request = require("supertest");
-const { SoftwareCategory } = require("../../models/softwareCategory");
+const { PortfolioCategory } = require("../../models/portfolioCategory");
 const { User } = require("../../models/user");
 const mongoose = require("mongoose");
 const moment = require("moment");
 
 let server;
-describe("/softwareCategories", () => {
+describe("/portfolioCategories", () => {
   beforeEach(() => {
     server = require("../../index");
   });
   afterEach(async () => {
     await server.close();
-    await SoftwareCategory.deleteMany({});
+    await PortfolioCategory.deleteMany({});
   });
 
   describe("GET /", () => {
-    let softwareCategory1;
-    let softwareCategory2;
+    let portfolioCategory1;
+    let portfolioCategory2;
 
     beforeEach(async () => {
-      softwareCategory1 = new SoftwareCategory({ name: "Fiction", slug: "fiction" });
-      softwareCategory1 = await softwareCategory1.save();
+      portfolioCategory1 = new PortfolioCategory({ name: "Fiction", slug: "fiction" });
+      portfolioCategory1 = await portfolioCategory1.save();
 
-      softwareCategory2 = new SoftwareCategory({ name: "Non-Fiction", slug: "non-fiction" });
-      softwareCategory2 = await softwareCategory2.save();
+      portfolioCategory2 = new PortfolioCategory({ name: "Non-Fiction", slug: "non-fiction" });
+      portfolioCategory2 = await portfolioCategory2.save();
     });
 
-    it("Should return all the software categories", async () => {
-      const res = await request(server).get("/softwareCategories");
+    it("Should return all the portfolio categories", async () => {
+      const res = await request(server).get("/portfolioCategories");
 
       expect(res.status).toBe(200);
       expect(res.body.items.length).toBe(2);
-      expect(res.body.items.some(g => g.name === softwareCategory1.name)).toBeTruthy();
-      expect(res.body.items.some(g => g.name === softwareCategory2.name)).toBeTruthy();
+      expect(res.body.items.some((g) => g.name === portfolioCategory1.name)).toBeTruthy();
+      expect(res.body.items.some((g) => g.name === portfolioCategory2.name)).toBeTruthy();
     });
   });
 
   describe("GET /:id", () => {
-    it("should return an software category if valid id is passed", async () => {
-      let softwareCategory = new SoftwareCategory({ name: "Horror", slug: "horror" });
-      softwareCategory = await softwareCategory.save();
+    it("should return an portfolio category if valid id is passed", async () => {
+      let portfolioCategory = new PortfolioCategory({ name: "Horror", slug: "horror" });
+      portfolioCategory = await portfolioCategory.save();
 
-      const res = await request(server).get("/softwareCategories/" + softwareCategory._id);
+      const res = await request(server).get("/portfolioCategories/" + portfolioCategory._id);
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("name", softwareCategory.name);
+      expect(res.body).toHaveProperty("name", portfolioCategory.name);
     });
 
     it("should return 400 if invalid id is passed", async () => {
-      const res = await request(server).get("/softwareCategories/-1");
+      const res = await request(server).get("/portfolioCategories/-1");
       expect(res.status).toBe(400);
     });
 
-    it("should return 404 if no software with the given id exists", async () => {
+    it("should return 404 if no portfolio with the given id exists", async () => {
       const id = mongoose.Types.ObjectId();
-      const res = await request(server).get("/softwareCategories/" + id);
+      const res = await request(server).get("/portfolioCategories/" + id);
 
       expect(res.status).toBe(404);
     });
   });
 
   describe("POST /", () => {
-    let softwareCategory;
+    let portfolioCategory;
     let token;
 
     const exec = () => {
-      return request(server)
-        .post("/softwareCategories")
-        .set("x-auth-token", token)
-        .send(softwareCategory);
+      return request(server).post("/portfolioCategories").set("x-auth-token", token).send(portfolioCategory);
     };
 
     beforeEach(async () => {
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
-      softwareCategory = { name: "Fiction", slug: "fiction" };
+      portfolioCategory = { name: "Fiction", slug: "fiction" };
     });
 
     it("should return 401 if client is not logged in", async () => {
@@ -83,14 +80,14 @@ describe("/softwareCategories", () => {
     });
 
     it("should return 400 if category name is less than 2 characters", async () => {
-      softwareCategory.name = "t";
+      portfolioCategory.name = "t";
 
       const res = await exec();
       expect(res.status).toBe(400);
     });
 
     it("should return 400 if title is more than 50 characters", async () => {
-      softwareCategory.name = new Array(52).join("a");
+      portfolioCategory.name = new Array(52).join("a");
       const res = await exec();
       expect(res.status).toBe(400);
     });
@@ -103,39 +100,39 @@ describe("/softwareCategories", () => {
     it("should save if it is valid", async () => {
       await exec();
 
-      const savedSoftwareCategory = await SoftwareCategory.find({ name: softwareCategory.name });
-      expect(savedSoftwareCategory).not.toBeNull();
+      const savedPortfolioCategory = await PortfolioCategory.find({ name: portfolioCategory.name });
+      expect(savedPortfolioCategory).not.toBeNull();
     });
 
     it("should return it if it is valid", async () => {
       const res = await exec();
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("name", softwareCategory.name);
+      expect(res.body).toHaveProperty("name", portfolioCategory.name);
     });
   });
 
   describe("PUT /", () => {
-    let existingSoftwareCategory;
-    let softwareCategory;
+    let existingPortfolioCategory;
+    let portfolioCategory;
     let token;
     let id;
 
     const exec = () => {
       return request(server)
-        .put("/softwareCategories/" + id)
+        .put("/portfolioCategories/" + id)
         .set("x-auth-token", token)
-        .send(softwareCategory);
+        .send(portfolioCategory);
     };
 
     beforeEach(async () => {
-      existingSoftwareCategory = new SoftwareCategory({ name: "Fiction", slug: "fiction" });
-      existingSoftwareCategory = await existingSoftwareCategory.save();
+      existingPortfolioCategory = new PortfolioCategory({ name: "Fiction", slug: "fiction" });
+      existingPortfolioCategory = await existingPortfolioCategory.save();
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
-      id = existingSoftwareCategory._id;
+      id = existingPortfolioCategory._id;
 
-      softwareCategory = {
+      portfolioCategory = {
         name: "Fantasy",
-        slug: "fantasy"
+        slug: "fantasy",
       };
     });
 
@@ -153,7 +150,7 @@ describe("/softwareCategories", () => {
       expect(res.status).toBe(400);
     });
 
-    it("should return 404 if an existing software category with the provided id is not found", async () => {
+    it("should return 404 if an existing portfolio category with the provided id is not found", async () => {
       id = mongoose.Types.ObjectId();
       const res = await exec();
 
@@ -161,14 +158,14 @@ describe("/softwareCategories", () => {
     });
 
     it("should return 400 if title is less than 2 characters", async () => {
-      softwareCategory.title = "t";
+      portfolioCategory.title = "t";
       const res = await exec();
 
       expect(res.status).toBe(400);
     });
 
     it("should return 400 if title is more than 50 characters", async () => {
-      softwareCategory.title = new Array(52).join("a");
+      portfolioCategory.title = new Array(52).join("a");
       const res = await exec();
       expect(res.status).toBe(400);
     });
@@ -181,42 +178,42 @@ describe("/softwareCategories", () => {
     it("should save it if it is valid", async () => {
       await exec();
 
-      const savedSoftwareCategory = await SoftwareCategory.find({ name: softwareCategory.name });
-      expect(savedSoftwareCategory).not.toBeNull();
+      const savedPortfolioCategory = await PortfolioCategory.find({ name: portfolioCategory.name });
+      expect(savedPortfolioCategory).not.toBeNull();
     });
 
     it("should update it if input is valid", async () => {
       await exec();
 
-      const updatedSoftwareCategory = await SoftwareCategory.findById(existingSoftwareCategory._id);
+      const updatedPortfolioCategory = await PortfolioCategory.findById(existingPortfolioCategory._id);
 
-      expect(updatedSoftwareCategory.name).toBe(softwareCategory.name);
+      expect(updatedPortfolioCategory.name).toBe(portfolioCategory.name);
     });
 
     it("should return it if it is valid", async () => {
       const res = await exec();
 
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("name", softwareCategory.name);
+      expect(res.body).toHaveProperty("name", portfolioCategory.name);
     });
   });
 
   describe("DELETE /", () => {
     let token;
-    let softwareCategory;
+    let portfolioCategory;
     let id;
 
     const exec = async () => {
       return await request(server)
-        .delete("/softwareCategories/" + id)
+        .delete("/portfolioCategories/" + id)
         .set("x-auth-token", token)
         .send();
     };
 
     beforeEach(async () => {
-      softwareCategory = new SoftwareCategory({ name: "Folk", slug: "folk" });
-      softwareCategory = await softwareCategory.save();
-      id = softwareCategory._id;
+      portfolioCategory = new PortfolioCategory({ name: "Folk", slug: "folk" });
+      portfolioCategory = await portfolioCategory.save();
+      id = portfolioCategory._id;
       token = new User({ isAdmin: true }).generateAuthToken();
     });
 
@@ -244,7 +241,7 @@ describe("/softwareCategories", () => {
       expect(res.status).toBe(400);
     });
 
-    it("should return 404 if no software with the given id was found", async () => {
+    it("should return 404 if no portfolio with the given id was found", async () => {
       id = mongoose.Types.ObjectId();
 
       const res = await exec();
@@ -252,18 +249,18 @@ describe("/softwareCategories", () => {
       expect(res.status).toBe(404);
     });
 
-    it("should delete the software if input is valid", async () => {
+    it("should delete the portfolio if input is valid", async () => {
       await exec();
 
-      const savedSoftwareCategory = await SoftwareCategory.findById(id);
-      expect(savedSoftwareCategory).toBeNull();
+      const savedPortfolioCategory = await PortfolioCategory.findById(id);
+      expect(savedPortfolioCategory).toBeNull();
     });
 
-    it("should return the removed software", async () => {
+    it("should return the removed portfolio", async () => {
       const res = await exec();
 
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("name", softwareCategory.name);
+      expect(res.body).toHaveProperty("name", portfolioCategory.name);
     });
   });
 });

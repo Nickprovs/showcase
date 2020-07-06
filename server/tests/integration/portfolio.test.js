@@ -1,98 +1,98 @@
 const request = require("supertest");
-const { Software } = require("../../models/software");
-const { SoftwareCategory } = require("../../models/softwareCategory");
+const { Portfolio } = require("../../models/portfolio");
+const { PortfolioCategory } = require("../../models/portfolioCategory");
 const { User } = require("../../models/user");
 const mongoose = require("mongoose");
 const moment = require("moment");
 
 let server;
-describe("/software", () => {
+describe("/portfolio", () => {
   beforeEach(() => {
     server = require("../../index");
   });
   afterEach(async () => {
     await server.close();
-    await Software.deleteMany({});
-    await SoftwareCategory.deleteMany({});
+    await Portfolio.deleteMany({});
+    await PortfolioCategory.deleteMany({});
   });
 
   describe("GET /", () => {
-    let softwareCategory1;
-    let softwareCategory2;
-    let software1;
-    let software2;
-    let software3;
+    let portfolioCategory1;
+    let portfolioCategory2;
+    let portfolio1;
+    let portfolio2;
+    let portfolio3;
 
     beforeEach(async () => {
-      softwareCategory1 = new SoftwareCategory({ name: "Fiction", slug: "fiction" });
-      softwareCategory1 = await softwareCategory1.save();
+      portfolioCategory1 = new PortfolioCategory({ name: "Fiction", slug: "fiction" });
+      portfolioCategory1 = await portfolioCategory1.save();
 
-      softwareCategory2 = new SoftwareCategory({ name: "Non-Fiction", slug: "non-fiction" });
-      softwareCategory2 = await softwareCategory2.save();
+      portfolioCategory2 = new PortfolioCategory({ name: "Non-Fiction", slug: "non-fiction" });
+      portfolioCategory2 = await portfolioCategory2.save();
 
-      software1 = new Software({
+      portfolio1 = new Portfolio({
         slug: "the-great-cow-jumped-over-the-moon",
         title: "The great cow jumped over the moon",
-        category: softwareCategory1,
+        category: portfolioCategory1,
         description: "The cowiest of cows.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadada",
         tags: ["the", "great", "cow", "common1", "common2"],
       });
-      await software1.save();
+      await portfolio1.save();
 
-      software2 = new Software({
+      portfolio2 = new Portfolio({
         slug: "the-dog-jumped-over-the-fence",
         title: "The dog jumped over the fence",
-        category: softwareCategory2,
+        category: portfolioCategory2,
         description: "The dogiest of dogs.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadasfsfsfsfsfsfsfsda",
         tags: ["the", "great", "cow", "common1", "common2"],
       });
-      await software2.save();
+      await portfolio2.save();
 
-      software3 = new Software({
+      portfolio3 = new Portfolio({
         slug: "the-beaver-jumped-over-the-fence",
         title: "The beaver jumped over the fence",
-        category: softwareCategory2,
+        category: portfolioCategory2,
         description: "The beaveriest of beavers.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadasfsfsfsfsfsfsfsda",
         tags: ["the", "beaver", "beav"],
       });
-      await software3.save();
+      await portfolio3.save();
     });
 
-    it("Should return all the software when no query filter is provided", async () => {
-      const res = await request(server).get("/software");
+    it("Should return all the portfolio when no query filter is provided", async () => {
+      const res = await request(server).get("/portfolio");
 
       expect(res.status).toBe(200);
       expect(res.body.items.length).toBe(3);
-      expect(res.body.items.some((g) => g.title === software1.title)).toBeTruthy();
-      expect(res.body.items.some((g) => g.title === software2.title)).toBeTruthy();
-      expect(res.body.items.some((g) => g.title === software3.title)).toBeTruthy();
+      expect(res.body.items.some((g) => g.title === portfolio1.title)).toBeTruthy();
+      expect(res.body.items.some((g) => g.title === portfolio2.title)).toBeTruthy();
+      expect(res.body.items.some((g) => g.title === portfolio3.title)).toBeTruthy();
     });
 
     it("Should return the correct metadata when no query filter is provided", async () => {
-      const res = await request(server).get("/software");
+      const res = await request(server).get("/portfolio");
 
       expect(res.body.total === 3);
       expect(res.body.offset === 0);
       expect(res.body.limit === 10);
     });
 
-    it("Should return only the software that match the category id filter", async () => {
-      const res = await request(server).get(`/software?category=${softwareCategory2._id}`);
+    it("Should return only the portfolio that match the category id filter", async () => {
+      const res = await request(server).get(`/portfolio?category=${portfolioCategory2._id}`);
 
       expect(res.status).toBe(200);
       expect(res.body.items.length).toBe(2);
-      expect(res.body.items.some((g) => g.title === software2.title)).toBeTruthy();
-      expect(res.body.items.some((g) => g.title === software3.title)).toBeTruthy();
+      expect(res.body.items.some((g) => g.title === portfolio2.title)).toBeTruthy();
+      expect(res.body.items.some((g) => g.title === portfolio3.title)).toBeTruthy();
     });
 
     it("Should return the correct metadata that matches the category id filter", async () => {
-      const res = await request(server).get(`/software?category=${softwareCategory2._id}`);
+      const res = await request(server).get(`/portfolio?category=${portfolioCategory2._id}`);
 
       expect(res.body.items.length).toBe(2);
       expect(res.body.total === 2);
@@ -101,7 +101,7 @@ describe("/software", () => {
     });
 
     it("Should return the correct metadata when providing an offset", async () => {
-      const res = await request(server).get(`/software?offset=1`);
+      const res = await request(server).get(`/portfolio?offset=1`);
 
       expect(res.body.items.length).toBe(2);
       expect(res.body.total === 3);
@@ -110,7 +110,7 @@ describe("/software", () => {
     });
 
     it("Should return the correct metadata that matches offset and the category id filter", async () => {
-      const res = await request(server).get(`/software?category=${softwareCategory2._id}&offset=1`);
+      const res = await request(server).get(`/portfolio?category=${portfolioCategory2._id}&offset=1`);
 
       expect(res.body.items.length).toBe(1);
       expect(res.body.total === 2);
@@ -118,37 +118,37 @@ describe("/software", () => {
       expect(res.body.limit === 10);
     });
 
-    it("Should return the multiple of software that match the tag search", async () => {
-      const res = await request(server).get(`/software?search=common1`);
+    it("Should return the multiple of portfolio that match the tag search", async () => {
+      const res = await request(server).get(`/portfolio?search=common1`);
 
       //The items returned should nor have any results whose tags don't include "common1" or "common2"
       expect(res.body.items.length).toBe(2);
       expect(res.body.total === 2);
     });
 
-    it("Should return the singular software that matches the tag search", async () => {
-      const res = await request(server).get(`/software?search=beaver`);
+    it("Should return the singular portfolio that matches the tag search", async () => {
+      const res = await request(server).get(`/portfolio?search=beaver`);
 
       expect(res.body.items.length).toBe(1);
       expect(res.body.total === 1);
     });
 
-    it("Should return the singular software that matches the title search", async () => {
-      const res = await request(server).get(`/software?search=dog`);
+    it("Should return the singular portfolio that matches the title search", async () => {
+      const res = await request(server).get(`/portfolio?search=dog`);
 
       expect(res.body.items.length).toBe(1);
       expect(res.body.total === 1);
     });
 
-    it("Should return the multiple software that matches the title search", async () => {
-      const res = await request(server).get(`/software?search=jumped`);
+    it("Should return the multiple portfolio that matches the title search", async () => {
+      const res = await request(server).get(`/portfolio?search=jumped`);
 
       expect(res.body.items.length).toBe(3);
       expect(res.body.total === 3);
     });
 
     it("Should return the singular photo that matches the description search", async () => {
-      const res = await request(server).get(`/software?search=cowiest`);
+      const res = await request(server).get(`/portfolio?search=cowiest`);
 
       expect(res.body.items.length).toBe(1);
       expect(res.body.total === 1);
@@ -156,14 +156,14 @@ describe("/software", () => {
   });
 
   describe("GET /:id", () => {
-    it("should return a software if valid id is passed", async () => {
-      let softwareCategory = new SoftwareCategory({ name: "Fiction", slug: "fiction" });
-      softwareCategory = await softwareCategory.save();
+    it("should return a portfolio if valid id is passed", async () => {
+      let portfolioCategory = new PortfolioCategory({ name: "Fiction", slug: "fiction" });
+      portfolioCategory = await portfolioCategory.save();
 
-      const software = new Software({
+      const portfolio = new Portfolio({
         slug: "the-great-cow-jumped-over-the-moon",
         title: "The great cow jumped over the moon",
-        category: softwareCategory,
+        category: portfolioCategory,
         description: "The dogiest of dogs.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadada",
@@ -175,55 +175,55 @@ describe("/software", () => {
         ],
         tags: ["the", "great", "cow"],
       });
-      await software.save();
-      const res = await request(server).get("/software/" + software._id);
+      await portfolio.save();
+      const res = await request(server).get("/portfolio/" + portfolio._id);
 
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("slug", software.slug);
-      expect(res.body).toHaveProperty("title", software.title);
+      expect(res.body).toHaveProperty("slug", portfolio.slug);
+      expect(res.body).toHaveProperty("title", portfolio.title);
       expect(res.body).toHaveProperty("datePosted");
-      expect(new Date(res.body.datePosted).getTime() === software.datePosted.getTime()).toBeTruthy();
+      expect(new Date(res.body.datePosted).getTime() === portfolio.datePosted.getTime()).toBeTruthy();
       expect(res.body).toHaveProperty("dateLastModified");
-      expect(new Date(res.body.dateLastModified).getTime() === software.dateLastModified.getTime()).toBeTruthy();
-      expect(res.body).toHaveProperty("description", software.description);
-      expect(res.body).toHaveProperty("image", software.image);
-      expect(res.body).toHaveProperty("body", software.body);
+      expect(new Date(res.body.dateLastModified).getTime() === portfolio.dateLastModified.getTime()).toBeTruthy();
+      expect(res.body).toHaveProperty("description", portfolio.description);
+      expect(res.body).toHaveProperty("image", portfolio.image);
+      expect(res.body).toHaveProperty("body", portfolio.body);
       expect(res.body).toHaveProperty("addressableHighlights");
       expect(res.body).toHaveProperty("tags");
       expect(res.body).toHaveProperty("contingency");
     });
 
     it("should return 400 if invalid id is passed", async () => {
-      const res = await request(server).get("/software/A###1-");
+      const res = await request(server).get("/portfolio/A###1-");
       expect(res.status).toBe(400);
     });
 
-    it("should return 404 if no software with the given id exists", async () => {
+    it("should return 404 if no portfolio with the given id exists", async () => {
       const id = mongoose.Types.ObjectId();
-      const res = await request(server).get("/software/" + id);
+      const res = await request(server).get("/portfolio/" + id);
 
       expect(res.status).toBe(404);
     });
   });
 
   describe("POST /", () => {
-    let software;
+    let portfolio;
     let token;
 
     const exec = () => {
-      return request(server).post("/software").set("x-auth-token", token).send(software);
+      return request(server).post("/portfolio").set("x-auth-token", token).send(portfolio);
     };
 
     beforeEach(async () => {
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
 
-      let softwareCategory = new SoftwareCategory({ name: "Fiction", slug: "fiction" });
-      softwareCategory = await softwareCategory.save();
+      let portfolioCategory = new PortfolioCategory({ name: "Fiction", slug: "fiction" });
+      portfolioCategory = await portfolioCategory.save();
 
-      software = {
+      portfolio = {
         slug: "the-dogiest-of-dogs",
         title: "The dogiest of dogs",
-        categoryId: softwareCategory._id,
+        categoryId: portfolioCategory._id,
         description: "The dogiest of dogs.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aadada",
@@ -251,20 +251,20 @@ describe("/software", () => {
     });
 
     it("should return 400 if title is less than 5 characters", async () => {
-      software.title = "t";
+      portfolio.title = "t";
       const res = await exec();
 
       expect(res.status).toBe(400);
     });
 
     it("should return 400 if title is more than 64 characters", async () => {
-      software.title = new Array(66).join("a");
+      portfolio.title = new Array(66).join("a");
       const res = await exec();
       expect(res.status).toBe(400);
     });
 
     it("should return 400 if the slug is invalid", async () => {
-      software.slug = "@aiodadkn=affns";
+      portfolio.slug = "@aiodadkn=affns";
       const res = await exec();
       expect(res.status).toBe(400);
     });
@@ -274,53 +274,53 @@ describe("/software", () => {
       expect(res.status).toBe(200);
     });
 
-    it("should save the software if it is valid", async () => {
+    it("should save the portfolio if it is valid", async () => {
       await exec();
 
-      const software = await Software.find({ title: "The dogiest of dogs" });
+      const portfolio = await Portfolio.find({ title: "The dogiest of dogs" });
 
-      expect(software).not.toBeNull();
+      expect(portfolio).not.toBeNull();
     });
 
-    it("should return the software if it is valid", async () => {
+    it("should return the portfolio if it is valid", async () => {
       const res = await exec();
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("slug", software.slug);
-      expect(res.body).toHaveProperty("title", software.title);
+      expect(res.body).toHaveProperty("slug", portfolio.slug);
+      expect(res.body).toHaveProperty("title", portfolio.title);
       expect(res.body).toHaveProperty("category");
       expect(res.body).toHaveProperty("datePosted");
       expect(res.body).toHaveProperty("dateLastModified");
-      expect(res.body).toHaveProperty("description", software.description);
-      expect(res.body).toHaveProperty("image", software.image);
-      expect(res.body).toHaveProperty("body", software.body);
+      expect(res.body).toHaveProperty("description", portfolio.description);
+      expect(res.body).toHaveProperty("image", portfolio.image);
+      expect(res.body).toHaveProperty("body", portfolio.body);
       expect(res.body).toHaveProperty("tags");
-      expect(res.body).toHaveProperty("contingency", software.contingency);
+      expect(res.body).toHaveProperty("contingency", portfolio.contingency);
       expect(res.body).toHaveProperty("addressableHighlights");
     });
   });
 
   describe("PUT /:id", () => {
-    let existingSoftware;
-    let software;
+    let existingPortfolio;
+    let portfolio;
     let token;
     let id;
-    let softwareCategory;
+    let portfolioCategory;
 
     const exec = () => {
       return request(server)
-        .put("/software/" + id)
+        .put("/portfolio/" + id)
         .set("x-auth-token", token)
-        .send(software);
+        .send(portfolio);
     };
 
     beforeEach(async () => {
-      softwareCategory = new SoftwareCategory({ name: "Fiction", slug: "fiction" });
-      softwareCategory = await softwareCategory.save();
+      portfolioCategory = new PortfolioCategory({ name: "Fiction", slug: "fiction" });
+      portfolioCategory = await portfolioCategory.save();
 
-      existingSoftware = new Software({
+      existingPortfolio = new Portfolio({
         slug: "the-original-dogiest-of-dogs",
         title: "The original dogiest of dogs",
-        category: softwareCategory,
+        category: portfolioCategory,
         description: "The original dogiest of dogs.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aaadeeadada",
@@ -337,14 +337,14 @@ describe("/software", () => {
           key3: "This is wack!",
         },
       });
-      await existingSoftware.save();
+      await existingPortfolio.save();
 
       token = new User({ username: "adminUser", isAdmin: true }).generateAuthToken();
-      id = existingSoftware._id;
-      software = {
+      id = existingPortfolio._id;
+      portfolio = {
         slug: "the-updated-dogiest-of-dogs",
         title: "The updated dogiest of dogs",
-        categoryId: softwareCategory._id,
+        categoryId: portfolioCategory._id,
         description: "The updated dogiest of dogs.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aaaabbbbbccccddddeeeffffadada",
@@ -378,7 +378,7 @@ describe("/software", () => {
       expect(res.status).toBe(400);
     });
 
-    it("should return 404 if an existing software with the provided id is not found", async () => {
+    it("should return 404 if an existing portfolio with the provided id is not found", async () => {
       id = mongoose.Types.ObjectId();
       const res = await exec();
 
@@ -386,20 +386,20 @@ describe("/software", () => {
     });
 
     it("should return 400 if title is less than 5 characters", async () => {
-      software.title = "t";
+      portfolio.title = "t";
       const res = await exec();
 
       expect(res.status).toBe(400);
     });
 
     it("should return 400 if title is more than 64 characters", async () => {
-      software.title = new Array(66).join("a");
+      portfolio.title = new Array(66).join("a");
       const res = await exec();
       expect(res.status).toBe(400);
     });
 
     it("should return 400 if the slug is invalid", async () => {
-      software.slug = "@aiodadkn=affns";
+      portfolio.slug = "@aiodadkn=affns";
       const res = await exec();
       expect(res.status).toBe(400);
     });
@@ -409,64 +409,64 @@ describe("/software", () => {
       expect(res.status).toBe(200);
     });
 
-    it("should save the software if it is valid", async () => {
+    it("should save the portfolio if it is valid", async () => {
       await exec();
 
-      const software = await Software.find({ title: "testtt1" });
+      const portfolio = await Portfolio.find({ title: "testtt1" });
 
-      expect(software).not.toBeNull();
+      expect(portfolio).not.toBeNull();
     });
 
-    it("should update the software if input is valid", async () => {
+    it("should update the portfolio if input is valid", async () => {
       await exec();
 
-      const updatedSoftware = await Software.findById(existingSoftware._id);
+      const updatedPortfolio = await Portfolio.findById(existingPortfolio._id);
 
-      expect(updatedSoftware.name).toBe(software.name);
-      expect(updatedSoftware.contingency.get("key4")).toBeTruthy();
+      expect(updatedPortfolio.name).toBe(portfolio.name);
+      expect(updatedPortfolio.contingency.get("key4")).toBeTruthy();
     });
 
-    it("should return the updated software if it is valid", async () => {
+    it("should return the updated portfolio if it is valid", async () => {
       const res = await exec();
 
       expect(res.status).toBe(200);
       expect(res.body).toHaveProperty("_id");
-      expect(res.body).toHaveProperty("slug", software.slug);
-      expect(res.body).toHaveProperty("title", software.title);
+      expect(res.body).toHaveProperty("slug", portfolio.slug);
+      expect(res.body).toHaveProperty("title", portfolio.title);
       expect(res.body).toHaveProperty("category");
       expect(res.body).toHaveProperty("datePosted");
-      expect(new Date(res.body.datePosted).getTime() === existingSoftware.datePosted.getTime()).toBeTruthy();
+      expect(new Date(res.body.datePosted).getTime() === existingPortfolio.datePosted.getTime()).toBeTruthy();
       expect(res.body).toHaveProperty("dateLastModified");
-      expect(new Date(res.body.dateLastModified).getTime() === existingSoftware.dateLastModified.getTime()).toBeFalsy();
-      expect(res.body).toHaveProperty("description", software.description);
-      expect(res.body).toHaveProperty("image", software.image);
-      expect(res.body).toHaveProperty("body", software.body);
-      expect(res.body).toHaveProperty("tags", software.tags);
-      expect(res.body).toHaveProperty("contingency", software.contingency);
-      expect(res.body).toHaveProperty("addressableHighlights", software.addressableHighlights);
+      expect(new Date(res.body.dateLastModified).getTime() === existingPortfolio.dateLastModified.getTime()).toBeFalsy();
+      expect(res.body).toHaveProperty("description", portfolio.description);
+      expect(res.body).toHaveProperty("image", portfolio.image);
+      expect(res.body).toHaveProperty("body", portfolio.body);
+      expect(res.body).toHaveProperty("tags", portfolio.tags);
+      expect(res.body).toHaveProperty("contingency", portfolio.contingency);
+      expect(res.body).toHaveProperty("addressableHighlights", portfolio.addressableHighlights);
     });
   });
 
   describe("DELETE /:id", () => {
     let token;
-    let software;
+    let portfolio;
     let id;
 
     const exec = async () => {
       return await request(server)
-        .delete("/software/" + id)
+        .delete("/portfolio/" + id)
         .set("x-auth-token", token)
         .send();
     };
 
     beforeEach(async () => {
-      softwareCategory = new SoftwareCategory({ name: "Fiction", slug: "fiction" });
-      softwareCategory = await softwareCategory.save();
+      portfolioCategory = new PortfolioCategory({ name: "Fiction", slug: "fiction" });
+      portfolioCategory = await portfolioCategory.save();
 
-      software = new Software({
+      portfolio = new Portfolio({
         slug: "the-best-dogiest-of-dogs",
         title: "The best dogiest of dogs",
-        category: softwareCategory,
+        category: portfolioCategory,
         description: "The best dogiest of dogs.",
         image: "https://i.imgur.com/O2NQNvP.jpg",
         body: "aaadeeadada",
@@ -484,8 +484,8 @@ describe("/software", () => {
           key4: "A new key was added too!!!",
         },
       });
-      await software.save();
-      id = software._id;
+      await portfolio.save();
+      id = portfolio._id;
       token = new User({ isAdmin: true }).generateAuthToken();
     });
 
@@ -513,7 +513,7 @@ describe("/software", () => {
       expect(res.status).toBe(400);
     });
 
-    it("should return 404 if no software with the given id was found", async () => {
+    it("should return 404 if no portfolio with the given id was found", async () => {
       id = mongoose.Types.ObjectId();
 
       const res = await exec();
@@ -521,28 +521,28 @@ describe("/software", () => {
       expect(res.status).toBe(404);
     });
 
-    it("should delete the software if input is valid", async () => {
+    it("should delete the portfolio if input is valid", async () => {
       await exec();
 
-      const softwareInDb = await Software.findById(id);
+      const portfolioInDb = await Portfolio.findById(id);
 
-      expect(softwareInDb).toBeNull();
+      expect(portfolioInDb).toBeNull();
     });
 
-    it("should return the removed software", async () => {
+    it("should return the removed portfolio", async () => {
       const res = await exec();
 
       expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty("slug", software.slug);
-      expect(res.body).toHaveProperty("title", software.title);
+      expect(res.body).toHaveProperty("slug", portfolio.slug);
+      expect(res.body).toHaveProperty("title", portfolio.title);
       expect(res.body).toHaveProperty("category");
       expect(res.body).toHaveProperty("datePosted");
-      expect(new Date(res.body.datePosted).getTime() === software.datePosted.getTime()).toBeTruthy();
+      expect(new Date(res.body.datePosted).getTime() === portfolio.datePosted.getTime()).toBeTruthy();
       expect(res.body).toHaveProperty("dateLastModified");
-      expect(new Date(res.body.dateLastModified).getTime() === software.dateLastModified.getTime()).toBeTruthy();
-      expect(res.body).toHaveProperty("description", software.description);
-      expect(res.body).toHaveProperty("image", software.image);
-      expect(res.body).toHaveProperty("body", software.body);
+      expect(new Date(res.body.dateLastModified).getTime() === portfolio.dateLastModified.getTime()).toBeTruthy();
+      expect(res.body).toHaveProperty("description", portfolio.description);
+      expect(res.body).toHaveProperty("image", portfolio.image);
+      expect(res.body).toHaveProperty("body", portfolio.body);
       expect(res.body).toHaveProperty("tags");
       expect(res.body).toHaveProperty("contingency");
       expect(res.body).toHaveProperty("addressableHighlights");
