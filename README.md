@@ -123,7 +123,7 @@ Contributions are what make the open source community such an amazing place to b
 
 ## License
 
-Distributed under the GNU GPLv3 License. See `LICENSE` for more information.
+Distributed under the GNU GPLv3 License. See [License](LICENSE.md) for more information.
 
 <!-- ACKNOWLEDGEMENTS -->
 
