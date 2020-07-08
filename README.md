@@ -148,4 +148,4 @@ Distributed under the GNU GPLv3 License. See [License](LICENSE.md) for more info
 [license-url]: https://github.com/nickprovs/Showcase/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/nickprovs
-[product-screenshot]: _meta/images/sample/dark_theme_home.jpg
+[product-screenshot]: _meta/images/sample/light_theme_home.jpg
