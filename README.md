@@ -61,7 +61,6 @@
 ### Built With
 
 - [next.js](https://github.com/vercel/next.js)
-- [react.js](https://github.com/facebook/react)
 - [node.js](https://github.com/nodejs)
 
 <!-- GETTING STARTED -->
@@ -124,15 +123,7 @@ Contributions are what make the open source community such an amazing place to b
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
-
-<!-- CONTACT -->
-
-## Contact
-
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email
-
-Project Link: [https://github.com/nickprovs/showcase](https://github.com/nickprovs/showcase)
+Distributed under the GNU GPLv3 License. See `LICENSE` for more information.
 
 <!-- ACKNOWLEDGEMENTS -->
 
