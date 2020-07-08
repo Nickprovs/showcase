@@ -18,7 +18,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/nickprovs/showcase">
-    <img src="client/public/images/meta-main.png" alt="Logo" width="80" height="80">
+    <img src="_meta/images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Showcase</h3>
