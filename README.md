@@ -82,6 +82,7 @@ It has an expansive feature set that a variety of users can leverage.
 - General Versatility
   - Change the website's title
   - Change the website's footnote
+  - Change the website's themed backgrounds.
   - Change whether or not certain sections are shown.
   - Add or omit desired social media links
 - Content Sections
