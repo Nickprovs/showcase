@@ -65,6 +65,9 @@ It has an expansive feature set that a variety of users can leverage.
 - Integrated Content-Management System: Add, Edit, Delete, and Feature your content.
 - Contact System: Receive messages from prospective users.
 - Themeing: Change the entire site's theme (Background Image and Colors) on-the-fly.
+- Device Optimization:
+  - Content adjusts based on window size to accomomdate screens big and small.
+  - Admin controls are slightly differently on small screens for ease of use.
 - SEO
   - next.js provides server-side-rendering critical to seo.
   - All articles support user-defined slugs for your search-engine needs.
