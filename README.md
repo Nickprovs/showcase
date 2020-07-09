@@ -61,7 +61,6 @@ Showcase is my answer to that desire. It's an after-hours project I've been buil
 
 It has an expansive feature set that a variety of users can leverage.
 
-- Authentication: Two-Factor (w/ email) or Single-Factor Auth
 - Integrated Content-Management System: Add, Edit, Delete, and Feature your content.
 - Contact System: Receive messages from prospective users.
 - Themeing: Change the entire site's theme (Background Image and Colors) on-the-fly.
@@ -74,6 +73,12 @@ It has an expansive feature set that a variety of users can leverage.
   - All content sections and articles have the appropriate meta tags
     - SEO is improved
     - Pages are shared to social media as a card (w/ title, preview image, etc.)
+- Security
+  - Authentication: Two-Factor w/email (recommended in production) or Single-Factor Auth
+  - Token Security
+    - Auth token is never exposed to the client.
+    - User data is retrieved via api/me call.
+  - User generated content is sanitized
 - General Versatility
   - Change the website's title
   - Change the website's footnote
