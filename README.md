@@ -56,6 +56,55 @@
 
 ## About The Project
 
+I've always wanted to build my own corner of the internet. A digital "place for my stuff".
+Showcase is my answer to that desire. It's an after-hours project I've been building for months.
+
+It has an expansive feature set that a variety of users can leverage.
+
+- Authentication: Two-Factor (w/ email) or Single-Factor Auth
+- Integrated Content-Management System: Add, Edit, Delete, and Feature your content.
+- Contact System: Receive messages from prospective users.
+- Themeing: Change the entire site's theme (Background Image and Colors) on-the-fly.
+- SEO
+  - next.js provides server-side-rendering critical to seo.
+  - All articles support user-defined slugs for your search-engine needs.
+  - All content sections and articles have the appropriate meta tags
+    - SEO is improved
+    - Pages are shared to social media as a card (w/ title, preview image, etc.)
+- General Versatility
+  - Change the website's title
+  - Change the website's footnote
+  - Change whether or not certain sections are shown.
+  - Add or omit desired social media links
+- Content Sections
+  - Featured (Home):
+    - Top: A primary featured section is completely customizable via rich-text editor.
+    - Bottom: Feature content from any section.
+      - Can be done simply by toggling content from other sections.
+      - Can change the display order of featured content.
+  - Blog: A place to post your personal or business articles.
+    - Interactive Rich Text Editor for creating your article via integrated tinyMce.
+    - Displays articles in a simple, device optimized grid.
+  - Photo: A place to post your photos.
+    - Choose your desired display size and orientation for each photo
+    - Photos for each paginated page will automatically be placed in a space-optimized css grid.
+  - Media: A place to post embeddable stuff -- videos, music playlists, social media posts, etc.
+    - Embed content from sources that you can whitelist via environment variable.
+  - Portfolio: A place to post your professional content in an open-ended article format,
+    - Ability to rename this section to whatever you want. In my case, I'd call it "Software"
+    - Ability to hide this section if you simply want to use Showcase as a non-professional website.
+- Common Content Section Features
+  - Pagination: Pagination is implemented both client and server side.
+  - Categories
+  - Tags
+  - Search
+  - Hot Refresh (no page reload) when searching, changing category, or clicking tags.
+  - Addressable Highlights: Adds named links to your content posts.
+  - Sanitization: Places where user-generated content will be dangerously rendered are sanitized for malicious content.
+    - Users can prevent their iframes/scripts from being sanitized by whitelisting their source in the environment configuration.
+
+* Blog: Write
+
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
 ### Built With
