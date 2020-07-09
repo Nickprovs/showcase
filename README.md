@@ -129,9 +129,34 @@ Distributed under the GNU GPLv3 License. See [License](LICENSE.md) for more info
 
 ## Acknowledgements
 
-- []()
-- []()
-- []()
+### Client
+
+- [massively - design influences](https://html5up.net/massively)
+- [isomorphic-unfetch - isomorphic fetch for next.js](https://github.com/developit/unfetch/tree/master/packages/isomorphic-unfetch)
+- [@hapi/joi - validation](https://github.com/hapijs/joi)
+- [tinymce - rich text editing](https://github.com/tinymce/tinymce)
+- [DOMPurify - sanitization](https://github.com/cure53/DOMPurify)
+- [fontawesome - icons](https://github.com/FortAwesome/react-fontawesome)
+- [nookies - next.js cookie interaction](https://github.com/maticzav/nookies)
+- [reframe.js - automatic iframe sizing](https://github.com/dollarshaveclub/reframe.js/blob/master/src/reframe.js)
+- [text-encoding-shim - older browser text-encoding](https://gitlab.com/PseudoPsycho/text-encoding-shim)
+- [reCAPTCHA v2 - turing test](https://developers.google.com/recaptcha/intro)
+
+### Server
+
+- [express - REST API tooling](https://github.com/expressjs/express)
+- [cors - cross-origin resource sharing](https://github.com/expressjs/cors)
+- [mongoose - mongodb interaction](https://github.com/Automattic/mongoose)
+- [@hapi/joi - validation](https://github.com/hapijs/joi)
+- [bcrypt - encryption](https://www.npmjs.com/package/bcrypt)
+- [nodemailer - email](https://github.com/nodemailer/nodemailer)
+- [isomorphic-dompurify - sanitization](https://github.com/kkomelin/isomorphic-dompurify)
+- [reCAPTCHA v2 - turing test validation](https://developers.google.com/recaptcha/intro)
+- [moment - date interaction](https://github.com/moment/moment)
+- [node-fetch - server-side http requests](https://github.com/node-fetch/node-fetch)
+- [config - environment configuration clearing house](https://github.com/lorenwest/node-config)
+- [jest - automated testing](https://github.com/facebook/jest)
+- [supertest - automated testing http assertions](https://github.com/visionmedia/supertest)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
