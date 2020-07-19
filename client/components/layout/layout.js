@@ -76,7 +76,7 @@ export default class Layout extends Component {
     if (general && general.portfolio.show) {
       showcaseSubPages.unshift({
         href: "/showcase/portfolio",
-        label: general ? general.portfolio.title : "Portfolio",
+        label: general ? general.portfolio.title.toUpperCase() : "PORTFOLIO",
         iconClasses: "",
       });
     }
