@@ -106,28 +106,33 @@ module.exports = function (ArticleModel, articleJoiSchema, ArticleCategoryModel,
     if (req.isIdSlug) filter = { slug: req.params.id };
     else filter = { _id: req.params.id };
 
-    let updatedArticleModel = await ArticleModel.findOneAndUpdate(
-      filter,
-      {
-        slug: req.body.slug,
-        title: req.body.title,
-        category: articleCategory,
-        dateLastModified: moment().toJSON(),
-        description: req.body.description,
-        image: req.body.image,
-        body: sanitize(req.body.body),
-        addressableHighlights: req.body.addressableHighlights,
-        tags: req.body.tags.map((str) => str.trim()),
-        contingency: req.body.contingency,
-      },
-      {
-        new: true,
-      }
-    );
+    //Get the article to update
+    let article = await ArticleModel.findOne(filter).select("-__v");
+    if (!article) return res.status(404).send("The article with the given ID or Slug was not found.");
 
-    if (!updatedArticleModel) return res.status(404).send("The article with the given ID or Slug was not found.");
+    //Check for articles that would result in a conflict
+    let articlesThatWouldCauseConflict = await ArticleModel.find({
+      $and: [
+        { $or: [{ title: { $regex: new RegExp(req.body.title, "i") } }, { slug: { $regex: new RegExp(req.body.slug, "i") } }] },
+        { _id: { $ne: req.params.id } },
+      ],
+    });
+    if (articlesThatWouldCauseConflict.length > 0) return res.status(400).send("An article with a matching title or slug already exists");
 
-    res.send(updatedArticleModel);
+    //Save the article
+    article.slug = req.body.slug;
+    article.title = req.body.title;
+    article.category = articleCategory;
+    article.dateLastModified = moment().toJSON();
+    article.description = req.body.description;
+    article.image = req.body.image;
+    article.body = sanitize(req.body.body);
+    article.addressableHighlights = req.body.addressableHighlights;
+    article.tags = req.body.tags.map((str) => str.trim());
+    article.contingency = req.body.contingency;
+    await article.save();
+
+    res.send(article);
   });
 
   router.delete("/:id", [auth(), admin, validateVariableId], async (req, res) => {

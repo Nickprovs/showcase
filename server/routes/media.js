@@ -101,23 +101,26 @@ module.exports = function () {
     const mediaCategory = await MediaCategoryModel.findById(req.body.categoryId);
     if (!mediaCategory) return res.status(400).send("Invalid media category.");
 
-    const updatedMedia = await MediaModel.findByIdAndUpdate(
-      req.params.id,
-      {
-        title: req.body.title,
-        category: mediaCategory,
-        dateLastModified: moment().toJSON(),
-        description: req.body.description,
-        markup: sanitize(req.body.markup),
-        addressableHighlights: req.body.addressableHighlights,
-        tags: req.body.tags,
-      },
-      { new: true }
-    );
+    //Get the media to update
+    let media = await MediaModel.findById(req.params.id).select("-__v");
+    if (!media) return res.status(404).send("The media with the given ID not found.");
 
-    if (!updatedMedia) return res.status(404).send("Media not found.");
+    //Check for medias that would result in a conflict
+    let mediasThatWouldCauseConflict = await MediaModel.find({
+      $and: [{ $or: [{ title: { $regex: new RegExp(req.body.title, "i") } }] }, { _id: { $ne: req.params.id } }],
+    });
+    if (mediasThatWouldCauseConflict.length > 0) return res.status(400).send("A media with a matching title or slug already exists");
 
-    res.send(updatedMedia);
+    media.title = req.body.title;
+    media.category = mediaCategory;
+    media.dateLastModified = moment().toJSON();
+    media.description = req.body.description;
+    media.markup = sanitize(req.body.markup);
+    media.addressableHighlights = req.body.addressableHighlights;
+    media.tags = req.body.tags;
+    await media.save();
+
+    res.send(media);
   });
 
   router.delete("/:id", [auth(), admin, validateObjectId], async (req, res) => {

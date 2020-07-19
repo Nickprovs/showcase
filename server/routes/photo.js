@@ -103,25 +103,28 @@ module.exports = function () {
     const photoCategory = await PhotoCategoryModel.findById(req.body.categoryId);
     if (!photoCategory) return res.status(400).send("Invalid photo category.");
 
-    const updatedPhoto = await PhotoModel.findByIdAndUpdate(
-      req.params.id,
-      {
-        title: req.body.title,
-        category: photoCategory,
-        dateLastModified: moment().toJSON(),
-        description: req.body.description,
-        orientation: req.body.orientation,
-        displaySize: req.body.displaySize,
-        source: req.body.source,
-        addressableHighlights: req.body.addressableHighlights,
-        tags: req.body.tags,
-      },
-      { new: true }
-    );
+    //Get the photo to update
+    let photo = await PhotoModel.findById(req.params.id).select("-__v");
+    if (!photo) return res.status(404).send("The photo with the given ID not found.");
 
-    if (!updatedPhoto) return res.status(404).send("Photo not found.");
+    //Check for photos that would result in a conflict
+    let photosThatWouldCauseConflict = await PhotoModel.find({
+      $and: [{ $or: [{ title: { $regex: new RegExp(req.body.title, "i") } }] }, { _id: { $ne: req.params.id } }],
+    });
+    if (photosThatWouldCauseConflict.length > 0) return res.status(400).send("A photo with a matching title or slug already exists");
 
-    res.send(updatedPhoto);
+    photo.title = req.body.title;
+    photo.category = photoCategory;
+    photo.dateLastModified = moment().toJSON();
+    photo.description = req.body.description;
+    photo.orientation = req.body.orientation;
+    photo.displaySize = req.body.displaySize;
+    photo.source = req.body.source;
+    photo.addressableHighlights = req.body.addressableHighlights;
+    photo.tags = req.body.tags;
+    await photo.save();
+
+    res.send(photo);
   });
 
   router.delete("/:id", [auth(), admin, validateObjectId], async (req, res) => {
