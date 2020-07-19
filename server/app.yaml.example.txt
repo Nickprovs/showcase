@@ -11,6 +11,7 @@ handlers:
 
 env_variables:
   SERVED_AT_PATH: "/api"
+  DOMAIN: "your-domain.com"
   RECOGNIZED_CLIENTS: "https://your-domain.com, https://www.your-domain.com"
   ADMIN_USERNAME: "your_admin_username"
   ADMIN_PASSWORD: "your_admin_password"

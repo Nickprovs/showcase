@@ -1,6 +1,8 @@
 const config = require("config");
 
 module.exports = function () {
+  if (!config.has("domain")) throw new Error("Domain must be set as environment variable: DOMAIN");
+  if (!config.has("servedAtPath")) throw new Error("Served At Path must be set as environment variable: SERVED_AT_PATH");
   if (!config.has("recognizedClients")) throw new Error("Recognized Clients must be set as environment variable: RECOGNIZED_CLIENTS");
   if (!config.has("adminUsername")) throw new Error("Admin Username must be set as environment variable: ADMIN_USERNAME");
   if (!config.has("adminPassword")) throw new Error("Admin Password must be set as environment variable: ADMIN_PASSWORD");

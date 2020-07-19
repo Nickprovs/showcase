@@ -1,5 +1,6 @@
 {
   "servedAtPath": "/api",
+  "domain": "localhost",
   "recognizedClients": "http://localhost:3000",
   "adminUsername": "admin",
   "adminPassword": "password",

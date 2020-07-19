@@ -1,5 +1,6 @@
 {
   "servedAtPath": "SERVED_AT_PATH",
+  "domain": "DOMAIN",
   "recognizedClients": "RECOGNIZED_CLIENTS",
   "adminUsername": "ADMIN_USERNAME",
   "adminPassword": "ADMIN_PASSWORD",
