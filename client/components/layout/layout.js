@@ -21,7 +21,7 @@ const contentStyle = {
 export default class Layout extends Component {
   state = {
     isSidebarOpen: false,
-    darkModeOn: false,
+    darkModeOn: this.props.darkModeOn ? this.props.darkModeOn : false,
   };
 
   componentDidMount() {
