@@ -113,6 +113,7 @@ npm run dev
 4. Start the server - usually from VS Code terminal
 
 ```sh
+Update default.json config file in /config or create config files for other dev environments
 cd server
 npm start
 ```
