@@ -75,7 +75,7 @@ It has an expansive feature set that a variety of users can leverage.
 
 <!-- GETTING STARTED -->
 
-## Usage
+## Getting Started
 
 If you're new to these technologies, I recommened the following:
 
@@ -119,9 +119,9 @@ cd server
 npm start
 ```
 
-<!-- Gettomg Started -->
+<!-- Usage -->
 
-### Getting Started
+### Usage
 
 This website can be used to show your personal and/or professional content. It can always be forked, revised, or expanded for your personal needs.
 
