@@ -26,6 +26,7 @@
   <p align="center">
     A full-stack solution to a personal portfolio with a built-in content management system.
     <br />
+    <br />
     <a href="https://github.com/nickprovs/showcase"><strong>Explore the docs »</strong></a>
     <br />
     <br />
