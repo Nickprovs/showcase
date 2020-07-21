@@ -255,12 +255,6 @@ class Blog extends Component {
     const { previews, featured, categories, currentPage, totalBlogsCount, currentCategory, searchText } = this.state;
     const { user, general, domainUrl } = this.props;
 
-    console.log("");
-    console.log("Rendered!");
-    console.log("current page", currentPage);
-    console.log("page size", pageSize);
-    console.log("total blogs", totalBlogsCount);
-
     return (
       <div>
         <Head>
