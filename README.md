@@ -85,17 +85,14 @@ To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
+You'll need both Node.js and MongoDB for this project.
 
-- npm
-
-```sh
-npm install npm@latest -g
-```
+- Node.js
+- MongoDb
 
 ### Installation
 
-1. Clone the showcase
+1. Clone or Fork the project
 
 ```sh
 git clone https://github.com/nickprovs/showcase.git
@@ -105,6 +102,20 @@ git clone https://github.com/nickprovs/showcase.git
 
 ```sh
 npm install
+```
+
+3. Start the client - usually from VS Code terminal
+
+```sh
+cd client
+npm run dev
+```
+
+4. Start the server - usually from VS Code terminal
+
+```sh
+cd server
+npm start
 ```
 
 <!-- USAGE EXAMPLES -->
