@@ -43,7 +43,6 @@
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Usage](#usage)
-- [Roadmap](#roadmap)
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
@@ -77,6 +76,11 @@ It has an expansive feature set that a variety of users can leverage.
 <!-- GETTING STARTED -->
 
 ## Getting Started
+
+If you're new to these technologies I recommened the following.
+
+- First, listen to Mosh's series on React and Node.js.
+- Next, go through the very quick-and-easy Next.js docs.
 
 To get a local copy up and running follow these simple steps.
 
@@ -117,17 +121,26 @@ npm start
 
 <!-- USAGE EXAMPLES -->
 
-## Usage
+### Getting Started
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+This website can be used to show your personal and/or professional content. It can always be forked, revised, or expanded for your personal needs.
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+The high-level architectural picture here is that the Next.js app (Client) simply hosts the pages and it gets the data from the Express API (Server).
 
-<!-- ROADMAP -->
+<!-- Deployment -->
 
-## Roadmap
+## Deployment
 
-See the [open issues](https://github.com/nickprovs/showcase/issues) for a list of proposed features (and known issues).
+Both the client and server are environment configurable, so you should be able to deploy anywhere.
+
+A good choice would be to deploy to Google Cloud's AppEngine, and MongoDB Cloud.
+
+- Create a MongoDB Database in the cloud and get it's connection string.
+- Create an AppEngine project.
+- Wire up your domain name to the AppEngine project.
+- Create your app.yaml's in the client/server folder based on the example files.
+- Run gcloud app deploy from both the Client and Server directory.
+- These two nodejs services will be deployed the same appengine project.
 
 <!-- CONTRIBUTING -->
 
