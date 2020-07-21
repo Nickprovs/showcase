@@ -77,10 +77,10 @@ It has an expansive feature set that a variety of users can leverage.
 
 ## Getting Started
 
-If you're new to these technologies I recommened the following.
+If you're new to these technologies, I recommened the following:
 
-- First, listen to Mosh's series on React and Node.js.
-- Next, go through the very quick-and-easy Next.js docs.
+- Mosh's Series on React and Node.js
+- Official Next.js Docs
 
 To get a local copy up and running follow these simple steps.
 
@@ -138,8 +138,8 @@ A good choice would be to deploy to Google Cloud's AppEngine, and MongoDB Cloud.
 - Create a MongoDB Database in the cloud and get it's connection string.
 - Create an AppEngine project.
 - Wire up your domain name to the AppEngine project.
-- Create your app.yaml's in the client/server folder based on the example files.
-- Run gcloud app deploy from both the Client and Server directory.
+- Create your app.yaml's in the client and server folders based on the example files.
+- Run gcloud app deploy from both the client and server directory.
 - These two nodejs services will be deployed the same appengine project.
 
 <!-- CONTRIBUTING -->
