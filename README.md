@@ -119,7 +119,7 @@ cd server
 npm start
 ```
 
-<!-- USAGE EXAMPLES -->
+<!-- Gettomg Started -->
 
 ### Getting Started
 
