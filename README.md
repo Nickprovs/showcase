@@ -64,55 +64,13 @@ It has an expansive feature set that a variety of users can leverage.
 - Integrated Content-Management System: Add, Edit, Delete, and Feature your content.
 - Contact System: Receive messages from prospective users.
 - Themeing: Change the entire site's theme (Background Image and Colors) on-the-fly.
-- Device Optimization:
-  - Content adjusts based on window size to accomomdate screens big and small.
-  - Admin controls are slightly differently on small screens for ease of use.
-- SEO
-  - next.js provides server-side-rendering critical to seo.
-  - All articles support user-defined slugs for your search-engine needs.
-  - All content sections and articles have the appropriate meta tags
-    - SEO is improved
-    - Pages are shared to social media as a card (w/ title, preview image, etc.)
-- Security
-  - Authentication: Two-Factor w/email (recommended in production) or Single-Factor Auth
-  - Token Security
-    - Auth token is never exposed to the client.
-    - User data is retrieved via api/me call.
-  - User generated content is sanitized
-- General Versatility
-  - Change the website's title
-  - Change the website's footnote
-  - Change the website's themed backgrounds.
-  - Change whether or not certain sections are shown.
-  - Add or omit desired social media links
-- Content Sections
-  - Featured (Home):
-    - Top: A primary featured section is completely customizable via rich-text editor.
-    - Bottom: Feature content from any section.
-      - Can be done simply by toggling content from other sections.
-      - Can change the display order of featured content.
-  - Blog: A place to post your personal or business articles.
-    - Interactive Rich Text Editor for creating your article via integrated tinyMce.
-    - Displays articles in a simple, device optimized grid.
-  - Photo: A place to post your photos.
-    - Choose your desired display size and orientation for each photo
-    - Photos for each paginated page will automatically be placed in a space-optimized css grid.
-  - Media: A place to post embeddable stuff -- videos, music playlists, social media posts, etc.
-    - Embed content from sources that you can whitelist via environment variable.
-  - Portfolio: A place to post your professional content in an open-ended article format,
-    - Ability to rename this section to whatever you want. In my case, I'd call it "Software"
-    - Ability to hide this section if you simply want to use Showcase as a non-professional website.
+- Device Optimization: Content adjusts to window size
+- SEO: Server-side rendering, user-defined slugs, auto-generated meta tags for sharing content
+- Security: Opt-In 2FA, Secure Cookie Auth, Configurable Sanitization
+- Versatilitiy: Change most of the website's content at any time
+- Content: Host your portfolio, a blog, photo, and media section. Can rename or hide the portfolio section.
+- And More: Pagination, Categories, Tags, Search, Addressable Highlights, etc... all implemented!
 - Common Content Section Features
-  - Pagination: Pagination is implemented both client and server side.
-  - Categories
-  - Tags
-  - Search
-  - Hot Refresh (no page reload) when searching, changing category, or clicking tags.
-  - Addressable Highlights: Adds named links to your content posts.
-  - Sanitization: Places where user-generated content will be dangerously rendered are sanitized for malicious content.
-    - Users can prevent their iframes/scripts from being sanitized by whitelisting their source in the environment configuration.
-
-* Blog: Write
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
