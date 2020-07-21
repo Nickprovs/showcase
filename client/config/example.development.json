@@ -1,0 +1,5 @@
+{
+  "apiUrl": "http://localhost:8080",
+  "captchaPublicKey": "BLauhjdakh#*(&BLAHBLAHBLAH",
+  "recognizedMarkupDomains": "https://www.youtube.com, https://player.vimeo.com, https://open.spotify.com, //www.instagram.com/embed.js, https://platform.twitter.com"
+}

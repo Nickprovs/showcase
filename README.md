@@ -85,8 +85,6 @@ To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-You'll need both Node.js and MongoDB for this project.
-
 - Node.js
 - MongoDb
 
@@ -107,6 +105,7 @@ npm install
 3. Start the client - usually from VS Code terminal
 
 ```sh
+create development.json config file using example.development.json from /config as an example
 cd client
 npm run dev
 ```
