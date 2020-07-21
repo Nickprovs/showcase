@@ -66,7 +66,7 @@ It has an expansive feature set that a variety of users can leverage.
 - **Versatilitiy:** Edit most of the website at any time. Environment configuration supports a variety of deployments.
 - **And More:** Pagination, Categories, Tags, Search, Addressable Highlights, etc... all implemented!
 
-[![Product Name Screen Shot][product-screenshot]](/meta/sample)
+[![Product Name Screen Shot][product-screenshot]](/_meta/images/sample)
 
 ### Built With
 
