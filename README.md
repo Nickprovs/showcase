@@ -61,15 +61,13 @@ Showcase is my answer to that desire. It's an after-hours project I've been buil
 
 It has an expansive feature set that a variety of users can leverage.
 
-- **Integrated Content-Management System:** Add, Edit, Delete, and Feature your content.
-- **Contact System:** Receive messages from prospective users.
-- **Themeing:** Change the entire site's theme (Background Image and Colors) on-the-fly.
-- **Device Optimization:** Content adjusts to window size
+- **Integrated Content-Management System:** Add, Edit, Delete, and Feature content.
+- **Styling and Themes:** Content adjusts to fit user's device. Change the entire site's theme on-the-fly.
 - **SEO:** Server-side rendering, user-defined slugs, auto-generated meta tags for sharing content
 - **Security:** Opt-In 2FA, Secure Cookie Auth, Configurable Sanitization
-- **Versatilitiy:** Change most of the website's content at any time
 - **Content:** Host your portfolio, a blog, photo, and media section. Can rename or hide the portfolio section.
-- **Configurable:** Can be configured at the environment level for a variety of deployments.
+- **Contact:** Wire up some SMTP credentials to receive messages from prospective users.
+- **Versatilitiy:** Change most of the website's content at any time. Environment configuration supports a variety of deployments.
 - **And More:** Pagination, Categories, Tags, Search, Addressable Highlights, etc... all implemented!
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
