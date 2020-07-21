@@ -29,10 +29,6 @@
     <a href="https://github.com/nickprovs/showcase"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    ·
-    <a href="https://github.com/nickprovs/showcase/issues">Submit a Bug</a>
-    ·
-    <a href="https://github.com/nickprovs/showcase/issues">Request Feature</a>
   </p>
 </p>
 
@@ -102,15 +98,15 @@ git clone https://github.com/nickprovs/showcase.git
 npm install
 ```
 
-3. Start the client - usually from VS Code terminal
+3. Start the client - usually from a VS Code terminal
 
 ```text
-create development.json config file using example.development.json from /config as an example
+Create development.json config file using example.development.json from /config as an example
 cd client
 npm run dev
 ```
 
-4. Start the server - usually from VS Code terminal
+4. Start the server - usually from a VS Code terminal
 
 ```text
 Update default.json config file in /config or create config files for other dev environments
