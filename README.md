@@ -65,9 +65,9 @@ It has an expansive feature set that a variety of users can leverage.
 - **Styling and Themes:** Content adjusts to fit user's device. Change the entire site's theme on-the-fly.
 - **SEO:** Server-side rendering, user-defined slugs, auto-generated meta tags for sharing content
 - **Security:** Opt-In 2FA, Secure Cookie Auth, Configurable Sanitization
-- **Content:** Host your portfolio, a blog, photo, and media section. Can rename or hide the portfolio section.
+- **Content:** Host your portfolio, a blog, photo, and media section. Rename or hide the portfolio section.
 - **Contact:** Wire up some SMTP credentials to receive messages from prospective users.
-- **Versatilitiy:** Change most of the website's content at any time. Environment configuration supports a variety of deployments.
+- **Versatilitiy:** Edit most of the website at any time. Environment configuration supports a variety of deployments.
 - **And More:** Pagination, Categories, Tags, Search, Addressable Highlights, etc... all implemented!
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
