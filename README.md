@@ -104,7 +104,7 @@ npm install
 
 3. Start the client - usually from VS Code terminal
 
-```sh
+```text
 create development.json config file using example.development.json from /config as an example
 cd client
 npm run dev
@@ -112,7 +112,7 @@ npm run dev
 
 4. Start the server - usually from VS Code terminal
 
-```sh
+```text
 Update default.json config file in /config or create config files for other dev environments
 cd server
 npm start
