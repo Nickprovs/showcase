@@ -140,7 +140,7 @@ A good choice would be to deploy to Google Cloud's AppEngine, and MongoDB Cloud.
 - Wire up your domain name to the AppEngine project.
 - Create your app.yaml's in the client and server folders based on the example files.
 - Run gcloud app deploy from both the client and server directory.
-- These two nodejs services will be deployed the same appengine project.
+- These two nodejs services will be deployed to the same AppEngine project.
 
 <!-- CONTRIBUTING -->
 
