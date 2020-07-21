@@ -19,11 +19,11 @@
 }
 
 .activePaginationButton {
-  color: var(--s5);
+  color: var(--s5) !important;
   cursor: default;
 }
 
 .disabledPaginationButton {
-  color: var(--s8);
+  color: var(--s8) !important;
   cursor: default;
 }
