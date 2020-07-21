@@ -42,7 +42,7 @@
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
-- [Usage](#usage)
+  - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
@@ -75,7 +75,7 @@ It has an expansive feature set that a variety of users can leverage.
 
 <!-- GETTING STARTED -->
 
-## Getting Started
+## Usage
 
 If you're new to these technologies, I recommened the following:
 
