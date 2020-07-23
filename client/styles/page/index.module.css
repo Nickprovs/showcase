@@ -97,6 +97,27 @@
   width: 80%;
 }
 
+@media screen and (min-height: 300px) {
+  .previewImage {
+    max-width: 400px;
+    max-height: 250px;
+  }
+}
+
+@media screen and (min-height: 700px) {
+  .previewImage {
+    max-width: 720px;
+    max-height: 480px;
+  }
+}
+
+@media screen and (min-height: 1200px) {
+  .previewImage {
+    max-width: 1024px;
+    max-height: 768px;
+  }
+}
+
 .mediaContainer {
   order: 3;
   flex: 60;
