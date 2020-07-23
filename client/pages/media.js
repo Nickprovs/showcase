@@ -1,28 +1,28 @@
-import mediaStyles from "../../styles/page/media.module.css";
-import withAuthAsync from "../../components/common/hoc/withAuthAsync";
-import withLayoutAsync from "../../components/common/hoc/withLayoutAsync";
+import mediaStyles from "../styles/page/media.module.css";
+import withAuthAsync from "../components/common/hoc/withAuthAsync";
+import withLayoutAsync from "../components/common/hoc/withLayoutAsync";
 import { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as fasStar, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
-import { getMediasAsync, deleteMediaAsync, getMediaCategoriesAsync } from "../../services/mediaService";
-import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../../services/featuredService";
-import CommonPageHeaderControls from "../../components/page/common/commonPageHeaderControls";
+import { getMediasAsync, deleteMediaAsync, getMediaCategoriesAsync, deleteMediaCategoryAsync } from "../services/mediaService";
+import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../services/featuredService";
+import CommonPageHeaderControls from "../components/page/common/commonPageHeaderControls";
 import Router from "next/router";
-import DatePostedPresenter from "../../components/common/date/datePostedPresenter";
-import TransparentButton from "../../components/common/button/transparentButton";
-import BasicButton from "../../components/common/button/basicButton";
-import Pagination from "../../components/common/misc/pagination";
-import DangerouslySetInnerHtmlWithScript from "../../components/common/misc/dangerouslySetInnerHtmlWithScript";
-import EmbedUtilities from "../../util/embedUtilities";
-import TagsPresenter from "../../components/common/misc/tagPresenter";
+import DatePostedPresenter from "../components/common/date/datePostedPresenter";
+import TransparentButton from "../components/common/button/transparentButton";
+import BasicButton from "../components/common/button/basicButton";
+import Pagination from "../components/common/misc/pagination";
+import DangerouslySetInnerHtmlWithScript from "../components/common/misc/dangerouslySetInnerHtmlWithScript";
+import EmbedUtilities from "../util/embedUtilities";
+import TagsPresenter from "../components/common/misc/tagPresenter";
 import Head from "next/head";
 import { toast } from "react-toastify";
 import reframe from "reframe.js";
-import FormatUtilities from "../../util/formatUtilities";
-import StringUtilities from "../../util/stringUtilities";
-import { I1_DIRECTOR_SAD } from "../../misc/iconData";
-import initializeDomPurify from "../../misc/customDomPurify";
+import FormatUtilities from "../util/formatUtilities";
+import StringUtilities from "../util/stringUtilities";
+import { I1_DIRECTOR_SAD } from "../misc/iconData";
+import initializeDomPurify from "../misc/customDomPurify";
 import { sanitize } from "isomorphic-dompurify";
 
 const pageSize = 5;
@@ -371,7 +371,7 @@ class Media extends Component {
         </Head>
         <CommonPageHeaderControls
           user={user}
-          mainPagePath="showcase/media"
+          mainPagePath="media"
           mainContentType="media"
           searchText={searchText}
           onSearchTextChanged={(searchText) => this.setState({ searchText })}

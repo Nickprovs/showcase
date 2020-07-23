@@ -1,24 +1,24 @@
 import { Component } from "react";
-import photoStyles from "../../styles/page/photo.module.css";
+import photoStyles from "../styles/page/photo.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as fasStar, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
-import FullscreenPhoto from "../../components/common/photo/fullscreenPhoto";
-import withAuthAsync from "../../components/common/hoc/withAuthAsync";
-import withLayoutAsync from "../../components/common/hoc/withLayoutAsync";
-import { getPhotosAsync, deletePhotoAsync, getPhotoCategoriesAsync, deletePhotoCategoryAsync } from "../../services/photoService";
-import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../../services/featuredService";
+import FullscreenPhoto from "../components/common/photo/fullscreenPhoto";
+import withAuthAsync from "../components/common/hoc/withAuthAsync";
+import withLayoutAsync from "../components/common/hoc/withLayoutAsync";
+import { getPhotosAsync, deletePhotoAsync, getPhotoCategoriesAsync, deletePhotoCategoryAsync } from "../services/photoService";
+import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../services/featuredService";
 import Router from "next/router";
-import CommonPageHeaderControls from "../../components/page/common/commonPageHeaderControls";
+import CommonPageHeaderControls from "../components/page/common/commonPageHeaderControls";
 import Link from "next/link";
-import TransparentButton from "../../components/common/button/transparentButton";
-import BasicButton from "../../components/common/button/basicButton";
-import Pagination from "../../components/common/misc/pagination";
+import TransparentButton from "../components/common/button/transparentButton";
+import BasicButton from "../components/common/button/basicButton";
+import Pagination from "../components/common/misc/pagination";
 import { toast } from "react-toastify";
 import Head from "next/head";
-import FormatUtilities from "../../util/formatUtilities";
-import StringUtilities from "../../util/stringUtilities";
-import { I1_DIRECTOR_SAD } from "../../misc/iconData";
+import FormatUtilities from "../util/formatUtilities";
+import StringUtilities from "../util/stringUtilities";
+import { I1_DIRECTOR_SAD } from "../misc/iconData";
 
 const pageSize = 10;
 
@@ -330,7 +330,7 @@ class Photo extends Component {
                       >
                         <FontAwesomeIcon size="2x" icon={featured.subsidiaries.items.some((item) => item.id === photo._id) ? fasStar : farStar} />
                       </TransparentButton>
-                      <Link href={`/showcase/photo/edit/photo/[id]`} as={`/showcase/photo/edit/photo/${photo._id}`}>
+                      <Link href={`/photo/edit/photo/[id]`} as={`/photo/edit/photo/${photo._id}`}>
                         <a>
                           <TransparentButton aria-label="Edit Photo">
                             <FontAwesomeIcon size="2x" icon={faEdit} />
@@ -380,7 +380,7 @@ class Photo extends Component {
         </Head>
         <CommonPageHeaderControls
           user={user}
-          mainPagePath="showcase/photo"
+          mainPagePath="photo"
           mainContentType="photo"
           searchText={searchText}
           onSearchTextChanged={(searchText) => this.setState({ searchText })}

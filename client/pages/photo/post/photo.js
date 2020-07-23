@@ -1,42 +1,20 @@
-import withAuthAsync from "../../../../../components/common/hoc/withAuthAsync";
-import withLayoutAsync from "../../../../../components/common/hoc/withLayoutAsync";
-import Form from "../../../../../components/common/form/form";
-import BasicButton from "../../../../../components/common/button/basicButton";
-import CustomJoi from "../../../../../misc/customJoi";
-import { getMediaAsync, getMediaCategoriesAsync, updateMediaAsync } from "../../../../../services/mediaService";
-import { toast, cssTransition } from "react-toastify";
+import withAuthAsync from "../../../components/common/hoc/withAuthAsync";
+import withLayoutAsync from "../../../components/common/hoc/withLayoutAsync";
+import Form from "../../../components/common/form/form";
+import BasicButton from "../../../components/common/button/basicButton";
+import CustomJoi from "../../../misc/customJoi";
+import { getPhotoCategoriesAsync, createPhotoAsync } from "../../../services/photoService";
+import { toast } from "react-toastify";
 import Router from "next/router";
-import RouterUtilities from "../../../../../util/routerUtilities";
-import StringUtilities from "../../../../../util/stringUtilities";
-import ExtendedFormUtilities from "../../../../../util/extendedFormUtilities";
+import ExtendedFormUtilities from "../../../util/extendedFormUtilities";
 import Head from "next/head";
-import FormatUtilities from "../../../../../util/formatUtilities";
-import initializeDomPurify from "../../../../../misc/customDomPurify";
-import { sanitize } from "isomorphic-dompurify";
+import FormatUtilities from "../../../util/formatUtilities";
 
-class Media extends Form {
+class Photo extends Form {
   static async getInitialProps(context) {
-    const { id } = context.query;
-
-    //Get the media
-    let media = null;
-    try {
-      const mediaRes = await getMediaAsync(id);
-      media = await mediaRes.json();
-    } catch (ex) {
-      media = null;
-    }
-
-    //Get categories for form
-    let categories = null;
-    try {
-      let categoriesRes = await getMediaCategoriesAsync();
-      categories = await categoriesRes.json();
-    } catch (ex) {
-      categories = null;
-    }
-
-    return { media: media, categories: categories };
+    let res = await getPhotoCategoriesAsync();
+    let categories = await res.json();
+    return { categories: categories };
   }
 
   constructor() {
@@ -46,7 +24,9 @@ class Media extends Form {
       title: "",
       category: null,
       description: "",
-      markup: "",
+      orientation: "",
+      displaySize: "",
+      source: "",
       tags: "",
       addressableHighlightLabel1: "",
       addressableHighlightAddress1: "",
@@ -59,38 +39,6 @@ class Media extends Form {
     this.state.showOptional = false;
   }
 
-  async componentDidMount() {
-    const { media, categories } = this.props;
-    if (!media) {
-      toast.error("Couldn't get media. Redirecting back.", { autoClose: 1500 });
-      await RouterUtilities.routeInternalWithDelayAsync("/showcase/media", 2000);
-      return;
-    }
-
-    if (!categories) {
-      toast.error("Couldn't get categories. Redirecting back.", { autoClose: 1500 });
-      await RouterUtilities.routeInternalWithDelayAsync("/showcase/media", 2000);
-      return;
-    }
-
-    initializeDomPurify();
-    this.getStateDataFromMedia(media);
-  }
-
-  getStateDataFromMedia(media) {
-    console.log("purifying");
-    this.setState({
-      data: {
-        title: media.title,
-        category: media.category,
-        description: media.description,
-        markup: sanitize(media.markup),
-        tags: StringUtilities.getCsvStringFromArray(media.tags),
-        ...ExtendedFormUtilities.getAddressableHighlightPropertiesObjFromArray(media.addressableHighlights),
-      },
-    });
-  }
-
   schema = CustomJoi.object({
     title: CustomJoi.string().min(2).max(64).required(),
     category: CustomJoi.object({
@@ -99,7 +47,9 @@ class Media extends Form {
       slug: CustomJoi.string().min(1).required(),
     }),
     description: CustomJoi.string().min(2).max(128).required(),
-    markup: CustomJoi.string().min(2).required(),
+    orientation: CustomJoi.string().valid("square", "landscape", "panorama", "portrait", "vertorama").required(),
+    displaySize: CustomJoi.string().valid("small", "medium", "large").required(),
+    source: CustomJoi.string().min(2).max(1000).required(),
     tags: CustomJoi.csvString().required().min(3).max(10),
     addressableHighlightLabel1: CustomJoi.string().allow("").max(16).optional(),
     addressableHighlightAddress1: CustomJoi.string().allow("").max(1024).optional(),
@@ -109,37 +59,35 @@ class Media extends Form {
     addressableHighlightAddress3: CustomJoi.string().allow("").max(1024).optional(),
   });
 
-  getMediaFromPassingState() {
+  getPhotoFromPassingState() {
     const { categories } = this.props;
-    let media = { ...this.state.data };
+    let photo = { ...this.state.data };
 
     //Format Category
-    let category = media.category;
-    delete media.category;
-    media.categoryId = category._id;
+    let category = photo.category;
+    delete photo.category;
+    photo.categoryId = category._id;
 
     //Format Addressable Highlights
-    media.addressableHighlights = ExtendedFormUtilities.getAddressableHighlightArrayAndFormatObj(media);
+    photo.addressableHighlights = ExtendedFormUtilities.getAddressableHighlightArrayAndFormatObj(photo);
 
     //Format Tags
-    let tagsString = media.tags;
-    delete media.tags;
+    let tagsString = photo.tags;
+    delete photo.tags;
     let tagsArray = tagsString.replace(/^,+|,+$/gm, "").split(",");
     tagsArray = tagsArray.map((str) => str.trim());
-    media.tags = tagsArray;
+    photo.tags = tagsArray;
 
-    return media;
+    return photo;
   }
 
   doSubmit = async () => {
-    let originalMedia = this.props.media;
-    let media = this.getMediaFromPassingState();
-    media._id = originalMedia._id;
-
+    const photo = this.getPhotoFromPassingState();
+    console.log(photo);
     let res = null;
     //Try and post the new category
     try {
-      res = await updateMediaAsync(media);
+      res = await createPhotoAsync(photo);
     } catch (ex) {
       let errorMessage = `Error: ${ex}`;
       console.log(errorMessage);
@@ -156,8 +104,7 @@ class Media extends Form {
       return;
     }
 
-    //TODO: Disallow posting duplicate category at server level.
-    Router.push("/showcase/media");
+    Router.push("/photo");
   };
 
   render() {
@@ -168,8 +115,8 @@ class Media extends Form {
       <div>
         <Head>
           <script key="tinyMCE" type="text/javascript" src="/scripts/tinymce/tinymce.min.js"></script>
-          <title>{FormatUtilities.getFormattedWebsiteTitle("Edit Media", general ? general.title : "Showcase")}</title>
-          <meta name="description" content="Edit an existing media." />
+          <title>{FormatUtilities.getFormattedWebsiteTitle("Post Photo", general ? general.title : "Showcase")}</title>
+          <meta name="description" content="Post a new photo." />
           <meta name="robots" content="noindex" />
         </Head>
         <div className="standardPadding">
@@ -177,8 +124,10 @@ class Media extends Form {
             {this.renderTextInput("title", "TITLE")}
             {this.renderSelect("category", "CATEGORY", "Select Category", categories.items, "name")}
             {this.renderTextArea("description", "DESCRIPTION")}
-            {this.renderTextArea("markup", "MARKUP (EMBED CODE)")}
+            {this.renderSelect("orientation", "ORIENTATION", "Select Orientation", ["square", "landscape", "panorama", "portrait", "vertorama"], null)}
+            {this.renderSelect("displaySize", "Display Size", "Select Display Size", ["small", "medium", "large"], null)}
             {this.renderTextInput("tags", "TAGS")}
+            {this.renderTextInput("source", "SOURCE")}
 
             <BasicButton
               onClick={(e) => {
@@ -213,4 +162,4 @@ class Media extends Form {
   }
 }
 
-export default withAuthAsync(withLayoutAsync(Media), true);
+export default withAuthAsync(withLayoutAsync(Photo), true);

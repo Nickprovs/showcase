@@ -1,14 +1,14 @@
-import withAuthAsync from "../../../../components/common/hoc/withAuthAsync";
-import withLayoutAsync from "../../../../components/common/hoc/withLayoutAsync";
-import Form from "../../../../components/common/form/form";
-import BasicButton from "../../../../components/common/button/basicButton";
-import CustomJoi from "../../../../misc/customJoi";
-import { getMediaCategoriesAsync, createMediaAsync } from "../../../../services/mediaService";
+import withAuthAsync from "../../../components/common/hoc/withAuthAsync";
+import withLayoutAsync from "../../../components/common/hoc/withLayoutAsync";
+import Form from "../../../components/common/form/form";
+import BasicButton from "../../../components/common/button/basicButton";
+import CustomJoi from "../../../misc/customJoi";
+import { getMediaCategoriesAsync, createMediaAsync } from "../../../services/mediaService";
 import { toast } from "react-toastify";
 import Router from "next/router";
-import ExtendedFormUtilities from "../../../../util/extendedFormUtilities";
+import ExtendedFormUtilities from "../../../util/extendedFormUtilities";
 import Head from "next/head";
-import FormatUtilities from "../../../../util/formatUtilities";
+import FormatUtilities from "../../../util/formatUtilities";
 
 class Media extends Form {
   static async getInitialProps(context) {
@@ -99,7 +99,7 @@ class Media extends Form {
       return;
     }
 
-    Router.push("/showcase/media");
+    Router.push("/media");
   };
 
   render() {

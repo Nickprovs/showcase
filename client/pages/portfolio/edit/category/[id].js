@@ -1,13 +1,13 @@
-import withAuthAsync from "../../../../../components/common/hoc/withAuthAsync";
-import withLayoutAsync from "../../../../../components/common/hoc/withLayoutAsync";
-import Form from "../../../../../components/common/form/form";
-import CustomJoi from "../../../../../misc/customJoi";
-import { getPortfolioCategoryAsync, updatePortfolioCategoryAsync } from "../../../../../services/portfolioService";
+import withAuthAsync from "../../../../components/common/hoc/withAuthAsync";
+import withLayoutAsync from "../../../../components/common/hoc/withLayoutAsync";
+import Form from "../../../../components/common/form/form";
+import CustomJoi from "../../../../misc/customJoi";
+import { getPortfolioCategoryAsync, updatePortfolioCategoryAsync } from "../../../../services/portfolioService";
 import { toast, cssTransition } from "react-toastify";
 import Router from "next/router";
-import RouterUtilities from "../../../../../util/routerUtilities";
+import RouterUtilities from "../../../../util/routerUtilities";
 import Head from "next/head";
-import FormatUtilities from "../../../../../util/formatUtilities";
+import FormatUtilities from "../../../../util/formatUtilities";
 
 class Category extends Form {
   static async getInitialProps(context) {
@@ -36,7 +36,7 @@ class Category extends Form {
     const { category } = this.props;
     if (!category) {
       toast.error("Couldn't get category. Redirecting back.", { autoClose: 1500 });
-      await RouterUtilities.routeInternalWithDelayAsync("/showcase/portfolio", 2000);
+      await RouterUtilities.routeInternalWithDelayAsync("/portfolio", 2000);
       return;
     }
 
@@ -87,7 +87,7 @@ class Category extends Form {
     }
 
     //TODO: Disallow posting duplicate category at server level.
-    Router.push("/showcase/portfolio");
+    Router.push("/portfolio");
   };
 
   render() {

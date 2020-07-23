@@ -1,16 +1,16 @@
-import withAuthAsync from "../../../../../components/common/hoc/withAuthAsync";
-import withLayoutAsync from "../../../../../components/common/hoc/withLayoutAsync";
-import Form from "../../../../../components/common/form/form";
-import BasicButton from "../../../../../components/common/button/basicButton";
-import CustomJoi from "../../../../../misc/customJoi";
-import { getPhotoAsync, getPhotoCategoriesAsync, updatePhotoAsync } from "../../../../../services/photoService";
+import withAuthAsync from "../../../../components/common/hoc/withAuthAsync";
+import withLayoutAsync from "../../../../components/common/hoc/withLayoutAsync";
+import Form from "../../../../components/common/form/form";
+import BasicButton from "../../../../components/common/button/basicButton";
+import CustomJoi from "../../../../misc/customJoi";
+import { getPhotoAsync, getPhotoCategoriesAsync, updatePhotoAsync } from "../../../../services/photoService";
 import { toast, cssTransition } from "react-toastify";
 import Router from "next/router";
-import RouterUtilities from "../../../../../util/routerUtilities";
-import StringUtilities from "../../../../../util/stringUtilities";
-import ExtendedFormUtilities from "../../../../../util/extendedFormUtilities";
+import RouterUtilities from "../../../../util/routerUtilities";
+import StringUtilities from "../../../../util/stringUtilities";
+import ExtendedFormUtilities from "../../../../util/extendedFormUtilities";
 import Head from "next/head";
-import FormatUtilities from "../../../../../util/formatUtilities";
+import FormatUtilities from "../../../../util/formatUtilities";
 
 class Photo extends Form {
   static async getInitialProps(context) {
@@ -63,13 +63,13 @@ class Photo extends Form {
     const { photo, categories } = this.props;
     if (!photo) {
       toast.error("Couldn't get photo. Redirecting back.", { autoClose: 1500 });
-      await RouterUtilities.routeInternalWithDelayAsync("/showcase/photo", 2000);
+      await RouterUtilities.routeInternalWithDelayAsync("/photo", 2000);
       return;
     }
 
     if (!categories) {
       toast.error("Couldn't get categories. Redirecting back.", { autoClose: 1500 });
-      await RouterUtilities.routeInternalWithDelayAsync("/showcase/photo", 2000);
+      await RouterUtilities.routeInternalWithDelayAsync("/photo", 2000);
       return;
     }
 
@@ -159,7 +159,7 @@ class Photo extends Form {
     }
 
     //TODO: Disallow posting duplicate category at server level.
-    Router.push("/showcase/photo");
+    Router.push("/photo");
   };
 
   render() {

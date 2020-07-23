@@ -1,15 +1,15 @@
 import { Component } from "react";
 import { toast } from "react-toastify";
-import withAuthAsync from "../../components/common/hoc/withAuthAsync";
-import withLayoutAsync from "../../components/common/hoc/withLayoutAsync";
-import CommonPageHeaderControls from "../../components/page/common/commonPageHeaderControls";
-import CommonPageArticleSection from "../../components/page/common/commonPageArticleSection";
+import withAuthAsync from "../components/common/hoc/withAuthAsync";
+import withLayoutAsync from "../components/common/hoc/withLayoutAsync";
+import CommonPageHeaderControls from "../components/page/common/commonPageHeaderControls";
+import CommonPageArticleSection from "../components/page/common/commonPageArticleSection";
 import Router from "next/router";
-import { getPortfoliosAsync, deletePortfolioAsync, getPortfolioCategoriesAsync, deletePortfolioCategoryAsync } from "../../services/portfolioService";
-import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../../services/featuredService";
+import { getPortfoliosAsync, deletePortfolioAsync, getPortfolioCategoriesAsync, deletePortfolioCategoryAsync } from "../services/portfolioService";
+import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../services/featuredService";
 import Head from "next/head";
-import FormatUtilities from "../../util/formatUtilities";
-import StringUtilities from "../../util/stringUtilities";
+import FormatUtilities from "../util/formatUtilities";
+import StringUtilities from "../util/stringUtilities";
 
 const pageSize = 6;
 
@@ -268,7 +268,7 @@ class Portfolio extends Component {
         </Head>
         <CommonPageHeaderControls
           user={user}
-          mainPagePath="showcase/portfolio"
+          mainPagePath="portfolio"
           mainContentType="article"
           searchText={searchText}
           onSearchTextChanged={(searchText) => this.setState({ searchText })}
@@ -280,7 +280,7 @@ class Portfolio extends Component {
         />
         <CommonPageArticleSection
           user={user}
-          mainPagePath="showcase/portfolio"
+          mainPagePath="portfolio"
           mainContentType="article"
           previews={previews}
           featured={featured}

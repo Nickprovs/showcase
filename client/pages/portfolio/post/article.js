@@ -1,15 +1,15 @@
-import withAuthAsync from "../../../../components/common/hoc/withAuthAsync";
-import withLayoutAsync from "../../../../components/common/hoc/withLayoutAsync";
-import Form from "../../../../components/common/form/form";
-import BasicButton from "../../../../components/common/button/basicButton";
-import CustomJoi from "../../../../misc/customJoi";
-import { getPortfolioCategoriesAsync, createPortfolioAsync } from "../../../../services/portfolioService";
+import withAuthAsync from "../../../components/common/hoc/withAuthAsync";
+import withLayoutAsync from "../../../components/common/hoc/withLayoutAsync";
+import Form from "../../../components/common/form/form";
+import BasicButton from "../../../components/common/button/basicButton";
+import CustomJoi from "../../../misc/customJoi";
+import { getPortfolioCategoriesAsync, createPortfolioAsync } from "../../../services/portfolioService";
 import { toast } from "react-toastify";
 import Router from "next/router";
-import ExtendedFormUtilities from "../../../../util/extendedFormUtilities";
+import ExtendedFormUtilities from "../../../util/extendedFormUtilities";
 import Head from "next/head";
-import FormatUtilities from "../../../../util/formatUtilities";
-import ThemeUtilities from "../../../../util/themeUtilities";
+import FormatUtilities from "../../../util/formatUtilities";
+import ThemeUtilities from "../../../util/themeUtilities";
 
 class Article extends Form {
   static async getInitialProps(context) {
@@ -111,7 +111,7 @@ class Article extends Form {
       return;
     }
 
-    Router.push("/showcase/portfolio");
+    Router.push("/portfolio");
   };
 
   render() {

@@ -1,46 +1,42 @@
-import withAuthAsync from "../../../../../components/common/hoc/withAuthAsync";
-import withLayoutAsync from "../../../../../components/common/hoc/withLayoutAsync";
-import Form from "../../../../../components/common/form/form";
-import BasicButton from "../../../../../components/common/button/basicButton";
-import CustomJoi from "../../../../../misc/customJoi";
-import { getPortfolioAsync, getPortfolioCategoriesAsync, updatePortfolioAsync } from "../../../../../services/portfolioService";
+import withAuthAsync from "../../../../components/common/hoc/withAuthAsync";
+import withLayoutAsync from "../../../../components/common/hoc/withLayoutAsync";
+import Form from "../../../../components/common/form/form";
+import BasicButton from "../../../../components/common/button/basicButton";
+import CustomJoi from "../../../../misc/customJoi";
+import { getMediaAsync, getMediaCategoriesAsync, updateMediaAsync } from "../../../../services/mediaService";
 import { toast, cssTransition } from "react-toastify";
 import Router from "next/router";
-import RouterUtilities from "../../../../../util/routerUtilities";
-import StringUtilities from "../../../../../util/stringUtilities";
-import ExtendedFormUtilities from "../../../../../util/extendedFormUtilities";
+import RouterUtilities from "../../../../util/routerUtilities";
+import StringUtilities from "../../../../util/stringUtilities";
+import ExtendedFormUtilities from "../../../../util/extendedFormUtilities";
 import Head from "next/head";
-import FormatUtilities from "../../../../../util/formatUtilities";
-import ThemeUtilities from "../../../../../util/themeUtilities";
-import initializeDomPurify from "../../../../../misc/customDomPurify";
+import FormatUtilities from "../../../../util/formatUtilities";
+import initializeDomPurify from "../../../../misc/customDomPurify";
 import { sanitize } from "isomorphic-dompurify";
 
-class Article extends Form {
+class Media extends Form {
   static async getInitialProps(context) {
     const { id } = context.query;
 
-    //Get the portfolio
-    let portfolio = null;
+    //Get the media
+    let media = null;
     try {
-      const portfolioRes = await getPortfolioAsync(id);
-      portfolio = await portfolioRes.json();
+      const mediaRes = await getMediaAsync(id);
+      media = await mediaRes.json();
     } catch (ex) {
-      portfolio = null;
+      media = null;
     }
 
     //Get categories for form
     let categories = null;
     try {
-      let categoriesRes = await getPortfolioCategoriesAsync();
+      let categoriesRes = await getMediaCategoriesAsync();
       categories = await categoriesRes.json();
     } catch (ex) {
       categories = null;
     }
 
-    //Get theme data for tinymce init
-    let darkModeOn = ThemeUtilities.getSavedDarkModeOnStatus(context);
-
-    return { portfolio, categories, darkModeOn };
+    return { media: media, categories: categories };
   }
 
   constructor() {
@@ -48,11 +44,9 @@ class Article extends Form {
 
     this.state.data = {
       title: "",
-      slug: "",
       category: null,
-      image: "",
       description: "",
-      body: "",
+      markup: "",
       tags: "",
       addressableHighlightLabel1: "",
       addressableHighlightAddress1: "",
@@ -66,54 +60,46 @@ class Article extends Form {
   }
 
   async componentDidMount() {
-    const { portfolio, categories } = this.props;
-    if (!portfolio) {
-      toast.error("Couldn't get portfolio. Redirecting back.", { autoClose: 1500 });
-      await RouterUtilities.routeInternalWithDelayAsync("/showcase/portfolio", 2000);
+    const { media, categories } = this.props;
+    if (!media) {
+      toast.error("Couldn't get media. Redirecting back.", { autoClose: 1500 });
+      await RouterUtilities.routeInternalWithDelayAsync("/media", 2000);
       return;
     }
 
     if (!categories) {
       toast.error("Couldn't get categories. Redirecting back.", { autoClose: 1500 });
-      await RouterUtilities.routeInternalWithDelayAsync("/showcase/portfolio", 2000);
+      await RouterUtilities.routeInternalWithDelayAsync("/media", 2000);
       return;
     }
 
     initializeDomPurify();
-    this.getStateDataFromPortfolio(portfolio);
+    this.getStateDataFromMedia(media);
   }
 
-  getStateDataFromPortfolio(portfolio) {
+  getStateDataFromMedia(media) {
     console.log("purifying");
     this.setState({
       data: {
-        title: portfolio.title,
-        slug: portfolio.slug,
-        category: portfolio.category,
-        image: portfolio.image,
-        description: portfolio.description,
-        body: sanitize(portfolio.body),
-        tags: StringUtilities.getCsvStringFromArray(portfolio.tags),
-        ...ExtendedFormUtilities.getAddressableHighlightPropertiesObjFromArray(portfolio.addressableHighlights),
+        title: media.title,
+        category: media.category,
+        description: media.description,
+        markup: sanitize(media.markup),
+        tags: StringUtilities.getCsvStringFromArray(media.tags),
+        ...ExtendedFormUtilities.getAddressableHighlightPropertiesObjFromArray(media.addressableHighlights),
       },
     });
   }
 
   schema = CustomJoi.object({
     title: CustomJoi.string().min(2).max(64).required(),
-    slug: CustomJoi.string()
-      .min(2)
-      .max(128)
-      .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
-      .required(),
     category: CustomJoi.object({
       _id: CustomJoi.string().min(1).required(),
       name: CustomJoi.string().min(1).required(),
       slug: CustomJoi.string().min(1).required(),
     }),
-    description: CustomJoi.string().min(1).required().label("Description"),
-    image: CustomJoi.string().min(2).max(1000).required(),
-    body: CustomJoi.string().min(10).required(),
+    description: CustomJoi.string().min(2).max(128).required(),
+    markup: CustomJoi.string().min(2).required(),
     tags: CustomJoi.csvString().required().min(3).max(10),
     addressableHighlightLabel1: CustomJoi.string().allow("").max(16).optional(),
     addressableHighlightAddress1: CustomJoi.string().allow("").max(1024).optional(),
@@ -123,37 +109,37 @@ class Article extends Form {
     addressableHighlightAddress3: CustomJoi.string().allow("").max(1024).optional(),
   });
 
-  getPortfolioFromPassingState() {
+  getMediaFromPassingState() {
     const { categories } = this.props;
-    let portfolio = { ...this.state.data };
+    let media = { ...this.state.data };
 
     //Format Category
-    let category = portfolio.category;
-    delete portfolio.category;
-    portfolio.categoryId = category._id;
+    let category = media.category;
+    delete media.category;
+    media.categoryId = category._id;
 
     //Format Addressable Highlights
-    portfolio.addressableHighlights = ExtendedFormUtilities.getAddressableHighlightArrayAndFormatObj(portfolio);
+    media.addressableHighlights = ExtendedFormUtilities.getAddressableHighlightArrayAndFormatObj(media);
 
     //Format Tags
-    let tagsString = portfolio.tags;
-    delete portfolio.tags;
+    let tagsString = media.tags;
+    delete media.tags;
     let tagsArray = tagsString.replace(/^,+|,+$/gm, "").split(",");
     tagsArray = tagsArray.map((str) => str.trim());
-    portfolio.tags = tagsArray;
+    media.tags = tagsArray;
 
-    return portfolio;
+    return media;
   }
 
   doSubmit = async () => {
-    let originalPortfolio = this.props.portfolio;
-    let portfolio = this.getPortfolioFromPassingState();
-    portfolio._id = originalPortfolio._id;
+    let originalMedia = this.props.media;
+    let media = this.getMediaFromPassingState();
+    media._id = originalMedia._id;
 
     let res = null;
     //Try and post the new category
     try {
-      res = await updatePortfolioAsync(portfolio);
+      res = await updateMediaAsync(media);
     } catch (ex) {
       let errorMessage = `Error: ${ex}`;
       console.log(errorMessage);
@@ -171,35 +157,33 @@ class Article extends Form {
     }
 
     //TODO: Disallow posting duplicate category at server level.
-    Router.push("/showcase/portfolio");
+    Router.push("/media");
   };
 
   render() {
+    let { categories, general } = this.props;
     const { showOptional } = this.state;
-    let { categories, general, darkModeOn } = this.props;
     categories = categories ? categories : [];
     return (
       <div>
         <Head>
           <script key="tinyMCE" type="text/javascript" src="/scripts/tinymce/tinymce.min.js"></script>
-          <title>{FormatUtilities.getFormattedWebsiteTitle("Edit Portfolio", general ? general.title : "Showcase")}</title>
+          <title>{FormatUtilities.getFormattedWebsiteTitle("Edit Media", general ? general.title : "Showcase")}</title>
+          <meta name="description" content="Edit an existing media." />
           <meta name="robots" content="noindex" />
-          <meta name="description" content="Edit an existing portfolio." />
         </Head>
         <div className="standardPadding">
           <form onSubmit={this.handleSubmit}>
             {this.renderTextInput("title", "TITLE")}
-            {this.renderTextInput("slug", "SLUG")}
             {this.renderSelect("category", "CATEGORY", "Select Category", categories.items, "name")}
-            {this.renderTextInput("image", "IMAGE")}
             {this.renderTextArea("description", "DESCRIPTION")}
-            {this.renderHtmlEditor("body", "BODY", darkModeOn)}
+            {this.renderTextArea("markup", "MARKUP (EMBED CODE)")}
             {this.renderTextInput("tags", "TAGS")}
 
             <BasicButton
               onClick={(e) => {
                 e.preventDefault();
-                this.setState({ showOptional: !showOptional });
+                this.setState({ showOptional: !this.state.showOptional });
               }}
               style={{ marginTop: "25px", marginBottom: "20px", textAlign: "center", display: "block" }}
             >
@@ -221,7 +205,7 @@ class Article extends Form {
               </div>
             )}
 
-            {this.renderButton("UPDATE")}
+            {this.renderButton("POST")}
           </form>
         </div>
       </div>
@@ -229,4 +213,4 @@ class Article extends Form {
   }
 }
 
-export default withAuthAsync(withLayoutAsync(Article), true);
+export default withAuthAsync(withLayoutAsync(Media), true);

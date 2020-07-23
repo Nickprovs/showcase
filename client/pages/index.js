@@ -146,7 +146,7 @@ class Index extends Component {
       case "blog":
         return this.getFeaturedArticleMarkup(subsidiary, "blog", "blog");
       case "portfolio":
-        return this.getFeaturedArticleMarkup(subsidiary, "portfolio", "showcase/portfolio");
+        return this.getFeaturedArticleMarkup(subsidiary, "portfolio", "portfolio");
       case "photo":
         return this.getFeaturedPhotoMarkup(subsidiary);
       case "media":
@@ -217,8 +217,8 @@ class Index extends Component {
       <div key={media._id} className={indexStyles.item}>
         {user && user.isAdmin && (
           <SubsidiaryAdminOptions
-            editPath={`showcase/media/edit/media/[id]`}
-            editPathAs={`showcase/media/edit/media/${subsidiary.data._id}`}
+            editPath={`media/edit/media/[id]`}
+            editPathAs={`media/edit/media/${subsidiary.data._id}`}
             subsidiary={subsidiary}
             onMoveSubsidiaryAsync={this.handleMoveSubsidiaryAsync}
             onRemoveSubsidiaryAsync={this.handleRemoveSubsidiaryAsync}
@@ -265,8 +265,8 @@ class Index extends Component {
       <div key={photo._id} className={indexStyles.item}>
         {user && user.isAdmin && (
           <SubsidiaryAdminOptions
-            editPath={`showcase/photo/edit/photo/[id]`}
-            editPathAs={`showcase/photo/edit/photo/${subsidiary.data._id}`}
+            editPath={`photo/edit/photo/[id]`}
+            editPathAs={`photo/edit/photo/${subsidiary.data._id}`}
             subsidiary={subsidiary}
             onMoveSubsidiaryAsync={this.handleMoveSubsidiaryAsync}
             onRemoveSubsidiaryAsync={this.handleRemoveSubsidiaryAsync}

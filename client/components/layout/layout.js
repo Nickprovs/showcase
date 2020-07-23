@@ -37,12 +37,12 @@ export default class Layout extends Component {
 
     let showcaseSubPages = [
       {
-        href: "/showcase/photo",
+        href: "/photo",
         label: "PHOTO",
         iconClasses: "",
       },
       {
-        href: "/showcase/media",
+        href: "/media",
         label: "MEDIA",
         iconClasses: "",
       },
@@ -60,6 +60,9 @@ export default class Layout extends Component {
         label: "SHOWCASE",
         iconClasses: "",
         subPages: showcaseSubPages,
+        getIsSelectedBasedOnPathNameOverride: (pathname) => {
+          return pathname && pathname !== "/" && showcaseSubPages.some((s) => s.href.toLowerCase().startsWith(pathname.toLowerCase()));
+        },
       },
       {
         href: "/blog",
@@ -75,7 +78,7 @@ export default class Layout extends Component {
 
     if (general && general.portfolio.show) {
       showcaseSubPages.unshift({
-        href: "/showcase/portfolio",
+        href: "/portfolio",
         label: general ? general.portfolio.title.toUpperCase() : "PORTFOLIO",
         iconClasses: "",
       });

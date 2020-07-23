@@ -1,12 +1,12 @@
-import withAuthAsync from "../../../../components/common/hoc/withAuthAsync";
-import withLayoutAsync from "../../../../components/common/hoc/withLayoutAsync";
-import Form from "../../../../components/common/form/form";
-import CustomJoi from "../../../../misc/customJoi";
-import { createMediaCategoryAsync } from "../../../../services/mediaService";
+import withAuthAsync from "../../../components/common/hoc/withAuthAsync";
+import withLayoutAsync from "../../../components/common/hoc/withLayoutAsync";
+import Form from "../../../components/common/form/form";
+import CustomJoi from "../../../misc/customJoi";
+import { createMediaCategoryAsync } from "../../../services/mediaService";
 import { toast } from "react-toastify";
 import Router from "next/router";
 import Head from "next/head";
-import FormatUtilities from "../../../../util/formatUtilities";
+import FormatUtilities from "../../../util/formatUtilities";
 
 class Category extends Form {
   constructor() {
@@ -49,7 +49,7 @@ class Category extends Form {
     }
 
     //TODO: Disallow posting duplicate category at server level.
-    Router.push("/showcase/media");
+    Router.push("/media");
   };
 
   render() {

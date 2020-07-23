@@ -3,18 +3,44 @@ import withLayoutAsync from "../../../../components/common/hoc/withLayoutAsync";
 import Form from "../../../../components/common/form/form";
 import BasicButton from "../../../../components/common/button/basicButton";
 import CustomJoi from "../../../../misc/customJoi";
-import { getPhotoCategoriesAsync, createPhotoAsync } from "../../../../services/photoService";
-import { toast } from "react-toastify";
+import { getPortfolioAsync, getPortfolioCategoriesAsync, updatePortfolioAsync } from "../../../../services/portfolioService";
+import { toast, cssTransition } from "react-toastify";
 import Router from "next/router";
+import RouterUtilities from "../../../../util/routerUtilities";
+import StringUtilities from "../../../../util/stringUtilities";
 import ExtendedFormUtilities from "../../../../util/extendedFormUtilities";
 import Head from "next/head";
 import FormatUtilities from "../../../../util/formatUtilities";
+import ThemeUtilities from "../../../../util/themeUtilities";
+import initializeDomPurify from "../../../../misc/customDomPurify";
+import { sanitize } from "isomorphic-dompurify";
 
-class Photo extends Form {
+class Article extends Form {
   static async getInitialProps(context) {
-    let res = await getPhotoCategoriesAsync();
-    let categories = await res.json();
-    return { categories: categories };
+    const { id } = context.query;
+
+    //Get the portfolio
+    let portfolio = null;
+    try {
+      const portfolioRes = await getPortfolioAsync(id);
+      portfolio = await portfolioRes.json();
+    } catch (ex) {
+      portfolio = null;
+    }
+
+    //Get categories for form
+    let categories = null;
+    try {
+      let categoriesRes = await getPortfolioCategoriesAsync();
+      categories = await categoriesRes.json();
+    } catch (ex) {
+      categories = null;
+    }
+
+    //Get theme data for tinymce init
+    let darkModeOn = ThemeUtilities.getSavedDarkModeOnStatus(context);
+
+    return { portfolio, categories, darkModeOn };
   }
 
   constructor() {
@@ -22,11 +48,11 @@ class Photo extends Form {
 
     this.state.data = {
       title: "",
+      slug: "",
       category: null,
+      image: "",
       description: "",
-      orientation: "",
-      displaySize: "",
-      source: "",
+      body: "",
       tags: "",
       addressableHighlightLabel1: "",
       addressableHighlightAddress1: "",
@@ -39,17 +65,55 @@ class Photo extends Form {
     this.state.showOptional = false;
   }
 
+  async componentDidMount() {
+    const { portfolio, categories } = this.props;
+    if (!portfolio) {
+      toast.error("Couldn't get portfolio. Redirecting back.", { autoClose: 1500 });
+      await RouterUtilities.routeInternalWithDelayAsync("/portfolio", 2000);
+      return;
+    }
+
+    if (!categories) {
+      toast.error("Couldn't get categories. Redirecting back.", { autoClose: 1500 });
+      await RouterUtilities.routeInternalWithDelayAsync("/portfolio", 2000);
+      return;
+    }
+
+    initializeDomPurify();
+    this.getStateDataFromPortfolio(portfolio);
+  }
+
+  getStateDataFromPortfolio(portfolio) {
+    console.log("purifying");
+    this.setState({
+      data: {
+        title: portfolio.title,
+        slug: portfolio.slug,
+        category: portfolio.category,
+        image: portfolio.image,
+        description: portfolio.description,
+        body: sanitize(portfolio.body),
+        tags: StringUtilities.getCsvStringFromArray(portfolio.tags),
+        ...ExtendedFormUtilities.getAddressableHighlightPropertiesObjFromArray(portfolio.addressableHighlights),
+      },
+    });
+  }
+
   schema = CustomJoi.object({
     title: CustomJoi.string().min(2).max(64).required(),
+    slug: CustomJoi.string()
+      .min(2)
+      .max(128)
+      .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
+      .required(),
     category: CustomJoi.object({
       _id: CustomJoi.string().min(1).required(),
       name: CustomJoi.string().min(1).required(),
       slug: CustomJoi.string().min(1).required(),
     }),
-    description: CustomJoi.string().min(2).max(128).required(),
-    orientation: CustomJoi.string().valid("square", "landscape", "panorama", "portrait", "vertorama").required(),
-    displaySize: CustomJoi.string().valid("small", "medium", "large").required(),
-    source: CustomJoi.string().min(2).max(1000).required(),
+    description: CustomJoi.string().min(1).required().label("Description"),
+    image: CustomJoi.string().min(2).max(1000).required(),
+    body: CustomJoi.string().min(10).required(),
     tags: CustomJoi.csvString().required().min(3).max(10),
     addressableHighlightLabel1: CustomJoi.string().allow("").max(16).optional(),
     addressableHighlightAddress1: CustomJoi.string().allow("").max(1024).optional(),
@@ -59,35 +123,37 @@ class Photo extends Form {
     addressableHighlightAddress3: CustomJoi.string().allow("").max(1024).optional(),
   });
 
-  getPhotoFromPassingState() {
+  getPortfolioFromPassingState() {
     const { categories } = this.props;
-    let photo = { ...this.state.data };
+    let portfolio = { ...this.state.data };
 
     //Format Category
-    let category = photo.category;
-    delete photo.category;
-    photo.categoryId = category._id;
+    let category = portfolio.category;
+    delete portfolio.category;
+    portfolio.categoryId = category._id;
 
     //Format Addressable Highlights
-    photo.addressableHighlights = ExtendedFormUtilities.getAddressableHighlightArrayAndFormatObj(photo);
+    portfolio.addressableHighlights = ExtendedFormUtilities.getAddressableHighlightArrayAndFormatObj(portfolio);
 
     //Format Tags
-    let tagsString = photo.tags;
-    delete photo.tags;
+    let tagsString = portfolio.tags;
+    delete portfolio.tags;
     let tagsArray = tagsString.replace(/^,+|,+$/gm, "").split(",");
     tagsArray = tagsArray.map((str) => str.trim());
-    photo.tags = tagsArray;
+    portfolio.tags = tagsArray;
 
-    return photo;
+    return portfolio;
   }
 
   doSubmit = async () => {
-    const photo = this.getPhotoFromPassingState();
-    console.log(photo);
+    let originalPortfolio = this.props.portfolio;
+    let portfolio = this.getPortfolioFromPassingState();
+    portfolio._id = originalPortfolio._id;
+
     let res = null;
     //Try and post the new category
     try {
-      res = await createPhotoAsync(photo);
+      res = await updatePortfolioAsync(portfolio);
     } catch (ex) {
       let errorMessage = `Error: ${ex}`;
       console.log(errorMessage);
@@ -104,35 +170,36 @@ class Photo extends Form {
       return;
     }
 
-    Router.push("/showcase/photo");
+    //TODO: Disallow posting duplicate category at server level.
+    Router.push("/portfolio");
   };
 
   render() {
-    let { categories, general } = this.props;
     const { showOptional } = this.state;
+    let { categories, general, darkModeOn } = this.props;
     categories = categories ? categories : [];
     return (
       <div>
         <Head>
           <script key="tinyMCE" type="text/javascript" src="/scripts/tinymce/tinymce.min.js"></script>
-          <title>{FormatUtilities.getFormattedWebsiteTitle("Post Photo", general ? general.title : "Showcase")}</title>
-          <meta name="description" content="Post a new photo." />
+          <title>{FormatUtilities.getFormattedWebsiteTitle("Edit Portfolio", general ? general.title : "Showcase")}</title>
           <meta name="robots" content="noindex" />
+          <meta name="description" content="Edit an existing portfolio." />
         </Head>
         <div className="standardPadding">
           <form onSubmit={this.handleSubmit}>
             {this.renderTextInput("title", "TITLE")}
+            {this.renderTextInput("slug", "SLUG")}
             {this.renderSelect("category", "CATEGORY", "Select Category", categories.items, "name")}
+            {this.renderTextInput("image", "IMAGE")}
             {this.renderTextArea("description", "DESCRIPTION")}
-            {this.renderSelect("orientation", "ORIENTATION", "Select Orientation", ["square", "landscape", "panorama", "portrait", "vertorama"], null)}
-            {this.renderSelect("displaySize", "Display Size", "Select Display Size", ["small", "medium", "large"], null)}
+            {this.renderHtmlEditor("body", "BODY", darkModeOn)}
             {this.renderTextInput("tags", "TAGS")}
-            {this.renderTextInput("source", "SOURCE")}
 
             <BasicButton
               onClick={(e) => {
                 e.preventDefault();
-                this.setState({ showOptional: !this.state.showOptional });
+                this.setState({ showOptional: !showOptional });
               }}
               style={{ marginTop: "25px", marginBottom: "20px", textAlign: "center", display: "block" }}
             >
@@ -154,7 +221,7 @@ class Photo extends Form {
               </div>
             )}
 
-            {this.renderButton("POST")}
+            {this.renderButton("UPDATE")}
           </form>
         </div>
       </div>
@@ -162,4 +229,4 @@ class Photo extends Form {
   }
 }
 
-export default withAuthAsync(withLayoutAsync(Photo), true);
+export default withAuthAsync(withLayoutAsync(Article), true);
