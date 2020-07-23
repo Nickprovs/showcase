@@ -8,6 +8,7 @@ const validateObjectId = require("../middleware/validateObjectId");
 const getAllQuerySchema = require("./schemas/queries/photo/getAllQuery");
 const { PhotoModel, joiSchema: joiPhotoSchema } = require("../models/photo");
 const { PhotoCategoryModel } = require("../models/photoCategory");
+const { FeaturedModel } = require("../models/featured");
 const ValidationUtilities = require("../util/validationUtilities");
 
 const winston = require("winston");
@@ -130,6 +131,11 @@ module.exports = function () {
   router.delete("/:id", [auth(), admin, validateObjectId], async (req, res) => {
     const photo = await PhotoModel.findByIdAndRemove(req.params.id);
     if (!photo) return res.status(404).send("The photo with the given ID was not found.");
+
+    //Remove from featured if present
+    let featured = await FeaturedModel.findOne();
+    featured.subsidiaries.items = featured.subsidiaries.items.filter((s) => s.id.toString() !== photo._id.toString());
+    await featured.save();
 
     res.send(photo);
   });

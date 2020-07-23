@@ -11,7 +11,7 @@ const subsidiarySchema = {
   type: {
     type: String,
     required: true,
-    enum: ["blog", "software", "photo", "media"],
+    enum: ["blog", "portfolio", "photo", "media"],
   },
 };
 
@@ -58,7 +58,7 @@ mongoFeaturedSchema.set("toJSON", { virtuals: false, transform: transform });
 //Joi Schema
 const joiSubsidiarySchema = Joi.object({
   id: Joi.objectId(),
-  type: Joi.string().valid("software", "blog", "photo", "media"),
+  type: Joi.string().valid("portfolio", "blog", "photo", "media"),
 });
 
 const joiPrimarySchema = Joi.object({

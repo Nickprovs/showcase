@@ -8,6 +8,7 @@ const validateObjectId = require("../middleware/validateObjectId");
 const getAllQuerySchema = require("./schemas/queries/media/getAllQuery");
 const { MediaModel, joiSchema: joiMediaSchema } = require("../models/media");
 const { MediaCategoryModel } = require("../models/mediaCategory");
+const { FeaturedModel } = require("../models/featured");
 const ValidationUtilities = require("../util/validationUtilities");
 const { sanitize } = require("isomorphic-dompurify");
 const winston = require("winston");
@@ -126,6 +127,11 @@ module.exports = function () {
   router.delete("/:id", [auth(), admin, validateObjectId], async (req, res) => {
     const media = await MediaModel.findByIdAndRemove(req.params.id);
     if (!media) return res.status(404).send("The media with the given ID was not found.");
+
+    //Remove from featured if present
+    let featured = await FeaturedModel.findOne();
+    featured.subsidiaries.items = featured.subsidiaries.items.filter((s) => s.id.toString() !== media._id.toString());
+    await featured.save();
 
     res.send(media);
   });

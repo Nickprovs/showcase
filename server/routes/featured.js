@@ -42,11 +42,15 @@ module.exports = function () {
     switch (scope) {
       case "detailed":
         let detailedSubsidiaryItems = [];
-        for (let item of featured.subsidiaries.items)
-          detailedSubsidiaryItems.push({
-            ...item,
-            data: await getContentByTypeAndId(item.type, item.id),
-          });
+        for (let item of featured.subsidiaries.items) {
+          let data = await getContentByTypeAndId(item.type, item.id);
+          if (data) {
+            detailedSubsidiaryItems.push({
+              ...item,
+              data: data,
+            });
+          }
+        }
         featured.subsidiaries.items = detailedSubsidiaryItems;
         break;
       case "verbatim":
@@ -162,11 +166,15 @@ module.exports = function () {
     //Returned the detailed subsidiaries so that the client doesn't need to re-order
     featured = featured.toObject();
     let detailedSubsidiaryItems = [];
-    for (let item of featured.subsidiaries.items)
-      detailedSubsidiaryItems.push({
-        ...item,
-        data: await getContentByTypeAndId(item.type, item.id),
-      });
+    for (let item of featured.subsidiaries.items) {
+      let data = await getContentByTypeAndId(item.type, item.id);
+      if (data) {
+        detailedSubsidiaryItems.push({
+          ...item,
+          data: data,
+        });
+      }
+    }
     featured.subsidiaries.items = detailedSubsidiaryItems;
     res.send(featured.subsidiaries);
   });

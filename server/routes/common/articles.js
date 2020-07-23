@@ -7,6 +7,7 @@ const validateQuery = require("../../middleware/validateQuery");
 const ValidationUtilities = require("../../util/validationUtilities");
 const validateVariableId = require("../../middleware/validateVariableId");
 const getAllQuerySchema = require("../schemas/queries/articles/getAllQuery");
+const { FeaturedModel } = require("../../models/featured");
 const winston = require("winston");
 const { sanitize } = require("isomorphic-dompurify");
 
@@ -142,6 +143,11 @@ module.exports = function (ArticleModel, articleJoiSchema, ArticleCategoryModel,
 
     const article = await ArticleModel.findOneAndDelete(filter);
     if (!article) return res.status(404).send("The article with the given ID or Slug was not found.");
+
+    //Remove from featured if present
+    let featured = await FeaturedModel.findOne();
+    featured.subsidiaries.items = featured.subsidiaries.items.filter((s) => s.id.toString() !== article._id.toString());
+    await featured.save();
 
     res.send(article);
   });
