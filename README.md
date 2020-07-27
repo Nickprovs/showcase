@@ -11,7 +11,7 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![License: GPL v3][license-shield]][license-url]
+[![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 <!-- PROJECT LOGO -->
@@ -201,7 +201,7 @@ Distributed under the GNU GPLv3 License. See [License](LICENSE.md) for more info
 [stars-url]: https://github.com/nickprovs/Showcase/stargazers
 [issues-shield]: https://img.shields.io/github/issues/nickprovs/Showcase.svg?style=flat-square
 [issues-url]: https://github.com/nickprovs/Showcase/issues
-[license-shield]: https://img.shields.io/badge/License-GPLv3-blue.svg
+[license-shield]: https://img.shields.io/github/license/nickprovs/Showcase.svg?style=flat-square
 [license-url]: https://github.com/nickprovs/Showcase/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/nickprovs
