@@ -1,16 +1,16 @@
-import { getPortfolioAsync } from "../../../services/portfolioService";
-import withAuthAsync from "../../../components/common/hoc/withAuthAsync";
-import withLayoutAsync from "../../../components/common/hoc/withLayoutAsync";
-import DatePostedPresenter from "../../../components/common/date/datePostedPresenter";
-import DateModifiedPresenter from "../../../components/common/date/dateModifiedPresenter";
-import TagsPresenter from "../../../components/common/misc/tagPresenter";
+import { getPortfolioAsync } from "../../services/portfolioService";
+import withAuthAsync from "../../components/common/hoc/withAuthAsync";
+import withLayoutAsync from "../../components/common/hoc/withLayoutAsync";
+import DatePostedPresenter from "../../components/common/date/datePostedPresenter";
+import DateModifiedPresenter from "../../components/common/date/dateModifiedPresenter";
+import TagsPresenter from "../../components/common/misc/tagPresenter";
 import Head from "next/head";
-import FormatUtilities from "../../../util/formatUtilities";
+import FormatUtilities from "../../util/formatUtilities";
 import { useEffect } from "react";
 import reframe from "reframe.js";
-import DangerouslySetInnerHtmlWithScript from "../../../components/common/misc/dangerouslySetInnerHtmlWithScript";
+import DangerouslySetInnerHtmlWithScript from "../../components/common/misc/dangerouslySetInnerHtmlWithScript";
 import { sanitize } from "isomorphic-dompurify";
-import initializeDomPurify from "../../../misc/customDomPurify";
+import initializeDomPurify from "../../misc/customDomPurify";
 
 Portfolio.getInitialProps = async function (context) {
   const { slug } = context.query;
