@@ -16,8 +16,13 @@ app.prepare().then(() => {
   server.all("*", (req, res) => {
     //PRODUCTION ONLY: Redirect to https and www if not present in prod
     if (process.env.NODE_ENV === "production") {
-      if (req.secure && req.headers.host.match(/^www\..*/i)) return handle(req, res);
-      else return res.redirect(301, "https://www." + req.headers.host + req.url);
+      let containsWWW = req.headers.host.match(/^www\..*/i);
+      if (req.secure && containsWWW) return handle(req, res);
+      else{
+        let prefix = containsWWW ? "https://" : "https://www.";
+        let url = prefix + req.headers.host + req.url;
+        return res.redirect(301, url);
+      } 
     }
 
     return handle(req, res);
