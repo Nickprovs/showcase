@@ -29,7 +29,7 @@ const RemoveArticleToast = ({ closeToast, article, onRemoveArticleAsync }) => (
 // 2.) onRemoveArticleAsync
 // Pagination
 // 1.) currentPage
-// 2.) totalBlogsCount
+// 2.) totalPortfoliosCount
 // 3.) pageSize
 class CommonPageArticleSection extends Component {
   constructor(props) {
@@ -54,7 +54,7 @@ class CommonPageArticleSection extends Component {
   render() {
     const { user, mainPagePath, previews, featured } = this.props;
     const { onToggleFeaturedArticleAsync, onRemoveArticleAsync } = this.props;
-    const { currentPage, totalBlogsCount, pageSize } = this.props;
+    const { currentPage, totalPortfoliosCount, pageSize } = this.props;
 
     //If we have no articles to display for this route...
 
@@ -134,7 +134,7 @@ class CommonPageArticleSection extends Component {
           </div>
         )}
         <div className={articleSectionStyles.paginationContainer}>
-          <Pagination itemsCount={totalBlogsCount} pageSize={pageSize} currentPage={currentPage} />
+          <Pagination itemsCount={totalPortfoliosCount} pageSize={pageSize} currentPage={currentPage} />
         </div>
       </div>
     );
