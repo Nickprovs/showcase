@@ -22,6 +22,7 @@ export default function Header(props) {
   const { user, internalPages, externalPages, onToggleTheme, darkModeOn } = props;
 
   const externalPageListStyle = {
+    margin: "0px",
     display: "flex",
     listStyle: "none",
   };

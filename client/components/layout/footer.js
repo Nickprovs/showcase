@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import TransparentButton from "../common/button/transparentButton";
-import footer from "../../styles/layout/footer.module.css";
+import TransparentButton from "../common/button/transparentButton";import footer from "../../styles/layout/footer.module.css";
 import { faLightbulb as fasLightbulb } from "@fortawesome/free-solid-svg-icons";
 import { faLightbulb as farLightbulb } from "@fortawesome/free-regular-svg-icons";
 
@@ -8,6 +7,7 @@ export default function Footer(props) {
   const { externalPages, footnote, onToggleTheme, darkModeOn } = props;
 
   const externalPageListStyle = {
+    margin: "0px",
     listStyleType: "none",
   };
 

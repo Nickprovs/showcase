@@ -30,7 +30,7 @@ export default function Pagination({ itemsCount, pageSize, currentPage }) {
   const router = useRouter();
   const pagesCount = Math.ceil(itemsCount / pageSize);
   const pages = getPaginationIndexArray(1, currentPage, pagesCount);
-  if (pages <= 1) {
+  if (pages.length <= 1) {
     return null;
   }
 

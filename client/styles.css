@@ -117,7 +117,8 @@ a:disabled {
   cursor: default;
 }
 
-p {
+p,
+ul {
   font-weight: normal;
   font-size: 1rem;
   margin-top: 0px;
@@ -136,7 +137,8 @@ p {
   html {
     font-size: 1.2rem;
   }
-  p {
+  p,
+  ul {
     margin-right: calc(25px + 5%);
     margin-left: calc(25px + 5%);
     word-spacing: 3px;
@@ -153,7 +155,8 @@ p {
   html {
     font-size: 1.3rem;
   }
-  p {
+  p,
+  ul {
     margin-right: calc(100px + 3%);
     margin-left: calc(100px + 3%);
     word-spacing: 4px;
