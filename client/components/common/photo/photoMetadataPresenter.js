@@ -22,7 +22,7 @@ export default function PhotoMetadataPresenter(props) {
           ))}
         </div>
       )}
-      {metadata.tags && <TagsPresenter className={classes && classes.tags} optionalUrl={"/showcase/photo"} tags={metadata.tags} />}
+      {metadata.tags && <TagsPresenter className={classes && classes.tags} tags={metadata.tags} />}
     </div>
   );
 }

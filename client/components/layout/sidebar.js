@@ -6,7 +6,7 @@ import TransparentButton from "../common/button/transparentButton";
 import Link from "next/link";
 import MenuButton from "./menuButton";
 import RouterUtilities from "../../util/routerUtilities";
-import sidebar from "../../styles/layout/sidebar.module.css";
+import sidebarStyles from "../../styles/layout/sidebar.module.css";
 
 export default class Sidebar extends Component {
   constructor(props) {
@@ -60,78 +60,59 @@ export default class Sidebar extends Component {
     if (item.subPages && Object.entries(item.subPages).length > 0) {
       return (
         <a>
-          <label className={sidebar.prominentLabel}>{item.label}</label>
+          <label className={sidebarStyles.prominentLabel}>{item.label}</label>
           {item.subPages.map((item) => (
             <button
               key={item.label}
               style={{ fontSize: "10pt", paddingLeft: "20px" }}
               onClick={item.onClick ? item.onClick : async () => await this.handleInternalLinkableThingClicked(item.href)}
-              className={sidebar.textButton}
+              className={sidebarStyles.textButton}
             >
               {item.label}
             </button>
           ))}
 
-          <hr className={sidebar.lineStyle}></hr>
+          <hr className={sidebarStyles.lineStyle}></hr>
         </a>
       );
     } else {
       return (
         <div>
           <a>
-            <button style={{ padding: "5px" }} onClick={async () => await this.handleInternalLinkableThingClicked(item.href)} className={sidebar.textButton}>
+            <button style={{ padding: "5px" }} onClick={async () => await this.handleInternalLinkableThingClicked(item.href)} className={sidebarStyles.textButton}>
               {item.label}
             </button>
           </a>
-          <hr className={sidebar.lineStyle}></hr>
+          <hr className={sidebarStyles.lineStyle}></hr>
         </div>
       );
     }
   }
 
   render() {
-    const internalPageListStyle = {
-      listStyleType: "none",
-      paddingLeft: "10px",
-    };
-
-    const internalPageListItemStyle = {};
-
-    const externalPageListStyle = {
-      marginLeft: "14px",
-      marginTop: "14px",
-      listStyleType: "none",
-      paddingLeft: "0px",
-    };
-
-    const externalPageListItemStyle = {
-      marginRight: "25px",
-      display: "inline",
-    };
-
     const { user, internalPages, externalPages, isSidebarOpen, onSetSidebarOpen, onToggleTheme, darkModeOn } = this.props;
-
-    const sidebarClass = isSidebarOpen ? sidebar.sidebarExpanded : sidebar.sidebarCollapsed;
+    const sidebarClass = isSidebarOpen ? sidebarStyles.sidebarExpanded : sidebarStyles.sidebarCollapsed;
+    
     return (
-      <nav className={sidebar.container}>
+      <nav className={sidebarStyles.container}>
         {/* Actual Sidebar*/}
-        <div ref={this.setSidebarRef} className={sidebar.sidebar + " " + sidebarClass}>
+        <div ref={this.setSidebarRef} className={sidebarStyles.sidebar + " " + sidebarClass}>
           {/* Sidebar Menu Button */}
           <MenuButton onClick={() => this.handleToggleExpanded(!isSidebarOpen)} />
 
           {/* Internal Links*/}
-          <ul style={internalPageListStyle}>
+          <ul className={sidebarStyles.internalPageList}>
             {internalPages.map((item) => (
-              <li key={item.label} style={internalPageListItemStyle}>
+              <li key={item.label}>
                 {this.renderInternalItem(item)}
               </li>
             ))}
           </ul>
 
           {/* External Links*/}
-          <ul style={externalPageListStyle}>
+          <ul className={sidebarStyles.externalPageList}>
             {user && user.isAdmin && (
-              <li style={externalPageListItemStyle} key="editGeneral">
+              <li className={sidebarStyles.externalPageListItem} key="editGeneral">
                 <Link href="/edit/general" key="editGeneral">
                   <a>
                     <TransparentButton aria-label="Edit General">
@@ -141,7 +122,7 @@ export default class Sidebar extends Component {
                 </Link>
               </li>
             )}
-            <li style={externalPageListItemStyle} key="themeToggle">
+            <li className={sidebarStyles.externalPageListItem} key="themeToggle">
               <TransparentButton
                 aria-label="Toggle Theme"
                 onClick={() => {
@@ -153,7 +134,7 @@ export default class Sidebar extends Component {
               </TransparentButton>
             </li>
             {externalPages.map((item) => (
-              <li key={item.label} style={externalPageListItemStyle}>
+              <li key={item.label} className={sidebarStyles.externalPageListItem}>
                 <TransparentButton aria-label={item.label} onClick={async () => await this.handleExternalLinkableThingClicked(item.href)}>
                   <FontAwesomeIcon size="2x" icon={item.icon} />
                 </TransparentButton>

@@ -9,6 +9,7 @@ import layout from "../../styles/layout/layout.module.css";
 import { logoutAsync } from "../../services/authService";
 import Router from "next/router";
 import { faInstagram, faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
+import { facResume } from "../../misc/customFontAwesomeIcons";
 import ThemeUtilities from "../../util/themeUtilities";
 
 const contentStyle = {
@@ -17,6 +18,8 @@ const contentStyle = {
   margin: "0px",
   padding: "0px",
 };
+
+
 
 export default class Layout extends Component {
   state = {
@@ -34,7 +37,7 @@ export default class Layout extends Component {
 
   getInternalPages() {
     const { user, general } = this.props;
-
+    
     let showcaseSubPages = [
       {
         href: "/photo",
@@ -123,24 +126,30 @@ export default class Layout extends Component {
 
     if (!general) return externalPages;
 
-    if (general.socialLinks.instagram)
+    if (general.links.instagram)
       externalPages.push({
-        href: general.socialLinks.instagram,
+        href: general.links.instagram,
         icon: faInstagram,
         label: "Instagram",
       });
 
-    if (general.socialLinks.github)
+      if (general.links.github)
       externalPages.push({
-        href: general.socialLinks.github,
+        href: general.links.github,
         icon: faGithub,
         label: "Github",
       });
-
-    if (general.socialLinks.linkedin)
+      if (general.links.linkedin)
       externalPages.push({
-        href: general.socialLinks.linkedin,
+        href: general.links.linkedin,
         icon: faLinkedin,
+        label: "LinkedIn",
+      });
+
+      if (general.links.resume)
+      externalPages.push({
+        href: general.links.resume,
+        icon: facResume,
         label: "LinkedIn",
       });
 

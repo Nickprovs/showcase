@@ -27,7 +27,7 @@ class Primary extends Form {
   constructor() {
     super();
 
-    this.state.data = { title: "", footnote: "", portfolioTitle: "", portfolioShow: "", github: "", linkedin: "", instagram: "" };
+    this.state.data = { title: "", footnote: "", portfolioTitle: "", portfolioShow: "", github: "", linkedin: "", instagram: "", resume: "" };
     this.state.errors = {};
   }
 
@@ -48,9 +48,10 @@ class Primary extends Form {
         footnote: general.footnote,
         portfolioTitle: general.portfolio.title,
         portfolioShow: general.portfolio.show.toString(),
-        github: general.socialLinks.github ? general.socialLinks.github : "",
-        linkedin: general.socialLinks.linkedin ? general.socialLinks.linkedin : "",
-        instagram: general.socialLinks.instagram ? general.socialLinks.instagram : "",
+        github: general.links.github ? general.links.github : "",
+        linkedin: general.links.linkedin ? general.links.linkedin : "",
+        instagram: general.links.instagram ? general.links.instagram : "",
+        resume: general.links.resume ? general.links.resume : ""
       },
     });
   }
@@ -60,24 +61,27 @@ class Primary extends Form {
     footnote: CustomJoi.string().min(5).max(256).required(),
     portfolioTitle: CustomJoi.string().min(2).max(64).required(),
     portfolioShow: CustomJoi.string().min(2).max(64).required(),
-    github: CustomJoi.string().optional().allow("").max(256),
-    linkedin: CustomJoi.string().optional().allow("").max(256),
-    instagram: CustomJoi.string().optional().allow("").max(256),
+    github: CustomJoi.string().optional().allow("").max(1000),
+    linkedin: CustomJoi.string().optional().allow("").max(1000),
+    instagram: CustomJoi.string().optional().allow("").max(1000),
+    resume: CustomJoi.string().optional().allow("").max(1000),
   });
 
   getGeneralFromPassingState() {
     let general = { ...this.state.data };
 
     //Format social links data
-    general.socialLinks = {
+    general.links = {
       instagram: general.instagram,
       github: general.github,
       linkedin: general.linkedin,
+      resume: general.resume,
     };
 
     delete general.linkedin;
     delete general.github;
     delete general.instagram;
+    delete general.resume;
 
     //Format portfolio data
     general.portfolio = {
@@ -134,6 +138,7 @@ class Primary extends Form {
             {this.renderTextInput("github", "GITHUB")}
             {this.renderTextInput("linkedin", "LINKEDIN")}
             {this.renderTextInput("instagram", "INSTAGRAM")}
+            {this.renderTextInput("resume", "RESUME")}
             {this.renderButton("UPDATE")}
           </form>
         </div>
