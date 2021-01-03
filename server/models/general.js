@@ -32,11 +32,11 @@ const mongoGeneralSchema = new mongoose.Schema({
     maxlength: 256,
   },
   portfolio: portfolioSchema,
-  socialLinks: {
+  links: {
     type: Map,
     of: String,
     default: {},
-    validate: validateSocialLinks,
+    validate: validateLinks,
   },
   dateLastModified: {
     type: Date,
@@ -45,17 +45,17 @@ const mongoGeneralSchema = new mongoose.Schema({
   },
 });
 
-function validateSocialLinks(map) {
+function validateLinks(map) {
   const keys = Array.from(map.keys());
 
-  if (keys.length > 10) throw new Error("Social Links should have a max of 10 keys. Don't abuse it!");
+  if (keys.length > 10) throw new Error("Links should have a max of 10 keys. Don't abuse it!");
 
   for (const key of keys) {
-    if (key.length > 100) throw new Error("Can't store a social link key with more than 100 characters");
+    if (key.length > 1000) throw new Error("Can't store a link key with more than 1000 characters");
   }
 
   for (const value of map.values()) {
-    if (value.length > 1000) throw new Error("Can't store a social link value value with more than 1000 characters");
+    if (value.length > 1000) throw new Error("Can't store a link value value with more than 1000 characters");
   }
   return true;
 }
@@ -78,7 +78,7 @@ const joiPortfolioSchema = Joi.object({
 const joiGeneralSchema = Joi.object({
   title: Joi.string().min(2).max(64).required(),
   footnote: Joi.string().min(2).max(256).required(),
-  socialLinks: Joi.object().pattern(Joi.string(), Joi.string().optional().allow("").max(256)),
+  links: Joi.object().pattern(Joi.string(), Joi.string().optional().allow("").max(256)),
   portfolio: joiPortfolioSchema,
 });
 

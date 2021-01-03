@@ -12,10 +12,11 @@ module.exports = async function () {
         title: "Software",
         show: true,
       },
-      socialLinks: {
+      links: {
         linkedin: "https://www.linkedin.com/feed/",
         github: "https://github.com/",
         instagram: "https://www.instagram.com/",
+        resume: "https://docs.google.com/document/d/1WR_axh5A9t1jwER_5mFCIcr5I1oNqm4cB1PHAQEEWqc"
       },
       dateLastModified: moment().toJSON(),
     });

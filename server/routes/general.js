@@ -24,7 +24,7 @@ module.exports = function () {
         title: req.body.title,
         footnote: req.body.footnote,
         portfolio: req.body.portfolio,
-        socialLinks: req.body.socialLinks,
+        links: req.body.links,
         dateLastModified: moment().toJSON(),
       },
       { new: true }
