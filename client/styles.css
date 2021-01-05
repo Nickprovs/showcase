@@ -116,9 +116,9 @@ a:disabled {
   color: var(--s8) !important;
   cursor: default;
 }
-
-p,
-ul {
+/* Main/Content Section Styling */
+main p,
+main ul {
   font-weight: normal;
   font-size: 1rem;
   margin-top: 0px;
@@ -133,30 +133,32 @@ ul {
   text-align: justify;
 }
 
+/* Main/Content Section Styling */
 @media screen and (min-width: 700px) {
   html {
     font-size: 1.2rem;
   }
-  p,
-  ul {
+  main p,
+  main ul {
     margin-right: calc(25px + 5%);
     margin-left: calc(25px + 5%);
     word-spacing: 3px;
   }
-  a {
+  main a {
     font-size: 1.2rem;
   }
 }
 
+/* Main/Content Section Styling */
 @media screen and (min-width: 1200px) {
-  a {
-    font-size: 1.3rem;
-  }
   html {
     font-size: 1.3rem;
   }
-  p,
-  ul {
+  main a {
+    font-size: 1.3rem;
+  }
+  main p,
+  main ul {
     margin-right: calc(100px + 3%);
     margin-left: calc(100px + 3%);
     word-spacing: 4px;
