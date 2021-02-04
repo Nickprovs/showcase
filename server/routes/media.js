@@ -37,23 +37,37 @@ module.exports = function () {
       filterObject["category._id"] = mediaCategory._id;
     }
 
+    let total = 0;
+    let medias = null;
+
     if (search) {
       const searchArray = [];
       searchArray.push({ $text: { $search: search } });
       filterObject["$or"] = searchArray;
+
+      //Get the total count that matches the filter object without pagination skipping / limiting
+      total = await MediaModel.countDocuments(filterObject);
+
+      //Get the paginated medias
+      medias = await MediaModel.find(filterObject, { score: { $meta: "textScore" } })
+        .select("-__v -body")
+        .sort({ score: { $meta: "textScore" } })
+        .sort({ datePosted: dateOrder })
+        .skip(offset)
+        .limit(limit)
+        .collation({ locale: "en", strength: 2 });
+    } else {
+      //Get the total count that matches the filter object without pagination skipping / limiting
+      total = await MediaModel.countDocuments(filterObject);
+
+      //Get the paginated medias
+      medias = await MediaModel.find(filterObject)
+        .select("-__v -body")
+        .sort({ datePosted: dateOrder })
+        .skip(offset)
+        .limit(limit)
+        .collation({ locale: "en", strength: 2 });
     }
-
-    //Get the total count that matches the filter object without pagination skipping / limiting
-    const total = await MediaModel.countDocuments(filterObject);
-
-    //Get the paginated medias
-    const medias = await MediaModel.find(filterObject, { score: { $meta: "textScore" } })
-      .select("-__v -body")
-      .sort({ score: { $meta: "textScore" } })
-      .sort({ datePosted: dateOrder })
-      .skip(offset)
-      .limit(limit)
-      .collation({ locale: "en", strength: 2 });
 
     const data = {
       offset: offset,

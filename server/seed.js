@@ -1,7 +1,7 @@
 const { Blog } = require("./models/blog");
 const { BlogCategory } = require("./models/blogCategory");
-const { Software } = require("./models/software");
-const { SoftwareCategory } = require("./models/softwareCategory");
+const { Portfolio } = require("./models/portfolio");
+const { PortfolioCategory } = require("./models/portfolioCategory");
 const { PhotoModel } = require("./models/photo");
 const { PhotoCategoryModel } = require("./models/photoCategory");
 const { MediaModel } = require("./models/media");
@@ -122,7 +122,7 @@ const data = {
       ],
     },
   ],
-  software: [
+  portfolios: [
     {
       category: { name: "Web", slug: "web" },
       items: [
@@ -391,7 +391,7 @@ async function seed() {
 
     if (user) await user.save();
     await saveCollection(data.blogs, Blog, BlogCategory);
-    await saveCollection(data.software, Software, SoftwareCategory);
+    await saveCollection(data.portfolios, Portfolio, PortfolioCategory);
     await saveCollection(data.photos, PhotoModel, PhotoCategoryModel);
     await saveCollection(data.medias, MediaModel, MediaCategoryModel);
   } catch (ex) {
