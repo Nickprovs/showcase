@@ -63,7 +63,7 @@ function Portfolio({ portfolio, general }) {
           </div>
         )}
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <TagsPresenter optionalUrl={"/showcase/portfolio"} tags={portfolio.tags} />
+          <TagsPresenter optionalUrl={"/portfolio"} tags={portfolio.tags} />
         </div>
         <DateModifiedPresenter postedDate={portfolio.datePosted} modifiedDate={portfolio.dateLastModified} />
       </div>
