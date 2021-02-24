@@ -1,0 +1,8 @@
+When deploying to google cloud...
+If you use "gcloud app deploy" 
+GCP will create a new version of your app for every deployment
+And you will be charged for that storage.
+
+Instead, you can specify a version such that you'll overwrite old stuff.
+i.e.
+gcloud app deploy --version v1
