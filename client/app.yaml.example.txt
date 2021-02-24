@@ -6,6 +6,11 @@ handlers:
   - url: /(.*\api)$
     script: auto
 
+instance_class: F1
+automatic_scaling:
+  max_instances: 2
+  min_instances: 0
+
 env_variables:
   API_URL: "https://YOUR_CUSTOM_DOMAIN_YOU_ASSIGNED_WITH_APPENGINE.com/api"
   CAPTCHA_PUBLIC_KEY: "Your_Public_Key_From_Google_Here"
