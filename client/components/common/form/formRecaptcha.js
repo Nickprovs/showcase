@@ -1,6 +1,7 @@
 import ReCAPTCHA from "react-google-recaptcha";
+import { forwardRef } from 'react';
 
-const FormRecaptcha = React.forwardRef(({ name, label, error, darkModeOn, ...rest }, ref) => (
+const FormRecaptcha = forwardRef(({ name, label, error, darkModeOn, ...rest }, ref) => (
   <div>
     <label className="form-label" htmlFor={name}>
       {label}
