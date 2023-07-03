@@ -7,6 +7,7 @@ import FormHtmlEditor from "./formHtmlEditor";
 import CustomJoi from "../../../misc/customJoi";
 import BasicButton from "../button/basicButton";
 import FormRecaptcha from "./formRecaptcha";
+import { createRef } from 'react';
 
 class Form extends Component {
   state = {
@@ -16,7 +17,7 @@ class Form extends Component {
 
   constructor() {
     super();
-    this.recaptchaRef = React.createRef();
+    this.recaptchaRef = createRef();
   }
 
   validateProperty(name, value) {
