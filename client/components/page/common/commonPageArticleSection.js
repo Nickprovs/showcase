@@ -77,11 +77,9 @@ class CommonPageArticleSection extends Component {
                       <FontAwesomeIcon size="2x" icon={featured.subsidiaries.items.some((item) => item.id === preview._id) ? fasStar : farStar} />
                     </TransparentButton>
                     <Link href={`/${mainPagePath}/edit/article/[id]`} as={`/${mainPagePath}/edit/article/${preview._id}`}>
-                      <a>
-                        <TransparentButton aria-label="Edit Content" style={{ color: "var(--f1)" }}>
-                          <FontAwesomeIcon size="2x" icon={faEdit} />
-                        </TransparentButton>
-                      </a>
+                      <TransparentButton aria-label="Edit Content" style={{ color: "var(--f1)" }}>
+                        <FontAwesomeIcon size="2x" icon={faEdit} />
+                      </TransparentButton>
                     </Link>
                     <TransparentButton
                       aria-label="Delete Content"
@@ -97,7 +95,7 @@ class CommonPageArticleSection extends Component {
 
                 <div className={articleSectionStyles.previewTitle}>
                   <Link href={`/${mainPagePath}/[slug]`} as={`/${mainPagePath}/${preview.slug}`}>
-                    <a className="commonEntryHeading">{preview.title}</a>
+                    <span className="commonEntryHeading">{preview.title}</span>
                   </Link>
                 </div>
                 <div className={articleSectionStyles.previewDate}>

@@ -18,7 +18,6 @@ function FormHtmlEditor({ name, label, error, init, initialValue, darkModeOn, ..
         {...rest}
         name={name}
         id={name}
-        initialValue={initialValue ? initialValue : "<p></p>"}
         init={
           init
             ? init

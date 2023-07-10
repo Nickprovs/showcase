@@ -13,9 +13,7 @@ export default function TagPresenter(props) {
     <div className={tagsPresenterStyles.container + " " + additionaClassName}>
       {tags.map((tag) => (
         <Link href={`${url}?${queryText}=${tag}`} key={tag}>
-          <a>
             <BasicButton style={{ height: "25px", margin: "5px" }}>{tag.toUpperCase()}</BasicButton>
-          </a>
         </Link>
       ))}
     </div>

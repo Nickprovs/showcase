@@ -54,7 +54,7 @@ export default function Header(props) {
               </button>
             ) : (
               <Link href={item.href} key={item.label}>
-                <a>{item.label}</a>
+                {item.label}
               </Link>
             )
           )}
@@ -63,9 +63,7 @@ export default function Header(props) {
     } else {
       return (
         <Link href={item.href}>
-          <a>
-            <HeaderButton isSelected={getHeaderButtonSelected(item, router.pathname)}>{item.label}</HeaderButton>
-          </a>
+          <HeaderButton isSelected={getHeaderButtonSelected(item, router.pathname)}>{item.label}</HeaderButton>
         </Link>
       );
     }
@@ -90,11 +88,9 @@ export default function Header(props) {
           {user && user.isAdmin && (
             <li style={externalPageListItemStyle} key="editGeneral">
               <Link href="/edit/general" key="editGeneral">
-                <a>
-                  <TransparentButton aria-label="Edit General" style={{ color: "var(--s1)" }}>
-                    <FontAwesomeIcon size="2x" icon={faEdit} />
-                  </TransparentButton>
-                </a>
+                <TransparentButton aria-label="Edit General" style={{ color: "var(--s1)" }}>
+                  <FontAwesomeIcon size="2x" icon={faEdit} />
+                </TransparentButton>
               </Link>
             </li>
           )}

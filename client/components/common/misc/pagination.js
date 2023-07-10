@@ -41,22 +41,18 @@ export default function Pagination({ itemsCount, pageSize, currentPage }) {
       <ul className={paginationStyles.pagination}>
         <li key="first" className={paginationStyles.paginationItem}>
           <Link href={{ pathname: router.pathname, query: { ...router.query, page: 1 } }}>
-            <a>
-              <TransparentButton disabled={currentPage === 1} className={paginationButtonClasses}>
-                First
-              </TransparentButton>
-            </a>
+            <TransparentButton disabled={currentPage === 1} className={paginationButtonClasses}>
+              First
+            </TransparentButton>
           </Link>
         </li>
         {(currentPage - 1) * pageSize <= itemsCount ? (
           pages.map((page) => (
             <li key={page} className={paginationStyles.paginationItem}>
               <Link href={{ pathname: router.pathname, query: { ...router.query, page: page } }}>
-                <a>
-                  <TransparentButton className={paginationButtonClasses + (currentPage === page ? paginationStyles.activePaginationButton : "")}>
-                    {page}
-                  </TransparentButton>
-                </a>
+                <TransparentButton className={paginationButtonClasses + (currentPage === page ? paginationStyles.activePaginationButton : "")}>
+                  {page}
+                </TransparentButton>
               </Link>
             </li>
           ))
@@ -66,11 +62,9 @@ export default function Pagination({ itemsCount, pageSize, currentPage }) {
 
         <li key="last" className={paginationStyles.paginationItem}>
           <Link href={{ pathname: router.pathname, query: { ...router.query, page: pagesCount } }}>
-            <a>
-              <TransparentButton disabled={currentPage === pagesCount} className={paginationButtonClasses}>
-                Last
-              </TransparentButton>
-            </a>
+            <TransparentButton disabled={currentPage === pagesCount} className={paginationButtonClasses}>
+              Last
+            </TransparentButton>
           </Link>
         </li>
       </ul>

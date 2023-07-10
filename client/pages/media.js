@@ -9,6 +9,7 @@ import { getMediasAsync, deleteMediaAsync, getMediaCategoriesAsync, deleteMediaC
 import { getFeaturedSubsidiariesAsync, createFeaturedSubsidiaryAsync, deleteFeaturedSubsidiaryAsync } from "../services/featuredService";
 import CommonPageHeaderControls from "../components/page/common/commonPageHeaderControls";
 import Router from "next/router";
+import Link from "next/link";
 import DatePostedPresenter from "../components/common/date/datePostedPresenter";
 import TransparentButton from "../components/common/button/transparentButton";
 import BasicButton from "../components/common/button/basicButton";
@@ -307,11 +308,11 @@ class Media extends Component {
                     <FontAwesomeIcon size="2x" icon={featured.subsidiaries.items.some((item) => item.id === media._id) ? fasStar : farStar} />
                   </TransparentButton>
                   {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
-                  <a aria-label="Edit Media" href={`media/edit/media/${media._id}`}>
+                  <Link aria-label="Edit Media" href={`media/edit/media/${media._id}`}>
                     <TransparentButton aria-label="Edit Media" style={{ color: "var(--f1)" }}>
                       <FontAwesomeIcon size="2x" icon={faEdit} />
                     </TransparentButton>
-                  </a>
+                  </Link>
 
                   <TransparentButton
                     aria-label="Delete Media"

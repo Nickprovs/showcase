@@ -79,11 +79,9 @@ class CommonPageHeaderControls extends Component {
             >
               {/* Edit */}
               <Link href={`/${mainPagePath}/edit/category/[id]`} as={`/${mainPagePath}/edit/category/${props.data.value._id}`}>
-                <a>
-                  <TransparentButton aria-label="Edit Category" style={{ marginLeft: "auto", marginRight: "0", color: "var(--f1)" }}>
-                    <FontAwesomeIcon size="2x" icon={faEdit} />
-                  </TransparentButton>
-                </a>
+                <TransparentButton aria-label="Edit Category" style={{ marginLeft: "auto", marginRight: "0", color: "var(--f1)" }}>
+                  <FontAwesomeIcon size="2x" icon={faEdit} />
+                </TransparentButton>
               </Link>
 
               {/* Delete */}
@@ -146,9 +144,7 @@ class CommonPageHeaderControls extends Component {
         {user && user.isAdmin && (
           <div className={pageHeaderStyles.headerControl}>
             <Link href={`/${mainPagePath}/post/${mainContentType}`}>
-              <a>
-                <BasicButton style={{ width: "100%" }}>{`New ${StringUtilities.capitalizeFirstLetterIfPossible(mainContentType)}`}</BasicButton>
-              </a>
+              <BasicButton style={{ width: "100%" }}>{`New ${StringUtilities.capitalizeFirstLetterIfPossible(mainContentType)}`}</BasicButton>
             </Link>
           </div>
         )}
@@ -157,9 +153,7 @@ class CommonPageHeaderControls extends Component {
         {user && user.isAdmin && (
           <div className={pageHeaderStyles.headerControl}>
             <Link href={`/${mainPagePath}/post/category`}>
-              <a>
-                <BasicButton style={{ width: "100%" }}>New Category</BasicButton>
-              </a>
+              <BasicButton style={{ width: "100%" }}>New Category</BasicButton>
             </Link>
           </div>
         )}

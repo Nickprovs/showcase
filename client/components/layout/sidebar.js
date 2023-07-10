@@ -114,11 +114,9 @@ export default class Sidebar extends Component {
             {user && user.isAdmin && (
               <li className={sidebarStyles.externalPageListItem} key="editGeneral">
                 <Link href="/edit/general" key="editGeneral">
-                  <a>
-                    <TransparentButton aria-label="Edit General">
-                      <FontAwesomeIcon size="2x" icon={faEdit} />
-                    </TransparentButton>
-                  </a>
+                  <TransparentButton aria-label="Edit General">
+                    <FontAwesomeIcon size="2x" icon={faEdit} />
+                  </TransparentButton>
                 </Link>
               </li>
             )}

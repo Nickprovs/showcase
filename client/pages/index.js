@@ -22,13 +22,12 @@ import { sanitize } from "isomorphic-dompurify";
 const SubsidiaryAdminOptions = ({ subsidiary, editPath, editPathAs, onMoveSubsidiaryAsync, onRemoveSubsidiaryAsync }) => {
   return (
     <div className={indexStyles.subsidiaryAdminOptions}>
-      {/*Workaround: <a/> over <Link/> due to next head tiny mce race condition during client side nav*/}
-      <Link href={editPath} as={editPathAs}>
-        <a aria-label="Edit Content">
+      <Link href={editPath} as={editPathAs} legacyBehavior>
+        <span aria-label="Edit Content">
           <TransparentButton aria-label="Edit Content" style={{ color: "var(--f1)" }}>
             <FontAwesomeIcon size="2x" icon={faEdit} />
           </TransparentButton>
-        </a>
+        </span>
       </Link>
       <TransparentButton aria-label="Move Content Up" onClick={async () => await onMoveSubsidiaryAsync(subsidiary, "raise")} style={{ color: "var(--f1)" }}>
         <FontAwesomeIcon size="2x" icon={faArrowUp} />
@@ -169,16 +168,18 @@ class Index extends Component {
           />
         )}
         <div className={indexStyles.previewType}>
-          <Link href={`/${mainPath}/[slug]`} as={`/${mainPath}/${article.slug}`}>
-            <a style={{ width: "100%", padding: "0px", textAlign: "center" }} className="commonEntryHeading">
-              {`Featured  ${type.charAt(0).toUpperCase() + type.slice(1)}`}
-            </a>
+          <Link 
+            href={`/${mainPath}/[slug]`} 
+            as={`/${mainPath}/${article.slug}`} 
+            style={{ width: "100%", padding: "0px", textAlign: "center" }}
+            className="commonEntryHeading">
+            {`Featured  ${type.charAt(0).toUpperCase() + type.slice(1)}`}
           </Link>
           <DatePostedPresenter date={article.datePosted} />
         </div>
         <div className={indexStyles.previewTitle}>
-          <Link href={`/${mainPath}/[slug]`} as={`/${mainPath}/${article.slug}`}>
-            <a className="commonEntryHeading">{article.title}</a>
+          <Link href={`/${mainPath}/[slug]`} as={`/${mainPath}/${article.slug}`} className="commonEntryHeading">
+            {article.title}
           </Link>
         </div>
         <div className={indexStyles.previewImage}>
@@ -338,11 +339,9 @@ class Index extends Component {
             {user && user.isAdmin && (
               <div className={indexStyles.primaryAdminOptions}>
                 <Link href={`/index/edit/primary`}>
-                  <a>
                     <TransparentButton aria-label="Edit Primary Featured Content">
                       <FontAwesomeIcon size="2x" icon={faEdit} />
                     </TransparentButton>
-                  </a>
                 </Link>
               </div>
             )}
