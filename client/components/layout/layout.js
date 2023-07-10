@@ -150,7 +150,7 @@ export default class Layout extends Component {
       externalPages.push({
         href: general.links.resume,
         icon: facResume,
-        label: "LinkedIn",
+        label: "Resume",
       });
 
     return externalPages;
