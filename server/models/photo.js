@@ -61,7 +61,7 @@ const mongoPhotoSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 2,
-    maxlength: 1000,
+    maxlength: 1024,
   },
   addressableHighlights: {
     type: [addressableHighlightSchema],
@@ -102,7 +102,7 @@ const joiPhotoSchema = Joi.object({
   description: Joi.string().min(2).max(128).required(),
   orientation: Joi.string().valid("square", "landscape", "panorama", "portrait", "vertorama").required(),
   displaySize: Joi.string().valid("small", "medium", "large").required(),
-  source: Joi.string().min(2).max(1000).required(),
+  source: Joi.string().min(2).max(1024).required(),
   addressableHighlights: Joi.array().items(joiAddressableHighlightSchema).min(0).max(3),
   tags: Joi.array().items(Joi.string()).min(3).max(10),
 });

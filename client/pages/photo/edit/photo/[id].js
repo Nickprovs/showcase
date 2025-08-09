@@ -101,7 +101,7 @@ class Photo extends Form {
     description: CustomJoi.string().min(2).max(128).required(),
     orientation: CustomJoi.string().valid("square", "landscape", "panorama", "portrait", "vertorama").required(),
     displaySize: CustomJoi.string().valid("small", "medium", "large").required(),
-    source: CustomJoi.string().min(2).max(1000).required(),
+    source: CustomJoi.string().min(2).max(1024).required(),
     tags: CustomJoi.csvString().required().min(3).max(10),
     addressableHighlightLabel1: CustomJoi.string().allow("").max(16).optional(),
     addressableHighlightAddress1: CustomJoi.string().allow("").max(1024).optional(),
