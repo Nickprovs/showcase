@@ -41,7 +41,7 @@ jobs:
           echo "Mongo did not start in time" && exit 1
 
       - name: Run tests
-        run: npm test -- --ci --runInBand --detectOpenHandles
+        run: npm test -- --ci
         working-directory: server
         env:
           NODE_ENV: development
