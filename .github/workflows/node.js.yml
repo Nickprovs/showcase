@@ -50,7 +50,7 @@ jobs:
           ADMIN_USERNAME: admin
           AUTH_TYPE: SFA
           CAPTCHA_PRIVATE_KEY: unsecureKey
-          DB_CONNECTION_STRING: mongodb://localhost:27017/testdb?replicaSet=rs0
+          DB_CONNECTION_STRING: mongodb://localhost:27017
           DOMAIN: localhost
           PORT: 8080
           RECOGNIZED_CLIENTS: LOCALHOST
