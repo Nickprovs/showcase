@@ -1,5 +1,9 @@
 name: CI
-on: [push, pull_request]
+on:
+  push:
+    branches: [dev, master]
+  pull_request:
+    branches: [dev, master]
 
 jobs:
   test:
@@ -7,18 +11,36 @@ jobs:
     services:
       mongo:
         image: mongo:6.0
-        ports: ['27017:27017']
+        ports:
+          - 27017:27017
         options: >-
           --health-cmd="mongosh --quiet --eval 'db.runCommand({ ping: 1 })' || exit 1"
-          --health-interval=5s --health-timeout=3s --health-retries=20
+          --health-interval=5s --health-timeout=3s --health-retries=30
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npm ci
+
+      - name: Install dependencies
+        run: npm ci
         working-directory: server
-      - run: npm test
+
+      - name: Wait for Mongo
+        run: |
+          for i in {1..60}; do
+            if mongosh --quiet --eval "db.runCommand({ ping: 1 })" 127.0.0.1:27017; then
+              echo "Mongo is up!"
+              exit 0
+            fi
+            echo "Waiting for Mongo..."
+            sleep 2
+          done
+          echo "Mongo did not start in time" && exit 1
+
+      - name: Run tests
+        run: npm test -- --ci --runInBand --detectOpenHandles
         working-directory: server
         env:
           NODE_ENV: development
