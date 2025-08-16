@@ -11,10 +11,10 @@ jobs:
     services:
       mongo:
         image: mongo:6.0
-        ports:
-          - 27017:27017
+        ports: ['27017:27017']
+        # (optional) container-side healthcheck; doesn't require mongosh on host
         options: >-
-          --health-cmd="mongosh --quiet --eval 'db.runCommand({ ping: 1 })' || exit 1"
+          --health-cmd="bash -c 'echo > /dev/tcp/127.0.0.1/27017'"
           --health-interval=5s --health-timeout=3s --health-retries=30
 
     steps:
@@ -23,15 +23,16 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install dependencies
+      - name: Install deps
         run: npm ci
         working-directory: server
 
-      - name: Wait for Mongo
+      - name: Wait for Mongo (TCP)
+        shell: bash
         run: |
           for i in {1..60}; do
-            if mongosh --quiet --eval "db.runCommand({ ping: 1 })" 127.0.0.1:27017; then
-              echo "Mongo is up!"
+            if (echo > /dev/tcp/127.0.0.1/27017) >/dev/null 2>&1; then
+              echo "Mongo TCP port is open"
               exit 0
             fi
             echo "Waiting for Mongo..."
