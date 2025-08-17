@@ -55,7 +55,7 @@ jobs:
           PORT: 8080
           RECOGNIZED_CLIENTS: LOCALHOST
           RECOGNIZED_MARKUP_DOMAINS: https://www.youtube.com, https://player.vimeo.com, https://open.spotify.com, //www.instagram.com/embed.js, https://platform.twitter.com
-          SERVED_AT_PATH: /api
+          SERVED_AT_PATH: /
           SMTP_AUTH_PASSWORD:
           SMTP_AUTH_USERNAME:
           SMTP_DISPLAY_USERNAME:
