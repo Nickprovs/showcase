@@ -1,6 +1,7 @@
 const { Blog } = require("./models/blog");
 const { BlogCategory } = require("./models/blogCategory");
 const request = require("supertest");
+const config = require("config");
 
 async function debug() {
     const server = require("./index");
@@ -58,6 +59,8 @@ async function debug() {
 
     try{
         console.log("testing call to GET blogs");
+        console.log("served at path" + config.get("servedAtPath"));
+
         const res = await request(server).get("/blogs");
         const success = res.status === 200 && res.body.items.length === 3;
         if(success)
