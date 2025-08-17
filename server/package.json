@@ -9,7 +9,8 @@
   "scripts": {
     "seed": "node seed.js",
     "start": "node index.js",
-    "test": "jest --watchAll --verbose --maxWorkers=1"
+    "test": "jest --watchAll --verbose --maxWorkers=1",
+    "actionsdebug": "node actionsdebug.js"
   },
   "author": "",
   "license": "ISC",
