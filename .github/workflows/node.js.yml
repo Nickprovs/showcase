@@ -41,7 +41,7 @@ jobs:
           echo "Mongo did not start in time" && exit 1
 
       - name: Run tests
-        run: npm run actionsdebug
+        run: npm run test
         working-directory: server
         env:
           NODE_ENV: development
