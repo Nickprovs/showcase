@@ -1,0 +1,65 @@
+name: CI
+on:
+  push:
+    branches: [dev, master]
+  pull_request:
+    branches: [dev, master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      mongo:
+        image: mongo:6.0
+        ports: ['27017:27017']
+        # (optional) container-side healthcheck; doesn't require mongosh on host
+        options: >-
+          --health-cmd="bash -c 'echo > /dev/tcp/127.0.0.1/27017'"
+          --health-interval=5s --health-timeout=3s --health-retries=30
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install deps
+        run: npm ci
+        working-directory: server
+
+      - name: Wait for Mongo (TCP)
+        shell: bash
+        run: |
+          for i in {1..60}; do
+            if (echo > /dev/tcp/127.0.0.1/27017) >/dev/null 2>&1; then
+              echo "Mongo TCP port is open"
+              exit 0
+            fi
+            echo "Waiting for Mongo..."
+            sleep 2
+          done
+          echo "Mongo did not start in time" && exit 1
+
+      - name: Run tests
+        run: npm run actionsdebug
+        working-directory: server
+        env:
+          NODE_ENV: development
+          ADMIN_EMAIL:
+          ADMIN_PASSWORD: password
+          ADMIN_USERNAME: admin
+          AUTH_TYPE: SFA
+          CAPTCHA_PRIVATE_KEY: unsecureKey
+          DB_CONNECTION_STRING: mongodb://localhost:27017
+          DOMAIN: localhost
+          PORT: 8080
+          RECOGNIZED_CLIENTS: LOCALHOST
+          RECOGNIZED_MARKUP_DOMAINS: https://www.youtube.com, https://player.vimeo.com, https://open.spotify.com, //www.instagram.com/embed.js, https://platform.twitter.com
+          SERVED_AT_PATH: /api
+          SMTP_AUTH_PASSWORD:
+          SMTP_AUTH_USERNAME:
+          SMTP_DISPLAY_USERNAME:
+          SMTP_HOST:
+          SMTP_PORT:
+          SMTP_RECEIVER_EMAIL:
+          TOKEN_PRIVATE_KEY: unsecureKey
