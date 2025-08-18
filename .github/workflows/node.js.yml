@@ -27,19 +27,6 @@ jobs:
         run: npm ci
         working-directory: server
 
-      - name: Wait for Mongo (TCP)
-        shell: bash
-        run: |
-          for i in {1..60}; do
-            if (echo > /dev/tcp/127.0.0.1/27017) >/dev/null 2>&1; then
-              echo "Mongo TCP port is open"
-              exit 0
-            fi
-            echo "Waiting for Mongo..."
-            sleep 2
-          done
-          echo "Mongo did not start in time" && exit 1
-
       - name: Run tests
         run: npm run test-ci
         working-directory: server
