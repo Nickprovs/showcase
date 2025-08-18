@@ -9,7 +9,7 @@
   "scripts": {
     "seed": "node seed.js",
     "start": "node index.js",
-    "test": "jest --watchAll --verbose --maxWorkers=1",
+    "test": "jest --watchAll --verbose --maxWorkers=1 --detectOpenHandles",
     "actionsdebug": "node actionsdebug.js"
   },
   "author": "",
