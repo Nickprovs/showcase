@@ -5,15 +5,16 @@ const { User } = require("../../models/user");
 const mongoose = require("mongoose");
 const moment = require("moment");
 
-let server;
+let server, teardown;
 describe("/photos", () => {
-  beforeEach(() => {
-    server = require("../../index");
+  beforeAll(() => {
+    ({ server, teardown } = require("../../index"));
   });
   afterEach(async () => {
-    await server.close();
     await PhotoModel.deleteMany({});
-    await PhotoCategoryModel.deleteMany({});
+    await PhotoCategoryModel.deleteMany({});  });
+  afterAll(async ()=> {
+    await teardown();
   });
 
   describe("GET /", () => {

@@ -5,15 +5,17 @@ const { User } = require("../../models/user");
 const mongoose = require("mongoose");
 const moment = require("moment");
 
-let server;
+let server, teardown;
 describe("/medias", () => {
-  beforeEach(() => {
-    server = require("../../index");
+  beforeAll(() => {
+    ({ server, teardown } = require("../../index"));
   });
   afterEach(async () => {
-    await server.close();
     await MediaModel.deleteMany({});
     await MediaCategoryModel.deleteMany({});
+  });
+  afterAll(async ()=> {
+    await teardown();
   });
 
   describe("GET /", () => {

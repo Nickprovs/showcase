@@ -6,14 +6,15 @@ const error = require("./middleware/error");
 const app = express();
 
 app.use(cookieParser());
-
 require("./startup/cors")(app);
 require("./startup/validateEnvironment")();
-require("./startup/logging")();
+const { setup: loggingSetup, teardown: loggingTeardown } = require("./startup/logging");
+loggingSetup();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(error);
-require("./startup/db")();
+const { setup: dbSetup, teardown: dbTeardown} = require("./startup/db");
+dbSetup();
 require("./startup/prod")(app);
 require("./startup/validation")();
 require("./startup/setupAdmin")();
@@ -25,4 +26,10 @@ require("./startup/routes")(app);
 const port = process.env.PORT || config.get("port");
 const server = app.listen(port, () => winston.info(`Listening on port ${port}...`));
 
-module.exports = server;
+async function teardown() { 
+    await dbTeardown();
+    loggingTeardown();
+    server.close();
+}
+
+module.exports = { server, teardown };

@@ -4,14 +4,16 @@ const { User } = require("../../models/user");
 const mongoose = require("mongoose");
 const moment = require("moment");
 
-let server;
+let server, teardown;
 describe("/blogCategories", () => {
-  beforeEach(() => {
-    server = require("../../index");
+  beforeAll(() => {
+    ({ server, teardown } = require("../../index"));
   });
   afterEach(async () => {
-    await server.close();
     await BlogCategory.deleteMany({});
+  });
+  afterAll(async ()=> {
+    await teardown();
   });
 
   describe("GET /", () => {
